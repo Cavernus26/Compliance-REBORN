@@ -23,6 +23,20 @@ export const ALL_DATA: Record<string, PlatformData> = {
         description: "Privacy and Personal Data Usage Description Info.plist Keys", 
         category: "Privacy check", 
         impact: "high" 
+      },
+      { 
+        id: "GL-004", 
+        title: "HIG", 
+        description: "Apple Human Interface Guidelines (Layout)", 
+        category: "HIG", 
+        impact: "high" 
+      },
+      { 
+        id: "GL-005", 
+        title: "Apple Sign-in", 
+        description: "Apple Sign-in Integration and User Account Guidelines", 
+        category: "Apple Sign-in", 
+        impact: "high" 
       }
     ],
     testCases: [
@@ -2635,6 +2649,276 @@ export const ALL_DATA: Record<string, PlatformData> = {
         steps: "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if NSVideoSubscriberAccountUsageDescription key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
         expected: "Marked as PASS if present in the bundle, or N/A if missing.",
         originalRef: "Privacy check"
+      },
+      {
+        id: "iOS-H-L-1",
+        gl: "GL-004",
+        ref: "L.01",
+        title: "Ensure that app's layout fills the screen and isn't obscured by the device's rounded corners, its sensor housing, or the indicator for accessing the Home screen.",
+        steps: "1. Launch the app on a device with rounded corners or sensor housing.\n2. Verify that layout and controls are not obscured or cut off.\n3. Inspect the Home indicator area to ensure readability and accessibility.",
+        expected: "All layout content and controls are fully visible and not cut off by device hardware features.",
+        originalRef: "Layout"
+      },
+      {
+        id: "iOS-H-L-2",
+        gl: "GL-004",
+        ref: "L.02",
+        title: "Ensure that the app's background materials extend to the edges of the display, and UI elements are appropriately inset and positioned.",
+        steps: "1. Open different views in the app.\n2. Observe if background materials or colors bleed out to the screen edges.\n3. Verify interactive components are inset safely.",
+        expected: "App backgrounds extend full-screen, while interactive UI remains inside readable boundaries.",
+        originalRef: "Layout"
+      },
+      {
+        id: "iOS-H-L-3",
+        gl: "GL-004",
+        ref: "L.03",
+        title: "Ensure that your app adheres to safe area and margin layout guides in Portrait as well as landscape mode.",
+        steps: "1. Rotate the device between Portrait and Landscape modes.\n2. Examine visual alignments against safe areas on both modes.",
+        expected: "Safe area layouts are correctly respected in both device orientations.",
+        originalRef: "Layout"
+      },
+      {
+        id: "iOS-H-L-4",
+        gl: "GL-004",
+        ref: "L.04",
+        title: "Ensure that app's content is centered and symmetrically inset and isn't affected in any orientation.",
+        steps: "1. Check content distribution in different orientations.\n2. Verify the layout remains centered or symmetrically aligned.",
+        expected: "Content maintains symmetry and balance across screen rotation events.",
+        originalRef: "Layout"
+      },
+      {
+        id: "iOS-H-L-5",
+        gl: "GL-004",
+        ref: "L.05",
+        title: "Apps should adhere to the safe area and layout margins defined by UIKit, which ensure appropriate insetting based on the device and context.",
+        steps: "1. Analyze UIKit/SwiftUI auto-layout constraints.\n2. Verify default margins are preserved without custom forcing into forbidden zones.",
+        expected: "Default UIKit/SwiftUI safe area constraints are correctly leveraged.",
+        originalRef: "Layout"
+      },
+      {
+        id: "iOS-H-L-6",
+        gl: "GL-004",
+        ref: "L.06",
+        title: "If possible, support both portrait and landscape orientations. People prefer to use apps in different orientations, so it’s best when you can fulfill that expectation.",
+        steps: "1. Test if the app rotates smoothly under auto-rotate triggers.\n2. Verify that there's no layout crashes or UI overlapping upon orientation shifts.",
+        expected: "Both portrait and landscape modes are properly supported or handled.",
+        originalRef: "Layout"
+      },
+      {
+        id: "iOS-H-L-7",
+        gl: "GL-004",
+        ref: "L.07",
+        title: "Provide ample touch targets for interactive elements. Try to maintain a minimum tappable area of 44pt x 44pt for all controls.",
+        steps: "1. Measure interactive buttons and options in points.\n2. Ensure the active hit target is at least 44pt by 44pt.",
+        expected: "All interactive elements have a minimum touch target size of 44x44 points.",
+        originalRef: "Layout"
+      },
+      {
+        id: "iOS-H-L-8",
+        gl: "GL-004",
+        ref: "L.08",
+        title: "Preview your app on multiple devices. Preview your app and check for clipping and other layout issues.",
+        steps: "1. Launch the app on different simulator profiles (iPhone SE, Pro Max, iPad).\n2. Look for layout anomalies, truncation, or text clipping.",
+        expected: "UI renders properly across a range of simulated Apple devices.",
+        originalRef: "Layout"
+      },
+      {
+        id: "iOS-H-L-9",
+        gl: "GL-004",
+        ref: "L.09",
+        title: "If the app is designed to be used only in landscape orientation, ensure that it works equally well in both left and right orientations. This ensures that users can comfortably use the app regardless of how they prefer to hold their device.",
+        steps: "1. Turn the landscape-only app to Landscape Left and then Landscape Right.\n2. Make sure controls and rendering flip appropriately for both choices.",
+        expected: "Landscape modes adapt symmetrically to both physical orientations.",
+        originalRef: "Layout"
+      },
+      {
+        id: "iOS-H-L-10",
+        gl: "GL-004",
+        ref: "L.10",
+        title: "Customize your app’s response to rotation according to context. A game that lets people move a character by rotating the device, for example, probably shouldn’t switch orientations during gameplay. It could, however, display menus and intro sequences based on the current orientation.",
+        steps: "1. Test context-aware rotation behavior during active states/gameplay vs menus.\n2. Verify rotation is inhibited or configured gracefully depending on gameplay context.",
+        expected: "Rotation overrides are implemented elegantly according to user activity.",
+        originalRef: "Layout"
+      },
+      {
+        id: "iOS-H-L-11",
+        gl: "GL-004",
+        ref: "L.11",
+        title: "Make sure your app works on iPad, not just on iPhone. Users appreciate having the flexibility to run your app on either type of iOS device. Even if you expect most people to use your app on iPhone, interface elements should remain visible and functional on iPad.",
+        steps: "1. Run the app on an iPad simulator.\n2. Verify that screen ratios, button scales, and margins adapt cleanly without awkward stretching.",
+        expected: "Universal apps function seamlessly on iPad and present standard iPad layout styles.",
+        originalRef: "Layout"
+      },
+      {
+        id: "iOS-H-L-12",
+        gl: "GL-004",
+        ref: "L.12",
+        title: "When the device is in landscape orientation, it may be appropriate for some apps—like games—to place tappable controls in the lower portion of the screen (extending below the safe area) to allow more room for content.",
+        steps: "1. For relevant applications (e.g. games), verify if lower control buttons are laid out neatly.\n2. Check for balance in content room.",
+        expected: "Lower landscape buttons are appropriately positioned for thumb-reach ergonomics.",
+        originalRef: "Layout"
+      },
+      {
+        id: "iOS-H-L-13",
+        gl: "GL-004",
+        ref: "L.13",
+        title: "Ensure that matching insets are used for controls at the top and bottom of the screen, and leave ample space around the Home indicator so people don't accidentally target it when trying to interact with a control.",
+        steps: "1. Measure margins around top and bottom controls.\n2. Ensure safe distance margins are present around the Home indicator.",
+        expected: "Equal insets are shared at the top and bottom with adequate clearance around the Home indicator.",
+        originalRef: "Layout"
+      },
+      {
+        id: "iOS-H-L-14",
+        gl: "GL-004",
+        ref: "L.14",
+        title: "Avoid explicitly placing interactive controls at the very bottom of the screen and in corners.",
+        steps: "1. Scan screen corners and extreme bottom coordinates.\n2. Verify that no buttons or tap targets are sitting directly in corner touch-dead zones.",
+        expected: "Interactive options are elevated away from screen edges and corners to prevent accidental mistaps.",
+        originalRef: "Layout"
+      },
+      {
+        id: "iOS-H-L-15",
+        gl: "GL-004",
+        ref: "L.15",
+        title: "Ensure that full-width button at the bottom of the screen has rounded corners and is aligned with the bottom of the safe area—which also ensures that it doesn't conflict with the Home indicator.",
+        steps: "1. Inspect full-width bottom buttons.\n2. Confirm the presence of rounded corners.\n3. Verify clear separation space matches safe-area layout boundaries near the Home Indicator.",
+        expected: "Bottom buttons have rounded corners and remain fully clear of the Home Indicator zone.",
+        originalRef: "Layout"
+      },
+      {
+        id: "iOS-H-L-16",
+        gl: "GL-004",
+        ref: "L.16",
+        title: "Don't attempt to hide the device's rounded corners, sensor housing, or indicator for accessing the Home screen by placing black bars at the top and bottom of the screen. Don't use visual adornments like brackets, bezels, shapes, or instructional text to call special attention to these areas, either.",
+        steps: "1. Review application header and footer styling.\n2. Confirm there are no artificial black letterboxes, borders, or decorations designed to mask hardware sensors/bezels.",
+        expected: "App operates dynamically inside the natural physical frame without masking hardware features.",
+        originalRef: "Layout"
+      },
+      {
+        id: "iOS-H-L-17",
+        gl: "GL-004",
+        ref: "L.17",
+        title: "Ensure that auto-hiding of the indicator for accessing the Home screen is enabled only for passive viewing experiences like playing videos or photo slideshows.",
+        steps: "1. Verify interactive portions do not auto-hide the Home indicator.\n2. Confirm indicator fades away only during passive full-screen media modes.",
+        expected: "Indicator remains visible during user interaction and auto-hides strictly inside immersive playback screens.",
+        originalRef: "Layout"
+      },
+      {
+        id: "iOS-H-L-18",
+        gl: "GL-004",
+        ref: "L.18",
+        title: "Immersive apps like games might require custom screen-edge gestures that take priority over the system's gestures—the first swipe should invoke app-specific gesture and the second swipe should invoke the system's gesture. This behavior (known as edge protect) should be implemented sparingly, as it makes it harder for people to access the system-level actions.",
+        steps: "1. Test gestures on screen edges inside immersive modes.\n2. Verify the initial gesture triggers the intended app response.\n3. Verify system gestures are still discoverable on a second swipe.",
+        expected: "Edge protect is implemented properly and ONLY in designated fully-immersive experiences.",
+        originalRef: "Layout"
+      },
+      {
+        id: "iOS-AS-I-1",
+        gl: "GL-005",
+        ref: "I.01",
+        title: "Ask people to sign in only in exchange for value.For example, people might need to create an account to personalize their experience with the app, access additional features, or synchronize data.",
+        steps: "1. Navigate through the initial application launch flow.\n2. Identify areas requiring sign-in.\n3. Verify if sign-in is gating core functionality unnecessarily or if there is proportional value (e.g., personalization, syncing, or feature access) returned to the user.",
+        expected: "The app only requests account sign-in when offering a direct, demonstrable value exchange.",
+        originalRef: "Introduction"
+      },
+      {
+        id: "iOS-AS-I-2",
+        gl: "GL-005",
+        ref: "I.02",
+        title: "Consider Sign in with Apple for every version of your app and website.To create a consistent sign-in experience, you can offer Sign in with Apple for your app and website across all platforms, including non-Apple platforms and the web.",
+        steps: "1. Check the app’s sign-in page to see if Sign in with Apple button is present.\n2. Review available platform services (web, other devices) to ensure consistent Sign in with Apple provision.",
+        expected: "Sign in with Apple is consistently offered across all versions and platform deployments.",
+        originalRef: "Introduction"
+      },
+      {
+        id: "iOS-AS-I-3",
+        gl: "GL-005",
+        ref: "I.03",
+        title: "Delay sign-in as long as possible.People often abandon apps when they're forced to sign in before doing anything useful. Give them a chance to familiarize themselves with your app before making a commitment. For example, a live-streaming app could let people explore available content before signing in to stream something.",
+        steps: "1. Launch the app fresh (simulate guest/new user state).\n2. Explore screens, content, or features without logging in.\n3. Verify if user is allowed to navigate and preview app capability before encountering a high-friction sign-in request.",
+        expected: "Users are permitted to familiarize themselves with app features and explore content prior to sign-in.",
+        originalRef: "Introduction"
+      },
+      {
+        id: "iOS-AS-I-4",
+        gl: "GL-005",
+        ref: "I.04",
+        title: "In a commerce app, wait until after people make a purchase before asking them to create an account.If you support a guest checkout system, give people a quick way to create an account after the transaction completes. For example, if you support Apple Pay, let people create an account on the order confirmation page. In cases where people have already provided their name and email address during the Apple Pay transaction, you don't need to ask for this information.",
+        steps: "1. For commerce/transactional features, execute a mock checkout/purchase sequence.\n2. Check if a guest checkout option is enabled. Check if account creation page appears strictly on/after order completion.\n3. Verify that name and email captured during Apple Pay transaction are reused without manual typing.",
+        expected: "Account creation requests are deferred until after purchase completes, using existing transaction data to pre-populate details.",
+        originalRef: "Introduction"
+      },
+      {
+        id: "iOS-AS-I-5",
+        gl: "GL-005",
+        ref: "I.05",
+        title: "Explain the benefits of signing in.If your app requires signing into an account, display a brief, friendly explanation on the login screen that describes the reasons for the requirement and its benefits. Also, remember that not everyone using your app has an account from the start.",
+        steps: "1. Open the login/sign-up page.\n2. Inspect for the presence of a clear, friendly caption explaining why an account is required and what benefits it unlocks.\n3. Ensure non-account holders are guided clearly.",
+        expected: "Clear, professional onboarding copy explains sign-in requirements and benefits to the user.",
+        originalRef: "Introduction"
+      },
+      {
+        id: "iOS-AS-I-6",
+        gl: "GL-005",
+        ref: "I.06",
+        title: "Consider letting people link an existing account to Sign in with Apple.When you support this type of linking, people can get the convenience of using Sign in with Apple while maintaining access to the information in an account they've already set up. You can offer account linking before or after people sign into their existing account. For example:\n - If people share an email address through Sign in with Apple and it matches the address in an existing account, you can suggest that they link Sign in with Apple to that account.\n - If people used an existing username and password to sign in, you can display an account-linking suggestion in their account's settings view or another logical place",
+        steps: "1. Try signing in with an existing traditional email/password account.\n2. Navigate to account settings or link suggestions dashboard.\n3. Verify if an option to link with Apple ID is presented. Check if app suggests linking if the Apple ID email matches an existing account.",
+        expected: "Users can link traditional credentials to Sign in with Apple cleanly for subsequent secure entries.",
+        originalRef: "Introduction"
+      },
+      {
+        id: "iOS-AS-DM-1",
+        gl: "GL-005",
+        ref: "DM.01",
+        title: "As soon as Sign in with Apple completes, welcome people to their new account.Help people use their new account right away; don't delay the experience by asking for information that isn't required.",
+        steps: "1. Complete the Sign in with Apple flow within the app.\n2. Verify that the user is immediately welcomed and redirected to standard app features without unnecessary post-registration fields or screens.",
+        expected: "The app welcomes the user immediately after sign-in without forcing them through extra non-essential configuration workflows.",
+        originalRef: "Data Management"
+      },
+      {
+        id: "iOS-AS-DM-2",
+        gl: "GL-005",
+        ref: "DM.02",
+        title: "Clarify whether additional data is required or just recommended.If the data is legally or contractually required — such as an agreement to terms of service, country of residence, birth date, or information required by a country's real-identity laws — make sure people understand that they must supply the additional information to complete the setup of their account. If additional data isn't required, but can improve the user experience, make sure people know the request is optional and help them understand the benefits of providing the information.",
+        steps: "1. Trigger any user profile expansion or data collection screen.\n2. Verify that legally or contractually required inputs are clearly labeled as mandatory.\n3. Verify optional inputs are explicitly identified as optional with clear descriptions of their premium benefits.",
+        expected: "Optional versus mandatory user data entry requirements are clearly and explicitly distinguished.",
+        originalRef: "Data Management"
+      },
+      {
+        id: "iOS-AS-DM-3",
+        gl: "GL-005",
+        ref: "DM.03",
+        title: "Don't ask people to supply a password. A key benefit of Sign in with Apple is that people don't have to create and memorize additional passwords. Unless people have stopped using Sign in with Apple, don't ask for a password.",
+        steps: "1. Review the account settings page and profile setup workflow for Apple Sign-in users.\n2. Confirm that they are not prompted or coerced to define a password unless explicitly decoupling or deleting their Apple link.",
+        expected: "Password entry or creation fields are omitted entirely for active Apple Sign-in active sessions.",
+        originalRef: "Data Management"
+      },
+      {
+        id: "iOS-AS-DM-4",
+        gl: "GL-005",
+        ref: "DM.04",
+        title: "Avoid asking for a personal email address when people supply a private relay address.Using Sign in with Apple, people can choose to share a private relay address that automatically forwards messages to their verified personal email account. It's essential to respect this choice and avoid overriding it by asking for a personal email address. If you present customer service, retail, or other experiences that request identification via email address, you can:\n - Make sure that people can view their private relay address in your app or website\n - Direct people to Settings > Apple ID > Password & Security > Apps using Apple ID to retrieve their private relay address\n - Use other identifying values, like an order number or phone number collected as part of a purchase",
+        steps: "1. Register/sign in using Apple Sign-In with private email relay active.\n2. Check for form requests that insist on entering a personal/unlocked email address.\n3. Verify that the app displays the relay address natively or guides users to Apple Settings if they need to copy it.",
+        expected: "Private relay email preferences are fully respected without coercive prompts to reveal real/personal email addresses.",
+        originalRef: "Data Management"
+      },
+      {
+        id: "iOS-AS-DM-5",
+        gl: "GL-005",
+        ref: "DM.05",
+        title: "Give people a chance to engage with your app before asking for optional data.As people use your app, you can help them discover places where they can benefit from sharing more information with you. For example, you might suggest that they provide a contact phone number if they want real-time text updates or social network information if they want to play games with friends. If people choose not to provide optional information, don't prevent them from accessing their account or using all the features of your app.",
+        steps: "1. Navigate the primary app features without filling optional details.\n2. Verify that refusal to provide optional inputs (e.g. phone number, social sync) does not terminate user sessions or restrict access to core screens.",
+        expected: "Optional details are requested progressively over time, and refusal does not restrict standard functionality.",
+        originalRef: "Data Management"
+      },
+      {
+        id: "iOS-AS-DM-6",
+        gl: "GL-005",
+        ref: "DM.06",
+        title: "Be transparent about the data you collect.People value knowing how you use the data that they share with you. One way you can be transparent is to welcome people by using the name or email address they shared. Doing this helps establish how you use this information and, for a relay address, shows people where to find it in the future. If you don't display all the data that people provide, they are likely to wonder why you asked for it.",
+        steps: "1. Inspect the profile dashboard, welcome screens, and account settings for Apple-provided data.\n2. Confirm that user's shared name/email is used directly, or clearly accounted for, ensuring full transparency.",
+        expected: "All requested/provided user data is displayed transparently to make purposes clear.",
+        originalRef: "Data Management"
       }
     ]
   },
@@ -2651,7 +2935,9 @@ export const ALL_DATA: Record<string, PlatformData> = {
 export const IOS_ICONS: Record<string, string> = { 
   'Compliance': '📋',
   'Info.plist': '📄',
-  'Privacy check': '🔒'
+  'Privacy check': '🔒',
+  'HIG': '📐',
+  'Apple Sign-in': '🔑'
 };
 
 export const AND_ICONS: Record<string, string> = { 
