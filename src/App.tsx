@@ -90,8 +90,9 @@ export default function App() {
   const executions: ExecutionMap = state.execsByPlatform[activeExecKey] || {};
 
   const activeTcs = useMemo(() => {
-    return db.testCases.filter(tc => !state.deletedTcs.includes(tc.id));
-  }, [db.testCases, state.deletedTcs]);
+    const combined = [...db.testCases, ...(state.customTcs || [])];
+    return combined.filter(tc => !state.deletedTcs.includes(tc.id));
+  }, [db.testCases, state.customTcs, state.deletedTcs]);
 
   const stats = useMemo(() => {
     let p = 0, f = 0, n = 0;
@@ -315,7 +316,7 @@ export default function App() {
         <main className="flex-1 p-10 overflow-y-auto page-transition max-w-6xl mx-auto w-full">
         {activePage === 'dashboard' && <DashboardView stats={stats} risk={risk} activeSession={activeSession} onNewSess={() => setIsModalOpen(true)} onGoToTest={() => setActivePage('execute')} />}
         {activePage === 'sessions' && <SessionsView sessions={state.sessions} activeId={state.activeId} onSelect={id => setState(p => ({ ...p, activeId: id }))} onDelete={deleteSession} onNewSess={() => setIsModalOpen(true)} />}
-        {activePage === 'execute' && <ExecuteView state={state} setState={setState} db={db} activeTcs={activeTcs} executions={executions} setStatus={setStatus} bulkSetStatus={bulkSetStatus} expandedTc={expandedTc} setExpandedTc={setExpandedTc} showToast={showToast} />}
+        {activePage === 'execute' && <ExecuteView state={state} setState={setState} db={db} activeTcs={activeTcs} executions={executions} setStatus={setStatus} bulkSetStatus={bulkSetStatus} expandedTc={expandedTc} setExpandedTc={setExpandedTc} showToast={showToast} icons={icons} />}
         {activePage === 'summary' && <SummaryView stats={stats} risk={risk} activeSession={activeSession} executions={executions} activeTcs={activeTcs} db={db} state={state} />}
         {activePage === 'guidelines' && <GuidelinesView state={state} setState={setState} db={db} icons={icons} showToast={showToast} />}
       </main>
@@ -503,10 +504,20 @@ function SessionsView({ sessions, activeId, onSelect, onDelete, onNewSess }: any
   );
 }
 
-function ExecuteView({ state, setState, db, activeTcs, executions, setStatus, bulkSetStatus, expandedTc, setExpandedTc, showToast }: any) {
+function ExecuteView({ state, setState, db, activeTcs, executions, setStatus, bulkSetStatus, expandedTc, setExpandedTc, showToast, icons }: any) {
   const [filterQuery, setFilterQuery] = useState('');
+  const [activeSectionId, setActiveSectionId] = useState('all');
   
+  // Custom Node form states
+  const [showAddForm, setShowAddForm] = useState(false);
+  const [newRef, setNewRef] = useState('');
+  const [newTitle, setNewTitle] = useState('');
+  const [newSteps, setNewSteps] = useState('');
+  const [newExpected, setNewExpected] = useState('');
+  const [newOriginalRef, setNewOriginalRef] = useState('');
+
   const filtered = activeTcs.filter((tc: TestCase) => {
+    if (activeSectionId !== 'all' && tc.gl !== activeSectionId) return false;
     const num = getTestCaseNumber(tc, db.testCases);
     const text = (tc.title + tc.ref + " " + num).toLowerCase();
     return text.includes(filterQuery.toLowerCase());
@@ -531,7 +542,7 @@ function ExecuteView({ state, setState, db, activeTcs, executions, setStatus, bu
       }
 
       const bundles = sectionMap[glId].bundles;
-      const tcHeader = tc.originalRef || '';
+      const tcHeader = tc.originalRef || 'General';
       
       let bundle = bundles.find(b => b.header === tcHeader);
       if (!bundle) {
@@ -544,12 +555,44 @@ function ExecuteView({ state, setState, db, activeTcs, executions, setStatus, bu
     return Object.values(sectionMap);
   }, [filtered, db.guidelines]);
 
+  const handleCreateNode = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newTitle.trim()) return;
+
+    const targetGl = activeSectionId === 'all' ? (db.guidelines[0]?.id || 'GL-001') : activeSectionId;
+    const newTc: TestCase = {
+      id: 'custom-' + Date.now(),
+      gl: targetGl,
+      ref: newRef.trim() || '1.0',
+      title: newTitle.trim(),
+      steps: newSteps.trim() || '1. Run manual policy validation checks.\n2. Confirm target complies with standard rules.',
+      expected: newExpected.trim() || 'No policy or security failures detected during evaluation.',
+      originalRef: newOriginalRef.trim() || (db.guidelines.find(g => g.id === targetGl)?.title || 'General')
+    };
+
+    setState((prev: any) => ({
+      ...prev,
+      customTcs: [...(prev.customTcs || []), newTc]
+    }));
+
+    // Clear form fields
+    setNewRef('');
+    setNewTitle('');
+    setNewSteps('');
+    setNewExpected('');
+    setNewOriginalRef('');
+    setShowAddForm(false);
+    showToast('Custom compliance checkpoint created successfully.');
+  };
+
+  const activeGlObject = db.guidelines.find((g: any) => g.id === activeSectionId);
+
   return (
     <div className="space-y-10 animate-in fade-in duration-500">
       <div className="flex justify-between items-end">
         <div>
           <h1 className="text-4xl font-light text-[var(--text-highlight)] mb-2 tracking-tight">Workbench</h1>
-          <p className="text-[var(--text-muted)] text-sm">Interactive compliance verification engine</p>
+          <p className="text-[var(--text-muted)] text-sm">Interactive compliance verification engine &bull; Excel workbook-style tabs</p>
         </div>
         <div className="text-right">
            <p className="text-[10px] font-bold text-[var(--text-muted)] uppercase tracking-widest mb-1">Complexity</p>
@@ -557,79 +600,237 @@ function ExecuteView({ state, setState, db, activeTcs, executions, setStatus, bu
         </div>
       </div>
 
-      <div className="bg-[var(--surface)] border border-[var(--border)] rounded-xl p-1.5 flex items-center gap-3 shadow-inner shadow-black/20">
+      {/* Spreadsheet / Excel Sheet Tabs */}
+      <div className="flex items-end border-b border-[var(--border)] overflow-x-auto scrollbar-none pt-2 -mb-2 gap-1 select-none">
+        <button
+          onClick={() => {
+            setActiveSectionId('all');
+            setShowAddForm(false);
+          }}
+          className={`px-4 py-2 text-xs font-mono tracking-tight border-t border-x rounded-t transition-all flex items-center gap-2 -mb-[1px] ${
+            activeSectionId === 'all'
+              ? 'bg-[var(--surface)] text-[var(--text-highlight)] font-bold border-[var(--border)] border-b-[var(--surface)] z-10'
+              : 'bg-transparent text-[var(--text-muted)] border-transparent hover:text-[var(--text-highlight)] hover:bg-[var(--surface2)]/50'
+          }`}
+          style={{ borderBottomColor: activeSectionId === 'all' ? 'var(--surface)' : undefined }}
+        >
+          <span>📋</span>
+          <span>All Guidelines</span>
+        </button>
+        {db.guidelines.map((gl: any) => {
+          const glIcon = icons[gl.title] || '📄';
+          const isActive = activeSectionId === gl.id;
+          return (
+            <button
+              key={gl.id}
+              onClick={() => {
+                setActiveSectionId(gl.id);
+                setShowAddForm(false);
+              }}
+              className={`px-4 py-2 text-xs font-mono tracking-tight border-t border-x rounded-t transition-all flex items-center gap-2 -mb-[1px] ${
+                isActive
+                  ? 'bg-[var(--surface)] text-[var(--text-highlight)] font-bold border-[var(--border)] border-b-[var(--surface)] z-10'
+                  : 'bg-transparent text-[var(--text-muted)] border-transparent hover:text-[var(--text-highlight)] hover:bg-[var(--surface2)]/50'
+              }`}
+              style={{ borderBottomColor: isActive ? 'var(--surface)' : undefined }}
+            >
+              <span>{glIcon}</span>
+              <span>{gl.title}</span>
+            </button>
+          );
+        })}
+      </div>
+
+      {/* Manual Custom Node Builder panel (rendered conditionally or inline) */}
+      {showAddForm && (
+        <form onSubmit={handleCreateNode} className="space-y-4 bg-[var(--surface)] border border-[var(--border2)] p-6 rounded-xl animate-in slide-in-from-top-4 duration-300">
+          <div className="flex justify-between items-center pb-2 border-b border-[var(--border)]">
+            <h3 className="text-xs font-mono font-bold uppercase tracking-widest text-[var(--text-highlight)]">
+              Manual Node Builder &rarr; {activeSectionId === 'all' ? 'Compliance' : (activeGlObject?.title || 'Section')}
+            </h3>
+            <button 
+              type="button" 
+              onClick={() => setShowAddForm(false)}
+              className="text-xs text-[var(--text-muted)] hover:text-[var(--text-highlight)]"
+            >
+              Close
+            </button>
+          </div>
+          
+          <div className="grid grid-cols-3 gap-4">
+            <div>
+              <label className="block text-[9px] font-bold text-[var(--text-muted)] uppercase tracking-wider mb-1">Index / Ref Code</label>
+              <input 
+                placeholder="e.g. 5.1.1" 
+                value={newRef}
+                onChange={e => setNewRef(e.target.value)}
+                className="w-full bg-[var(--bg)]/50 border border-[var(--border)] rounded px-3 py-1.5 text-xs text-[var(--text-highlight)] outline-none focus:border-[var(--text-muted)]"
+              />
+            </div>
+            <div className="col-span-2">
+              <label className="block text-[9px] font-bold text-[var(--text-muted)] uppercase tracking-wider mb-1">Sub-Category Grouping (originalRef)</label>
+              <input 
+                placeholder="e.g. Camera & Media, VPN Apps, MDM" 
+                value={newOriginalRef}
+                onChange={e => setNewOriginalRef(e.target.value)}
+                className="w-full bg-[var(--bg)]/50 border border-[var(--border)] rounded px-3 py-1.5 text-xs text-[var(--text-highlight)] outline-none focus:border-[var(--text-muted)]"
+              />
+            </div>
+          </div>
+          
+          <div>
+            <label className="block text-[9px] font-bold text-[var(--text-muted)] uppercase tracking-wider mb-1">Guideline Title / Core Rule Description *</label>
+            <input 
+              required
+              placeholder="e.g. Sweepstakes and contests must be sponsored by the developer" 
+              value={newTitle}
+              onChange={e => setNewTitle(e.target.value)}
+              className="w-full bg-[var(--bg)]/50 border border-[var(--border)] rounded px-3 py-1.5 text-xs text-[var(--text-highlight)] outline-none focus:border-[var(--text-muted)]"
+            />
+          </div>
+          
+          <div>
+            <label className="block text-[9px] font-bold text-[var(--text-muted)] uppercase tracking-wider mb-1">Manual Evaluation Steps (one workflow per line)</label>
+            <textarea 
+              rows={3}
+              placeholder="1. Open App interface and review contest rules.&#10;2. Confirm Apple is declared not to be involved." 
+              value={newSteps}
+              onChange={e => setNewSteps(e.target.value)}
+              className="w-full bg-[var(--bg)]/50 border border-[var(--border)] rounded p-3 text-xs text-[var(--text-highlight)] outline-none focus:border-[var(--text-muted)] font-mono resize-none leading-relaxed"
+            />
+          </div>
+          
+          <div>
+            <label className="block text-[9px] font-bold text-[var(--text-muted)] uppercase tracking-wider mb-1">Deterministic Expected Result Outcome</label>
+            <input 
+              placeholder="e.g. Disclaimers are clearly visible; Apple is completely separated from sponsorship labels." 
+              value={newExpected}
+              onChange={e => setNewExpected(e.target.value)}
+              className="w-full bg-[var(--bg)]/50 border border-[var(--border)] rounded px-3 py-1.5 text-xs text-[var(--text-highlight)] outline-none focus:border-[var(--text-muted)]"
+            />
+          </div>
+
+          <div className="flex justify-end gap-3 pt-2">
+            <button 
+              type="button" 
+              onClick={() => setShowAddForm(false)} 
+              className="px-3 py-1.5 rounded text-xs text-[var(--text-muted)] hover:text-[var(--text-highlight)] font-medium transition-colors"
+            >
+              Cancel
+            </button>
+            <button 
+              type="submit" 
+              className="bg-[var(--text-highlight)] text-[var(--bg)] px-4 py-1.5 rounded text-xs font-bold hover:opacity-90 transition-all shadow active:scale-95 flex items-center gap-1.5"
+            >
+              <Plus size={11} strokeWidth={3} /> Add Manual Node
+            </button>
+          </div>
+        </form>
+      )}
+
+      {/* Control Filters */}
+      <div className="bg-[var(--surface)] border border-[var(--border)] rounded-lg p-1 flex items-center gap-3 shadow-inner shadow-black/20">
         <input 
-          placeholder="Filter system nodes by identifier or keyword..."
-          className="flex-1 bg-transparent border-none outline-none px-4 py-2 text-sm text-[var(--text-highlight)] placeholder:text-[var(--text-muted)]"
+          placeholder={`Filter ${activeSectionId === 'all' ? 'all guidelines' : (activeGlObject?.title || 'current')} nodes by identifier or keyword...`}
+          className="flex-1 bg-transparent border-none outline-none px-3 py-1.5 text-xs text-[var(--text-highlight)] placeholder:text-[var(--text-muted)]"
           value={filterQuery}
           onChange={e => setFilterQuery(e.target.value)}
         />
-        <div className="px-4 border-l border-[var(--border)] text-[10px] font-bold text-[var(--text-muted)] uppercase tracking-widest">
-          {filtered.length} total
+        <div className="px-3 border-l border-[var(--border)] text-[9px] font-bold text-[var(--text-muted)] uppercase tracking-widest flex items-center gap-3">
+          <span>{filtered.length} total</span>
+          <button 
+            onClick={() => setShowAddForm(!showAddForm)}
+            className="flex items-center gap-1 px-2 py-0.5 bg-[var(--surface2)] hover:bg-[var(--surface3)] border border-[var(--border)] text-[8px] font-bold uppercase text-[var(--text-highlight)] rounded transition-all"
+          >
+            <Plus size={9} strokeWidth={2.5} /> {showAddForm ? 'Hide Builder' : 'Create Node'}
+          </button>
         </div>
       </div>
 
       <div className="space-y-20">
-        {grouped.map((section, sIdx) => (
-          <div key={sIdx} className="space-y-12">
-            {/* Section Name */}
-            <div className="relative">
-              <div className="flex items-baseline gap-4 mb-2">
-                <span className="text-[10px] font-mono text-[var(--text-muted)]">Section</span>
-                <h2 className="text-2xl font-light text-[var(--text-highlight)] uppercase tracking-[0.2em]">{section.guideline.title}</h2>
-              </div>
-              <div className="h-[2px] w-24 bg-[var(--text-highlight)]" />
+        {filtered.length === 0 ? (
+          <div className="bg-[var(--surface)] p-12 text-center rounded-xl border border-[var(--border)] max-w-xl mx-auto space-y-6">
+            <div className="w-16 h-16 bg-[var(--text-muted)]/10 text-[var(--text-muted)] rounded-2xl mx-auto flex items-center justify-center text-xl">
+              📄
             </div>
-
-            <div className="space-y-12 ml-4">
-              {section.bundles.map((bundle, bIdx) => (
-                <div key={bIdx} className="space-y-6">
-                  {/* Section Header */}
-                  {bundle.header && (
-                    <div className="flex items-center gap-4 group/header">
-                      <div className="w-1.5 h-1.5 rounded-full bg-[var(--text-muted)]" />
-                      <h3 className="text-xs font-bold text-[var(--text-muted)] uppercase tracking-[0.2em]">{bundle.header}</h3>
-                      <div className="h-px bg-[var(--surface2)] flex-1" />
-                      <div className="flex gap-2">
-                        <button 
-                          onClick={() => bulkSetStatus(bundle.tcs.map((t: TestCase) => t.id), 'pass')}
-                          className="px-3 py-1 rounded text-[9px] font-bold uppercase tracking-tighter bg-green-500/10 text-green-500 border border-green-500/20 hover:bg-green-500 hover:text-black transition-all"
-                        >
-                          Bulk Pass
-                        </button>
-                        <button 
-                          onClick={() => bulkSetStatus(bundle.tcs.map((t: TestCase) => t.id), 'not_applicable')}
-                          className="px-3 py-1 rounded text-[9px] font-bold uppercase tracking-tighter bg-orange-500/10 text-orange-500 border border-orange-500/20 hover:bg-orange-500 hover:text-black transition-all"
-                        >
-                          Bulk N/A
-                        </button>
-                      </div>
-                    </div>
-                  )}
-
-                  <div className="space-y-3">
-                    {bundle.tcs.map((tc: TestCase) => {
-                      const num = getTestCaseNumber(tc, db.testCases);
-                      return (
-                        <TestCaseRow 
-                          key={tc.id} 
-                          tc={tc} 
-                          tcNumber={num}
-                          execution={executions[tc.id]} 
-                          setStatus={setStatus} 
-                          setState={setState}
-                          showToast={showToast}
-                          isExpanded={expandedTc === tc.id}
-                          onToggle={() => setExpandedTc(expandedTc === tc.id ? null : tc.id)}
-                        />
-                      );
-                    })}
-                  </div>
-                </div>
-              ))}
+            <div>
+              <h2 className="text-lg font-mono text-[var(--text-highlight)] uppercase tracking-wider mb-2">No Compliance Nodes Found</h2>
+              <p className="text-sm text-[var(--text-muted)] italic leading-relaxed">
+                The "{activeSectionId === 'all' ? 'All' : (activeGlObject?.title || activeSectionId)}" section does not have any active compliance check nodes recorded. 
+              </p>
+              <p className="text-xs text-[var(--text-muted)] mt-2">
+                Click "Build Nodes Manually" to open the interactive builder and specify your checklist rules directly in the app!
+              </p>
             </div>
+            <button 
+              onClick={() => setShowAddForm(true)}
+              className="px-4 py-2 bg-[var(--text-highlight)] text-[var(--bg)] text-xs font-bold rounded hover:opacity-90 transition-all shadow-md inline-flex items-center gap-1"
+            >
+              <Plus size={12} strokeWidth={3} /> Build Nodes Manually
+            </button>
           </div>
-        ))}
+        ) : (
+          grouped.map((section, sIdx) => (
+            <div key={sIdx} className="space-y-12">
+              {/* Section Name */}
+              <div className="relative">
+                <div className="flex items-baseline gap-4 mb-2">
+                  <span className="text-[10px] font-mono text-[var(--text-muted)]">Section</span>
+                  <h2 className="text-2xl font-light text-[var(--text-highlight)] uppercase tracking-[0.2em]">{section.guideline.title}</h2>
+                </div>
+                <div className="h-[2px] w-24 bg-[var(--text-highlight)]" />
+              </div>
+
+              <div className="space-y-12 ml-4">
+                {section.bundles.map((bundle, bIdx) => (
+                  <div key={bIdx} className="space-y-6">
+                    {/* Section Header */}
+                    {bundle.header && (
+                      <div className="flex items-center gap-4 group/header">
+                        <div className="w-1.5 h-1.5 rounded-full bg-[var(--text-muted)]" />
+                        <h3 className="text-xs font-bold text-[var(--text-muted)] uppercase tracking-[0.2em]">{bundle.header}</h3>
+                        <div className="h-px bg-[var(--surface2)] flex-1" />
+                        <div className="flex gap-2">
+                          <button 
+                            onClick={() => bulkSetStatus(bundle.tcs.map((t: TestCase) => t.id), 'pass')}
+                            className="px-3 py-1 rounded text-[9px] font-bold uppercase tracking-tighter bg-green-500/10 text-green-500 border border-green-500/20 hover:bg-green-500 hover:text-black transition-all"
+                          >
+                            Bulk Pass
+                          </button>
+                          <button 
+                            onClick={() => bulkSetStatus(bundle.tcs.map((t: TestCase) => t.id), 'not_applicable')}
+                            className="px-3 py-1 rounded text-[9px] font-bold uppercase tracking-tighter bg-orange-500/10 text-orange-500 border border-orange-500/20 hover:bg-orange-500 hover:text-black transition-all"
+                          >
+                            Bulk N/A
+                          </button>
+                        </div>
+                      </div>
+                    )}
+
+                    <div className="space-y-3">
+                      {bundle.tcs.map((tc: TestCase) => {
+                        const num = getTestCaseNumber(tc, db.testCases);
+                        return (
+                          <TestCaseRow 
+                            key={tc.id} 
+                            tc={tc} 
+                            tcNumber={num}
+                            execution={executions[tc.id]} 
+                            setStatus={setStatus} 
+                            setState={setState}
+                            showToast={showToast}
+                            isExpanded={expandedTc === tc.id}
+                            onToggle={() => setExpandedTc(expandedTc === tc.id ? null : tc.id)}
+                          />
+                        );
+                      })}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))
+        )}
       </div>
     </div>
   );
@@ -655,11 +856,29 @@ function TestCaseRow({ tc, tcNumber, execution, setStatus, setState, showToast, 
           </div>
         </div>
         
-        <div className="flex gap-2" onClick={e => e.stopPropagation()}>
+        <div className="flex gap-2 items-center" onClick={e => e.stopPropagation()}>
           <StatusBtn active={status === 'pass'} onClick={() => setStatus(tc.id, 'pass')} label="Pass" color="bg-green-500/10 text-green-500 border border-green-500/20" activeCls="bg-green-500 text-black border-green-500 shadow-glow-green" />
           <StatusBtn active={status === 'fail'} onClick={() => setStatus(tc.id, 'fail')} label="Fail" color="bg-red-500/10 text-red-500 border border-red-500/20" activeCls="bg-red-500 text-white border-red-500 shadow-glow-red" />
           <StatusBtn active={status === 'not_applicable'} onClick={() => setStatus(tc.id, 'not_applicable')} label="N/A" color="bg-orange-500/10 text-orange-500 border border-orange-500/20" activeCls="bg-orange-500 text-black border-orange-500 shadow-glow-orange" />
           <StatusBtn active={status === 'not_tested'} onClick={() => setStatus(tc.id, 'not_tested')} label="Not Tested" color="bg-[var(--bg)]/40 text-[var(--text-muted)] border border-transparent" activeCls="bg-[var(--text-highlight)] text-[var(--bg)] border-[var(--text-highlight)] shadow-glow" />
+          
+          {tc.id.startsWith('custom-') && (
+            <button 
+              onClick={() => {
+                if (confirm('Permanently delete this custom compliance checkpoint?')) {
+                  setState((prev: any) => ({
+                    ...prev,
+                    customTcs: (prev.customTcs || []).filter((t: any) => t.id !== tc.id)
+                  }));
+                  showToast('Custom checkpoint deleted');
+                }
+              }}
+              className="p-1.5 rounded bg-transparent border border-transparent hover:border-red-500/20 hover:bg-red-500/10 text-[var(--text-muted)] hover:text-red-500 transition-all ml-1"
+              title="Delete custom node"
+            >
+              <Trash2 size={13} />
+            </button>
+          )}
         </div>
         <motion.div animate={{ rotate: isExpanded ? 90 : 0 }} className="text-[var(--text-muted)] group-hover:text-[var(--text-highlight)] transition-colors">
           <ChevronRight size={16} />

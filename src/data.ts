@@ -9,6 +9,20 @@ export const ALL_DATA: Record<string, PlatformData> = {
         description: "App Store Review Guidelines (Safety, Performance, Business, Design, Legal)", 
         category: "Compliance", 
         impact: "high" 
+      },
+      { 
+        id: "GL-002", 
+        title: "Info.plist", 
+        description: "Required Information Property List Keys, Purpose Strings, and System Configuration", 
+        category: "Info.plist", 
+        impact: "high" 
+      },
+      { 
+        id: "GL-003", 
+        title: "Privacy check", 
+        description: "Privacy and Personal Data Usage Description Info.plist Keys", 
+        category: "Privacy check", 
+        impact: "high" 
       }
     ],
     testCases: [
@@ -1624,6 +1638,1003 @@ export const ALL_DATA: Record<string, PlatformData> = {
         steps: "1. Review NSLocationWhenInUseUsageDescription inside Info.plist metadata.\n2. Verify the description clearly informs users of the exact benefit of sharing target coordinates.",
         expected: "The purpose explanation shows absolute transparency.",
         originalRef: "Privacy"
+      },
+      // Section: Intellectual Property
+      {
+        id: "iOS-C-5.41",
+        gl: "GL-001",
+        ref: "5.2.1",
+        title: "Don’t use protected third party material such as trademarks, copyrighted works, or patented ideas in your app without permission, and don’t include misleading, false, or copycat representations, names, or metadata in your app bundle",
+        steps: "1. Check app name, metadata, and assets for any unapproved third-party brand names or copyrighted assets.\n2. Confirm trademark permissions are in place.",
+        expected: "All assets are original or properly licensed, and metadata is free of trademark infringements.",
+        originalRef: "Intellectual Property"
+      },
+      {
+        id: "iOS-C-5.42",
+        gl: "GL-001",
+        ref: "5.2.2",
+        title: "If your app uses, accesses, monetizes access to, or displays content from a third party service, ensure that you are specifically permitted to do so under the service’s terms of use. Authorization must be provided upon request.",
+        steps: "1. Audit any integrated APIs or embeds from external services.\n2. Verify the terms of service of the third party permit the app's reuse and monetization.",
+        expected: "Explicit authorization for third-party service content usage is documented and available.",
+        originalRef: "Intellectual Property"
+      },
+      {
+        id: "iOS-C-5.43",
+        gl: "GL-001",
+        ref: "5.2.3",
+        title: "Apps should not facilitate illegal file sharing or include the ability to save, convert, or download media from third party sources (e.g. Apple Music, YouTube, SoundCloud, Vimeo, etc.) without explicit authorization from those sources.",
+        steps: "1. Verify the app does not contain downloaders or file converters for third-party streaming sites.\n2. Verify file-sharing functions comply with media copyrights.",
+        expected: "The app blocks unauthorized media downloads or conversions.",
+        originalRef: "Intellectual Property"
+      },
+      {
+        id: "iOS-C-5.44",
+        gl: "GL-001",
+        ref: "5.2.4",
+        title: "Don’t suggest or infer that Apple is a source or supplier of the App, or that Apple endorses any particular representation regarding quality or functionality. If your app is selected as an “Editor’s Choice,” Apple will apply the badge automatically.",
+        steps: "1. Review copywriting in app store description and in-app interfaces.\n2. Ensure zero claims that Apple is a sponsor or has endorsed the app's quality.",
+        expected: "No inappropriate claims or hints of Apple endorsement are present.",
+        originalRef: "Intellectual Property"
+      },
+      {
+        id: "iOS-C-5.45",
+        gl: "GL-001",
+        ref: "5.2.5",
+        title: "Don’t create an app that appears confusingly similar to an existing Apple product, interface (e.g. Finder), app (such as the App Store, iTunes Store, or Messages) or advertising theme, and don’t misspell Apple product names (i.e., GPS for Iphone, iTunz). iTunes music previews may not be used for their entertainment value (e.g. as the background music to a photo collage or the soundtrack to a game) or in any other unauthorized manner.",
+        steps: "1. Audit user interface layouts for similarities with system apps (e.g., Apple Messages).\n2. Verify spelling of Apple trademarks (e.g., iPhone keyword casing).\n3. Check for unauthorized iTunes music preview assets.",
+        expected: "Visual identity and naming schemes avoid mimicking native Apple applications or misspelling trademarks.",
+        originalRef: "Intellectual Property"
+      },
+      // Section: Gaming, Gambling and Lotteries
+      {
+        id: "iOS-C-5.46",
+        gl: "GL-001",
+        ref: "5.3.1",
+        title: "Sweepstakes and contests must be sponsored by the developer of the app.",
+        steps: "1. Review all reward campaigns, contests, or draw events inside the app.\n2. Confirm the app developer is named as the sole organizer and sponsor.",
+        expected: "The platform developer is the sole legal sponsor of contests.",
+        originalRef: "Gaming, Gambling and Lotteries"
+      },
+      {
+        id: "iOS-C-5.47",
+        gl: "GL-001",
+        ref: "5.3.2",
+        title: "Official rules for sweepstakes, contests, and raffles must be presented in the app and make clear that Apple is not a sponsor or involved in the activity in any manner.",
+        steps: "1. Verify official rule documents are easily readable within the contested interface.\n2. Verify explicit disclaimer copy: 'Apple is not a sponsor, nor is it involved in any manner with this sweepstake'.",
+        expected: "Official rules are declared clearly, showing absolute isolation from Apple sponsorship.",
+        originalRef: "Gaming, Gambling and Lotteries"
+      },
+      {
+        id: "iOS-C-5.48",
+        gl: "GL-001",
+        ref: "5.3.3",
+        title: "Apps may not use IAP to purchase credit or currency for use in conjunction with real money gaming of any kind, and may not enable people to purchase lottery or raffle tickets or initiate fund transfers in the app.",
+        steps: "1. Audit In-App Purchases database.\n2. Verify no bought coins or consumable tokens are exchanged for actual fiat withdrawal/gambling or raffle entries.",
+        expected: "IAPs are never linked to real money casino credits or lottery tickets.",
+        originalRef: "Gaming, Gambling and Lotteries"
+      },
+      {
+        id: "iOS-C-5.49",
+        gl: "GL-001",
+        ref: "5.3.4",
+        title: "Apps that offer real money gaming (e.g. sports betting, poker, casino games, horse racing) or lotteries must have necessary licensing and permissions in the locations where the App is used, must be geo-restricted to those locations, and must be free on the App Store. Illegal gambling aids, including card counters, are not permitted on the App Store. Lottery apps must have consideration, chance, and a prize.",
+        steps: "1. Confirm the app is distributed as a free download.\n2. Obtain licensing records matching jurisdictions.\n3. Verify geolocation APIs lock users out of illegal territories.\n4. Check for prohibited card counters.",
+        expected: "The app enforces geographic limitations, is free of charge, and has valid gambling licences.",
+        originalRef: "Gaming, Gambling and Lotteries"
+      },
+      // Section: VPN Apps
+      {
+        id: "iOS-C-5.50",
+        gl: "GL-001",
+        ref: "5.4.1",
+        title: "Apps offering VPN services must utilize the NEVPNManager API and must make a clear declaration of what user data will be collected and how it will be used on an app screen prior to any user action to purchase or otherwise use the service. Apps offering VPN services may not sell, use, or disclose to third parties any data for any purpose, and must commit to this in their privacy policy. VPN apps must not violate local laws, and if you choose to make your VPN app available in a territory that requires a VPN license, you must provide your license information in the App Review Notes field. Parental control, content blocking, and security apps, among others, from approved providers may also use the NEVPNManager API. Apps that do not comply with this guideline will be removed from the App Store and you may be removed from the Apple Developer Program.",
+        steps: "1. Verify network logic uses NEVPNManager system API.\n2. Confirm user is presented with data collection declarations prior to buying/enabling.\n3. Verify the privacy policy includes a binding commitment never to sell VPN telemetry to third parties.\n4. Ensure Chinese territory configurations or similar licensed areas hold valid local licensing notes.",
+        expected: "The VPN service employs standard APIs, maintains absolute data separation, and includes required policy declarations.",
+        originalRef: " VPN Apps "
+      },
+      // Section: Mobile Device Management
+      {
+        id: "iOS-C-5.51",
+        gl: "GL-001",
+        ref: "5.5.1",
+        title: "Mobile Device Management Apps that offer Mobile Device Management (MDM) services must request this capability from Apple. Such apps may only be offered by commercial enterprises (such as business organizations, educational institutions, or government agencies), and in limited cases, companies using MDM for parental control services.",
+        steps: "1. Verify presence of active MDM profile entitlement associated with the app.\n2. Confirm the publisher account represents a commercial enterprise, school, or authorized company.",
+        expected: "MDM services are fully verified and restricted to verified corporate or enterprise domains.",
+        originalRef: " Mobile Device Management "
+      },
+      {
+        id: "iOS-C-5.52",
+        gl: "GL-001",
+        ref: "5.5.2",
+        title: "You must make a clear declaration of what user data will be collected and how it will be used on an app screen prior to any user action to purchase or otherwise use the service.",
+        steps: "1. Review registration and setup views on initial install.\n2. Verify clear content outlines precisely what telemetry, device actions, or profiles are surveyed.",
+        expected: "Disclosures of data collection are prominent before the MDM setup completes.",
+        originalRef: " Mobile Device Management "
+      },
+      {
+        id: "iOS-C-5.53",
+        gl: "GL-001",
+        ref: "5.5.3",
+        title: "MDM apps must not violate local laws.",
+        steps: "1. Validate whether features (such as keylogging or surveillance tools) violate privacy frameworks in targeting countries.",
+        expected: "System controls satisfy geographic security policies.",
+        originalRef: " Mobile Device Management "
+      },
+      {
+        id: "iOS-C-5.54",
+        gl: "GL-001",
+        ref: "5.5.4",
+        title: "Apps offering MDM services may not sell, use, or disclose to third parties any data for any purpose, and must commit to this in their privacy policy. Apps that do not comply with this guideline will be removed from the App Store and you may be removed from the Apple Developer Program.",
+        steps: "1. Verify that the enterprise privacy policy outlaws third-party data distribution.\n2. Confirm zero external tracking libraries are included inside target payloads.",
+        expected: "Privacy guidelines commit to maximum protection, barring any third-party disclosure.",
+        originalRef: " Mobile Device Management "
+      },
+      // Section: Developer Code of Conduct
+      {
+        id: "iOS-C-5.55",
+        gl: "GL-001",
+        ref: "5.6.1",
+        title: "Please treat everyone with respect, whether in your responses to App Store reviews, customer support requests, or when communicating with Apple, including your responses in Resolution Center. Do not engage in harassment of any kind, discriminatory practices, intimidation, bullying, and don’t encourage others to engage in any of the above. Repeated manipulative or misleading behavior or other fraudulent conduct will lead to your removal from the Apple Developer Program.",
+        steps: "1. Monitor customer support logs and App Store review responses.\n2. Ensure team training blocks any hostile or offensive statements.",
+        expected: "All responses maintain a polite, respectful tone.",
+        originalRef: " Developer Code of Conduct "
+      },
+      {
+        id: "iOS-C-5.56",
+        gl: "GL-001",
+        ref: "5.6.2",
+        title: "Apps should never prey on users or attempt to rip-off customers, trick them into making unwanted purchases, force them to share unnecessary data, raise prices in a tricky manner, charge for features or content that are not delivered, or engage in any other manipulative practices within or outside of the app.",
+        steps: "1. Audit price sliders, checkout menus, and purchase confirmations.\n2. Verify the pricing is transparent, clearly detailed, and has zero dark patterns.",
+        expected: "Pricing mechanisms remain crystal-clear, transparent, and direct, without deceptive layouts.",
+        originalRef: " Developer Code of Conduct "
+      },
+      {
+        id: "iOS-C-5.57",
+        gl: "GL-001",
+        ref: "5.6.3",
+        title: "Use the provided API to prompt users to review your app; this functionality allows customers to provide an App Store rating and review without the inconvenience of leaving your app, and we will disallow custom review prompts.",
+        steps: "1. Identify the review command handler inside the app.\n2. Verify utilization of standard SKStoreReviewController.requestReview().\n3. Confirm there are no proprietary custom feedback blocks that request store-side 5-star inputs.",
+        expected: "Review hooks use Apple's native review prompts exclusively.",
+        originalRef: " Developer Code of Conduct "
+      },
+      {
+        id: "iOS-C-5.58",
+        gl: "GL-001",
+        ref: "5.6.4",
+        title: "Providing verifiable information to Apple and customers is critical to customer trust. Your representation of yourself, your business, and your offerings on the App Store must be accurate. The information you provide must be truthful, relevant, and up-to-date so that Apple and customers understand who they are engaging with and can contact you regarding any issues.",
+        steps: "1. Verify in-app about/support pages.\n2. Confirm support email address, phone numbers, and physical company coordinates are accurate and operational.",
+        expected: "Support addresses and publisher attributes are accurate and verifiable.",
+        originalRef: " Developer Code of Conduct "
+      },
+      {
+        id: "iOS-C-5.59",
+        gl: "GL-001",
+        ref: "5.6.5",
+        title: "Participating in the App Store requires integrity and a commitment to building and maintaining customer trust. Manipulating any element of the App Store customer experience such as charts, search reviews, or referrals to your app erodes customer trust and is not permitted",
+        steps: "1. Inspect referring loops and marketing campaigns.\n2. Ensure zero simulated referrers or inorganic review stimulation techniques are integrated.",
+        expected: "Campaign systems and conversion triggers remain secure and organic.",
+        originalRef: " Developer Code of Conduct "
+      },
+      {
+        id: "iOS-C-5.60",
+        gl: "GL-001",
+        ref: "5.6.6",
+        title: "Customers expect the highest quality from the App Store, and maintaining high quality content, services, and experiences promotes customer trust. Indications that this expectation is not being met include excessive customer reports about concerns with your app, such as negative customer reviews, and excessive refund requests. Inability to maintain high quality may be a factor in deciding whether a developer is abiding by the Developer Code of Conduct.",
+        steps: "1. Audit recent user crash rate profiles inside Xcode Organizer.\n2. Monitor ratings graphs and support request queues.\n3. Resolve high-frequent technical failures proactively.",
+        expected: "Core crashes remain within bounds and software holds a high-quality baseline.",
+        originalRef: " Developer Code of Conduct "
+      },
+      // Info.plist - Mandatory Keys
+      {
+        id: "iOS-I-M-1",
+        gl: "GL-002",
+        ref: "M.01",
+        title: "CFBundleName",
+        steps: "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Ensure CFBundleName key is present.",
+        expected: "The mandatory CFBundleName key is successfully defined in the Info.plist bundle.",
+        originalRef: "Mandatory Keys"
+      },
+      {
+        id: "iOS-I-M-2",
+        gl: "GL-002",
+        ref: "M.02",
+        title: "DTPlatformVersion",
+        steps: "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Ensure DTPlatformVersion key is present.",
+        expected: "The mandatory DTPlatformVersion key is successfully defined in the Info.plist bundle.",
+        originalRef: "Mandatory Keys"
+      },
+      {
+        id: "iOS-I-M-3",
+        gl: "GL-002",
+        ref: "M.03",
+        title: "CFBundleVersion",
+        steps: "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Ensure CFBundleVersion key is present.",
+        expected: "The mandatory CFBundleVersion key is successfully defined in the Info.plist bundle.",
+        originalRef: "Mandatory Keys"
+      },
+      {
+        id: "iOS-I-M-4",
+        gl: "GL-002",
+        ref: "M.04",
+        title: "CFBundleShortVersionString",
+        steps: "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Ensure CFBundleShortVersionString key is present.",
+        expected: "The mandatory CFBundleShortVersionString key is successfully defined in the Info.plist bundle.",
+        originalRef: "Mandatory Keys"
+      },
+      {
+        id: "iOS-I-M-5",
+        gl: "GL-002",
+        ref: "M.05",
+        title: "CFBundleDevelopmentRegion",
+        steps: "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Ensure CFBundleDevelopmentRegion key is present.",
+        expected: "The mandatory CFBundleDevelopmentRegion key is successfully defined in the Info.plist bundle.",
+        originalRef: "Mandatory Keys"
+      },
+      {
+        id: "iOS-I-M-6",
+        gl: "GL-002",
+        ref: "M.06",
+        title: "CFBundleInfoDictionaryVersion",
+        steps: "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Ensure CFBundleInfoDictionaryVersion key is present.",
+        expected: "The mandatory CFBundleInfoDictionaryVersion key is successfully defined in the Info.plist bundle.",
+        originalRef: "Mandatory Keys"
+      },
+      {
+        id: "iOS-I-M-7",
+        gl: "GL-002",
+        ref: "M.07",
+        title: "CFBundleDisplayName",
+        steps: "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Ensure CFBundleDisplayName key is present.",
+        expected: "The mandatory CFBundleDisplayName key is successfully defined in the Info.plist bundle.",
+        originalRef: "Mandatory Keys"
+      },
+      {
+        id: "iOS-I-M-8",
+        gl: "GL-002",
+        ref: "M.08",
+        title: "CFBundleIdentifier",
+        steps: "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Ensure CFBundleIdentifier key is present.",
+        expected: "The mandatory CFBundleIdentifier key is successfully defined in the Info.plist bundle.",
+        originalRef: "Mandatory Keys"
+      },
+      {
+        id: "iOS-I-M-9",
+        gl: "GL-002",
+        ref: "M.09",
+        title: "DTXcode",
+        steps: "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Ensure DTXcode key is present.",
+        expected: "The mandatory DTXcode key is successfully defined in the Info.plist bundle.",
+        originalRef: "Mandatory Keys"
+      },
+      {
+        id: "iOS-I-M-10",
+        gl: "GL-002",
+        ref: "M.10",
+        title: "CFBundleExecutable",
+        steps: "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Ensure CFBundleExecutable key is present.",
+        expected: "The mandatory CFBundleExecutable key is successfully defined in the Info.plist bundle.",
+        originalRef: "Mandatory Keys"
+      },
+      // Info.plist - Non-Mandatory Keys
+      {
+        id: "iOS-I-NM-1",
+        gl: "GL-002",
+        ref: "NM.01",
+        title: "CFBundleAllowMixedLocalizations",
+        steps: "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if CFBundleAllowMixedLocalizations key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+        expected: "Marked as PASS if present in the bundle, or N/A if missing.",
+        originalRef: "Non-Mandatory Keys"
+      },
+      {
+        id: "iOS-I-NM-2",
+        gl: "GL-002",
+        ref: "NM.02",
+        title: "CFBundleURLTypes",
+        steps: "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if CFBundleURLTypes key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+        expected: "Marked as PASS if present in the bundle, or N/A if missing.",
+        originalRef: "Non-Mandatory Keys"
+      },
+      {
+        id: "iOS-I-NM-3",
+        gl: "GL-002",
+        ref: "NM.03",
+        title: "GKGameCenterBadgingDisabled",
+        steps: "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if GKGameCenterBadgingDisabled key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+        expected: "Marked as PASS if present in the bundle, or N/A if missing.",
+        originalRef: "Non-Mandatory Keys"
+      },
+      {
+        id: "iOS-I-NM-4",
+        gl: "GL-002",
+        ref: "NM.04",
+        title: "UTExportedTypeDeclarations",
+        steps: "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if UTExportedTypeDeclarations key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+        expected: "Marked as PASS if present in the bundle, or N/A if missing.",
+        originalRef: "Non-Mandatory Keys"
+      },
+      {
+        id: "iOS-I-NM-5",
+        gl: "GL-002",
+        ref: "NM.05",
+        title: "UISupportedInterfaceOrientations",
+        steps: "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if UISupportedInterfaceOrientations key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+        expected: "Marked as PASS if present in the bundle, or N/A if missing.",
+        originalRef: "Non-Mandatory Keys"
+      },
+      {
+        id: "iOS-I-NM-6",
+        gl: "GL-002",
+        ref: "NM.06",
+        title: "NSLocationUsageDescription",
+        steps: "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if NSLocationUsageDescription key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+        expected: "Marked as PASS if present in the bundle, or N/A if missing.",
+        originalRef: "Non-Mandatory Keys"
+      },
+      {
+        id: "iOS-I-NM-7",
+        gl: "GL-002",
+        ref: "NM.07",
+        title: "GCSupportsMultipleMicroGamepads",
+        steps: "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if GCSupportsMultipleMicroGamepads key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+        expected: "Marked as PASS if present in the bundle, or N/A if missing.",
+        originalRef: "Non-Mandatory Keys"
+      },
+      {
+        id: "iOS-I-NM-8",
+        gl: "GL-002",
+        ref: "NM.08",
+        title: "UIRequiredDeviceCapabilities",
+        steps: "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if UIRequiredDeviceCapabilities key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+        expected: "Marked as PASS if present in the bundle, or N/A if missing.",
+        originalRef: "Non-Mandatory Keys"
+      },
+      {
+        id: "iOS-I-NM-9",
+        gl: "GL-002",
+        ref: "NM.09",
+        title: "DTSDKBuild",
+        steps: "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if DTSDKBuild key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+        expected: "Marked as PASS if present in the bundle, or N/A if missing.",
+        originalRef: "Non-Mandatory Keys"
+      },
+      {
+        id: "iOS-I-NM-10",
+        gl: "GL-002",
+        ref: "NM.10",
+        title: "UIDeviceFamily",
+        steps: "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if UIDeviceFamily key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+        expected: "Marked as PASS if present in the bundle, or N/A if missing.",
+        originalRef: "Non-Mandatory Keys"
+      },
+      {
+        id: "iOS-I-NM-11",
+        gl: "GL-002",
+        ref: "NM.11",
+        title: "NSUbiquitousContainer",
+        steps: "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if NSUbiquitousContainer key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+        expected: "Marked as PASS if present in the bundle, or N/A if missing.",
+        originalRef: "Non-Mandatory Keys"
+      },
+      {
+        id: "iOS-I-NM-12",
+        gl: "GL-002",
+        ref: "NM.12",
+        title: "CFBundleIconFile",
+        steps: "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if CFBundleIconFile key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+        expected: "Marked as PASS if present in the bundle, or N/A if missing.",
+        originalRef: "Non-Mandatory Keys"
+      },
+      {
+        id: "iOS-I-NM-13",
+        gl: "GL-002",
+        ref: "NM.13",
+        title: "LSApplicationQueriesSchemes",
+        steps: "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if LSApplicationQueriesSchemes key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+        expected: "Marked as PASS if present in the bundle, or N/A if missing.",
+        originalRef: "Non-Mandatory Keys"
+      },
+      {
+        id: "iOS-I-NM-14",
+        gl: "GL-002",
+        ref: "NM.14",
+        title: "GCSupportedGameControllers",
+        steps: "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if GCSupportedGameControllers key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+        expected: "Marked as PASS if present in the bundle, or N/A if missing.",
+        originalRef: "Non-Mandatory Keys"
+      },
+      {
+        id: "iOS-I-NM-15",
+        gl: "GL-002",
+        ref: "NM.15",
+        title: "UILaunchStoryboardName",
+        steps: "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if UILaunchStoryboardName key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+        expected: "Marked as PASS if present in the bundle, or N/A if missing.",
+        originalRef: "Non-Mandatory Keys"
+      },
+      {
+        id: "iOS-I-NM-16",
+        gl: "GL-002",
+        ref: "NM.16",
+        title: "CFBundleLocalizations",
+        steps: "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if CFBundleLocalizations key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+        expected: "Marked as PASS if present in the bundle, or N/A if missing.",
+        originalRef: "Non-Mandatory Keys"
+      },
+      {
+        id: "iOS-I-NM-17",
+        gl: "GL-002",
+        ref: "NM.17",
+        title: "LSRequiresIPhoneOS",
+        steps: "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if LSRequiresIPhoneOS key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+        expected: "Marked as PASS if present in the bundle, or N/A if missing.",
+        originalRef: "Non-Mandatory Keys"
+      },
+      {
+        id: "iOS-I-NM-18",
+        gl: "GL-002",
+        ref: "NM.18",
+        title: "UIWhitePointAdaptivityStyle",
+        steps: "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if UIWhitePointAdaptivityStyle key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+        expected: "Marked as PASS if present in the bundle, or N/A if missing.",
+        originalRef: "Non-Mandatory Keys"
+      },
+      {
+        id: "iOS-I-NM-19",
+        gl: "GL-002",
+        ref: "NM.19",
+        title: "DTPlatformName",
+        steps: "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if DTPlatformName key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+        expected: "Marked as PASS if present in the bundle, or N/A if missing.",
+        originalRef: "Non-Mandatory Keys"
+      },
+      {
+        id: "iOS-I-NM-20",
+        gl: "GL-002",
+        ref: "NM.20",
+        title: "UIStatusBarStyle",
+        steps: "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if UIStatusBarStyle key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+        expected: "Marked as PASS if present in the bundle, or N/A if missing.",
+        originalRef: "Non-Mandatory Keys"
+      },
+      {
+        id: "iOS-I-NM-21",
+        gl: "GL-002",
+        ref: "NM.21",
+        title: "DTPlatformBuild",
+        steps: "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if DTPlatformBuild key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+        expected: "Marked as PASS if present in the bundle, or N/A if missing.",
+        originalRef: "Non-Mandatory Keys"
+      },
+      {
+        id: "iOS-I-NM-22",
+        gl: "GL-002",
+        ref: "NM.22",
+        title: "UILaunchImages",
+        steps: "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if UILaunchImages key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+        expected: "Marked as PASS if present in the bundle, or N/A if missing.",
+        originalRef: "Non-Mandatory Keys"
+      },
+      {
+        id: "iOS-I-NM-23",
+        gl: "GL-002",
+        ref: "NM.23",
+        title: "UILaunchImageFile",
+        steps: "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if UILaunchImageFile key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+        expected: "Marked as PASS if present in the bundle, or N/A if missing.",
+        originalRef: "Non-Mandatory Keys"
+      },
+      {
+        id: "iOS-I-NM-24",
+        gl: "GL-002",
+        ref: "NM.24",
+        title: "UIPrerenderedIcon",
+        steps: "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if UIPrerenderedIcon key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+        expected: "Marked as PASS if present in the bundle, or N/A if missing.",
+        originalRef: "Non-Mandatory Keys"
+      },
+      {
+        id: "iOS-I-NM-25",
+        gl: "GL-002",
+        ref: "NM.25",
+        title: "MKDirectionsApplicationSupportedModes",
+        steps: "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if MKDirectionsApplicationSupportedModes key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+        expected: "Marked as PASS if present in the bundle, or N/A if missing.",
+        originalRef: "Non-Mandatory Keys"
+      },
+      {
+        id: "iOS-I-NM-26",
+        gl: "GL-002",
+        ref: "NM.26",
+        title: "DTXcodeBuild",
+        steps: "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if DTXcodeBuild key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+        expected: "Marked as PASS if present in the bundle, or N/A if missing.",
+        originalRef: "Non-Mandatory Keys"
+      },
+      {
+        id: "iOS-I-NM-27",
+        gl: "GL-002",
+        ref: "NM.27",
+        title: "DTSDKName",
+        steps: "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if DTSDKName key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+        expected: "Marked as PASS if present in the bundle, or N/A if missing.",
+        originalRef: "Non-Mandatory Keys"
+      },
+      {
+        id: "iOS-I-NM-28",
+        gl: "GL-002",
+        ref: "NM.28",
+        title: "UIViewEdgeAntialiasing",
+        steps: "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if UIViewEdgeAntialiasing key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+        expected: "Marked as PASS if present in the bundle, or N/A if missing.",
+        originalRef: "Non-Mandatory Keys"
+      },
+      {
+        id: "iOS-I-NM-29",
+        gl: "GL-002",
+        ref: "NM.29",
+        title: "CFBundleIcons",
+        steps: "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if CFBundleIcons key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+        expected: "Marked as PASS if present in the bundle, or N/A if missing.",
+        originalRef: "Non-Mandatory Keys"
+      },
+      {
+        id: "iOS-I-NM-30",
+        gl: "GL-002",
+        ref: "NM.30",
+        title: "NSAppTransportSecurity",
+        steps: "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if NSAppTransportSecurity key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+        expected: "Marked as PASS if present in the bundle, or N/A if missing.",
+        originalRef: "Non-Mandatory Keys"
+      },
+      {
+        id: "iOS-I-NM-31",
+        gl: "GL-002",
+        ref: "NM.31",
+        title: "UISupportedExternalAccessoryProtocols",
+        steps: "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if UISupportedExternalAccessoryProtocols key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+        expected: "Marked as PASS if present in the bundle, or N/A if missing.",
+        originalRef: "Non-Mandatory Keys"
+      },
+      {
+        id: "iOS-I-NM-32",
+        gl: "GL-002",
+        ref: "NM.32",
+        title: "UIFileSharingEnabled",
+        steps: "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if UIFileSharingEnabled key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+        expected: "Marked as PASS if present in the bundle, or N/A if missing.",
+        originalRef: "Non-Mandatory Keys"
+      },
+      {
+        id: "iOS-I-NM-33",
+        gl: "GL-002",
+        ref: "NM.33",
+        title: "CFBundleIconName",
+        steps: "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if CFBundleIconName key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+        expected: "Marked as PASS if present in the bundle, or N/A if missing.",
+        originalRef: "Non-Mandatory Keys"
+      },
+      {
+        id: "iOS-I-NM-34",
+        gl: "GL-002",
+        ref: "NM.34",
+        title: "UINewsstandApp",
+        steps: "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if UINewsstandApp key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+        expected: "Marked as PASS if present in the bundle, or N/A if missing.",
+        originalRef: "Non-Mandatory Keys"
+      },
+      {
+        id: "iOS-I-NM-35",
+        gl: "GL-002",
+        ref: "NM.35",
+        title: "UIInterfaceOrientation",
+        steps: "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if UIInterfaceOrientation key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+        expected: "Marked as PASS if present in the bundle, or N/A if missing.",
+        originalRef: "Non-Mandatory Keys"
+      },
+      {
+        id: "iOS-I-NM-36",
+        gl: "GL-002",
+        ref: "NM.36",
+        title: "coreSpotlightContinuation",
+        steps: "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if coreSpotlightContinuation key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+        expected: "Marked as PASS if present in the bundle, or N/A if missing.",
+        originalRef: "Non-Mandatory Keys"
+      },
+      {
+        id: "iOS-I-NM-37",
+        gl: "GL-002",
+        ref: "NM.37",
+        title: "UIApplicationExitsOnSuspend",
+        steps: "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if UIApplicationExitsOnSuspend key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+        expected: "Marked as PASS if present in the bundle, or N/A if missing.",
+        originalRef: "Non-Mandatory Keys"
+      },
+      {
+        id: "iOS-I-NM-38",
+        gl: "GL-002",
+        ref: "NM.38",
+        title: "NSUbiquitousContainerIsDocumentScopePublic",
+        steps: "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if NSUbiquitousContainerIsDocumentScopePublic key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+        expected: "Marked as PASS if present in the bundle, or N/A if missing.",
+        originalRef: "Non-Mandatory Keys"
+      },
+      {
+        id: "iOS-I-NM-39",
+        gl: "GL-002",
+        ref: "NM.39",
+        title: "UIAppSupportsHDR",
+        steps: "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if UIAppSupportsHDR key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+        expected: "Marked as PASS if present in the bundle, or N/A if missing.",
+        originalRef: "Non-Mandatory Keys"
+      },
+      {
+        id: "iOS-I-NM-40",
+        gl: "GL-002",
+        ref: "NM.40",
+        title: "NSMainNibFile",
+        steps: "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if NSMainNibFile key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+        expected: "Marked as PASS if present in the bundle, or N/A if missing.",
+        originalRef: "Non-Mandatory Keys"
+      },
+      {
+        id: "iOS-I-NM-41",
+        gl: "GL-002",
+        ref: "NM.41",
+        title: "CFBundleDocumentTypes",
+        steps: "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if CFBundleDocumentTypes key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+        expected: "Marked as PASS if present in the bundle, or N/A if missing.",
+        originalRef: "Non-Mandatory Keys"
+      },
+      {
+        id: "iOS-I-NM-42",
+        gl: "GL-002",
+        ref: "NM.42",
+        title: "NSSupportsPurgeableLocalStorage",
+        steps: "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if NSSupportsPurgeableLocalStorage key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+        expected: "Marked as PASS if present in the bundle, or N/A if missing.",
+        originalRef: "Non-Mandatory Keys"
+      },
+      {
+        id: "iOS-I-NM-43",
+        gl: "GL-002",
+        ref: "NM.43",
+        title: "DTCompiler",
+        steps: "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if DTCompiler key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+        expected: "Marked as PASS if present in the bundle, or N/A if missing.",
+        originalRef: "Non-Mandatory Keys"
+      },
+      {
+        id: "iOS-I-NM-44",
+        gl: "GL-002",
+        ref: "NM.44",
+        title: "CoreSpotlightContinuation",
+        steps: "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if CoreSpotlightContinuation key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+        expected: "Marked as PASS if present in the bundle, or N/A if missing.",
+        originalRef: "Non-Mandatory Keys"
+      },
+      {
+        id: "iOS-I-NM-45",
+        gl: "GL-002",
+        ref: "NM.45",
+        title: "NSUbiquitousContainerSupportedFolderLevels",
+        steps: "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if NSUbiquitousContainerSupportedFolderLevels key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+        expected: "Marked as PASS if present in the bundle, or N/A if missing.",
+        originalRef: "Non-Mandatory Keys"
+      },
+      {
+        id: "iOS-I-NM-46",
+        gl: "GL-002",
+        ref: "NM.46",
+        title: "UIRequiresPersistentWiFi",
+        steps: "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if UIRequiresPersistentWiFi key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+        expected: "Marked as PASS if present in the bundle, or N/A if missing.",
+        originalRef: "Non-Mandatory Keys"
+      },
+      {
+        id: "iOS-I-NM-47",
+        gl: "GL-002",
+        ref: "NM.47",
+        title: "NSUbiquitousContainerName",
+        steps: "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if NSUbiquitousContainerName key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+        expected: "Marked as PASS if present in the bundle, or N/A if missing.",
+        originalRef: "Non-Mandatory Keys"
+      },
+      {
+        id: "iOS-I-NM-48",
+        gl: "GL-002",
+        ref: "NM.48",
+        title: "UIBackgroundModes",
+        steps: "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if UIBackgroundModes key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+        expected: "Marked as PASS if present in the bundle, or N/A if missing.",
+        originalRef: "Non-Mandatory Keys"
+      },
+      {
+        id: "iOS-I-NM-49",
+        gl: "GL-002",
+        ref: "NM.49",
+        title: "NSUbiquitousDisplaySet",
+        steps: "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if NSUbiquitousDisplaySet key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+        expected: "Marked as PASS if present in the bundle, or N/A if missing.",
+        originalRef: "Non-Mandatory Keys"
+      },
+      {
+        id: "iOS-I-NM-50",
+        gl: "GL-002",
+        ref: "NM.50",
+        title: "CFBundleSpokenName",
+        steps: "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if CFBundleSpokenName key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+        expected: "Marked as PASS if present in the bundle, or N/A if missing.",
+        originalRef: "Non-Mandatory Keys"
+      },
+      {
+        id: "iOS-I-NM-51",
+        gl: "GL-002",
+        ref: "NM.51",
+        title: "UIViewGroupOpacity",
+        steps: "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if UIViewGroupOpacity key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+        expected: "Marked as PASS if present in the bundle, or N/A if missing.",
+        originalRef: "Non-Mandatory Keys"
+      },
+      {
+        id: "iOS-I-NM-52",
+        gl: "GL-002",
+        ref: "NM.52",
+        title: "UIApplicationShortcutWidget",
+        steps: "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if UIApplicationShortcutWidget key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+        expected: "Marked as PASS if present in the bundle, or N/A if missing.",
+        originalRef: "Non-Mandatory Keys"
+      },
+      {
+        id: "iOS-I-NM-53",
+        gl: "GL-002",
+        ref: "NM.53",
+        title: "UIApplicationShortcutItems",
+        steps: "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if UIApplicationShortcutItems key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+        expected: "Marked as PASS if present in the bundle, or N/A if missing.",
+        originalRef: "Non-Mandatory Keys"
+      },
+      {
+        id: "iOS-I-NM-54",
+        gl: "GL-002",
+        ref: "NM.54",
+        title: "CFBundleIconFiles",
+        steps: "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if CFBundleIconFiles key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+        expected: "Marked as PASS if present in the bundle, or N/A if missing.",
+        originalRef: "Non-Mandatory Keys"
+      },
+      {
+        id: "iOS-I-NM-55",
+        gl: "GL-002",
+        ref: "NM.55",
+        title: "UIRequiresFullScreen",
+        steps: "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if UIRequiresFullScreen key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+        expected: "Marked as PASS if present in the bundle, or N/A if missing.",
+        originalRef: "Non-Mandatory Keys"
+      },
+      {
+        id: "iOS-I-NM-56",
+        gl: "GL-002",
+        ref: "NM.56",
+        title: "UIAppFonts",
+        steps: "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if UIAppFonts key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+        expected: "Marked as PASS if present in the bundle, or N/A if missing.",
+        originalRef: "Non-Mandatory Keys"
+      },
+      {
+        id: "iOS-I-NM-57",
+        gl: "GL-002",
+        ref: "NM.57",
+        title: "UTImportedTypeDeclarations",
+        steps: "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if UTImportedTypeDeclarations key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+        expected: "Marked as PASS if present in the bundle, or N/A if missing.",
+        originalRef: "Non-Mandatory Keys"
+      },
+      {
+        id: "iOS-I-NM-58",
+        gl: "GL-002",
+        ref: "NM.58",
+        title: "MinimumOSVersion",
+        steps: "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if MinimumOSVersion key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+        expected: "Marked as PASS if present in the bundle, or N/A if missing.",
+        originalRef: "Non-Mandatory Keys"
+      },
+      {
+        id: "iOS-I-NM-59",
+        gl: "GL-002",
+        ref: "NM.59",
+        title: "UIStatusBarHidden",
+        steps: "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if UIStatusBarHidden key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+        expected: "Marked as PASS if present in the bundle, or N/A if missing.",
+        originalRef: "Non-Mandatory Keys"
+      },
+      {
+        id: "iOS-I-PC-1",
+        gl: "GL-003",
+        ref: "PC.01",
+        title: "NSUserTrackingUsageDescription",
+        steps: "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if NSUserTrackingUsageDescription key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+        expected: "Marked as PASS if present in the bundle, or N/A if missing.",
+        originalRef: "Privacy check"
+      },
+      {
+        id: "iOS-I-PC-2",
+        gl: "GL-003",
+        ref: "PC.02",
+        title: "NSBluetoothPeripheralUsageDescription",
+        steps: "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if NSBluetoothPeripheralUsageDescription key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+        expected: "Marked as PASS if present in the bundle, or N/A if missing.",
+        originalRef: "Privacy check"
+      },
+      {
+        id: "iOS-I-PC-3",
+        gl: "GL-003",
+        ref: "PC.03",
+        title: "NSCalendarsUsageDescription",
+        steps: "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if NSCalendarsUsageDescription key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+        expected: "Marked as PASS if present in the bundle, or N/A if missing.",
+        originalRef: "Privacy check"
+      },
+      {
+        id: "iOS-I-PC-4",
+        gl: "GL-003",
+        ref: "PC.04",
+        title: "NSCameraUsageDescription",
+        steps: "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if NSCameraUsageDescription key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+        expected: "Marked as PASS if present in the bundle, or N/A if missing.",
+        originalRef: "Privacy check"
+      },
+      {
+        id: "iOS-I-PC-5",
+        gl: "GL-003",
+        ref: "PC.05",
+        title: "NSContactsUsageDescription",
+        steps: "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if NSContactsUsageDescription key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+        expected: "Marked as PASS if present in the bundle, or N/A if missing.",
+        originalRef: "Privacy check"
+      },
+      {
+        id: "iOS-I-PC-6",
+        gl: "GL-003",
+        ref: "PC.06",
+        title: "NSFaceIDUsageDescription",
+        steps: "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if NSFaceIDUsageDescription key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+        expected: "Marked as PASS if present in the bundle, or N/A if missing.",
+        originalRef: "Privacy check"
+      },
+      {
+        id: "iOS-I-PC-7",
+        gl: "GL-003",
+        ref: "PC.07",
+        title: "NSHealthShareUsageDescription",
+        steps: "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if NSHealthShareUsageDescription key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+        expected: "Marked as PASS if present in the bundle, or N/A if missing.",
+        originalRef: "Privacy check"
+      },
+      {
+        id: "iOS-I-PC-8",
+        gl: "GL-003",
+        ref: "PC.08",
+        title: "NSHealthUpdateUsageDescription",
+        steps: "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if NSHealthUpdateUsageDescription key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+        expected: "Marked as PASS if present in the bundle, or N/A if missing.",
+        originalRef: "Privacy check"
+      },
+      {
+        id: "iOS-I-PC-9",
+        gl: "GL-003",
+        ref: "PC.09",
+        title: "NSHomeKitUsageDescription",
+        steps: "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if NSHomeKitUsageDescription key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+        expected: "Marked as PASS if present in the bundle, or N/A if missing.",
+        originalRef: "Privacy check"
+      },
+      {
+        id: "iOS-I-PC-10",
+        gl: "GL-003",
+        ref: "PC.10",
+        title: "NSLocationAlwaysUsageDescription",
+        steps: "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if NSLocationAlwaysUsageDescription key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+        expected: "Marked as PASS if present in the bundle, or N/A if missing.",
+        originalRef: "Privacy check"
+      },
+      {
+        id: "iOS-I-PC-11",
+        gl: "GL-003",
+        ref: "PC.11",
+        title: "NSLocationWhenInUseUsageDescription",
+        steps: "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if NSLocationWhenInUseUsageDescription key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+        expected: "Marked as PASS if present in the bundle, or N/A if missing.",
+        originalRef: "Privacy check"
+      },
+      {
+        id: "iOS-I-PC-12",
+        gl: "GL-003",
+        ref: "PC.12",
+        title: "NSMicrophoneUsageDescription",
+        steps: "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if NSMicrophoneUsageDescription key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+        expected: "Marked as PASS if present in the bundle, or N/A if missing.",
+        originalRef: "Privacy check"
+      },
+      {
+        id: "iOS-I-PC-13",
+        gl: "GL-003",
+        ref: "PC.13",
+        title: "NSMotionUsageDescription",
+        steps: "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if NSMotionUsageDescription key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+        expected: "Marked as PASS if present in the bundle, or N/A if missing.",
+        originalRef: "Privacy check"
+      },
+      {
+        id: "iOS-I-PC-14",
+        gl: "GL-003",
+        ref: "PC.14",
+        title: "NSAppleMusicUsageDescription",
+        steps: "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if NSAppleMusicUsageDescription key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+        expected: "Marked as PASS if present in the bundle, or N/A if missing.",
+        originalRef: "Privacy check"
+      },
+      {
+        id: "iOS-I-PC-15",
+        gl: "GL-003",
+        ref: "PC.15",
+        title: "NFCReaderUsageDescription",
+        steps: "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if NFCReaderUsageDescription key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+        expected: "Marked as PASS if present in the bundle, or N/A if missing.",
+        originalRef: "Privacy check"
+      },
+      {
+        id: "iOS-I-PC-16",
+        gl: "GL-003",
+        ref: "PC.16",
+        title: "NSPhotoLibraryAddUsageDescription",
+        steps: "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if NSPhotoLibraryAddUsageDescription key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+        expected: "Marked as PASS if present in the bundle, or N/A if missing.",
+        originalRef: "Privacy check"
+      },
+      {
+        id: "iOS-I-PC-17",
+        gl: "GL-003",
+        ref: "PC.17",
+        title: "NSPhotoLibraryUsageDescription",
+        steps: "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if NSPhotoLibraryUsageDescription key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+        expected: "Marked as PASS if present in the bundle, or N/A if missing.",
+        originalRef: "Privacy check"
+      },
+      {
+        id: "iOS-I-PC-18",
+        gl: "GL-003",
+        ref: "PC.18",
+        title: "NSRemindersUsageDescription",
+        steps: "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if NSRemindersUsageDescription key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+        expected: "Marked as PASS if present in the bundle, or N/A if missing.",
+        originalRef: "Privacy check"
+      },
+      {
+        id: "iOS-I-PC-19",
+        gl: "GL-003",
+        ref: "PC.19",
+        title: "NSSiriUsageDescription",
+        steps: "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if NSSiriUsageDescription key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+        expected: "Marked as PASS if present in the bundle, or N/A if missing.",
+        originalRef: "Privacy check"
+      },
+      {
+        id: "iOS-I-PC-20",
+        gl: "GL-003",
+        ref: "PC.20",
+        title: "NSSpeechRecognitionUsageDescription",
+        steps: "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if NSSpeechRecognitionUsageDescription key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+        expected: "Marked as PASS if present in the bundle, or N/A if missing.",
+        originalRef: "Privacy check"
+      },
+      {
+        id: "iOS-I-PC-21",
+        gl: "GL-003",
+        ref: "PC.21",
+        title: "NSVideoSubscriberAccountUsageDescription",
+        steps: "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if NSVideoSubscriberAccountUsageDescription key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+        expected: "Marked as PASS if present in the bundle, or N/A if missing.",
+        originalRef: "Privacy check"
       }
     ]
   },
@@ -1638,7 +2649,9 @@ export const ALL_DATA: Record<string, PlatformData> = {
 };
 
 export const IOS_ICONS: Record<string, string> = { 
-  'Compliance': '📋' 
+  'Compliance': '📋',
+  'Info.plist': '📄',
+  'Privacy check': '🔒'
 };
 
 export const AND_ICONS: Record<string, string> = { 
