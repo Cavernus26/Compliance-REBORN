@@ -3097,6 +3097,69 @@ export const ALL_DATA: Record<string, PlatformData> = {
         steps: "1. Review spacing surrounding any logo-only sign-in icons in the layout.\n2. Confirm the margin is at least 1/10th of the button's height to prevent overlapping adjacent assets.",
         expected: "Logo-only buttons maintain a reliable outer border margin equal to at least 1/10th of their height.",
         originalRef: "Buttons"
+      },
+      {
+        id: "iOS-SUB-1",
+        gl: "GL-006",
+        ref: "S.1",
+        title: "Subscriptions Visibility in Shop. Check that subscriptions are visible in the shop, and verify that the backend/server connection is verified if they fail to load.",
+        steps: "1. Navigate to the shop screen.\n2. Confirm subscription tiers and products are displayed.\n3. Verify backend communication state.",
+        expected: "Subscriptions load and display properly with valid names and prices.",
+        originalRef: "Display & Visibility"
+      },
+      {
+        id: "iOS-SUB-2",
+        gl: "GL-006",
+        ref: "S.2",
+        title: "Purchasable Subscriptions. Confirm that the subscription purchase can be successfully completed and the user-facing entitlement/time/products are immediately delivered.",
+        steps: "1. Select a subscription package and tap Purchase.\n2. Complete the Sandbox or StoreKit transaction.\n3. Verify subscription status changes to Active and premium features are unlocked.",
+        expected: "Premium entitlement and subscription expiration date / time are successfully delivered.",
+        originalRef: "Purchase Flow"
+      },
+      {
+        id: "iOS-SUB-3",
+        gl: "GL-006",
+        ref: "S.3",
+        title: "Purchase Restoration. Validate that previously purchased subscriptions can be restored, especially within 30 minutes, or when re-installing or running on another device.",
+        steps: "1. Under a fresh installation or secondary device, navigate to the checkout or shop screen.\n2. Tap the 'Restore Purchases' button using the same Apple ID.\n3. Confirm existing subscriptions are restored.",
+        expected: "Purchases are seamlessly restored without requiring re-payment.",
+        originalRef: "Purchase Flow"
+      },
+      {
+        id: "iOS-SUB-4",
+        gl: "GL-006",
+        ref: "S.4",
+        title: "Required Subscription Information & Price Transparency. Check that all critical specification details are prominently displayed in the purchase view without extra steps.",
+        steps: "1. Examine the checkout / paywall screen. Verify that the Subscription Name, Duration, and full Subscription Price are clearly legible without clicking additional buttons.",
+        expected: "Plan details, pricing frequency, and duration are clearly shown before initiating IAP.",
+        originalRef: "Disclosures"
+      },
+      {
+        id: "iOS-SUB-5",
+        gl: "GL-006",
+        ref: "S.5",
+        title: "Auto-Renewal & Renewal Charges Disclosure. Audit the presence of legally required disclosures regarding automatic billing and charge timing.",
+        steps: "1. Read the subscription text or policy on the paywall screen.\n2. Verify disclosure that it renews automatically unless turned off at least 24h prior to current period ending.\n3. Verify disclosure that account is charged within 24h before end of period.",
+        expected: "Both auto-renewal mechanism and 24-hour billing disclosure are visible during purchasing.",
+        originalRef: "Disclosures"
+      },
+      {
+        id: "iOS-SUB-6",
+        gl: "GL-006",
+        ref: "S.6",
+        title: "Subscription Management & Disclaimers (Free Trial/Links). Verify management instructions, terms of use, privacy policy, and free trial forfeiture warnings are present.",
+        steps: "1. Confirm the paywall states users can manage subscriptions in Apple Account Settings.\n2. Look for explicit terms of use (EULA) and privacy policy links.\n3. Verify statement that unused free trial portions are forfeited upon subscription purchase.",
+        expected: "Links and management guidelines are easily readable directly on the paywall layout.",
+        originalRef: "Disclosures"
+      },
+      {
+        id: "iOS-SUB-7",
+        gl: "GL-006",
+        ref: "S.7",
+        title: "Promoted In-App Purchases (IAP) & Policy Visibility. Confirm the subscription policy displays before initiating the App Store purchase flow.",
+        steps: "1. Trigger an in-app purchase scenario directly or simulate a promoted App Store launch.\n2. Verify that the subscription policy pop-up or screen is displayed first.",
+        expected: "Policy details are shown immediately before launching native checkout.",
+        originalRef: "Promo & Flow"
       }
     ]
   },

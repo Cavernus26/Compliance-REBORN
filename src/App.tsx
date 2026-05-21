@@ -831,6 +831,21 @@ function ExecuteView({ state, setState, db, activeTcs, executions, setStatus, bu
             </div>
           ))
         )}
+
+        {/* SUBSCRIPTION FLOW DEMO BOTTOM ENTRY */}
+        {((state.platform === 'ios' || db?.platform === 'ios') && (activeSectionId === 'GL-006' || (activeGlObject && activeGlObject.title === 'Subscriptions'))) && (
+          <div className="mt-16 pt-12 border-t border-[var(--border)] space-y-6">
+            <div className="relative">
+              <div className="flex items-baseline gap-4 mb-2">
+                <span className="text-[10px] font-mono text-[var(--text-muted)]">Interactive Simulation</span>
+                <h2 className="text-xl font-bold text-[var(--text-highlight)] uppercase tracking-wider">Subscription Flow Demo</h2>
+              </div>
+              <div className="h-[2px] w-24 bg-indigo-600" />
+            </div>
+            
+            <SubscriptionComplianceDemo tcId="iOS-SUB-demo" />
+          </div>
+        )}
       </div>
     </div>
   );
@@ -1552,7 +1567,7 @@ function ButtonComplianceDemo({ tcId }: { tcId: string }) {
                 <div className="bg-[var(--surface2)] p-4 rounded-xl border border-[var(--border)] max-w-sm mx-auto space-y-3">
                   <div className="flex justify-between text-xs font-mono">
                     <span className="text-[var(--text-muted)]">Adjust Button Width:</span>
-                    <span className="text-indigo-505 dark:text-indigo-400 font-bold">{width}px</span>
+                    <span className="text-indigo-600 dark:text-indigo-400 font-bold">{width}px</span>
                   </div>
                   <input 
                     type="range" 
@@ -1593,7 +1608,7 @@ function ButtonComplianceDemo({ tcId }: { tcId: string }) {
                   <div className="grid grid-cols-2 gap-2 text-center text-[10px] font-mono bg-[var(--surface3)] p-3 rounded-lg border border-[var(--border)]">
                     <div>
                       <span className="text-[var(--text-muted)] block uppercase text-[8.5px] font-semibold tracking-tight">Required Margin (8%)</span>
-                      <span className="text-indigo-505 dark:text-indigo-400 font-bold text-xs">{minRightMargin}px</span>
+                      <span className="text-indigo-600 dark:text-indigo-400 font-bold text-xs">{minRightMargin}px</span>
                     </div>
                     <div>
                       <span className="text-[var(--text-muted)] block uppercase text-[8.5px] font-semibold tracking-tight">Compliant Status</span>
@@ -1654,7 +1669,7 @@ function ButtonComplianceDemo({ tcId }: { tcId: string }) {
                   </div>
 
                   <p className="text-[10px] font-mono text-[var(--text-muted)]">
-                    Auto-expanded minWidth: <strong className="text-indigo-505 dark:text-indigo-400 font-bold">{data.minWidth}px</strong> to prevent text overflow or ugly wraps!
+                    Auto-expanded minWidth: <strong className="text-indigo-600 dark:text-indigo-400 font-bold">{data.minWidth}px</strong> to prevent text overflow or ugly wraps!
                   </p>
                 </div>
               </div>
@@ -1672,7 +1687,7 @@ function ButtonComplianceDemo({ tcId }: { tcId: string }) {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="border border-green-500/20 bg-green-500/5 rounded-xl p-4 text-center space-y-3 relative">
               <span className="absolute top-2 right-2 text-green-500 font-mono text-[8px] font-bold bg-green-500/15 px-1.5 py-0.5 rounded border border-green-500/20 uppercase"><Check size={9} /> COMPLIANT</span>
-              <p className="text-xs font-bold text-green-400">1:1 Square Aspect Ratio</p>
+              <p className="text-xs font-bold text-green-600 dark:text-green-400">1:1 Square Aspect Ratio</p>
               
               <div className="flex justify-center p-3">
                 <button className="w-12 h-12 bg-black text-white rounded-lg flex items-center justify-center shadow border border-transparent">
@@ -1681,7 +1696,7 @@ function ButtonComplianceDemo({ tcId }: { tcId: string }) {
                   </svg>
                 </button>
               </div>
-              <p className="text-[10px] text-zinc-400">Perfect 48px by 48px square shape with balanced interior margins.</p>
+              <p className="text-[10px] text-[var(--text-muted)]">Perfect 48px by 48px square shape with balanced interior margins.</p>
             </div>
 
             <div className="border border-red-500/20 bg-red-500/5 rounded-xl p-4 text-center space-y-3 relative">
@@ -1764,15 +1779,568 @@ function ButtonComplianceDemo({ tcId }: { tcId: string }) {
 
             <div className="mt-4 text-center space-y-1">
               <p className="text-[10px] font-mono text-[var(--text-muted)]">
-                1/10 Height Margin Required: <strong className="text-indigo-505 dark:text-indigo-400 font-bold">5.6px</strong> (for 56px height)
+                1/10 Height Margin Required: <strong className="text-indigo-600 dark:text-indigo-400 font-bold">5.6px</strong> (for 56px height)
               </p>
-              <p className="text-[9px] text-indigo-600 dark:text-indigo-400 font-mono">
+              <p className="text-[9px] text-indigo-700 dark:text-indigo-400 font-mono">
                 The outer blue dotted outline represents the minimum safety radius boundary.
               </p>
             </div>
           </div>
         </div>
       )}
+    </div>
+  );
+}
+
+function SubscriptionComplianceDemo({ tcId }: { tcId: string }) {
+  if (!tcId) return null;
+
+  const [isCompliant, setIsCompliant] = React.useState(true);
+  
+  // StoreKit mock sheet state
+  const [isStoreKitOpen, setIsStoreKitOpen] = React.useState(false);
+  const [storeKitStep, setStoreKitStep] = React.useState<'confirm' | 'progress' | 'success'>('confirm');
+  
+  // Subscription status
+  const [isSubscribed, setIsSubscribed] = React.useState(false);
+  const [selectedProduct, setSelectedProduct] = React.useState<'weekly' | 'monthly' | 'yearly'>('monthly');
+
+  // Custom dialogs (Terms / Privacy)
+  const [modalType, setModalType] = React.useState<'terms' | 'privacy' | 'none'>('none');
+  const [promotedTriggered, setPromotedTriggered] = React.useState(false);
+  const [toastMessage, setToastMessage] = React.useState<string | null>(null);
+
+  const showToast = (msg: string) => {
+    setToastMessage(msg);
+    setTimeout(() => {
+      setToastMessage(null);
+    }, 4000);
+  };
+
+  const triggerStoreKit = () => {
+    setStoreKitStep('confirm');
+    setIsStoreKitOpen(true);
+  };
+
+  const handleApplePayAction = () => {
+    setStoreKitStep('progress');
+    setTimeout(() => {
+      setStoreKitStep('success');
+      setTimeout(() => {
+        setIsStoreKitOpen(false);
+        setIsSubscribed(true);
+        showToast(`Successfully subscribed to ${selectedProduct.toUpperCase()} Elite Plan!`);
+      }, 1200);
+    }, 1800);
+  };
+
+  const executeRestore = () => {
+    setIsSubscribed(true);
+    showToast('Prior subscription purchases successfully restored via StoreKit!');
+  };
+
+  const executeCancel = () => {
+    setIsSubscribed(false);
+    showToast('Subscription active status reset.');
+  };
+
+  const appleLogo = (
+    <svg className="w-4 h-4 fill-current inline-block shrink-0 mr-1.5" viewBox="0 0 24 24" style={{ top: '-0.5px', position: 'relative' }}>
+      <path d="M18.71 19.5C17.88 20.74 17 21.95 15.66 21.97C14.32 22 13.89 21.18 12.37 21.18C10.84 21.18 10.37 21.95 9.1 22C7.79 22.05 6.8 20.68 5.96 19.48C4.25 17 2.94 12.45 4.7 9.39C5.57 7.87 7.13 6.91 8.82 6.88C10.1 6.86 11.32 7.75 12.11 7.75C12.89 7.75 14.37 6.68 15.92 6.84C16.57 6.87 18.39 7.1 19.56 8.82C19.47 8.88 17.39 10.1 17.41 12.63C17.44 15.65 20.06 16.66 20.1 16.67C20.08 16.74 19.67 18.11 18.71 19.5M15.97 4.17C16.63 3.37 17.07 2.28 16.95 1C16.01 1.04 14.86 1.63 14.19 2.42C13.62 3.08 13.12 4.19 13.27 5.45C14.31 5.53 15.31 4.93 15.97 4.17Z" />
+    </svg>
+  );
+
+  return (
+    <div className="w-full bg-[var(--surface2)]/80 rounded-2xl p-6 border border-[var(--border)] space-y-6 relative overflow-hidden text-left">
+      {/* Toast Overlay */}
+      <AnimatePresence>
+        {toastMessage && (
+          <motion.div 
+            initial={{ opacity: 0, y: -20, x: '-50%' }}
+            animate={{ opacity: 1, y: 0, x: '-50%' }}
+            exit={{ opacity: 0, y: -20, x: '-50%' }}
+            className="absolute top-4 left-1/2 z-50 px-4 py-2 bg-indigo-650 text-white text-xs font-semibold rounded-lg shadow-xl border border-indigo-500/20 flex items-center gap-2 min-w-[280px] justify-center"
+          >
+            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+            <span>{toastMessage}</span>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Visual Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-b border-[var(--border)] pb-4">
+        <div>
+          <h4 className="text-sm font-mono font-bold uppercase tracking-wider text-[var(--text-highlight)] flex items-center gap-2">
+            <span>💳 App Store Subscriptions Sandbox & Workbench</span>
+          </h4>
+          <p className="text-[11px] text-[var(--text-muted)] mt-1">
+            Validating price prominence, disclosures, restore state mechanics, and legal conformity in real-time.
+          </p>
+        </div>
+      </div>
+
+      <div className="space-y-6">
+        {/* Sub-selectors */}
+        <div className="flex items-center justify-between bg-[var(--surface3)] p-1.5 rounded-xl border border-[var(--border)]">
+          <button
+            onClick={() => setIsCompliant(true)}
+            className={`flex-1 text-xs py-2 rounded-lg font-bold transition-all flex items-center justify-center gap-1.5 ${isCompliant ? 'bg-green-500/15 border border-green-505 text-green-550 shadow-sm font-bold' : 'text-[var(--text-muted)] hover:text-[var(--text-highlight)] border border-transparent'}`}
+          >
+            <Check size={14} /> ⭐️ Compliant Layout (Agreed)
+          </button>
+          <button
+            onClick={() => setIsCompliant(false)}
+            className={`flex-1 text-xs py-2 rounded-lg font-bold transition-all flex items-center justify-center gap-1.5 ${!isCompliant ? 'bg-red-500/15 border border-red-505 text-red-550 shadow-sm font-bold' : 'text-[var(--text-muted)] hover:text-[var(--text-highlight)] border border-transparent'}`}
+          >
+            <X size={14} /> ⚠️ Non-Compliant Layout (Rejection Risk)
+          </button>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+          {/* Phone Simulator Box */}
+          <div className="lg:col-span-6 flex justify-center">
+            <div className="w-full max-w-[340px] bg-black border-4 border-zinc-805 rounded-3xl overflow-hidden shadow-2xl relative flex flex-col h-[520px]">
+              {/* Notch */}
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-4 bg-zinc-800 rounded-b-xl z-20 flex justify-center items-center font-mono">
+                <div className="w-10 h-1 bg-black rounded-full" />
+              </div>
+              
+              {/* Simulated Screen Content - Dark Mode shop paywall */}
+              <div className="flex-1 overflow-y-auto bg-zinc-950 p-4 pt-8 text-white space-y-4 text-left custom-scrollbar relative flex flex-col justify-between">
+                {isSubscribed ? (
+                  <div className="flex-1 flex flex-col items-center justify-center p-6 text-center space-y-4 my-auto">
+                    <div className="w-16 h-16 bg-green-500/10 text-green-400 rounded-full flex items-center justify-center border border-green-500/20 animate-pulse">
+                      <Check size={32} />
+                    </div>
+                    <div>
+                      <h5 className="text-sm font-bold text-white uppercase tracking-wider font-mono">Elite Club Subscription Active</h5>
+                      <p className="text-[9px] text-zinc-400 mt-1 leading-normal">
+                        All premium features unlocked: Dynamic metrics, unlimited PDF summaries, and real-time validation analytics are persistent on your device.
+                      </p>
+                    </div>
+                    <div className="w-full pt-4 space-y-2">
+                      <p className="text-[7px] text-zinc-500 uppercase tracking-widest font-mono text-center">Synced with iTunes billing account</p>
+                      <button 
+                        onClick={executeCancel}
+                        className="w-full py-2 bg-zinc-900 border border-zinc-800 hover:bg-zinc-850 hover:border-zinc-700 text-zinc-400 text-[10px] font-bold rounded-lg transition-all"
+                      >
+                        Cancel / Reset Simulation
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <>
+                    <div>
+                      {/* Header Sign Up Prompt */}
+                      <div className="flex items-center justify-between border-b border-zinc-900 pb-2 mt-2">
+                        <span className="text-[10px] font-mono text-zinc-505 uppercase tracking-wider">Store Premium Access</span>
+                        <span className="text-[8px] bg-indigo-500/20 text-indigo-400 font-bold px-1.5 py-0.5 rounded border border-indigo-500/15">V2.4</span>
+                      </div>
+
+                      {/* Prominent Sign-in with Apple - COMPLIANT INCLUDS APPLE BADGE */}
+                      {isCompliant ? (
+                        <div className="space-y-1.5 pt-3">
+                          <p className="text-[9px] text-zinc-400 font-mono">Quick account activation:</p>
+                          <button className="w-full h-8 bg-white hover:bg-zinc-200 text-black font-semibold text-xs rounded-lg flex items-center justify-center transition-all shadow-md">
+                            {appleLogo} {tcId === 'iOS-SUB-1' ? <span className="ring-2 ring-indigo-500 ring-offset-2 ring-offset-zinc-950 px-1 py-0.2 rounded">Sign in with Apple</span> : 'Sign in with Apple'}
+                          </button>
+                          <p className="text-[8px] text-zinc-550 text-center text-zinc-500">Fast sign-in, instantly synced to Apple ID billing</p>
+                        </div>
+                      ) : (
+                        <div className="pt-2">
+                          {/* Apple sign-in is missing or squeezed at the bottom of the scroll, violating prominence */}
+                          <div className="p-2 border border-dashed border-red-500/30 rounded-lg bg-red-500/5 text-[9px] text-red-400 font-mono text-center">
+                            ⚠️ Apple Sign-In completely missing from checkout entry!
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Subscription Title & Tiers Grid */}
+                      <div className="text-center pt-4 space-y-1">
+                        <h5 className="text-sm font-bold tracking-tight text-white uppercase">
+                          {isCompliant ? (
+                            <span className={tcId === 'iOS-SUB-4' ? 'underline decoration-indigo-400 underline-offset-4 font-extrabold' : 'Elite Club Membership'} />
+                          ) : 'UPGRADE CLIENT'}
+                        </h5>
+                        <p className="text-[10px] text-zinc-400">Unlock dynamic offline metrics, premium PDF generators, and sync features.</p>
+                      </div>
+
+                      {/* Layout Tiers */}
+                      {isCompliant ? (
+                        <div className="grid grid-cols-3 gap-2 pt-4">
+                          {/* Weekly */}
+                          <div 
+                            onClick={() => setSelectedProduct('weekly')}
+                            className={`p-2 rounded-lg border text-center transition-all cursor-pointer ${selectedProduct === 'weekly' ? 'border-indigo-500 bg-indigo-500/10' : 'border-zinc-800 bg-zinc-900/40 hover:border-zinc-700'}`}
+                          >
+                            <p className="text-[8px] text-zinc-450 uppercase font-mono font-bold">Weekly</p>
+                            <p className={`text-xs font-bold mt-1 ${tcId === 'iOS-SUB-4' ? 'text-indigo-450' : ''}`}>$2.99</p>
+                            <p className="text-[7px] text-zinc-550 mt-1">Auto-recurring</p>
+                          </div>
+                          {/* Monthly */}
+                          <div 
+                            onClick={() => setSelectedProduct('monthly')}
+                            className={`p-2 rounded-lg border text-center transition-all cursor-pointer relative ${selectedProduct === 'monthly' ? 'border-indigo-450 bg-indigo-500/10 ring-1 ring-indigo-500' : 'border-zinc-800 bg-zinc-900/40 hover:border-zinc-700'}`}
+                          >
+                            <span className="absolute -top-1.5 left-1/2 -translate-x-1/2 text-[6px] bg-indigo-600 text-white border border-indigo-400 px-1 rounded uppercase font-bold">Best</span>
+                            <p className="text-[8px] text-zinc-455 uppercase font-mono font-bold">Monthly</p>
+                            <p className={`text-xs font-bold mt-1 ${tcId === 'iOS-SUB-4' ? 'text-indigo-455' : ''}`}>$9.99</p>
+                            <p className="text-[7px] text-zinc-550 mt-1">7-Day Trial</p>
+                          </div>
+                          {/* Yearly */}
+                          <div 
+                            onClick={() => setSelectedProduct('yearly')}
+                            className={`p-2 rounded-lg border text-center transition-all cursor-pointer ${selectedProduct === 'yearly' ? 'border-indigo-500 bg-indigo-500/10' : 'border-zinc-800 bg-zinc-900/40 hover:border-zinc-700'}`}
+                          >
+                            <p className="text-[8px] text-zinc-450 uppercase font-mono font-bold">Yearly</p>
+                            <p className={`text-xs font-bold mt-1 ${tcId === 'iOS-SUB-4' ? 'text-indigo-450' : ''}`}>$49.99</p>
+                            <p className="text-[7px] text-zinc-555 mt-1">Save 60%</p>
+                          </div>
+                        </div>
+                      ) : (
+                        // NON COMPLIANT GRAPHICS - HIDDEN FREQUENCY CUTS REJECTION
+                        <div className="grid grid-cols-2 gap-2 pt-4">
+                          <div className="p-2.5 rounded-lg border border-red-500/20 bg-zinc-900/50 text-center">
+                            <p className="text-[8px] text-zinc-400 uppercase font-bold">Standard</p>
+                            <p className="text-sm font-bold text-red-400 mt-1">$9.99</p>
+                            <p className="text-[7px] text-red-500 font-mono mt-1">⚠️ Billing frequency hidden!</p>
+                          </div>
+                          <div className="p-2.5 rounded-lg border border-zinc-800 bg-zinc-900/50 text-center opacity-60">
+                            <p className="text-[8px] text-zinc-400 uppercase font-bold">Lifetime Upgrade</p>
+                            <p className="text-sm font-bold mt-1">$99.99</p>
+                            <p className="text-[7px] text-zinc-500 mt-1">Unlock always</p>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Checkout Policy Disclosures Area */}
+                    <div className="space-y-3 pt-4 border-t border-zinc-905 mt-6 pb-2">
+                      {isCompliant ? (
+                        <div className="space-y-2">
+                          {/* ⭐️ Required Terms Disclosures directly on screen */}
+                          <div className={`text-[7.5px] text-zinc-400 leading-relaxed space-y-1 p-2 rounded bg-zinc-950 border border-zinc-900 ${tcId === 'iOS-SUB-5' || tcId === 'iOS-SUB-6' ? 'ring-1 ring-indigo-400 border-indigo-400' : ''}`}>
+                            <p className="font-bold text-white uppercase text-[8px] tracking-wide mb-1 flex items-center gap-1">
+                              <span className="w-1 h-1 bg-green-500 rounded-full" /> Required Subscription Disclaimers
+                            </p>
+                            <p>
+                              <strong>Auto-Renewal Status:</strong> {selectedProduct === 'weekly' ? 'Weekly' : selectedProduct === 'monthly' ? 'Monthly' : 'Yearly'} recurring subscription package. Payment will be charged to iTunes Account on buy confirmation. Subscriptions renew unless auto-renew is deactivated <strong>at least 24 hours prior</strong> to current cycle cutoff.
+                            </p>
+                            <p>
+                              <strong>Renewal Charges:</strong> Renewal charges occur within 24h of current cycle cutoff (Charges: {selectedProduct === 'weekly' ? '$2.99 / week' : selectedProduct === 'monthly' ? '$9.99 / month' : '$49.99 / year'}).
+                            </p>
+                            <p>
+                              <strong>Management:</strong> Users may configure memberships in <strong>Apple Account Settings</strong> post-purchase.
+                            </p>
+                          </div>
+
+                          {/* Action buttons with visible legal links */}
+                          <div className="space-y-2">
+                            <button 
+                              onClick={triggerStoreKit}
+                              className="w-full py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs rounded-xl transition-all shadow-lg text-center"
+                            >
+                              Activate {selectedProduct === 'monthly' ? '7-Day Free Trial' : 'Elite Access'}
+                            </button>
+                            
+                            <div className="flex justify-center gap-3 text-[7px] text-indigo-400 font-mono font-semibold pt-1">
+                              <button onClick={() => setModalType('terms')} className="hover:underline flex items-center gap-0.5 select-none shrink-0 text-indigo-400 hover:text-indigo-300 bg-transparent py-0.5 border-none cursor-pointer outline-none font-mono">
+                                Terms of Use (EULA) <ExternalLink size={6} />
+                              </button>
+                              <span className="text-zinc-700 shrink-0 select-none">|</span>
+                              <button onClick={() => setModalType('privacy')} className="hover:underline flex items-center gap-0.5 select-none shrink-0 text-indigo-400 hover:text-indigo-300 bg-transparent py-0.5 border-none cursor-pointer outline-none font-mono">
+                                Privacy Policy <ExternalLink size={6} />
+                              </button>
+                              <span className="text-zinc-700 shrink-0 select-none">|</span>
+                              <button onClick={executeRestore} className="hover:underline text-indigo-400 hover:text-indigo-300 select-none shrink-0 bg-transparent py-0.5 border-none cursor-pointer outline-none font-mono">
+                                Restore Purchases
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      ) : (
+                        // ILLEGAL EMPTY LAYOUT -- REJECTION SECURED
+                        <div className="space-y-3">
+                          <div className="p-2 rounded bg-red-955/20 border border-red-500/20 text-[8px] text-red-500 font-semibold flex items-start gap-1">
+                            <AlertTriangle size={10} className="shrink-0 mt-0.5" />
+                            <span>MISSING DISCLOSURES: Lacks explicit writeups regarding automatic renewal rates, 24h window, and cancellation rules.</span>
+                          </div>
+                          
+                          <button 
+                            onClick={() => showToast("Simulated store launch. This app would be rejected by Apple HIG!")}
+                            className="w-full py-2 bg-zinc-800 text-zinc-300 font-semibold text-xs rounded-xl"
+                          >
+                            TAP TO BUY
+                          </button>
+                          
+                          <div className="flex justify-center gap-2 text-[7px] text-zinc-500 font-mono">
+                            <span>FAQ Help</span>
+                            <span>&middot;</span>
+                            <span>License Agreements (Unlinked)</span>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </>
+                )}
+              </div>
+
+              {/* Simulated Device Frame absolute overlays */}
+              <AnimatePresence>
+                {modalType !== 'none' && (
+                  <motion.div 
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="absolute inset-0 bg-black/85 z-30 flex items-center justify-center p-4 font-sans"
+                  >
+                    <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-4 space-y-3 max-w-[280px] text-left">
+                      <div className="flex justify-between items-center border-b border-zinc-800 pb-1.5">
+                        <span className="text-[10px] font-mono font-bold text-white uppercase tracking-wider">
+                          {modalType === 'terms' ? 'Terms of Use (EULA)' : 'Privacy Policy'}
+                        </span>
+                        <button onClick={() => setModalType('none')} className="text-zinc-550 hover:text-white p-1 border-none bg-transparent">
+                          <X size={12} />
+                        </button>
+                      </div>
+                      <p className="text-[8.5px] text-zinc-400 leading-relaxed font-sans max-h-[160px] overflow-y-auto custom-scrollbar">
+                        {modalType === 'terms' ? (
+                          <span>
+                            <strong>Apple Standard End User License Agreement (EULA).</strong> By upgrading to Elite Pro, you agree to our terms. This service includes a monthly auto-renewing subscription tier. Account renewal billing occurs within 24 hours of expiry. Disabling auto-renew options can be executed inside your iTunes App Store controls under Apple Account Settings. All transactions are processed securely through StoreKit payment portals.
+                          </span>
+                        ) : (
+                          <span>
+                            <strong>Privacy Safeguards.</strong> We respect user privacy securely. Zero biometric and credentials are log-tracked on our servers. In-app receipts and transaction records are validated solely against verified cryptographic Apple Server endpoints to confirm premium status offline. Your accounts are isolated and protected against malicious trackers.
+                          </span>
+                        )}
+                      </p>
+                      <button 
+                        onClick={() => setModalType('none')} 
+                        className="w-full py-1 bg-white hover:bg-zinc-200 text-black font-bold text-[9px] rounded text-center uppercase border-none font-sans"
+                      >
+                        Agree & Dismiss
+                      </button>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+              {/* APPLE STOREKIT SHEET SIMULATION */}
+              <AnimatePresence>
+                {isStoreKitOpen && (
+                  <motion.div 
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="absolute inset-0 bg-black/60 z-40 flex items-end"
+                  >
+                    <motion.div 
+                      initial={{ y: '100%' }}
+                      animate={{ y: 0 }}
+                      exit={{ y: '100%' }}
+                      transition={{ duration: 0.3, ease: 'easeOut' }}
+                      className="w-full bg-zinc-900 border-t border-zinc-800 rounded-t-2xl p-5 space-y-4 text-white text-left shadow-2xl"
+                    >
+                      {/* Sheet header */}
+                      <div className="flex justify-between items-center pb-2 border-b border-zinc-850">
+                        <div className="flex items-center gap-1.5">
+                          <span className="w-4 h-4 bg-zinc-800 rounded flex items-center justify-center text-[10px] text-zinc-405 font-bold font-mono"></span>
+                          <span className="text-[10px] font-bold tracking-widest text-zinc-400 uppercase font-mono">App Store Confirmation</span>
+                        </div>
+                        <button onClick={() => setIsStoreKitOpen(false)} className="text-zinc-550 hover:text-white bg-zinc-850 rounded-full p-1 border border-zinc-800 cursor-pointer">
+                          <X size={10} />
+                        </button>
+                      </div>
+
+                      {storeKitStep === 'confirm' && (
+                        <div className="space-y-4 font-sans">
+                          <div className="flex justify-between items-start">
+                            <div>
+                              <h6 className="text-[11px] font-bold text-white uppercase font-mono tracking-tight">Elite Club Premium</h6>
+                              <p className="text-[8.5px] text-zinc-400 mt-0.5">Recurring subscription: {selectedProduct.toUpperCase()}</p>
+                            </div>
+                            <div className="text-right">
+                              <span className="text-xs font-extrabold text-indigo-400">${selectedProduct === 'weekly' ? '2.99' : selectedProduct === 'monthly' ? '9.99' : '49.99'}</span>
+                              <span className="text-[8px] text-zinc-505 block font-mono">/ cycle</span>
+                            </div>
+                          </div>
+
+                          <div className="bg-zinc-950 p-2.5 rounded-lg text-[8px] text-zinc-550 leading-normal border border-zinc-850">
+                            <p className="font-semibold text-zinc-400 mb-0.5">Double-side click checking:</p>
+                            Apple Pay confirms payment is secured using Sandboxed FaceID. Re-billing automatically initiates unless deactivated in iTunes subscription controls.
+                          </div>
+
+                          <div className="space-y-2">
+                            <button 
+                              onClick={handleApplePayAction}
+                              className="w-full py-2.5 bg-sky-500 hover:bg-sky-400 text-black font-extrabold text-xs rounded-xl transition-all shadow-glow flex items-center justify-center gap-1.5"
+                            >
+                              {appleLogo} Double-Click to Pay (Simulate)
+                            </button>
+                            <p className="text-[7.5px] text-center text-zinc-550 font-mono text-zinc-500">Sandbox Test Account Active</p>
+                          </div>
+                        </div>
+                      )}
+
+                      {storeKitStep === 'progress' && (
+                        <div className="py-8 flex flex-col items-center justify-center space-y-4">
+                          <div className="w-10 h-10 border-2 border-indigo-500 border-t-transparent rounded-full animate-spin" />
+                          <div className="text-center space-y-1">
+                            <p className="text-[10px] font-mono font-bold tracking-widest text-indigo-400 animate-pulse">CRYPTO RECEIPT VALIDATION...</p>
+                            <p className="text-[8px] text-zinc-500">StoreKit communicating secured receipt parameters to sandbox gateway.</p>
+                          </div>
+                        </div>
+                      )}
+
+                      {storeKitStep === 'success' && (
+                        <div className="py-8 flex flex-col items-center justify-center space-y-4">
+                          <div className="w-12 h-12 bg-green-500 text-black rounded-full flex items-center justify-center shadow-glow-green animate-scale-in">
+                            <Check size={24} strokeWidth={3} />
+                          </div>
+                          <div className="text-center space-y-1">
+                            <p className="text-xs font-bold text-green-400 uppercase tracking-widest">StoreKit Transaction Complete!</p>
+                            <p className="text-[8.5px] text-zinc-400">Entitlement delivered. Subscription tier is fully persistent on your device.</p>
+                          </div>
+                        </div>
+                      )}
+                    </motion.div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+              
+              {/* PROMOTED IAP POPUP SIMULATION */}
+              <AnimatePresence>
+                {promotedTriggered && (
+                  <motion.div 
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="absolute inset-0 bg-black/90 z-20 p-5 flex flex-col justify-center items-center text-center space-y-4"
+                  >
+                    <div className="bg-indigo-600/10 border border-indigo-500/20 p-4 rounded-2xl max-w-[280px] space-y-3 relative">
+                      <span className="absolute -top-2.5 left-1/2 -translate-x-1/2 text-[8px] font-mono tracking-widest text-indigo-400 bg-indigo-950 border border-indigo-500/35 px-2.5 py-0.5 rounded-full uppercase font-extrabold">Promoted IAP Handler</span>
+                      <div className="w-10 h-10 bg-indigo-500/20 text-indigo-400 rounded-full flex items-center justify-center mx-auto mb-1">
+                        <Package size={18} />
+                      </div>
+                      <h6 className="text-[11px] font-extrabold uppercase text-white font-mono">App Launched via App Store Promotion</h6>
+                      <p className="text-[8.5px] text-zinc-400 leading-relaxed">
+                        Apple HIG mandates that when users initiate a subscription buy directly from the App Store (Promoted IAP), <strong>the App must display its own subscription privacy/renewal policy screen FIRST</strong> before initiating the native purchase window.
+                      </p>
+                      <div className="grid grid-cols-2 gap-2 pt-1 font-sans">
+                        <button 
+                          onClick={() => {
+                            setPromotedTriggered(false);
+                            triggerStoreKit();
+                          }}
+                          className="bg-indigo-600 hover:bg-indigo-550 text-white font-bold text-[9px] py-1.5 rounded uppercase border-none"
+                        >
+                          Show Shop Policy
+                        </button>
+                        <button 
+                          onClick={() => setPromotedTriggered(false)}
+                          className="bg-zinc-800 hover:bg-zinc-750 text-zinc-400 font-semibold text-[9px] py-1.5 rounded uppercase border-none"
+                        >
+                          Skip / Exit
+                        </button>
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          </div>
+
+          {/* Checker & Diagnostic Rules Layout */}
+          <div className="lg:col-span-6 space-y-4 text-left">
+            <div className="bg-[var(--surface3)] p-4 rounded-xl border border-[var(--border)]">
+              <span className="text-[10px] font-mono text-[var(--text-muted)] uppercase tracking-wider block">Rule Inspection Summary</span>
+              <h5 className="font-bold text-sm text-[var(--text-highlight)] mt-1 font-sans">Paywall Disclosures & Core Assets Audit</h5>
+              
+              <div className="mt-4 space-y-3 font-sans">
+                <div className="flex gap-2 text-xs">
+                  <span className="mt-0.5 shrink-0 select-none">{isCompliant ? '🟢' : '🔴'}</span>
+                  <div>
+                    <p className="font-bold">Apple Sign-In prominence & Placement</p>
+                    <p className="text-[10px] text-[var(--text-muted)] leading-relaxed mt-0.5">
+                      {isCompliant 
+                        ? 'Compliant. Sign in with Apple is displayed on the main viewport, sized equally as other options.' 
+                        : 'REJECTION RISK: Apple sign-in must be prominently featured alongside any alternative logins.'}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex gap-2 text-xs">
+                  <span className="mt-0.5 shrink-0 select-none">{isCompliant ? '🟢' : '🔴'}</span>
+                  <div>
+                    <p className="font-bold">Transparent Billing Frequency & Pricing</p>
+                    <p className="text-[10px] text-[var(--text-muted)] leading-relaxed mt-0.5">
+                      {isCompliant 
+                        ? 'Compliant. Clear prices paired directly with duration prefixes ("Monthly @ $9.99", Weekly @ $2.99").' 
+                        : 'REJECTION RISK: Ambiguous prices with hidden frequency secure immediate app rejection.'}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex gap-2 text-xs">
+                  <span className="mt-0.5 shrink-0 select-none">{isCompliant ? '🟢' : '🔴'}</span>
+                  <div>
+                    <p className="font-bold">Required Disclosures in First View</p>
+                    <p className="text-[10px] text-[var(--text-muted)] leading-relaxed mt-0.5">
+                      {isCompliant 
+                        ? 'Compliant. Direct writeups explain trial forfeitures, auto-renew mechanisms, and cancellation.' 
+                        : 'REJECTION RISK: Subscriptions must detail auto-renew disclosures directly on the primary viewport.'}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex gap-2 text-xs">
+                  <span className="mt-0.5 shrink-0 select-none">{isCompliant ? '🟢' : '🔴'}</span>
+                  <div>
+                    <p className="font-bold">EULA & Privacy policy visibility</p>
+                    <p className="text-[10px] text-[var(--text-muted)] leading-relaxed mt-0.5">
+                      {isCompliant 
+                        ? 'Compliant. Explicit action buttons for "Terms of Use (EULA)" and "Privacy Policy" are easily legible during purchase flow.' 
+                        : 'REJECTION RISK: Apple StoreKit demands actionable legal links prior to checkout initiating.'}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {!isCompliant && (
+              <div className="p-4 rounded-xl bg-red-500/5 border border-red-500/10 text-xs text-red-500 space-y-1 font-sans">
+                <p className="font-bold flex items-center gap-1.5 uppercase tracking-wide">
+                  <X size={13} strokeWidth={3} /> Apple HIG Enforcement Action
+                </p>
+                <p className="text-[10px] leading-relaxed text-red-650 dark:text-red-400">
+                  If this screen is submitted to App Review, it will trigger rejection guidelines under <strong>Subcategory 3.1.2 (Subscriptions)</strong>.
+                </p>
+              </div>
+            )}
+
+            {isCompliant && (
+              <div className="p-4 rounded-xl bg-green-500/5 border border-green-500/10 text-xs text-green-500 space-y-1 font-sans">
+                <p className="font-bold flex items-center gap-1.5 uppercase tracking-wide">
+                  <Check size={13} strokeWidth={3} /> compliant architecture check passed
+                </p>
+                <p className="text-[10px] leading-relaxed text-green-600 dark:text-green-400">
+                  All required elements loaded on single view: Name, Price, Auto-renew, cancellation conditions, and legal links.
+                </p>
+              </div>
+            )}
+
+            {/* Special Button to Trigger Promoted IAP demonstration */}
+            <div className="pt-2 font-mono">
+              <button 
+                onClick={() => setPromotedTriggered(true)}
+                className="w-full text-xs font-mono py-2.5 bg-indigo-500/10 text-indigo-400 border border-indigo-554/20 rounded-xl hover:bg-indigo-500/20 transition-all text-center flex items-center justify-center gap-2 font-semibold cursor-pointer"
+              >
+                <span>🚀 Simulate App Store Promoted IAP Trigger</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
