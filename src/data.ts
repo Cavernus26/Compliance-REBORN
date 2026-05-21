@@ -37,6 +37,13 @@ export const ALL_DATA: Record<string, PlatformData> = {
         description: "Apple Sign-in Integration and User Account Guidelines", 
         category: "Apple Sign-in", 
         impact: "high" 
+      },
+      { 
+        id: "GL-006", 
+        title: "Subscriptions", 
+        description: "In-App Purchases, Auto-Renewable Subscriptions, and App Store Billing Guidelines", 
+        category: "Subscriptions", 
+        impact: "high" 
       }
     ],
     testCases: [
@@ -2919,6 +2926,177 @@ export const ALL_DATA: Record<string, PlatformData> = {
         steps: "1. Inspect the profile dashboard, welcome screens, and account settings for Apple-provided data.\n2. Confirm that user's shared name/email is used directly, or clearly accounted for, ensuring full transparency.",
         expected: "All requested/provided user data is displayed transparently to make purposes clear.",
         originalRef: "Data Management"
+      },
+      {
+        id: "iOS-AS-BTN-1",
+        gl: "GL-005",
+        ref: "B.01",
+        title: "Prominently display a Sign in with Apple button/indicator. Make a Sign in with Apple button no smaller than other sign-in buttons, and avoid making people scroll to see the button.",
+        steps: "1. Inspect the login/onboarding view of the app.\n2. Compare the Sign in with Apple button size and visual weight with other third-party login buttons (Google, Facebook, etc.).\n3. Verify that the button is immediately visible without needing the user to scroll down.",
+        expected: "The button is prominent, matches or exceeds other login alternatives in size, and is visible above the fold.",
+        originalRef: "Buttons"
+      },
+      {
+        id: "iOS-AS-BTN-2",
+        gl: "GL-005",
+        ref: "B.02",
+        title: "The following approved button titles must be used: 'Sign in with Apple', 'Sign up with Apple', and 'Continue with Apple'. (Available for iOS, macOS, tvOS, and web)",
+        steps: "1. Examine the labels on all Sign in with Apple buttons in the app.\n2. Verify that they match official approved layouts: 'Sign in with Apple', 'Sign up with Apple', or 'Continue with Apple' exactly.",
+        expected: "Buttons exclusively use Apple-approved titles with no custom branding or altered text.",
+        originalRef: "Buttons"
+      },
+      {
+        id: "iOS-AS-BTN-3",
+        gl: "GL-005",
+        ref: "B.03",
+        title: "For watchOS, ensure that the system-provided single title is used: 'Sign in'.",
+        steps: "1. For watchOS builds, check the Apple ID authentication screens.\n2. Confirm the label is strictly 'Sign in' with the Apple logo.",
+        expected: "watchOS implementation correctly uses only the single 'Sign in' title variation.",
+        originalRef: "Buttons"
+      },
+      {
+        id: "iOS-AS-BTN-4",
+        gl: "GL-005",
+        ref: "B.04",
+        title: "White Style compliance. Set white buttons only on dark or colored backgrounds that provide sufficient, high-contrast separation.",
+        steps: "1. Retrieve all screens featuring the White button variation.\n2. Verify they are situated over dark or highly colored backgrounds.\n3. Verify there is sufficient contrast so that the white body of the button stands out clearly.",
+        expected: "White buttons are correctly contrasted against dark/colored backdrops to prevent boundary melting.",
+        originalRef: "Buttons"
+      },
+      {
+        id: "iOS-AS-BTN-5",
+        gl: "GL-005",
+        ref: "B.05",
+        title: "White with Outline Style compliance. Use this style on white or light-colored backgrounds that don't provide sufficient contrast with a solid white fill. Avoid using on dark/saturated backgrounds.",
+        steps: "1. Find all screens featuring the White with Outline button.\n2. Confirm they are resting on top of full-white or extremely light backgrounds.\n3. Make sure they are not placed on dark or deep-saturated colored backgrounds to prevent messy double outlines or excessive visual clutter.",
+        expected: "White Outlined style is correctly locked to pale or white backgrounds, keeping borders clear and elegant.",
+        originalRef: "Buttons"
+      },
+      {
+        id: "iOS-AS-BTN-6",
+        gl: "GL-005",
+        ref: "B.06",
+        title: "Black Style compliance. Use this style on white or light-colored backgrounds that provide sufficient contrast; never use on black or matching dark backdrops.",
+        steps: "1. Locate screens using the solid Black style button.\n2. Confirm that the background is white or high-light colored, ensuring clear, crisp boundaries.\n3. Ensure this solid black button is never placed on black or dark slate backgrounds where it would blend in.",
+        expected: "Black button style is correctly displayed on high-contrast light backgrounds.",
+        originalRef: "Buttons"
+      },
+      {
+        id: "iOS-AS-BTN-7",
+        gl: "GL-005",
+        ref: "B.07",
+        title: "watchOS button fill color compliance. Unlike the black Sign in with Apple button for other platforms, the watchOS button uses a system-defined dark gray appearance to contrast with the pure black background of Apple Watch.",
+        steps: "1. Check the button background color on Apple Watch.\n2. Verify that it uses system-defined solid dark charcoal/gray (not pure #000000 black or absolute white).\n3. Ensure there is visible contrast against the watch face’s default black OLED environment.",
+        expected: "The watchOS button utilizes standard dark gray fill to retain separation over black watch backdrops.",
+        originalRef: "Buttons"
+      },
+      {
+        id: "iOS-AS-BTN-8",
+        gl: "GL-005",
+        ref: "B.08",
+        title: "Button Size and Corner Radius adjustment. By default, the button has rounded corners. In iOS, macOS, and the web, you can change the corner radius to produce square corners, rounded rectangles, or a pill-shaped button to match your app icon or overall UI styling.",
+        steps: "1. Match the corner radius of the Sign in with Apple button with other main actions in the app layout.\n2. Test changing the style from custom sharp square edges (0px) up to full capsule pill (22px or automatic rounded values).\n3. Verify the layout maintains clean button interior centering and padding throughout styling scale adjustments.",
+        expected: "Button corner radius values match app styling guidelines safely (square, slightly rounded, or pill format).",
+        originalRef: "Buttons"
+      },
+      {
+        id: "iOS-AS-BTN-9",
+        gl: "GL-005",
+        ref: "B.09",
+        title: "Minimum button size and margin guidelines. Maintain standard sizing in iOS, macOS, and the web: a minimum width of 140pt (280px @2x), minimum height of 30pt (60px @2x), and a minimum margin around the button equal to 1/10 of the button's height.",
+        steps: "1. Query dimensions of the rendering Sign in with Apple button elements.\n2. Verify width does not drop below 140pt. Verify height does not drop below 30pt.\n3. Measure external margin/spacing, ensuring it is at least 1/10 of the button height (e.g., 4.4pt margin for 44pt height) to prevent text overlap.",
+        expected: "The button respects the required 140pt width, 30pt height, and 1/10 height safety margin.",
+        originalRef: "Buttons"
+      },
+      {
+        id: "iOS-AS-BTN-10",
+        gl: "GL-005",
+        ref: "B.10",
+        title: "Logo Artwork custom design compliance. Use only official downloadable logo files, never use logo by itself as button, match height of logo to parent height, do not crop, do not add vertical padding, and do not recolor logo.",
+        steps: "1. Inspect custom buttons using independent logo vectors.\n2. Check that the Apple logo is always paired with appropriate standard CTA text (never standalone).\n3. Confirm the logo file matches button height, is never cropped/scaled unevenly, has no vertical padding, and maintains approved colors (black or white only).",
+        expected: "Apple logo branding rules are followed perfectly: no coloring, no lone logo buttons, and no vertical padding/cropping.",
+        originalRef: "Buttons"
+      },
+      {
+        id: "iOS-AS-BTN-11",
+        gl: "GL-005",
+        ref: "B.11",
+        title: "Left-Aligned Logo Button Proportions. For customized layout buttons, use the system font for the title. To look correct, the title's font size should be 43% of the button's height, or the button's height should be 233% of the title's font size, rounded to the nearest integer (e.g. 44pt height with 19pt font, 56pt height with 24pt font).",
+        steps: "1. Inspect custom left-aligned logo layouts.\n2. Measure font size against button height (should be ~43% of height or height is ~233% of font size).\n3. Verify proportions when height scales (e.g. 44px height operates with 19px font; 56px height operates with 24px font).",
+        expected: "The left-aligned button correctly pairs its height with a text size that matches the exact system 43% / 233% proportional standards.",
+        originalRef: "Buttons"
+      },
+      {
+        id: "iOS-AS-BTN-12",
+        gl: "GL-005",
+        ref: "B.12",
+        title: "Title Capitalization Style. All variants of the button title must preserve the capitalization style of the title: capitalize the first word—that is, Sign or Continue—and Apple; all other letters are lowercase. Do not capitalize every letter in the title.",
+        steps: "1. Inspect all Sign in with Apple buttons in the application.\n2. Confirm that capitalization is sentence-case or title-case matching: 'Sign in with Apple', 'Sign up with Apple', or 'Continue with Apple'.\n3. Verify that all-caps strings like 'SIGN IN WITH APPLE' are NOT used.",
+        expected: "Button capitalization follows approved Apple HIG casing (no ALL-CAPS styling permitted).",
+        originalRef: "Buttons"
+      },
+      {
+        id: "iOS-AS-BTN-13",
+        gl: "GL-005",
+        ref: "B.13",
+        title: "Vertical Alignment of Title and Logo inside Button. Keep the title and logo vertically aligned within the button. Vertically align the title to the middle of the button, then add the logo image, making sure its height matches the height of the button.",
+        steps: "1. Examine the visual alignment of the Apple logo and text label within the button body.\n2. Verify both elements share a precise vertical center line.\n3. Make sure neither element is offset or floating too high or low.",
+        expected: "Logo and title are perfectly vertically centered and aligned with the button middles.",
+        originalRef: "Buttons"
+      },
+      {
+        id: "iOS-AS-BTN-14",
+        gl: "GL-005",
+        ref: "B.14",
+        title: "Logo Insets for Horizontal Alignments. If you need to horizontally align the Apple logo with other authentication logos, you can inset the left side of the logo.",
+        steps: "1. Inspect multi-identity alignments (Google, Apple, Facebook).\n2. Verify the Apple logo can use subtle left padding/insets to ensure proportional alignment against competitor icons.\n3. Verify logo does not look unbalanced.",
+        expected: "Subtle logo left insets are used properly and maintain neat alignment structures with other login buttons.",
+        originalRef: "Buttons"
+      },
+      {
+        id: "iOS-AS-BTN-15",
+        gl: "GL-005",
+        ref: "B.15",
+        title: "Title to Right Edge Spacing. Maintain a minimum margin between the title and the right edge of the button. The margin should measure at least 8% of the button's width.",
+        steps: "1. Measure the padding space between the end of the text 'Apple' and the rightmost boundary of the button shape.\n2. Ensure this space is at least 8% of the button's total width (e.g., 16px for a 200px wide button).\n3. Confirm that the text is never clipped or too close to the boundary.",
+        expected: "Title-to-right margin is at least 8% of the button's total width to protect the layout.",
+        originalRef: "Buttons"
+      },
+      {
+        id: "iOS-AS-BTN-16",
+        gl: "GL-005",
+        ref: "B.16",
+        title: "Locale-Specific Sizing and Safe Margins. Maintain the minimum button size and margin around the button. Be mindful that the button title may vary in length depending on the locale. Use standard values for guidance (140pt min width, 30pt height, 1/10 margin).",
+        steps: "1. Switch the system locale to a lang/region where translations have longer labels.\n2. Verify the button width scales appropriately without causing ellipsis or line breaks.\n3. Verify minimum 140pt width and 30pt height stay respected.",
+        expected: "The button scales beautifully in all locales, respecting minimum dimensions and margins.",
+        originalRef: "Buttons"
+      },
+      {
+        id: "iOS-AS-BTN-17",
+        gl: "GL-005",
+        ref: "B.17",
+        title: "Logo-Only Buttons Padding & Aspect Ratio. Don't add horizontal padding to a logo-only image. A logo-only Sign in with Apple button always has a 1:1 aspect ratio, and the artwork already includes the correct padding on all sides.",
+        steps: "1. Locate any logo-only authentication icons/buttons.\n2. Verify the aspect ratio is exactly 1:1 (square, circle, or rounded square mask).\n3. Ensure no extra custom horizontal padding is added to the Apple-provided asset.",
+        expected: "Logo-only button renders with exact 1:1 aspect ratio and standard default built-in padding.",
+        originalRef: "Buttons"
+      },
+      {
+        id: "iOS-AS-BTN-18",
+        gl: "GL-005",
+        ref: "B.18",
+        title: "Logo-Only Mask Shape Customization. Use a mask to change the default square shape of the logo-only image (e.g. rounded rect mask, no mask, or circular mask). Never crop the Apple-provided artwork to decrease its built-in padding or use the logo by itself, and avoid including additional padding.",
+        steps: "1. Inspect circular or custom logo-only buttons.\n2. Ensure the shape change is created using a mask (e.g. border-radius or clip-path) and not by cropping the core logo artwork.\n3. Verify the logo is never cropped to reduce its standard safety margin padding or used without its default container padding background.",
+        expected: "Masking is applied correctly to adjust the outer shape of logo-only buttons without cropping the artwork.",
+        originalRef: "Buttons"
+      },
+      {
+        id: "iOS-AS-BTN-19",
+        gl: "GL-005",
+        ref: "B.19",
+        title: "Logo-Only Safe Outer Margins. Maintain a minimum margin around the button. The margin should measure at least 1/10 of the button's height.",
+        steps: "1. Review spacing surrounding any logo-only sign-in icons in the layout.\n2. Confirm the margin is at least 1/10th of the button's height to prevent overlapping adjacent assets.",
+        expected: "Logo-only buttons maintain a reliable outer border margin equal to at least 1/10th of their height.",
+        originalRef: "Buttons"
       }
     ]
   },
@@ -2937,7 +3115,8 @@ export const IOS_ICONS: Record<string, string> = {
   'Info.plist': '📄',
   'Privacy check': '🔒',
   'HIG': '📐',
-  'Apple Sign-in': '🔑'
+  'Apple Sign-in': '🔑',
+  'Subscriptions': '💳'
 };
 
 export const AND_ICONS: Record<string, string> = { 

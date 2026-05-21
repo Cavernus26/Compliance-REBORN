@@ -11,9 +11,9 @@
   --surface3: #18181B;
   --border: rgba(39, 39, 42, 0.6); /* zinc-800/60 */
   --border2: #27272A; /* zinc-800 */
-  --text: #D4D4D8; /* zinc-300 */
-  --text-highlight: #E4E4E7; /* zinc-200 */
-  --text-muted: #71717A; /* zinc-500 */
+  --text: #F4F4F5; /* zinc-100 (high accessibility contrast) */
+  --text-highlight: #FFFFFF; /* pure white for supreme highlighting */
+  --text-muted: #A1A1AA; /* zinc-405 (fully compliant contrast on dark surfaces) */
   --accent: #E4E4E7; /* zinc-200 */
   --accent-dim: rgba(228, 224, 231, 0.05);
   
@@ -44,11 +44,11 @@
   --surface: #FFFFFF;
   --surface2: #F3F4F6;
   --surface3: #E5E7EB;
-  --border: rgba(0, 0, 0, 0.08);
-  --border2: #E5E7EB;
-  --text: #374151;
-  --text-highlight: #111827;
-  --text-muted: #6B7280;
+  --border: rgba(0, 0, 0, 0.12); /* enhanced contrast of borders */
+  --border2: #D1D5DB;
+  --text: #1F2937; /* robust neutral gray-850 for supreme legibility */
+  --text-highlight: #111827; /* deep gray-900 for titles */
+  --text-muted: #4B5563; /* high contrast gray-600 satisfying WCAG standards */
   --accent: #111827;
   --accent-dim: rgba(0, 0, 0, 0.05);
 

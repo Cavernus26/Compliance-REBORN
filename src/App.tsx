@@ -836,6 +836,947 @@ function ExecuteView({ state, setState, db, activeTcs, executions, setStatus, bu
   );
 }
 
+function ButtonComplianceDemo({ tcId }: { tcId: string }) {
+  const [borderRadius, setBorderRadius] = React.useState(8);
+  const [buttonWidth, setButtonWidth] = React.useState(240);
+  const [buttonHeight, setButtonHeight] = React.useState(44);
+  const [customLeftHeight, setCustomLeftHeight] = React.useState(44);
+  const [customLeftLabel, setCustomLeftLabel] = React.useState('Sign in with Apple');
+
+  if (!tcId || !tcId.startsWith('iOS-AS-BTN-')) return null;
+
+  // Real vector high-fidelity standard Apple logo (perfect proportions, no distortion)
+  const appleLogo = (
+    <svg className="w-4 h-4 fill-current mr-2 inline-block shrink-0" viewBox="0 0 24 24" style={{ top: '-0.5px', position: 'relative' }}>
+      <path d="M18.71 19.5C17.88 20.74 17 21.95 15.66 21.97C14.32 22 13.89 21.18 12.37 21.18C10.84 21.18 10.37 21.95 9.1 22C7.79 22.05 6.8 20.68 5.96 19.48C4.25 17 2.94 12.45 4.7 9.39C5.57 7.87 7.13 6.91 8.82 6.88C10.1 6.86 11.32 7.75 12.11 7.75C12.89 7.75 14.37 6.68 15.92 6.84C16.57 6.87 18.39 7.1 19.56 8.82C19.47 8.88 17.39 10.1 17.41 12.63C17.44 15.65 20.06 16.66 20.1 16.67C20.08 16.74 19.67 18.11 18.71 19.5M15.97 4.17C16.63 3.37 17.07 2.28 16.95 1C16.01 1.04 14.86 1.63 14.19 2.42C13.62 3.08 13.12 4.19 13.27 5.45C14.31 5.53 15.31 4.93 15.97 4.17Z" />
+    </svg>
+  );
+
+  return (
+    <div className="w-full bg-[var(--surface2)]/80 rounded-2xl p-6 border border-[var(--border)] space-y-6">
+      <div className="flex items-center justify-between border-b border-[var(--border)] pb-3">
+        <h4 className="text-xs font-mono font-bold uppercase tracking-wider text-[var(--text-highlight)] flex items-center gap-2">
+          <span>📐 Visual Compliance Helper & Reference Mockups</span>
+        </h4>
+        <span className="text-[10px] bg-indigo-500/15 text-indigo-400 font-mono px-2 py-0.5 rounded border border-indigo-500/20 uppercase font-bold">
+          Interactive Spec
+        </span>
+      </div>
+
+      {tcId === "iOS-AS-BTN-1" && (
+        <div className="space-y-4">
+          <p className="text-xs text-[var(--text-muted)] leading-relaxed">
+            The Sign in with Apple button must be <strong>prominently featured</strong>, have at least identical dimensions/weight to alternative sign-in tools, and be easily reached without initial layout scrolls.
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
+            {/* Correct */}
+            <div className="border border-green-500/20 bg-green-500/5 rounded-xl p-5 space-y-4 relative overflow-hidden">
+              <span className="absolute top-3 right-3 text-green-500 flex items-center gap-1 text-[10px] font-mono font-bold bg-green-500/10 px-2 py-0.5 rounded border border-green-500/20"><Check size={11} /> COMPLIANT</span>
+              <p className="text-xs font-bold text-green-600 dark:text-green-400 uppercase tracking-wide">Proper Visual Hierarchy</p>
+              
+              <div className="space-y-2 max-w-xs mx-auto bg-[var(--surface2)] p-4 rounded-lg border border-[var(--border)]">
+                <div className="h-2 w-1/3 bg-[var(--text-muted)]/20 rounded mb-4 mx-auto" />
+                <button className="w-full h-10 bg-black text-white hover:bg-zinc-900 rounded-lg flex items-center justify-center font-semibold text-xs transition-all shadow-md">
+                  {appleLogo} Sign in with Apple
+                </button>
+                <button className="w-full h-10 bg-[var(--surface3)] text-[var(--text-highlight)] rounded-lg flex items-center justify-center text-xs transition-all border border-[var(--border)] hover:bg-[var(--surface2)]">
+                  <span className="w-3.5 h-3.5 rounded-full bg-blue-500 mr-2 flex items-center justify-center text-[7px] font-bold text-white">G</span> Sign in with Google
+                </button>
+              </div>
+              <p className="text-[10px] text-[var(--text-muted)] text-center">Same size, cleanly stacked on top of alternative identity services above the fold.</p>
+            </div>
+
+            {/* In-Correct */}
+            <div className="border border-red-500/20 bg-red-500/5 rounded-xl p-5 space-y-4 relative overflow-hidden">
+              <span className="absolute top-3 right-3 text-red-500 flex items-center gap-1 text-[10px] font-mono font-bold bg-red-500/10 px-2 py-0.5 rounded border border-red-500/20"><X size={11} /> NON-COMPLIANT</span>
+              <p className="text-xs font-bold text-red-650 dark:text-red-400 uppercase tracking-wide">Hidden / Disproportionate</p>
+              
+              <div className="space-y-2 max-w-xs mx-auto bg-[var(--surface2)] p-4 rounded-lg border border-[var(--border)]">
+                <div className="h-2 w-1/3 bg-[var(--text-muted)]/20 rounded mb-4 mx-auto" />
+                <button className="w-full h-10 bg-blue-600 text-white rounded-lg flex items-center justify-center font-bold text-xs">
+                  Sign in with Google
+                </button>
+                <button className="w-full h-10 bg-indigo-600 text-white rounded-lg flex items-center justify-center font-bold text-xs">
+                  Sign in with Facebook
+                </button>
+                <div className="h-10 border-dashed border border-[var(--border)] rounded-lg flex items-center justify-center text-[9px] text-[var(--text-muted)]">
+                  [Requires scroll view to proceed...]
+                </div>
+                <button className="w-4/5 mx-auto h-6 bg-black text-white hover:bg-zinc-900 rounded-full flex items-center justify-center text-[9px] font-medium">
+                  {appleLogo} Apple Setup
+                </button>
+              </div>
+              <p className="text-[10px] text-[var(--text-muted)] text-center">Apple option is squeezed at the bottom below other options, requiring user scroll.</p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {tcId === "iOS-AS-BTN-2" && (
+        <div className="space-y-5">
+          <p className="text-xs text-[var(--text-muted)] leading-relaxed">
+            Only approved title templates are permitted. Adjust the interactive controls below to preview how to configure key sizes and roundnesses conforming with official guidelines.
+          </p>
+
+          <div className="flex flex-wrap gap-6 bg-[var(--surface2)] p-4 rounded-xl border border-[var(--border)] text-xs">
+            <div className="space-y-2 shrink-0">
+              <label className="text-[10px] text-[var(--text-muted)] block font-mono">Corner Radius: {borderRadius}px</label>
+              <input 
+                type="range" 
+                min="0" 
+                max="22" 
+                value={borderRadius} 
+                onChange={(e) => setBorderRadius(Number(e.target.value))}
+                className="w-32 accent-indigo-500 bg-[var(--surface3)]"
+              />
+            </div>
+            <div className="space-y-2 shrink-0">
+              <label className="text-[10px] text-[var(--text-muted)] block font-mono">Button Width: {buttonWidth}px</label>
+              <input 
+                type="range" 
+                min="180" 
+                max="320" 
+                value={buttonWidth} 
+                onChange={(e) => setButtonWidth(Number(e.target.value))}
+                className="w-32 accent-indigo-500 bg-[var(--surface3)]"
+              />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
+            {[
+              "Sign in with Apple",
+              "Sign up with Apple",
+              "Continue with Apple"
+            ].map((title, i) => (
+              <div key={i} className="bg-[var(--surface2)] p-5 rounded-xl border border-[var(--border)] flex flex-col items-center justify-center gap-4 text-center">
+                <span className="text-[10px] font-mono text-[var(--text-muted)]">Variant {i+1}: {title}</span>
+                <button 
+                  style={{ borderRadius: `${borderRadius}px`, width: `${buttonWidth}px` }} 
+                  className="h-10 bg-black text-white font-medium text-xs flex items-center justify-center border border-zinc-800 text-center select-none shrink-0"
+                >
+                  {appleLogo} {title}
+                </button>
+                <span className="text-[9px] text-green-600 dark:text-green-400 font-mono flex items-center gap-1 font-bold"><Check size={10} /> Valid Approved Label</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {tcId === "iOS-AS-BTN-3" && (
+        <div className="space-y-4">
+          <p className="text-xs text-[var(--text-muted)] leading-relaxed">
+            On <strong>watchOS</strong>, the system operates with lower screen real estate and supports exactly one approved compact variant: <strong>'Sign in'</strong>.
+          </p>
+          <div className="flex justify-center py-4">
+            {/* watchOS device simulator look */}
+            <div className="w-48 h-60 rounded-[40px] bg-zinc-800 border-4 border-zinc-700 p-2.5 shadow-2xl relative flex flex-col items-center justify-center">
+              {/* crown button */}
+              <div className="absolute top-16 -right-1 w-1.5 h-8 bg-zinc-700 rounded-l" />
+              {/* watch screen */}
+              <div className="w-full h-full bg-black rounded-[28px] p-3 flex flex-col items-center justify-between text-center border border-black/40">
+                <div className="w-10 h-0.5 bg-zinc-800 rounded-full mx-auto" />
+                <div className="space-y-1">
+                  <p className="text-[10px] text-zinc-300 font-medium font-sans">App Link</p>
+                  <p className="text-[8px] text-zinc-400 font-sans leading-none">Tap to link credentials</p>
+                </div>
+
+                <button className="w-full h-9 bg-[#2c2c2e] hover:bg-zinc-800 text-white rounded-full flex items-center justify-center font-semibold text-[10px] select-none border border-zinc-700">
+                  {appleLogo} Sign in
+                </button>
+
+                <div className="text-[7px] text-zinc-450 font-mono uppercase tracking-wider"> WATCH COMPLIANCE</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {tcId === "iOS-AS-BTN-4" && (
+        <div className="space-y-4">
+          <p className="text-xs text-[var(--text-muted)] leading-relaxed">
+            The solid <strong>White Style</strong> button must only be implemented over reasonably dark or highly saturated colored backgrounds that offer proper natural contrast separation.
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
+            {/* Correct */}
+            <div className="border border-green-500/20 bg-green-500/5 rounded-xl p-5 space-y-4 relative overflow-hidden">
+              <span className="absolute top-3 right-3 text-green-500 flex items-center gap-1 text-[10px] font-mono font-bold bg-green-500/10 px-2 py-0.5 rounded border border-green-500/20"><Check size={11} /> COMPLIANT</span>
+              <p className="text-xs font-bold text-green-600 dark:text-green-400 uppercase tracking-wide">Dark Contrast Backdrop</p>
+              
+              <div className="h-28 bg-slate-950 rounded-xl flex flex-col items-center justify-center p-4 border border-slate-800">
+                <button className="h-10 w-44 bg-white text-black font-semibold text-xs rounded-lg flex items-center justify-center shadow">
+                  {appleLogo} Sign in with Apple
+                </button>
+              </div>
+              <p className="text-[10px] text-[var(--text-muted)] text-center">White button stands out with solid clarity over dark slate canvas (#0f172a).</p>
+            </div>
+
+            {/* Incorrect */}
+            <div className="border border-red-500/20 bg-red-500/5 rounded-xl p-5 space-y-4 relative overflow-hidden">
+              <span className="absolute top-3 right-3 text-red-500 flex items-center gap-1 text-[10px] font-mono font-bold bg-red-500/10 px-2 py-0.5 rounded border border-red-500/20"><X size={11} /> NON-COMPLIANT</span>
+              <p className="text-xs font-bold text-red-650 dark:text-red-400 uppercase tracking-wide">Low Contrast Backdrop</p>
+              
+              <div className="h-28 bg-zinc-200 rounded-xl flex flex-col items-center justify-center p-4 border border-zinc-300">
+                <button className="h-10 w-44 bg-white text-black font-semibold text-xs rounded-lg flex items-center justify-center shadow-sm">
+                  {appleLogo} Sign in with Apple
+                </button>
+              </div>
+              <p className="text-[10px] text-[var(--text-muted)] text-center">White button blurs and becomes invisible against light grey backdrops.</p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {tcId === "iOS-AS-BTN-5" && (
+        <div className="space-y-4">
+          <p className="text-xs text-[var(--text-muted)] leading-relaxed">
+            The <strong>White with Outline Style</strong> button is designed explicitly for pale or transparent light backdrops. It must never be applied to dark backgrounds where outline clashing would produce visual noise.
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
+            {/* Correct */}
+            <div className="border border-green-500/20 bg-green-500/5 rounded-xl p-5 space-y-4 relative overflow-hidden">
+              <span className="absolute top-3 right-3 text-green-500 flex items-center gap-1 text-[10px] font-mono font-bold bg-green-500/10 px-2 py-0.5 rounded border border-green-500/20"><Check size={11} /> COMPLIANT</span>
+              <p className="text-xs font-bold text-green-600 dark:text-green-400 uppercase tracking-wide">Clean Light Background</p>
+              
+              <div className="h-28 bg-white rounded-xl flex flex-col items-center justify-center p-4 border border-zinc-200">
+                <button className="h-10 w-44 bg-white text-black font-semibold text-xs rounded-lg flex items-center justify-center border border-black shadow-sm">
+                  {appleLogo} Sign in with Apple
+                </button>
+              </div>
+              <p className="text-[10px] text-[var(--text-muted)] text-center">The outline is perfectly legible against the solid white background.</p>
+            </div>
+
+            {/* Incorrect */}
+            <div className="border border-red-500/20 bg-red-500/5 rounded-xl p-5 space-y-4 relative overflow-hidden">
+              <span className="absolute top-3 right-3 text-red-500 flex items-center gap-1 text-[10px] font-mono font-bold bg-red-500/10 px-2 py-0.5 rounded border border-red-500/20"><X size={11} /> NON-COMPLIANT</span>
+              <p className="text-xs font-bold text-red-650 dark:text-red-400 uppercase tracking-wide">Dark Backdrop Clashing</p>
+              
+              <div className="h-28 bg-slate-950 rounded-xl flex flex-col items-center justify-center p-4 border border-slate-800">
+                <button className="h-10 w-44 bg-white text-black font-semibold text-xs rounded-lg flex items-center justify-center border border-black shadow">
+                  {appleLogo} Sign in with Apple
+                </button>
+              </div>
+              <p className="text-[10px] text-[var(--text-muted)] text-center">Dark outline is unnecessary and adds visual clutter on an already dark background.</p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {tcId === "iOS-AS-BTN-6" && (
+        <div className="space-y-4">
+          <p className="text-xs text-[var(--text-muted)] leading-relaxed">
+            The solid <strong>Black Style</strong> button requires maximum contrast. It must always be laid out over bright, light, or full-white backgrounds, and never on matching black canvases.
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
+            {/* Correct */}
+            <div className="border border-green-500/20 bg-green-500/5 rounded-xl p-5 space-y-4 relative overflow-hidden">
+              <span className="absolute top-3 right-3 text-green-500 flex items-center gap-1 text-[10px] font-mono font-bold bg-green-500/10 px-2 py-0.5 rounded border border-green-500/20"><Check size={11} /> COMPLIANT</span>
+              <p className="text-xs font-bold text-green-600 dark:text-green-400 uppercase tracking-wide">High Contrast On White</p>
+              
+              <div className="h-28 bg-white rounded-xl flex flex-col items-center justify-center p-4 border border-zinc-200">
+                <button className="h-10 w-44 bg-black text-white font-semibold text-xs rounded-lg flex items-center justify-center shadow">
+                  {appleLogo} Sign in with Apple
+                </button>
+              </div>
+              <p className="text-[10px] text-[var(--text-muted)] text-center">Solid black is clearly defined against light backgrounds.</p>
+            </div>
+
+            {/* Incorrect */}
+            <div className="border border-red-500/20 bg-red-500/5 rounded-xl p-5 space-y-4 relative overflow-hidden">
+              <span className="absolute top-3 right-3 text-red-500 flex items-center gap-1 text-[10px] font-mono font-bold bg-red-500/10 px-2 py-0.5 rounded border border-red-500/20"><X size={11} /> NON-COMPLIANT</span>
+              <p className="text-xs font-bold text-red-650 dark:text-red-400 uppercase tracking-wide">Dark Merge Clashing</p>
+              
+              <div className="h-28 bg-black rounded-xl flex flex-col items-center justify-center p-4 border border-zinc-900">
+                <button className="h-10 w-44 bg-black text-white font-semibold text-xs rounded-lg flex items-center justify-center border border-zinc-800 shadow">
+                  {appleLogo} Sign in with Apple
+                </button>
+              </div>
+              <p className="text-[10px] text-[var(--text-muted)] text-center">The button is completely camouflaged and invisible against dark/black backdrops.</p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {tcId === "iOS-AS-BTN-7" && (
+        <div className="space-y-4">
+          <p className="text-xs text-[var(--text-muted)] leading-relaxed">
+            Unlike other Apple platforms, the watchOS button <strong>must use a system-defined dark gray fill color</strong> rather than pure black. This provides crisp, natural separation over the solid black background of Apple Watch screens.
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
+            {/* Correct/Compliant */}
+            <div className="border border-green-500/20 bg-green-500/5 rounded-xl p-5 space-y-4 relative flex flex-col items-center justify-center text-center">
+              <span className="absolute top-3 right-3 text-green-500 flex items-center gap-1 text-[10px] font-mono font-bold bg-green-500/10 px-2 py-0.5 rounded border border-green-500/20"><Check size={11} /> COMPLIANT</span>
+              <p className="text-xs font-bold text-green-600 dark:text-green-400 uppercase tracking-wide mb-1">System Dark Gray Fill</p>
+              
+              {/* watch face simulator */}
+              <div className="w-32 h-36 bg-black rounded-3xl border-2 border-zinc-700 p-2 relative flex flex-col items-center justify-center gap-3">
+                <span className="text-[8px] text-zinc-350">Watch Face (OLED Black)</span>
+                <button className="w-full h-8 bg-[#2c2c2e] text-white rounded-full flex items-center justify-center font-semibold text-[9px] border border-transparent select-none">
+                  {appleLogo} Sign in
+                </button>
+                <div className="text-[7px] text-green-450 font-mono tracking-tight font-bold">Contrast Separated</div>
+              </div>
+              <p className="text-[10px] text-[var(--text-muted)] mt-2">The button uses <code className="text-indigo-400 bg-black/40 px-1 py-0.5 rounded">#2c2c2e</code> dark gray, making its borders fully visible on OLED black.</p>
+            </div>
+
+            {/* Non-Compliant */}
+            <div className="border border-red-500/20 bg-red-500/5 rounded-xl p-5 space-y-4 relative flex flex-col items-center justify-center text-center">
+              <span className="absolute top-3 right-3 text-red-500 flex items-center gap-1 text-[10px] font-mono font-bold bg-red-500/10 px-2 py-0.5 rounded border border-red-500/20"><X size={11} /> NON-COMPLIANT</span>
+              <p className="text-xs font-bold text-red-650 dark:text-red-400 uppercase tracking-wide mb-1">Pure Black Blending</p>
+              
+              {/* watch face simulator */}
+              <div className="w-32 h-36 bg-black rounded-3xl border-2 border-zinc-700 p-2 relative flex flex-col items-center justify-center gap-3">
+                <span className="text-[8px] text-zinc-350">Watch Face (OLED Black)</span>
+                <button className="w-full h-8 bg-black text-white rounded-full flex items-center justify-center font-semibold text-[9px] border-transparent select-none">
+                  {appleLogo} Sign in
+                </button>
+                <div className="text-[7px] text-red-500/80 font-mono tracking-tight font-bold">Border Melted (Merged)</div>
+              </div>
+              <p className="text-[10px] text-[var(--text-muted)] mt-2">The button uses pure <code className="text-red-400 bg-black/40 px-1 py-0.5 rounded">#000000</code> body, making it fully invisible and camouflaged.</p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {tcId === "iOS-AS-BTN-8" && (
+        <div className="space-y-4">
+          <p className="text-xs text-[var(--text-muted)] leading-relaxed">
+            By default, the Sign in with Apple button has rounded corners. You can adjust the <strong>Corner Radius</strong> to match other primary buttons in your layout (0px for sharp square up to 22px/automatic for pill shape).
+          </p>
+          
+          <div className="bg-[var(--surface2)] p-4 rounded-xl border border-[var(--border)] max-w-sm mx-auto space-y-3">
+            <div className="flex justify-between text-xs font-mono">
+              <span className="text-[var(--text-muted)]">Corner Radius:</span>
+              <span className="text-indigo-500 dark:text-indigo-400 font-bold">{borderRadius}px</span>
+            </div>
+            <input 
+              type="range" 
+              min="0" 
+              max="24" 
+              value={borderRadius} 
+              onChange={(e) => setBorderRadius(Number(e.target.value))}
+              className="w-full accent-indigo-500 h-1.5 rounded-lg bg-[var(--surface3)]"
+            />
+            <div className="flex justify-between text-[10px] text-[var(--text-muted)] font-mono">
+              <span>0px (Square)</span>
+              <span>8px (Default)</span>
+              <span>22px+ (Pill)</span>
+            </div>
+          </div>
+
+          <div className="flex flex-col items-center justify-center gap-4 py-3 bg-[var(--surface2)]/85 border border-[var(--border)] rounded-xl max-w-md mx-auto">
+            <button 
+              style={{ borderRadius: `${borderRadius}px` }}
+              className="w-64 h-11 bg-black text-white font-medium text-xs flex items-center justify-center border border-zinc-800 shadow-md select-none transition-all hover:bg-zinc-900"
+            >
+              {appleLogo} Sign in with Apple
+            </button>
+            <div className="text-[10px] text-[var(--text)] font-mono text-center px-4 leading-relaxed">
+              Your App Layout Matcher: Rendering with <strong className="text-[var(--text-highlight)]">{borderRadius}px</strong> corners. Verify that it matches surrounding interaction elements without clashing styles.
+            </div>
+          </div>
+        </div>
+      )}
+
+      {tcId === "iOS-AS-BTN-9" && (
+        <div className="space-y-4">
+          <p className="text-xs text-[var(--text-muted)] leading-relaxed">
+            Sign in with Apple buttons must maintain a <strong>minimum width of 140px</strong>, a <strong>minimum height of 30px</strong>, and a surrounding <strong>safety margin of at least 1/10 of the button's height</strong>.
+          </p>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 bg-[var(--surface2)] p-4 rounded-xl border border-[var(--border)] text-xs">
+            <div className="space-y-2">
+              <div className="flex justify-between font-mono">
+                <span className="text-[var(--text-muted)]">Selected Width:</span>
+                <span className="font-bold text-[var(--text-highlight)]">{buttonWidth}px</span>
+              </div>
+              <input 
+                type="range" 
+                min="100" 
+                max="260" 
+                value={buttonWidth} 
+                onChange={(e) => setButtonWidth(Number(e.target.value))}
+                className="w-full h-1 bg-[var(--surface3)] accent-indigo-500"
+              />
+              <div className="flex justify-between text-[9px] font-mono text-[var(--text-muted)]">
+                <span className={buttonWidth < 140 ? "text-red-500 font-bold" : "text-[var(--text-muted)]"}>100px (Illegal)</span>
+                <span className="text-green-600 dark:text-green-400 font-bold">140px (Min)</span>
+                <span>260px</span>
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <div className="flex justify-between font-mono">
+                <span className="text-[var(--text-muted)]">Selected Height:</span>
+                <span className="font-bold text-[var(--text-highlight)]">{buttonHeight}px</span>
+              </div>
+              <input 
+                type="range" 
+                min="20" 
+                max="60" 
+                value={buttonHeight} 
+                onChange={(e) => setButtonHeight(Number(e.target.value))}
+                className="w-full h-1 bg-[var(--surface3)] accent-indigo-500"
+              />
+              <div className="flex justify-between text-[9px] font-mono text-[var(--text-muted)]">
+                <span className={buttonHeight < 30 ? "text-red-500 font-bold" : "text-[var(--text-muted)]"}>20px (Illegal)</span>
+                <span className="text-green-600 dark:text-green-400 font-bold">30px (Min)</span>
+                <span>60px</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Interactive simulator */}
+          <div className="flex flex-col items-center justify-center p-6 bg-[var(--surface2)]/85 border border-[var(--border)] rounded-xl relative overflow-hidden">
+            <div className="absolute top-2 left-3 text-[10px] font-mono text-[var(--text-muted)]">Live Boundary Sandbox (Red represents safe margin)</div>
+            
+            {/* Safety margin visual overlay */}
+            <div 
+              style={{ 
+                padding: `${Math.max(4, buttonHeight / 10)}px`, 
+                borderColor: 'rgba(239, 68, 68, 0.25)', 
+                borderStyle: 'dashed',
+                borderWidth: '2px'
+              }} 
+              className="rounded-lg bg-red-500/5 flex items-center justify-center transition-all duration-150"
+            >
+              <button 
+                style={{ width: `${buttonWidth}px`, height: `${buttonHeight}px` }} 
+                className="bg-black text-white rounded font-semibold flex items-center justify-center select-none text-center transition-all duration-150 shadow"
+              >
+                {buttonWidth > 150 ? (
+                  <span className="text-[11px] truncate">{appleLogo} Sign in with Apple</span>
+                ) : (
+                  <span className="text-[10px]">{appleLogo} Sign in</span>
+                )}
+              </button>
+            </div>
+
+            <div className="mt-4 w-full grid grid-cols-3 gap-2 text-center text-[10px] font-mono">
+              <div className="bg-[var(--surface3)] p-2 rounded border border-[var(--border)]">
+                <p className="text-[var(--text-muted)] text-[9px] uppercase">Width Status</p>
+                <span className={`font-bold ${buttonWidth < 140 ? 'text-red-500' : 'text-green-600 dark:text-green-400'}`}>
+                  {buttonWidth < 140 ? '⚠️ FAILED' : '✓ COMPLIANT'}
+                </span>
+              </div>
+              <div className="bg-[var(--surface3)] p-2 rounded border border-[var(--border)]">
+                <p className="text-[var(--text-muted)] text-[9px] uppercase">Height Status</p>
+                <span className={`font-bold ${buttonHeight < 30 ? 'text-red-500' : 'text-green-600 dark:text-green-400'}`}>
+                  {buttonHeight < 30 ? '⚠️ FAILED' : '✓ COMPLIANT'}
+                </span>
+              </div>
+              <div className="bg-[var(--surface3)] p-2 rounded border border-[var(--border)]">
+                <p className="text-[var(--text-muted)] text-[9px] uppercase">Req. Margin</p>
+                <span className="text-indigo-500 dark:text-indigo-400 font-bold">
+                  {(buttonHeight / 10).toFixed(1)}px
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {tcId === "iOS-AS-BTN-10" && (
+        <div className="space-y-4">
+          <p className="text-xs text-[var(--text-muted)] leading-relaxed">
+            If incorporating custom elements, strict Apple Design guidelines must be honored: <strong>Never use the logo alone as a button</strong>, keep logo dimensions matched, and <strong>never paint or custom color</strong> the official logo file.
+          </p>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
+            {/* Standalone Logo - ILLEGAL */}
+            <div className="border border-red-500/20 bg-red-500/5 rounded-xl p-4 text-center space-y-4 relative">
+              <span className="absolute top-2 right-2 text-red-500 font-mono text-[8px] font-bold bg-red-500/15 px-1.5 py-0.5 rounded border border-red-500/20 uppercase">Illegal</span>
+              <p className="text-[11px] font-bold text-red-650 dark:text-red-400">Logo Alone Button</p>
+              
+              <div className="h-16 flex items-center justify-center">
+                <button className="w-10 h-10 bg-black text-white hover:bg-zinc-900 rounded-lg flex items-center justify-center shadow">
+                  <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
+                    <path d="M18.71 19.5C17.88 20.74 17 21.95 15.66 21.97C14.32 22 13.89 21.18 12.37 21.18C10.84 21.18 10.37 21.95 9.1 22C7.79 22.05 6.8 20.68 5.96 19.48C4.25 17 2.94 12.45 4.7 9.39C5.57 7.87 7.13 6.91 8.82 6.88C10.1 6.86 11.32 7.75 12.11 7.75C12.89 7.75 14.37 6.68 15.92 6.84C16.57 6.87 18.39 7.1 19.56 8.82C19.47 8.88 17.39 10.1 17.41 12.63C17.44 15.65 20.06 16.66 20.1 16.67C20.08 16.74 19.67 18.11 18.71 19.5M15.97 4.17C16.63 3.37 17.07 2.28 16.95 1C16.01 1.04 14.86 1.63 14.19 2.42C13.62 3.08 13.12 4.19 13.27 5.45C14.31 5.53 15.31 4.93 15.97 4.17Z" />
+                  </svg>
+                </button>
+              </div>
+              <p className="text-[9px] text-[var(--text-muted)]">Standalone Apple logo buttons are strictly disallowed by Apple HIG.</p>
+            </div>
+
+            {/* Custom Colored Logo - ILLEGAL */}
+            <div className="border border-red-500/20 bg-red-500/5 rounded-xl p-4 text-center space-y-4 relative">
+              <span className="absolute top-2 right-2 text-red-500 font-mono text-[8px] font-bold bg-red-500/15 px-1.5 py-0.5 rounded border border-red-500/20 uppercase">Illegal</span>
+              <p className="text-[11px] font-bold text-red-650 dark:text-red-400">Custom Colored Logo</p>
+              
+              <div className="h-16 flex items-center justify-center">
+                <button className="w-44 h-10 bg-black text-white hover:bg-zinc-900 rounded-lg flex items-center justify-center font-semibold text-xs transition-all shadow-md">
+                  <svg className="w-4 h-4 mr-2 inline-block text-pink-500 fill-current" viewBox="0 0 24 24">
+                    <path d="M18.71 19.5C17.88 20.74 17 21.95 15.66 21.97C14.32 22 13.89 21.18 12.37 21.18C10.84 21.18 10.37 21.95 9.1 22C7.79 22.05 6.8 20.68 5.96 19.48C4.25 17 2.94 12.45 4.7 9.39C5.57 7.87 7.13 6.91 8.82 6.88C10.1 6.86 11.32 7.75 12.11 7.75C12.89 7.75 14.37 6.68 15.92 6.84C16.57 6.87 18.39 7.1 19.56 8.82C19.47 8.88 17.39 10.1 17.41 12.63C17.44 15.65 20.06 16.66 20.1 16.67C20.08 16.74 19.67 18.11 18.71 19.5M15.97 4.17C16.63 3.37 17.07 2.28 16.95 1C16.01 1.04 14.86 1.63 14.19 2.42C13.62 3.08 13.12 4.19 13.27 5.45C14.31 5.53 15.31 4.93 15.97 4.17Z" />
+                  </svg>
+                  Sign in with Apple
+                </button>
+              </div>
+              <p className="text-[9px] text-[var(--text-muted)]">Do not colorize the Apple logo. It must be black or white only.</p>
+            </div>
+
+            {/* Perfect Approved CTA - COMPLIANT */}
+            <div className="border border-green-500/20 bg-green-500/5 rounded-xl p-4 text-center space-y-4 relative">
+              <span className="absolute top-2 right-2 text-green-500 font-mono text-[8px] font-bold bg-green-500/15 px-1.5 py-0.5 rounded border border-green-500/20 uppercase">Approved</span>
+              <p className="text-[11px] font-bold text-green-600 dark:text-green-400">Compliant Design</p>
+              
+              <div className="h-16 flex items-center justify-center">
+                <button className="w-44 h-10 bg-black text-white hover:bg-zinc-900 rounded-lg flex items-center justify-center font-semibold text-xs transition-all shadow border border-transparent">
+                  {appleLogo} Sign in with Apple
+                </button>
+              </div>
+              <p className="text-[9px] text-[var(--text-muted)]">Paired with approved text, default coloring, with no aspect warp.</p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {tcId === "iOS-AS-BTN-11" && (
+        <div className="space-y-4">
+          <p className="text-xs text-[var(--text-muted)] leading-relaxed">
+            For left-aligned customized logo buttons, Apple requires a strict layout scale: the button's text font size <strong>must be exactly 43% of the button's height</strong> (or the height should be 233% of the font size, rounded to the nearest integer).
+          </p>
+
+          <div className="bg-[var(--surface2)] p-5 rounded-xl border border-[var(--border)] max-w-sm mx-auto space-y-4 shadow-sm">
+            <div className="flex justify-between items-center text-xs font-mono">
+              <span className="text-[var(--text)] font-medium">Label Variant:</span>
+              <select 
+                value={customLeftLabel} 
+                onChange={(e) => setCustomLeftLabel(e.target.value)}
+                className="bg-[var(--bg)] border border-[var(--border)] rounded px-2.5 py-1 text-[var(--text-highlight)] text-xs focus:ring-1 focus:ring-indigo-500 outline-none"
+              >
+                <option value="Sign in with Apple" className="bg-[var(--bg)] text-[var(--text)]">Sign in with Apple</option>
+                <option value="Sign up with Apple" className="bg-[var(--bg)] text-[var(--text)]">Sign up with Apple</option>
+                <option value="Continue with Apple" className="bg-[var(--bg)] text-[var(--text)]">Continue with Apple</option>
+              </select>
+            </div>
+
+            <div className="flex justify-between text-xs font-mono">
+              <span className="text-[var(--text)] font-medium">Button Custom Height:</span>
+              <span className="text-indigo-500 dark:text-indigo-400 font-bold">{customLeftHeight}px</span>
+            </div>
+            <input 
+              type="range" 
+              min="36" 
+              max="72" 
+              value={customLeftHeight} 
+              onChange={(e) => setCustomLeftHeight(Number(e.target.value))}
+              className="w-full accent-indigo-500 h-1.5 rounded-lg bg-[var(--surface3)] cursor-pointer"
+            />
+            <div className="flex justify-between text-[10px] font-mono text-[var(--text-muted)]">
+              <span>36px Height</span>
+              <span>44px (Standard)</span>
+              <span>56px (Large)</span>
+              <span>72px Height</span>
+            </div>
+          </div>
+
+          {/* Sizing Calculations and Rendering */}
+          {(() => {
+            const calculatedFontSize = Math.round(customLeftHeight * 0.43);
+            const verifiedRatio = (customLeftHeight / calculatedFontSize).toFixed(2);
+            return (
+              <div className="p-5 bg-[var(--surface2)]/80 border border-[var(--border)] rounded-xl max-w-md mx-auto space-y-4 shadow-sm">
+                <div className="grid grid-cols-2 gap-2 text-center text-[10px] font-mono bg-[var(--surface3)] p-3 rounded-lg border border-[var(--border)]">
+                  <div>
+                    <span className="text-[var(--text-muted)] block uppercase text-[8.5px] font-semibold tracking-wider">Target Height</span>
+                    <span className="text-green-500 dark:text-green-400 font-bold text-xs">{customLeftHeight}px</span>
+                  </div>
+                  <div>
+                    <span className="text-[var(--text-muted)] block uppercase text-[8.5px] font-semibold tracking-wider">Calculated Font Size (43%)</span>
+                    <span className="text-green-500 dark:text-green-400 font-bold text-xs">{calculatedFontSize}px</span>
+                  </div>
+                </div>
+
+                <div className="flex justify-center py-4 h-24 items-center overflow-visible">
+                  <button 
+                    style={{ 
+                      height: `${customLeftHeight}px`,
+                      fontSize: `${calculatedFontSize}px`,
+                      borderRadius: `${customLeftHeight/6.5}px`
+                    }}
+                    className="w-80 bg-black text-white hover:bg-zinc-900 border border-zinc-800 flex items-center justify-center px-4 font-semibold select-none shadow-md transition-all duration-150"
+                  >
+                    {/* Perfect alignment for Apple left aligned custom logos */}
+                    <div className="flex items-center justify-center h-full w-full">
+                      <svg 
+                        style={{ height: '0.95em', width: 'auto' }} 
+                        className="fill-current mr-2.5 shrink-0" 
+                        viewBox="0 0 24 24"
+                      >
+                        <path d="M18.71 19.5C17.88 20.74 17 21.95 15.66 21.97C14.32 22 13.89 21.18 12.37 21.18C10.84 21.18 10.37 21.95 9.1 22C7.79 22.05 6.8 20.68 5.96 19.48C4.25 17 2.94 12.45 4.7 9.39C5.57 7.87 7.13 6.91 8.82 6.88C10.1 6.86 11.32 7.75 12.11 7.75C12.89 7.75 14.37 6.68 15.92 6.84C16.57 6.87 18.39 7.1 19.56 8.82C19.47 8.88 17.39 10.1 17.41 12.63C17.44 15.65 20.06 16.66 20.1 16.67C20.08 16.74 19.67 18.11 18.71 19.5M15.97 4.17C16.63 3.37 17.07 2.28 16.95 1C16.01 1.04 14.86 1.63 14.19 2.42C13.62 3.08 13.12 4.19 13.27 5.45C14.31 5.53 15.31 4.93 15.97 4.17Z" />
+                      </svg>
+                      <span className="whitespace-nowrap shrink-0 leading-none">{customLeftLabel}</span>
+                    </div>
+                  </button>
+                </div>
+
+                <p className="text-[10px] text-[var(--text)] text-center font-mono leading-relaxed bg-[var(--surface3)] px-3 py-1.5 rounded-lg border border-[var(--border)]">
+                  Calculated height-to-font ratio is <strong className="text-indigo-500 dark:text-indigo-400 font-bold">{verifiedRatio}x</strong> (~2.33 standard). Proportions are mathematically correct and compliant!
+                </p>
+              </div>
+            );
+          })()}
+        </div>
+      )}
+
+      {tcId === "iOS-AS-BTN-12" && (
+        <div className="space-y-4">
+          <p className="text-xs text-[var(--text-muted)] leading-relaxed">
+            All variants of the button title must preserve specific capitalization style: capitalize the first word—that is, <strong>Sign</strong> or <strong>Continue</strong>—and <strong>Apple</strong>; all other letters are lowercase. Do not capitalize the entire title.
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+            <div className="border border-green-500/20 bg-green-500/5 rounded-xl p-5 space-y-3 relative">
+              <span className="absolute top-3 right-3 text-green-500 flex items-center gap-1 text-[10px] font-mono font-bold bg-green-500/10 px-2 py-0.5 rounded border border-green-500/20"><Check size={11} /> COMPLIANT</span>
+              <p className="text-xs font-bold text-green-600 dark:text-green-400 uppercase tracking-wide">Correct Capitalization</p>
+              <div className="space-y-2">
+                <button className="w-full h-10 bg-black text-white rounded-lg flex items-center justify-center text-xs font-medium border border-zinc-800">
+                  {appleLogo} Sign in with Apple
+                </button>
+                <button className="w-full h-10 bg-black text-white rounded-lg flex items-center justify-center text-xs font-medium border border-zinc-800">
+                  {appleLogo} Continue with Apple
+                </button>
+              </div>
+              <p className="text-[10px] text-[var(--text-muted)]">First word and "Apple" are capitalized. Clean and matches HIG specification.</p>
+            </div>
+
+            <div className="border border-red-500/20 bg-red-500/5 rounded-xl p-5 space-y-3 relative">
+              <span className="absolute top-3 right-3 text-red-500 flex items-center gap-1 text-[10px] font-mono font-bold bg-red-500/10 px-2 py-0.5 rounded border border-red-500/20"><X size={11} /> NON-COMPLIANT</span>
+              <p className="text-xs font-bold text-red-650 dark:text-red-400 uppercase tracking-wide">Incorrect Capitalization</p>
+              <div className="space-y-2">
+                <button className="w-full h-10 bg-black text-white rounded-lg flex items-center justify-center text-xs font-medium border border-zinc-800 uppercase">
+                  {appleLogo} SIGN IN WITH APPLE
+                </button>
+                <button className="w-full h-10 bg-black text-white rounded-lg flex items-center justify-center text-xs font-medium border border-zinc-800">
+                  {appleLogo} Sign In With Apple
+                </button>
+              </div>
+              <p className="text-[10px] text-[var(--text-muted)]">All-caps buttons or title-case (capitalizing 'With') are strictly prohibited.</p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {tcId === "iOS-AS-BTN-13" && (
+        <div className="space-y-4">
+          <p className="text-xs text-[var(--text-muted)] leading-relaxed">
+            The title and logo must be precisely <strong>vertically aligned matching the middle of the button</strong>. Standard downloadable logo artwork already contains the correct padding.
+          </p>
+          <div className="bg-[var(--surface2)] p-5 rounded-xl border border-[var(--border)] max-w-sm mx-auto space-y-4 relative overflow-hidden">
+            <span className="absolute top-2 right-2 text-[10px] font-mono text-[var(--text-muted)]">Alignment Inspector</span>
+            <div className="relative py-4 flex justify-center bg-[var(--surface3)] border border-[var(--border)] rounded-lg">
+              {/* Vertical center alignment guide line */}
+              <div className="absolute left-0 right-0 top-1/2 border-t border-red-500/30 border-dashed z-10 pointer-events-none" />
+              <div className="absolute top-0 bottom-0 left-1/2 border-l border-indigo-500/10 border-dashed z-0 pointer-events-none" />
+              
+              <button className="h-12 w-56 bg-black text-white rounded-lg flex items-center justify-center font-medium text-xs border border-zinc-800 relative z-20 shadow-lg">
+                {appleLogo} 
+                <span className="relative">Sign in with Apple</span>
+              </button>
+            </div>
+            
+            <p className="text-[10px] text-[var(--text-muted)] text-center leading-relaxed">
+              The red dashed line represents the <strong>vertical middle axis</strong>. The text baseline and logo core geometric centers perfectly bisect this line to preserve official look.
+            </p>
+          </div>
+        </div>
+      )}
+
+      {tcId === "iOS-AS-BTN-14" && (
+        <div className="space-y-4">
+          <p className="text-xs text-[var(--text-muted)] leading-relaxed">
+            If aligning multiple identity providers on the same screen (e.g. Google, Apple, Facebook), you can <strong>inset the left side of the Apple logo</strong> to create crisp, balanced, uniform horizontal alignments.
+          </p>
+          
+          {(() => {
+            const [hasInset, setHasInset] = React.useState(true);
+            return (
+              <div className="space-y-4">
+                <div className="flex justify-center">
+                  <button 
+                    onClick={() => setHasInset(!hasInset)} 
+                    className="text-xs font-mono px-3 py-1 bg-indigo-500/10 text-indigo-500 dark:text-indigo-400 rounded-lg border border-indigo-500/20 hover:bg-indigo-500/20 hover:text-indigo-600 dark:hover:text-indigo-300 transition-all shadow-sm"
+                  >
+                    Toggle Apple Logo Left Inset: <strong>{hasInset ? "ENABLED (Compliant)" : "DISABLED (Misaligned)"}</strong>
+                  </button>
+                </div>
+
+                <div className="space-y-2 max-w-xs mx-auto bg-[var(--surface2)] p-5 rounded-xl border border-[var(--border)]">
+                  {/* Google */}
+                  <button className="w-full h-10 bg-white text-zinc-700 rounded-lg flex items-center px-4 text-xs font-semibold border border-zinc-200 shadow-sm">
+                    <span className="w-4 h-4 bg-red-500 text-white rounded-full flex items-center justify-center text-[8px] mr-3 font-bold">G</span>
+                    <span className="w-full text-center">Sign in with Google</span>
+                  </button>
+
+                  {/* Facebook */}
+                  <button className="w-full h-10 bg-[#1877f2] text-white rounded-lg flex items-center px-4 text-xs font-semibold shadow-sm">
+                    <span className="w-4 h-4 bg-white text-[#1877f2] rounded-full flex items-center justify-center text-[10px] mr-3 font-bold">f</span>
+                    <span className="w-full text-center">Sign in with Facebook</span>
+                  </button>
+
+                  {/* Apple with dynamic alignment */}
+                  <button className="w-full h-10 bg-black text-white rounded-lg flex items-center text-xs font-semibold border border-zinc-800 shadow-sm relative overflow-hidden">
+                    <div className="flex items-center w-full px-4">
+                      <div className="relative transition-all duration-150" style={{ transform: hasInset ? "translateX(4px)" : "translateX(0px)" }}>
+                        {appleLogo}
+                      </div>
+                      <span className="w-full text-center">Sign in with Apple</span>
+                    </div>
+                  </button>
+                </div>
+                <p className="text-[10px] text-[var(--text-muted)] text-center font-mono">
+                  {hasInset 
+                    ? "✓ Subtle 4px positive inset corrects visual center offset of the Apple logo." 
+                    : "⚠️ Without inset, the Apple logo looks slightly misaligned due to varying vector bounds."}
+                </p>
+              </div>
+            );
+          })()}
+        </div>
+      )}
+
+      {tcId === "iOS-AS-BTN-15" && (
+        <div className="space-y-4">
+          <p className="text-xs text-[var(--text-muted)] leading-relaxed">
+            Maintain a minimum margin between the title ('Apple') and the right edge of the button. This margin must measure <strong>at least 8% of the button's total width</strong> to protect against clipping or crowded layouts.
+          </p>
+
+          {(() => {
+            const [width, setWidth] = React.useState(220);
+            const minRightMargin = Math.ceil(width * 0.08);
+            const rightPadding = 24; // Visual mock right padding 
+            const isWidthCompliant = rightPadding >= minRightMargin;
+
+            return (
+              <div className="space-y-4">
+                <div className="bg-[var(--surface2)] p-4 rounded-xl border border-[var(--border)] max-w-sm mx-auto space-y-3">
+                  <div className="flex justify-between text-xs font-mono">
+                    <span className="text-[var(--text-muted)]">Adjust Button Width:</span>
+                    <span className="text-indigo-505 dark:text-indigo-400 font-bold">{width}px</span>
+                  </div>
+                  <input 
+                    type="range" 
+                    min="140" 
+                    max="300" 
+                    value={width} 
+                    onChange={(e) => setWidth(Number(e.target.value))}
+                    className="w-full accent-indigo-500 h-1.5 rounded-lg bg-[var(--surface3)]"
+                  />
+                  <div className="flex justify-between text-[10px] font-mono text-[var(--text-muted)]">
+                    <span>140px (Narrow)</span>
+                    <span>220px (Standard)</span>
+                    <span>300px (Wide)</span>
+                  </div>
+                </div>
+
+                <div className="p-5 bg-[var(--surface2)]/85 border border-[var(--border)] rounded-xl max-w-sm mx-auto space-y-4 text-center">
+                  <div className="flex justify-center items-center py-2 relative">
+                    <div 
+                      style={{ width: `${width}px` }} 
+                      className="h-11 bg-black text-white hover:bg-zinc-900 border border-zinc-800 rounded-lg flex items-center justify-between px-4 font-semibold select-none shadow relative transition-all"
+                    >
+                      <div className="flex items-center">
+                        {appleLogo}
+                        <span className="text-xs font-medium">Sign in with Apple</span>
+                      </div>
+                      
+                      {/* Safety marker right side */}
+                      <div 
+                        style={{ width: `${minRightMargin}px` }}
+                        className="h-full bg-red-500/20 border-l border-r border-red-500/40 flex items-center justify-center text-[7px] font-bold text-red-400 absolute right-0 top-0 rounded-r-lg"
+                      >
+                        8%
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-2 text-center text-[10px] font-mono bg-[var(--surface3)] p-3 rounded-lg border border-[var(--border)]">
+                    <div>
+                      <span className="text-[var(--text-muted)] block uppercase text-[8.5px] font-semibold tracking-tight">Required Margin (8%)</span>
+                      <span className="text-indigo-505 dark:text-indigo-400 font-bold text-xs">{minRightMargin}px</span>
+                    </div>
+                    <div>
+                      <span className="text-[var(--text-muted)] block uppercase text-[8.5px] font-semibold tracking-tight">Compliant Status</span>
+                      <span className={`font-bold text-xs ${isWidthCompliant ? 'text-green-600 dark:text-green-400' : 'text-red-500'}`}>
+                        {isWidthCompliant ? '✓ COMPLIANT' : '⚠️ TOO NARROW'}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            );
+          })()}
+        </div>
+      )}
+
+      {tcId === "iOS-AS-BTN-16" && (
+        <div className="space-y-4">
+          <p className="text-xs text-[var(--text-muted)] leading-relaxed">
+            The button size must account for differing length requirements of translated button titles. It must maintain width bounds (140pt minimum width) without wrapping or clipping text.
+          </p>
+
+          {(() => {
+            const [selectedLocale, setSelectedLocale] = React.useState('es');
+            const locales: Record<string, { label: string, desc: string, minWidth: number }> = {
+              en: { label: "Sign in with Apple", desc: "English (Default)", minWidth: 140 },
+              es: { label: "Iniciar sesión con Apple", desc: "Spanish (Longer translation)", minWidth: 180 },
+              de: { label: "Mit Apple anmelden", desc: "German (Longer verb phrases)", minWidth: 175 },
+              ja: { label: "Appleでサインイン", desc: "Japanese (Character layout)", minWidth: 140 },
+              fr: { label: "Se connecter avec Apple", desc: "French (Long expansion)", minWidth: 190 }
+            };
+
+            const data = locales[selectedLocale];
+
+            return (
+              <div className="space-y-4">
+                <div className="flex justify-center gap-2 flex-wrap">
+                  {Object.keys(locales).map((key) => (
+                    <button
+                      key={key}
+                      onClick={() => setSelectedLocale(key)}
+                      className={`text-xs px-2.5 py-1 rounded transition-all font-mono border ${selectedLocale === key ? 'bg-indigo-600 border-indigo-500 text-white' : 'bg-[var(--surface2)] border-[var(--border)] text-[var(--text-muted)] hover:bg-[var(--surface3)]'}`}
+                    >
+                      {key.toUpperCase()}
+                    </button>
+                  ))}
+                </div>
+
+                <div className="p-5 bg-[var(--surface2)]/85 border border-[var(--border)] rounded-xl max-w-sm mx-auto text-center space-y-4">
+                  <span className="text-[10px] font-mono text-[var(--text-muted)] uppercase block tracking-widest">{data.desc}</span>
+                  
+                  <div className="flex justify-center">
+                    <button 
+                      style={{ minWidth: `${data.minWidth}px` }}
+                      className="h-10 bg-black text-white hover:bg-zinc-900 border border-zinc-800 rounded-lg flex items-center justify-center px-4 font-semibold select-none shadow text-xs transition-all"
+                    >
+                      {appleLogo} {data.label}
+                    </button>
+                  </div>
+
+                  <p className="text-[10px] font-mono text-[var(--text-muted)]">
+                    Auto-expanded minWidth: <strong className="text-indigo-505 dark:text-indigo-400 font-bold">{data.minWidth}px</strong> to prevent text overflow or ugly wraps!
+                  </p>
+                </div>
+              </div>
+            );
+          })()}
+        </div>
+      )}
+
+      {tcId === "iOS-AS-BTN-17" && (
+        <div className="space-y-4">
+          <p className="text-xs text-[var(--text-muted)] leading-relaxed">
+            Logo-only buttons must carry a strict 1:1 aspect ratio. The Apple artwork already includes the correct padding. Adding further horizontal padding to squish or stretch the circular/square shape is prohibited.
+          </p>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="border border-green-500/20 bg-green-500/5 rounded-xl p-4 text-center space-y-3 relative">
+              <span className="absolute top-2 right-2 text-green-500 font-mono text-[8px] font-bold bg-green-500/15 px-1.5 py-0.5 rounded border border-green-500/20 uppercase"><Check size={9} /> COMPLIANT</span>
+              <p className="text-xs font-bold text-green-400">1:1 Square Aspect Ratio</p>
+              
+              <div className="flex justify-center p-3">
+                <button className="w-12 h-12 bg-black text-white rounded-lg flex items-center justify-center shadow border border-transparent">
+                  <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
+                    <path d="M18.71 19.5C17.88 20.74 17 21.95 15.66 21.97C14.32 22 13.89 21.18 12.37 21.18C10.84 21.18 10.37 21.95 9.1 22C7.79 22.05 6.8 20.68 5.96 19.48C4.25 17 2.94 12.45 4.7 9.39C5.57 7.87 7.13 6.91 8.82 6.88C10.1 6.86 11.32 7.75 12.11 7.75C12.89 7.75 14.37 6.68 15.92 6.84C16.57 6.87 18.39 7.1 19.56 8.82C19.47 8.88 17.39 10.1 17.41 12.63C17.44 15.65 20.06 16.66 20.1 16.67C20.08 16.74 19.67 18.11 18.71 19.5M15.97 4.17C16.63 3.37 17.07 2.28 16.95 1C16.01 1.04 14.86 1.63 14.19 2.42C13.62 3.08 13.12 4.19 13.27 5.45C14.31 5.53 15.31 4.93 15.97 4.17Z" />
+                  </svg>
+                </button>
+              </div>
+              <p className="text-[10px] text-zinc-400">Perfect 48px by 48px square shape with balanced interior margins.</p>
+            </div>
+
+            <div className="border border-red-500/20 bg-red-500/5 rounded-xl p-4 text-center space-y-3 relative">
+              <span className="absolute top-2 right-2 text-red-500 font-mono text-[8px] font-bold bg-red-500/15 px-1.5 py-0.5 rounded border border-red-500/20 uppercase"><X size={9} /> NON-COMPLIANT</span>
+              <p className="text-xs font-bold text-red-650 dark:text-red-400">Incorrect Aspect Rectangle</p>
+              
+              <div className="flex justify-center p-3">
+                <button className="w-20 h-10 bg-black text-white rounded-lg flex items-center justify-center shadow border border-transparent">
+                  <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
+                    <path d="M18.71 19.5C17.88 20.74 17 21.95 15.66 21.97C14.32 22 13.89 21.18 12.37 21.18C10.84 21.18 10.37 21.95 9.1 22C7.79 22.05 6.8 20.68 5.96 19.48C4.25 17 2.94 12.45 4.7 9.39C5.57 7.87 7.13 6.91 8.82 6.88C10.1 6.86 11.32 7.75 12.11 7.75C12.89 7.75 14.37 6.68 15.92 6.84C16.57 6.87 18.39 7.1 19.56 8.82C19.47 8.88 17.39 10.1 17.41 12.63C17.44 15.65 20.06 16.66 20.1 16.67C20.08 16.74 19.67 18.11 18.71 19.5M15.97 4.17C16.63 3.37 17.07 2.28 16.95 1C16.01 1.04 14.86 1.63 14.19 2.42C13.62 3.08 13.12 4.19 13.27 5.45C14.31 5.53 15.31 4.93 15.97 4.17Z" />
+                  </svg>
+                </button>
+              </div>
+              <p className="text-[10px] text-[var(--text-muted)]">80px by 40px stretches the identity space inappropriately. Logo must be 1:1.</p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {tcId === "iOS-AS-BTN-18" && (
+        <div className="space-y-4">
+          <p className="text-xs text-[var(--text-muted)] leading-relaxed">
+            Use a mask to change the default square shape of the logo-only image (e.g. rounded rect mask, no mask, or circular mask). Never crop the Apple-provided artwork to decrease its built-in padding or use the logo by itself, and avoid including additional padding.
+          </p>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
+            {/* Rounded rect mask */}
+            <div className="bg-[var(--surface2)] rounded-xl p-4 border border-[var(--border)] text-center space-y-3 flex flex-col items-center justify-center">
+              <span className="text-[9px] font-mono text-[var(--text-muted)] uppercase tracking-wider">1. Rounded Rectangle Mask</span>
+              <button className="w-14 h-14 bg-black text-white hover:bg-zinc-900 rounded-xl flex items-center justify-center shadow-lg border border-zinc-800">
+                <svg className="w-6 h-6 fill-current" viewBox="0 0 24 24">
+                  <path d="M18.71 19.5C17.88 20.74 17 21.95 15.66 21.97C14.32 22 13.89 21.18 12.37 21.18C10.84 21.18 10.37 21.95 9.1 22C7.79 22.05 6.8 20.68 5.96 19.48C4.25 17 2.94 12.45 4.7 9.39C5.57 7.87 7.13 6.91 8.82 6.88C10.1 6.86 11.32 7.75 12.11 7.75C12.89 7.75 14.37 6.68 15.92 6.84C16.57 6.87 18.39 7.1 19.56 8.82C19.47 8.88 17.39 10.1 17.41 12.63C17.44 15.65 20.06 16.66 20.1 16.67C20.08 16.74 19.67 18.11 18.71 19.5M15.97 4.17C16.63 3.37 17.07 2.28 16.95 1C16.01 1.04 14.86 1.63 14.19 2.42C13.62 3.08 13.12 4.19 13.27 5.45C14.31 5.53 15.31 4.93 15.97 4.17Z" />
+                </svg>
+              </button>
+              <span className="text-[10px] text-green-600 dark:text-green-400 font-bold block mt-1">Compliant (Rounded)</span>
+            </div>
+
+            {/* No mask */}
+            <div className="bg-[var(--surface2)] rounded-xl p-4 border border-[var(--border)] text-center space-y-3 flex flex-col items-center justify-center">
+              <span className="text-[9px] font-mono text-[var(--text-muted)] uppercase tracking-wider">2. No Mask</span>
+              <button className="w-14 h-14 bg-black text-white hover:bg-zinc-900 rounded-none flex items-center justify-center shadow-lg border border-zinc-800">
+                <svg className="w-6 h-6 fill-current" viewBox="0 0 24 24">
+                  <path d="M18.71 19.5C17.88 20.74 17 21.95 15.66 21.97C14.32 22 13.89 21.18 12.37 21.18C10.84 21.18 10.37 21.95 9.1 22C7.79 22.05 6.8 20.68 5.96 19.48C4.25 17 2.94 12.45 4.7 9.39C5.57 7.87 7.13 6.91 8.82 6.88C10.1 6.86 11.32 7.75 12.11 7.75C12.89 7.75 14.37 6.68 15.92 6.84C16.57 6.87 18.39 7.1 19.56 8.82C19.47 8.88 17.39 10.1 17.41 12.63C17.44 15.65 20.06 16.66 20.1 16.67C20.08 16.74 19.67 18.11 18.71 19.5M15.97 4.17C16.63 3.37 17.07 2.28 16.95 1C16.01 1.04 14.86 1.63 14.19 2.42C13.62 3.08 13.12 4.19 13.27 5.45C14.31 5.53 15.31 4.93 15.97 4.17Z" />
+                </svg>
+              </button>
+              <span className="text-[10px] text-green-600 dark:text-green-400 font-bold block mt-1">Compliant (Square)</span>
+            </div>
+
+            {/* Circular mask */}
+            <div className="bg-[var(--surface2)] rounded-xl p-4 border border-[var(--border)] text-center space-y-3 flex flex-col items-center justify-center">
+              <span className="text-[9px] font-mono text-[var(--text-muted)] uppercase tracking-wider">3. Circular Mask</span>
+              <button className="w-14 h-14 bg-black text-white hover:bg-zinc-900 rounded-full flex items-center justify-center shadow-lg border border-zinc-800">
+                <svg className="w-6 h-6 fill-current" viewBox="0 0 24 24">
+                  <path d="M18.71 19.5C17.88 20.74 17 21.95 15.66 21.97C14.32 22 13.89 21.18 12.37 21.18C10.84 21.18 10.37 21.95 9.1 22C7.79 22.05 6.8 20.68 5.96 19.48C4.25 17 2.94 12.45 4.7 9.39C5.57 7.87 7.13 6.91 8.82 6.88C10.1 6.86 11.32 7.75 12.11 7.75C12.89 7.75 14.37 6.68 15.92 6.84C16.57 6.87 18.39 7.1 19.56 8.82C19.47 8.88 17.39 10.1 17.41 12.63C17.44 15.65 20.06 16.66 20.1 16.67C20.08 16.74 19.67 18.11 18.71 19.5M15.97 4.17C16.63 3.37 17.07 2.28 16.95 1C16.01 1.04 14.86 1.63 14.19 2.42C13.62 3.08 13.12 4.19 13.27 5.45C14.31 5.53 15.31 4.93 15.97 4.17Z" />
+                </svg>
+              </button>
+              <span className="text-[10px] text-green-600 dark:text-green-400 font-bold block mt-1">Compliant (Circular)</span>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {tcId === "iOS-AS-BTN-19" && (
+        <div className="space-y-4">
+          <p className="text-xs text-[var(--text-muted)] leading-relaxed">
+            Maintain a minimum margin around the button. The margin should measure at least <strong>1/10 of the button's height</strong> to prevent overlapping with surrounding assets.
+          </p>
+
+          <div className="p-6 bg-[var(--surface2)]/85 border border-[var(--border)] rounded-xl max-w-sm mx-auto flex flex-col items-center justify-center relative overflow-hidden">
+            <span className="absolute top-2 left-3 text-[10px] font-mono text-[var(--text-muted)]">Outer Margin Visualizer</span>
+            
+            {/* Button wrapped in safety margin indicator container */}
+            <div className="p-3 border-2 border-dashed border-indigo-500/30 bg-indigo-500/5 rounded-2xl flex items-center justify-center mt-6 transition-all">
+              <button className="w-14 h-14 bg-black text-white hover:bg-zinc-900 rounded-xl flex items-center justify-center shadow-lg border border-zinc-800">
+                <svg className="w-6 h-6 fill-current" viewBox="0 0 24 24">
+                  <path d="M18.71 19.5C17.88 20.74 17 21.95 15.66 21.97C14.32 22 13.89 21.18 12.37 21.18C10.84 21.18 10.37 21.95 9.1 22C7.79 22.05 6.8 20.68 5.96 19.48C4.25 17 2.94 12.45 4.7 9.39C5.57 7.87 7.13 6.91 8.82 6.88C10.1 6.86 11.32 7.75 12.11 7.75C12.89 7.75 14.37 6.68 15.92 6.84C16.57 6.87 18.39 7.1 19.56 8.82C19.47 8.88 17.39 10.1 17.41 12.63C17.44 15.65 20.06 16.66 20.1 16.67C20.08 16.74 19.67 18.11 18.71 19.5M15.97 4.17C16.63 3.37 17.07 2.28 16.95 1C16.01 1.04 14.86 1.63 14.19 2.42C13.62 3.08 13.12 4.19 13.27 5.45C14.31 5.53 15.31 4.93 15.97 4.17Z" />
+                </svg>
+              </button>
+            </div>
+
+            <div className="mt-4 text-center space-y-1">
+              <p className="text-[10px] font-mono text-[var(--text-muted)]">
+                1/10 Height Margin Required: <strong className="text-indigo-505 dark:text-indigo-400 font-bold">5.6px</strong> (for 56px height)
+              </p>
+              <p className="text-[9px] text-indigo-600 dark:text-indigo-400 font-mono">
+                The outer blue dotted outline represents the minimum safety radius boundary.
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
 function TestCaseRow({ tc, tcNumber, execution, setStatus, setState, showToast, isExpanded, onToggle }: any) {
   const status = execution?.status || 'not_tested';
   
@@ -891,18 +1832,19 @@ function TestCaseRow({ tc, tcNumber, execution, setStatus, setState, showToast, 
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            className="border-t border-[var(--border)] bg-black/5 dark:bg-black/20 overflow-hidden"
+            className="border-t border-[var(--border)] bg-[var(--surface2)]/70 dark:bg-black/25 overflow-hidden"
           >
             <div className="p-8 space-y-8 max-w-4xl mx-auto">
+               <ButtonComplianceDemo tcId={tc.id} />
                <div className="grid grid-cols-5 gap-12">
                  <div className="col-span-3 space-y-6">
                    <div className="space-y-4">
-                     <p className="text-[10px] font-bold text-[var(--text-muted)] uppercase tracking-widest flex items-center gap-2 underline decoration-[var(--border)] underline-offset-4">01 Execution Protocol</p>
+                     <p className="text-[10px] font-bold text-[var(--text)] uppercase tracking-widest flex items-center gap-2 underline decoration-[var(--border)] underline-offset-4">01 Execution Protocol</p>
                      <ul className="space-y-3">
                        {tc.steps.split('\n').map((l: string, i: number) => (
                          <li key={i} className="flex gap-4 group/step">
-                           <span className="text-[10px] font-mono text-[var(--text-muted)] font-bold bg-[var(--bg)]/50 w-5 h-5 rounded flex items-center justify-center shrink-0 border border-[var(--border)]">{i+1}</span>
-                           <span className="text-sm text-[var(--text-muted)] group-hover/step:text-[var(--text-highlight)] transition-colors leading-relaxed">{l.replace(/^\d+\.\s*/, '')}</span>
+                           <span className="text-[10px] font-mono text-[var(--text)] font-bold bg-[var(--bg)] w-5 h-5 rounded flex items-center justify-center shrink-0 border border-[var(--border)] shadow-sm">{i+1}</span>
+                           <span className="text-sm text-[var(--text)] group-hover/step:text-[var(--text-highlight)] transition-colors leading-relaxed">{l.replace(/^\d+\.\s*/, '')}</span>
                          </li>
                        ))}
                      </ul>
