@@ -23,6 +23,7 @@ import {
 import { motion, AnimatePresence } from 'motion/react';
 import { ALL_DATA, IOS_ICONS, AND_ICONS } from './data';
 import { AppState, Session, TestCase, ExecutionMap, Guideline } from './types';
+import ExecutiveReportView from './components/ExecutiveReportView';
 
 const INITIAL_STATE: AppState = {
   sessions: [],
@@ -225,7 +226,7 @@ export default function App() {
 
   return (
     <div className="flex min-h-screen transition-colors duration-300" style={{ color: 'var(--text)', backgroundColor: 'var(--bg)' }}>
-      <div className="bg-mesh opacity-10 dark:opacity-15">
+      <div className="bg-mesh opacity-10 dark:opacity-15 print:hidden">
         <div className="bg-orb orb1 opacity-20 dark:opacity-100" />
         <div className="bg-orb orb2 opacity-20 dark:opacity-100" />
         <div className="bg-orb orb3 opacity-20 dark:opacity-100" />
@@ -233,7 +234,7 @@ export default function App() {
       </div>
 
       {/* Sidebar */}
-      <nav className="w-80 flex-shrink-0 bg-[var(--surface)] border-r border-[var(--border)] fixed h-screen flex flex-col z-[100] transition-colors duration-300">
+      <nav className="w-80 flex-shrink-0 bg-[var(--surface)] border-r border-[var(--border)] fixed h-screen flex flex-col z-[100] transition-colors duration-300 print:hidden">
         <div className="h-16 px-6 border-b border-[var(--border)] flex items-center justify-between shrink-0">
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 bg-[var(--text-highlight)] rounded flex items-center justify-center">
@@ -297,9 +298,9 @@ export default function App() {
       </nav>
 
       {/* Main Content Area */}
-      <div className="ml-80 flex-1 flex flex-col min-h-screen relative overflow-hidden transition-colors duration-300">
+      <div className="ml-80 print:ml-0 flex-1 flex flex-col min-h-screen relative overflow-hidden transition-colors duration-300 print:bg-white print:text-black">
         {/* Top Navbar */}
-        <nav className="h-16 border-b border-[var(--border)] bg-[var(--surface)] flex items-center justify-between px-8 shrink-0 transition-colors duration-300">
+        <nav className="h-16 border-b border-[var(--border)] bg-[var(--surface)] flex items-center justify-between px-8 shrink-0 transition-colors duration-300 print:hidden">
           <div className="flex items-center gap-2">
             <span className="text-xs font-mono text-[var(--text-muted)] uppercase tracking-widest">Platform</span>
             <span className="text-sm text-[var(--text-highlight)]">{state.platform === 'ios' ? 'ios-production' : 'android-main'}</span>
@@ -313,7 +314,7 @@ export default function App() {
         </nav>
 
         {/* Content Section */}
-        <main className="flex-1 p-10 overflow-y-auto page-transition max-w-6xl mx-auto w-full">
+        <main className="flex-1 p-10 print:p-0 print:m-0 overflow-y-auto page-transition max-w-6xl print:max-w-none mx-auto w-full">
         {activePage === 'dashboard' && <DashboardView stats={stats} risk={risk} activeSession={activeSession} onNewSess={() => setIsModalOpen(true)} onGoToTest={() => setActivePage('execute')} />}
         {activePage === 'sessions' && <SessionsView sessions={state.sessions} activeId={state.activeId} onSelect={id => setState(p => ({ ...p, activeId: id }))} onDelete={deleteSession} onNewSess={() => setIsModalOpen(true)} />}
         {activePage === 'execute' && <ExecuteView state={state} setState={setState} db={db} activeTcs={activeTcs} executions={executions} setStatus={setStatus} bulkSetStatus={bulkSetStatus} expandedTc={expandedTc} setExpandedTc={setExpandedTc} showToast={showToast} icons={icons} />}
@@ -2475,6 +2476,8 @@ function StatusBtn({ active, onClick, label, color, activeCls }: any) {
 function SummaryView({ stats, risk, activeSession, executions, activeTcs, db, state }: any) {
   if (!activeSession) return <div className="text-center py-20 text-[var(--text-muted)] italic">Initiate a session instance to generate summary data.</div>;
 
+  const [activeSubTab, setActiveSubTab] = useState<'report' | 'overview'>('report');
+
   const tested = stats.pass + stats.fail;
   const rate = tested ? Math.round(stats.pass / tested * 100) : 0;
   
@@ -2482,52 +2485,80 @@ function SummaryView({ stats, risk, activeSession, executions, activeTcs, db, st
 
   return (
     <div className="space-y-10 animate-in fade-in duration-500">
-      <div className="flex justify-between items-start">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 border-b border-[var(--border)] pb-6 mb-2">
         <div>
           <h1 className="text-4xl font-light text-[var(--text-highlight)] mb-2 tracking-tight">Summary Status</h1>
-          <p className="text-[var(--text-muted)] text-sm italic">Automated submission readiness assessment</p>
+          <p className="text-[var(--text-muted)] text-sm italic">Automated submission readiness assessment & formal compliance metrics</p>
         </div>
-        <button onClick={() => window.print()} className="px-5 py-2 bg-[var(--surface)] text-[var(--text)] text-xs font-bold rounded-lg border border-[var(--border)] hover:bg-[var(--surface2)] transition-all flex items-center gap-2">
-          <ExternalLink size={14} /> System Export
-        </button>
-      </div>
-
-      <div className={`p-12 rounded-2xl text-center border shadow-2xl transition-all ${risk.cls === 'pass' ? 'bg-green-500/5 border-green-500/20' : risk.cls === 'warn' ? 'bg-orange-500/5 border-orange-500/20' : 'bg-red-500/5 border-red-500/20'}`}>
-        <div className="text-6xl mb-6 drop-shadow-lg">{risk.icon}</div>
-        <h3 className="text-4xl font-light text-[var(--text-highlight)] mb-3 tracking-tighter uppercase">{risk.label}</h3>
-        <p className="text-xs font-mono text-[var(--text-muted)] uppercase tracking-[0.2em]">Risk Coefficient: <span className="text-[var(--text-highlight)] font-bold">{risk.score}</span></p>
-      </div>
-
-      <div className="grid grid-cols-3 gap-4">
-        <StatCard label="Passed" val={stats.pass} color="#4ade80" />
-        <StatCard label="Violations" val={stats.fail} color="#f87171" />
-        <StatCard label="Criticality Rate" val={`${rate}%`} color="var(--text-highlight)" />
-      </div>
-
-      <div className="bg-[var(--surface)] border border-[var(--border)] rounded-xl p-8 shadow-xl">
-        <h3 className="text-[11px] font-bold text-[var(--text-muted)] uppercase tracking-[0.2em] mb-8 flex items-center gap-3">
-          <div className="w-1 h-3 bg-red-500 rounded-full" /> Hardware & Policy Failures ({failed.length})
-        </h3>
-        <div className="space-y-3">
-          {failed.length === 0 ? (
-            <div className="text-center py-12 text-sm text-[var(--text-muted)] font-light italic">No critical anomalies detected in the current build.</div>
-          ) : failed.map((tc: TestCase) => {
-            const gl = db.guidelines.find((g: Guideline) => g.id === tc.gl);
-            const imp = (state.impacts[gl?.id]?.[state.platform as 'ios' | 'android']) || gl?.impact || 'medium';
-            const num = getTestCaseNumber(tc, db.testCases);
-            return (
-              <div key={tc.id} className="flex gap-6 p-5 rounded-lg bg-[var(--bg)]/20 border border-[var(--border)] items-start hover:border-[var(--text-muted)] transition-colors group">
-                <span className="text-[10px] font-mono text-[var(--text-muted)] bg-[var(--surface2)] px-2 py-1 rounded border border-[var(--border)] uppercase tracking-tighter">#{num}</span>
-                <div className="flex-1">
-                  <h4 className="text-sm font-medium text-[var(--text-highlight)] leading-tight mb-2 whitespace-pre-wrap group-hover:text-[var(--text-highlight)] transition-colors">{tc.title}</h4>
-                  <p className="text-[10px] font-bold text-[var(--text-muted)] uppercase tracking-widest">{gl?.title}</p>
-                </div>
-                <span className={`text-[9px] font-bold uppercase px-2 py-1 rounded border ${imp === 'high' ? 'bg-red-500/10 text-red-500 border-red-500/20' : imp === 'medium' ? 'bg-orange-500/10 text-orange-500 border-orange-500/20' : 'bg-green-500/10 text-green-500 border-green-500/20'} tracking-tighter`}>{imp}</span>
-              </div>
-            );
-          })}
+        
+        <div className="flex bg-[var(--surface2)] border border-[var(--border)] p-1 rounded-lg text-xs font-mono shrink-0 shadow-md">
+          <button 
+            type="button"
+            onClick={() => setActiveSubTab('report')}
+            className={`px-4 py-2 rounded-md font-bold transition-all duration-200 ${activeSubTab === 'report' ? 'bg-[var(--text-highlight)] text-[var(--bg)] font-extrabold shadow-sm' : 'text-[var(--text-muted)] hover:text-[var(--text-highlight)]'}`}
+          >
+            📄 Compliance Report
+          </button>
+          <button 
+            type="button"
+            onClick={() => setActiveSubTab('overview')}
+            className={`px-4 py-2 rounded-md font-bold transition-all duration-200 ${activeSubTab === 'overview' ? 'bg-[var(--text-highlight)] text-[var(--bg)] font-extrabold shadow-sm' : 'text-[var(--text-muted)] hover:text-[var(--text-highlight)]'}`}
+          >
+            📊 Analytics Overview
+          </button>
         </div>
       </div>
+
+      {activeSubTab === 'report' ? (
+        <ExecutiveReportView 
+          stats={stats}
+          risk={risk}
+          activeSession={activeSession}
+          executions={executions}
+          activeTcs={activeTcs}
+          db={db}
+          state={state}
+        />
+      ) : (
+        <div className="space-y-10 animate-in fade-in duration-300">
+          <div className={`p-12 rounded-2xl text-center border shadow-2xl transition-all ${risk.cls === 'pass' ? 'bg-green-500/5 border-green-500/20' : risk.cls === 'warn' ? 'bg-orange-500/5 border-orange-500/20' : 'bg-red-500/5 border-red-500/20'}`}>
+            <div className="text-6xl mb-6 drop-shadow-lg">{risk.icon}</div>
+            <h3 className="text-4xl font-light text-[var(--text-highlight)] mb-3 tracking-tighter uppercase">{risk.label}</h3>
+            <p className="text-xs font-mono text-[var(--text-muted)] uppercase tracking-[0.2em]">Risk Coefficient: <span className="text-[var(--text-highlight)] font-bold">{risk.score}</span></p>
+          </div>
+
+          <div className="grid grid-cols-3 gap-4">
+            <StatCard label="Passed" val={stats.pass} color="#4ade80" />
+            <StatCard label="Violations" val={stats.fail} color="#f87171" />
+            <StatCard label="Criticality Rate" val={`${rate}%`} color="var(--text-highlight)" />
+          </div>
+
+          <div className="bg-[var(--surface)] border border-[var(--border)] rounded-xl p-8 shadow-xl">
+            <h3 className="text-[11px] font-bold text-[var(--text-muted)] uppercase tracking-[0.2em] mb-8 flex items-center gap-3">
+              <div className="w-1 h-3 bg-red-500 rounded-full" /> Hardware & Policy Failures ({failed.length})
+            </h3>
+            <div className="space-y-3">
+              {failed.length === 0 ? (
+                <div className="text-center py-12 text-sm text-[var(--text-muted)] font-light italic">No critical anomalies detected in the current build.</div>
+              ) : failed.map((tc: TestCase) => {
+                const gl = db.guidelines.find((g: Guideline) => g.id === tc.gl);
+                const imp = (state.impacts[gl?.id]?.[state.platform as 'ios' | 'android']) || gl?.impact || 'medium';
+                const num = getTestCaseNumber(tc, db.testCases);
+                return (
+                  <div key={tc.id} className="flex gap-6 p-5 rounded-lg bg-[var(--bg)]/20 border border-[var(--border)] items-start hover:border-[var(--text-muted)] transition-colors group">
+                    <span className="text-[10px] font-mono text-[var(--text-muted)] bg-[var(--surface2)] px-2 py-1 rounded border border-[var(--border)] uppercase tracking-tighter">#{num}</span>
+                    <div className="flex-1">
+                      <h4 className="text-sm font-medium text-[var(--text-highlight)] leading-tight mb-2 whitespace-pre-wrap group-hover:text-[var(--text-highlight)] transition-colors">{tc.title}</h4>
+                      <p className="text-[10px] font-bold text-[var(--text-muted)] uppercase tracking-widest">{gl?.title}</p>
+                    </div>
+                    <span className={`text-[9px] font-bold uppercase px-2 py-1 rounded border ${imp === 'high' ? 'bg-red-500/10 text-red-500 border-red-500/20' : imp === 'medium' ? 'bg-orange-500/10 text-orange-500 border-orange-500/20' : 'bg-green-500/10 text-green-500 border-green-500/20'} tracking-tighter`}>{imp}</span>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
