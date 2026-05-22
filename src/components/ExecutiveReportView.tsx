@@ -241,7 +241,7 @@ export default function ExecutiveReportView({
     text += `Assessed Session Description: ${activeSession?.desc || 'N/A'}\n\n`;
     
     text += `----------------------------------------------------\n`;
-    text += `1. EXECUTIVE SUMMARY\n`;
+    text += `1. COMPLIANCE SUMMARY\n`;
     text += `----------------------------------------------------\n`;
     text += `Overall Compliance Posture: ${posture.status}\n\n`;
     posture.bullets.forEach((b, i) => {
@@ -367,11 +367,11 @@ export default function ExecutiveReportView({
       </div>
 
       <div className="space-y-10">
-        {/* SECTION 1: EXECUTIVE SUMMARY */}
+        {/* SECTION 1: COMPLIANCE SUMMARY */}
         <section className="space-y-4">
           <div className="flex items-center gap-2.5">
             <span className="w-1.5 h-3 bg-indigo-500 rounded-sm" />
-            <h3 className="text-xs font-mono font-extrabold tracking-widest text-[var(--text-highlight)] uppercase">1. Executive Summary</h3>
+            <h3 className="text-xs font-mono font-extrabold tracking-widest text-[var(--text-highlight)] uppercase">1. Compliance Summary</h3>
           </div>
           
           <div className="space-y-6">
