@@ -128,8 +128,8 @@ export default function ExecutiveReportView({
     if (isInsufficientData) {
       return {
         status: 'Uncertain - Assessment Pending',
-        badgeColor: 'border-yellow-500/20 bg-yellow-500/5 text-yellow-500',
-        textColor: 'text-yellow-500',
+        badgeColor: 'border-yellow-500/20 bg-yellow-500/10 text-yellow-600 dark:text-yellow-500',
+        textColor: 'text-yellow-600 dark:text-yellow-500',
         bullets: [
           'No test execution results have been recorded in this session yet.',
           'Stakeholders cannot verify store compliance. Critical business risks may remain unmitigated.',
@@ -142,8 +142,8 @@ export default function ExecutiveReportView({
       if (stats.nt > 0) {
         return {
           status: 'Compliant with Pending Verifications',
-          badgeColor: 'border-emerald-500/20 bg-emerald-500/5 text-emerald-400',
-          textColor: 'text-emerald-400',
+          badgeColor: 'border-emerald-500/20 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400',
+          textColor: 'text-emerald-600 dark:text-emerald-400',
           bullets: [
             'All evaluated requirements currently meet platform compliance criteria.',
             `There are still ${stats.nt} outstanding test nodes that require active assessment.`,
@@ -153,8 +153,8 @@ export default function ExecutiveReportView({
       }
       return {
         status: 'Fully Compliant - Ready for Submission',
-        badgeColor: 'border-emerald-500/30 bg-emerald-500/10 text-emerald-400 shadow-glow-green',
-        textColor: 'text-emerald-400 font-extrabold',
+        badgeColor: 'border-emerald-500/30 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 shadow-glow-green',
+        textColor: 'text-emerald-600 dark:text-emerald-400 font-extrabold',
         bullets: [
           'Excellent structural status: 100% pass rate achieved across all relevant criteria.',
           'No active violations or failure points detected. Store guidelines met fully.',
@@ -174,8 +174,8 @@ export default function ExecutiveReportView({
     if (hasHighSeverityFailures) {
       return {
         status: 'Non-Compliant - Immediate Rectification Required',
-        badgeColor: 'border-red-500/30 bg-red-500/10 text-red-400 shadow-glow-red animate-pulse',
-        textColor: 'text-red-400 font-bold',
+        badgeColor: 'border-red-500/30 bg-red-500/10 text-red-600 dark:text-red-400 shadow-glow-red animate-pulse',
+        textColor: 'text-red-600 dark:text-red-400 font-bold',
         bullets: [
           'Critical vulnerabilities identified: High-severity violations will trigger immediate store review rejections.',
           `A total of ${stats.fail} failure points were registered during the workbench evaluations.`,
@@ -187,8 +187,8 @@ export default function ExecutiveReportView({
 
     return {
       status: 'Mostly Compliant with Critical Issues',
-      badgeColor: 'border-amber-500/20 bg-amber-500/5 text-amber-550 dark:text-amber-400',
-      textColor: 'text-amber-555 dark:text-amber-400',
+      badgeColor: 'border-amber-500/20 bg-amber-500/10 text-amber-600 dark:text-amber-400',
+      textColor: 'text-amber-600 dark:text-amber-400',
       bullets: [
         'Moderate submission threat: Evaluated build meets basic framework policies, but holds outstanding active violations.',
         `Registered ${stats.fail} active failure nodes of medium/low risk score.`,
@@ -375,7 +375,7 @@ export default function ExecutiveReportView({
           </div>
           
           <div className="space-y-6">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 rounded-xl border bg-black/20">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 rounded-xl border border-[var(--border)] bg-white dark:bg-black/20 shadow-sm">
               <div>
                 <p className="text-[10px] font-mono text-[var(--text-muted)] uppercase tracking-wider">Assessed Posture</p>
                 <h4 className="text-lg font-bold text-[var(--text-highlight)] mt-0.5 leading-tight">{posture.status}</h4>
