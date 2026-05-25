@@ -133,7 +133,7 @@ export default function ExecutiveReportView({
         bullets: [
           'No test execution results have been recorded in this session yet.',
           'Stakeholders cannot verify store compliance. Critical business risks may remain unmitigated.',
-          'Priority Recommendation: Initiate verification audits in the Test Execution workbench immediately.'
+          'Priority Recommendation: Initiate verification audits in the Test Execution first party compliance evaluation area immediately.'
         ]
       };
     }
@@ -178,7 +178,7 @@ export default function ExecutiveReportView({
         textColor: 'text-red-600 dark:text-red-400 font-bold',
         bullets: [
           'Critical vulnerabilities identified: High-severity violations will trigger immediate store review rejections.',
-          `A total of ${stats.fail} failure points were registered during the workbench evaluations.`,
+          `A total of ${stats.fail} failure points were registered during the first party compliance evaluations.`,
           'Store launch authorization is strictly locked because of structural policies around core platform directives.',
           'Identified codebase compliance failures must be resolved prior to store distribution.'
         ]
@@ -380,7 +380,7 @@ export default function ExecutiveReportView({
 
       <div className="space-y-10">
         {/* SECTION 1: COMPLIANCE SUMMARY */}
-        <section className="space-y-4">
+        <section className="space-y-4 print-no-split">
           <div className="flex items-center gap-2.5">
             <span className="w-1.5 h-3 bg-indigo-500 rounded-sm" />
             <h3 className="text-xs font-mono font-extrabold tracking-widest text-[var(--text-highlight)] uppercase">1. Compliance Summary</h3>
@@ -397,10 +397,6 @@ export default function ExecutiveReportView({
               </span>
             </div>
 
-            <p className="text-xs text-[var(--text-muted)] leading-relaxed italic">
-              Based on the aggregated evidence checked within the compliance workbench, here is a professional review of the build's submission safety factor:
-            </p>
-
             <ul className="space-y-3 pl-1 text-xs text-[var(--text)]">
               {posture.bullets.map((bullet, idx) => (
                 <li key={idx} className="flex gap-3 leading-relaxed items-start">
@@ -413,7 +409,7 @@ export default function ExecutiveReportView({
         </section>
 
         {/* SECTION 2: COMPLIANCE SCORE OVERVIEW */}
-        <section className="space-y-4">
+        <section className="space-y-4 print-no-split">
           <div className="flex items-center gap-2.5">
             <span className="w-1.5 h-3 bg-indigo-500 rounded-sm" />
             <h3 className="text-xs font-mono font-extrabold tracking-widest text-[var(--text-highlight)] uppercase">2. Compliance Score Overview</h3>
@@ -485,7 +481,7 @@ export default function ExecutiveReportView({
         </div>
 
         {/* SECTION 3: KEY RISK AREAS */}
-        <section className="space-y-4">
+        <section className="space-y-4 print-no-split">
           <div className="flex items-center gap-2.5">
             <span className="w-1.5 h-3 bg-indigo-500 rounded-sm" />
             <h3 className="text-xs font-mono font-extrabold tracking-widest text-[var(--text-highlight)] uppercase font-bold">3. Key Risk Areas</h3>
@@ -505,7 +501,7 @@ export default function ExecutiveReportView({
               {riskAreas.map((area, idx) => {
                 const subImpact = state.impacts[area.guideline.id]?.[state.platform] || area.guideline.impact || 'medium';
                 return (
-                  <div key={area.guideline.id} className="p-5 rounded-xl border border-[var(--border)] bg-[var(--surface2)] hover:border-[var(--text-muted)] transition-colors">
+                  <div key={area.guideline.id} className="p-5 rounded-xl border border-[var(--border)] bg-[var(--surface2)] hover:border-[var(--text-muted)] transition-colors print-no-split">
                     <div className="flex justify-between items-start mb-2.5">
                       <div>
                         <h4 className="font-semibold text-sm text-[var(--text-highlight)] mt-0.5">{area.guideline.title}</h4>
@@ -522,7 +518,7 @@ export default function ExecutiveReportView({
                     <div className="flex items-center gap-2">
                       <div className="w-full bg-[var(--bg)] rounded-full h-1.5 overflow-hidden">
                         <div 
-                          className={`h-full ${subImpact === 'high' ? 'bg-red-400' : 'bg-orange-400'}`}
+                           className={`h-full ${subImpact === 'high' ? 'bg-red-400' : 'bg-orange-400'}`}
                           style={{ width: `${Math.min(100, (area.count / stats.total) * 400)}%` }}
                         />
                       </div>
@@ -536,7 +532,7 @@ export default function ExecutiveReportView({
         </section>
 
         {/* SECTION 4: NOTABLE VIOLATIONS (failing test cases imported directly) */}
-        <section className="space-y-4">
+        <section className="space-y-4 print-no-split">
           <div className="flex items-center gap-2.5">
             <span className="w-1.5 h-3 bg-indigo-500 rounded-sm" />
             <h3 className="text-xs font-mono font-extrabold tracking-widest text-[var(--text-highlight)] uppercase font-bold">4. Notable Violations</h3>
@@ -560,7 +556,7 @@ export default function ExecutiveReportView({
                 const notes = executions[tc.id]?.notes;
 
                 return (
-                  <div key={tc.id} className="p-5 rounded-xl border border-[var(--border)] bg-[var(--surface2)] hover:border-[var(--text-muted)] transition-colors relative overflow-hidden">
+                  <div key={tc.id} className="p-5 rounded-xl border border-[var(--border)] bg-[var(--surface2)] hover:border-[var(--text-muted)] transition-colors relative overflow-hidden print-no-split">
                     {/* Visual left accent bar */}
                     <div className="absolute top-0 left-0 bottom-0 w-1 bg-red-500" />
                     
@@ -620,7 +616,7 @@ export default function ExecutiveReportView({
         </section>
 
         {/* SECTION 5: APPENDIX (SHORT STATS ONLY) */}
-        <div className="pt-6 border-t border-[var(--border)] flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 text-[10px] font-mono text-[var(--text-muted)]">
+        <div className="pt-6 border-t border-[var(--border)] flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 text-[10px] font-mono text-[var(--text-muted)] print-no-split">
           <div>
             <span>Audit density: {totalAssessed}/{stats.total} total criteria checked.</span>
           </div>
