@@ -124,15 +124,34 @@ body {
 
 @media print {
   @page {
-    margin: 0 !important;
+    margin: 1.6cm 1.4cm !important;
   }
   body {
-    padding: 2.2cm 2cm;
+    padding: 0 !important;
+    margin: 0 !important;
     background-color: white !important;
     color: black !important;
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
   }
+  
+  /* Flatten layout containers and prevent clipping */
+  html, body, #root, main, #executive-compliance-report, .flex-1, .space-y-10 {
+    overflow: visible !important;
+    overflow-y: visible !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    display: block !important;
+    position: static !important;
+  }
+
+  /* Headings must stay with their starting content block */
+  h1, h2, h3, h4, h5, h6 {
+    break-after: avoid-page !important;
+    page-break-after: avoid !important;
+  }
+
   .print-no-split {
     break-inside: avoid !important;
     page-break-inside: avoid !important;

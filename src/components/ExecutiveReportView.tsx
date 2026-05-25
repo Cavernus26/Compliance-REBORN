@@ -36,7 +36,7 @@ function PrintPieChart({ stats }: { stats: { pass: number; fail: number; na: num
   let accumulatedPercent = 0;
 
   return (
-    <div className="flex items-center gap-10 p-5 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl my-6 w-full max-w-md mx-auto">
+    <div className="flex items-center gap-10 p-5 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl my-6 w-full max-w-md mx-auto print-no-split">
       <div className="relative w-28 h-28 shrink-0">
         <svg viewBox="0 0 100 100" className="w-full h-full -rotate-90">
           <circle cx="50" cy="50" r="35" fill="none" stroke="#e4e4e7" strokeWidth="16" />
@@ -380,14 +380,14 @@ export default function ExecutiveReportView({
 
       <div className="space-y-10">
         {/* SECTION 1: COMPLIANCE SUMMARY */}
-        <section className="space-y-4 print-no-split">
+        <section className="space-y-4">
           <div className="flex items-center gap-2.5">
             <span className="w-1.5 h-3 bg-indigo-500 rounded-sm" />
             <h3 className="text-xs font-mono font-extrabold tracking-widest text-[var(--text-highlight)] uppercase">1. Compliance Summary</h3>
           </div>
           
           <div className="space-y-6">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 rounded-xl border border-[var(--border)] bg-white dark:bg-black/20 shadow-sm">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 rounded-xl border border-[var(--border)] bg-white dark:bg-black/20 shadow-sm print-no-split">
               <div>
                 <p className="text-[10px] font-mono text-[var(--text-muted)] uppercase tracking-wider">Assessed Posture</p>
                 <h4 className="text-lg font-bold text-[var(--text-highlight)] mt-0.5 leading-tight">{posture.status}</h4>
@@ -399,7 +399,7 @@ export default function ExecutiveReportView({
 
             <ul className="space-y-3 pl-1 text-xs text-[var(--text)]">
               {posture.bullets.map((bullet, idx) => (
-                <li key={idx} className="flex gap-3 leading-relaxed items-start">
+                <li key={idx} className="flex gap-3 leading-relaxed items-start print-no-split">
                   <span className="text-indigo-400 mt-1 select-none text-[8px] shrink-0">◆</span>
                   <span>{bullet}</span>
                 </li>
@@ -409,13 +409,13 @@ export default function ExecutiveReportView({
         </section>
 
         {/* SECTION 2: COMPLIANCE SCORE OVERVIEW */}
-        <section className="space-y-4 print-no-split">
+        <section className="space-y-4">
           <div className="flex items-center gap-2.5">
             <span className="w-1.5 h-3 bg-indigo-500 rounded-sm" />
             <h3 className="text-xs font-mono font-extrabold tracking-widest text-[var(--text-highlight)] uppercase">2. Compliance Score Overview</h3>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 pt-1">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 pt-1 print-no-split">
             <div className="bg-[var(--surface2)] border border-[var(--border)] rounded-xl p-4 flex flex-col justify-between h-24">
               <span className="text-[9px] font-mono text-[var(--text-muted)] uppercase">Pass Ratio</span>
               <div className="flex items-baseline gap-2">
@@ -447,7 +447,7 @@ export default function ExecutiveReportView({
           </div>
 
           {/* Score distribution bar */}
-          <div className="pt-2">
+          <div className="pt-2 print-no-split">
             <div className="h-2 w-full rounded-full bg-[var(--surface2)] overflow-hidden flex">
               <div className="bg-green-400 h-full" style={{ width: `${stats.total ? (stats.pass / stats.total) * 100 : 0}%` }} />
               <div className="bg-red-400 h-full" style={{ width: `${stats.total ? (stats.fail / stats.total) * 100 : 0}%` }} />
@@ -481,18 +481,18 @@ export default function ExecutiveReportView({
         </div>
 
         {/* SECTION 3: KEY RISK AREAS */}
-        <section className="space-y-4 print-no-split">
+        <section className="space-y-4">
           <div className="flex items-center gap-2.5">
             <span className="w-1.5 h-3 bg-indigo-500 rounded-sm" />
             <h3 className="text-xs font-mono font-extrabold tracking-widest text-[var(--text-highlight)] uppercase font-bold">3. Key Risk Areas</h3>
           </div>
 
           {isInsufficientData ? (
-            <div className="text-center py-6 text-xs text-[var(--text-muted)] italic border border-dashed border-[var(--border)] rounded-lg">
+            <div className="text-center py-6 text-xs text-[var(--text-muted)] italic border border-dashed border-[var(--border)] rounded-lg print-no-split">
               No risk scoring aggregates are compiled because execution metrics are insufficient. Evaluated areas will populate dynamically.
             </div>
           ) : riskAreas.length === 0 ? (
-            <div className="p-4 bg-green-500/5 border border-green-500/20 text-xs text-green-400 rounded-lg flex items-center gap-3">
+            <div className="p-4 bg-green-500/5 border border-green-500/20 text-xs text-green-400 rounded-lg flex items-center gap-3 print-no-split">
               <Check size={14} />
               <span>Perfect adherence. Zero policy category checkpoints register active failures. No risk hotspots identified.</span>
             </div>
@@ -532,7 +532,7 @@ export default function ExecutiveReportView({
         </section>
 
         {/* SECTION 4: NOTABLE VIOLATIONS (failing test cases imported directly) */}
-        <section className="space-y-4 print-no-split">
+        <section className="space-y-4">
           <div className="flex items-center gap-2.5">
             <span className="w-1.5 h-3 bg-indigo-500 rounded-sm" />
             <h3 className="text-xs font-mono font-extrabold tracking-widest text-[var(--text-highlight)] uppercase font-bold">4. Notable Violations</h3>
