@@ -194,6 +194,7 @@ export default function App() {
       tester: formData.get('tester') as string || 'QA',
       desc: formData.get('desc') as string || '',
       created: new Date().toISOString(),
+      milestone: formData.get('milestone') as string || 'General Staging',
     };
 
     setState(prev => ({
@@ -332,18 +333,22 @@ export default function App() {
             
             <div className="space-y-4">
               <div className="space-y-1">
-                <label className="text-[10px] font-bold text-[var(--text3)] uppercase">Build Version *</label>
-                <input name="version" required autoFocus placeholder="e.g. 2.4.1 (build 103)" className="w-full bg-[var(--surface2)] border border-[var(--border)] rounded-lg px-3 py-2 text-sm outline-none focus:border-[var(--accent)] transition-colors" />
+                <label className="text-[10px] font-bold text-[var(--text3)] uppercase">App Version *</label>
+                <input name="version" required autoFocus placeholder="e.g. 2.4.1" className="w-full bg-[var(--surface2)] border border-[var(--border)] rounded-lg px-3 py-2 text-sm outline-none focus:border-[var(--accent)] transition-colors" />
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-1">
-                  <label className="text-[10px] font-bold text-[var(--text3)] uppercase">Build No.</label>
-                  <input name="build" placeholder="103" className="w-full bg-[var(--surface2)] border border-[var(--border)] rounded-lg px-3 py-2 text-sm outline-none focus:border-[var(--accent)] transition-colors" />
+                  <label className="text-[10px] font-bold text-[var(--text3)] uppercase">Build Name</label>
+                  <input name="build" placeholder="e.g. Build 103 or RC-2" className="w-full bg-[var(--surface2)] border border-[var(--border)] rounded-lg px-3 py-2 text-sm outline-none focus:border-[var(--accent)] transition-colors" />
                 </div>
                 <div className="space-y-1">
-                  <label className="text-[10px] font-bold text-[var(--text3)] uppercase">Tester</label>
-                  <input name="tester" defaultValue="QA" className="w-full bg-[var(--surface2)] border border-[var(--border)] rounded-lg px-3 py-2 text-sm outline-none focus:border-[var(--accent)] transition-colors" />
+                  <label className="text-[10px] font-bold text-[var(--text3)] uppercase">Lead Tester</label>
+                  <input name="tester" defaultValue="QA Team" className="w-full bg-[var(--surface2)] border border-[var(--border)] rounded-lg px-3 py-2 text-sm outline-none focus:border-[var(--accent)] transition-colors" />
                 </div>
+              </div>
+              <div className="space-y-1">
+                <label className="text-[10px] font-bold text-[var(--text3)] uppercase">Milestone</label>
+                <input name="milestone" placeholder="e.g. Sprint 14, Beta Launch" className="w-full bg-[var(--surface2)] border border-[var(--border)] rounded-lg px-3 py-2 text-sm outline-none focus:border-[var(--accent)] transition-colors" />
               </div>
               <div className="space-y-1">
                 <label className="text-[10px] font-bold text-[var(--text3)] uppercase">Internal Note</label>
@@ -2485,7 +2490,7 @@ function SummaryView({ stats, risk, activeSession, executions, activeTcs, db, st
 
   return (
     <div className="space-y-10 animate-in fade-in duration-500">
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 border-b border-[var(--border)] pb-6 mb-2">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 border-b border-[var(--border)] pb-6 mb-2 print:hidden">
         <div>
           <h1 className="text-4xl font-light text-[var(--text-highlight)] mb-2 tracking-tight">Summary Status</h1>
           <p className="text-[var(--text-muted)] text-sm italic">Automated submission readiness assessment & formal compliance metrics</p>

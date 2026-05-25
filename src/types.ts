@@ -29,6 +29,7 @@ export interface Session {
   tester: string;
   desc: string;
   created: string;
+  milestone?: string;
 }
 
 export interface ExecutionState {

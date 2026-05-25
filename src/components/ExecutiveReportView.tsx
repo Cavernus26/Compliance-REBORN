@@ -233,11 +233,15 @@ export default function ExecutiveReportView({
   // Construct text report for Copy to Clipboard
   const generateTextReport = () => {
     let text = `====================================================\n`;
-    text += `EXECUTIVE COMPLIANCE AUDIT REPORT\n`;
+    text += `COMPLIANCE REPORT\n`;
     text += `====================================================\n\n`;
-    text += `Date Generated: ${new Date().toLocaleDateString()}\n`;
+    text += `Status: ${stats.fail === 0 && !isInsufficientData ? 'APPROVABLE' : 'ACTION REQUIRED'}\n`;
+    text += `Date: ${activeSession ? new Date(activeSession.created).toLocaleDateString() : new Date().toLocaleDateString()}\n`;
+    text += `Milestone: ${activeSession?.milestone || 'General Staging'}\n`;
+    text += `App version: ${activeSession?.version || 'N/A'}\n`;
+    text += `Build name: ${activeSession?.build || 'N/A'}\n`;
+    text += `Lead tester: ${activeSession?.tester || 'QA Team'}\n`;
     text += `Target Platform: ${platformLabel}\n`;
-    text += `Session Instance: ${activeSession?.version || 'N/A'} (Build: ${activeSession?.build || 'N/A'})\n`;
     text += `Assessed Session Description: ${activeSession?.desc || 'N/A'}\n\n`;
     
     text += `----------------------------------------------------\n`;
@@ -320,9 +324,9 @@ export default function ExecutiveReportView({
             <span className="text-[10px] font-mono bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 px-2 py-0.5 rounded uppercase tracking-wider font-extrabold">Enterprise Audit</span>
             <span className="text-[10px] font-mono text-[var(--text-muted)]">Generated on {new Date().toLocaleDateString()}</span>
           </div>
-          <h2 className="text-3xl font-light text-[var(--text-highlight)] tracking-tight uppercase">Executive Compliance Report</h2>
+          <h2 className="text-3xl font-light text-[var(--text-highlight)] tracking-tight uppercase">Compliance Report</h2>
           <p className="text-xs text-[var(--text-muted)] mt-1.5 font-sans leading-normal">
-            Platform governance, Store policy adherence vector and submission risk evaluation report.
+            Platform readiness, Store policy adherence report
           </p>
         </div>
 
@@ -345,23 +349,32 @@ export default function ExecutiveReportView({
       </div>
 
       {/* Session Metadata Context Card */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 bg-[var(--bg)]/40 border border-[var(--border)] rounded-xl p-6 mb-8 text-xs relative">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-6 bg-[var(--bg)]/40 border border-[var(--border)] rounded-xl p-6 mb-8 text-xs relative">
         <div className="space-y-1">
-          <p className="text-[10px] font-mono text-[var(--text-muted)] uppercase tracking-wider">Evaluation Target</p>
-          <div className="flex items-center gap-2 font-semibold text-[var(--text-highlight)]">
-            <span className="text-sm">{state.platform === 'ios' ? '' : '🤖'}</span>
-            <span>{platformLabel}</span>
-          </div>
+          <p className="text-[10px] font-mono text-[var(--text-muted)] uppercase tracking-wider font-bold">Status</p>
+          <p className="font-semibold text-[var(--text-highlight)]">{stats.fail === 0 && !isInsufficientData ? 'APPROVABLE' : 'ACTION REQUIRED'}</p>
         </div>
         <div className="space-y-1 md:border-l md:border-[var(--border)] md:pl-6">
-          <p className="text-[10px] font-mono text-[var(--text-muted)] uppercase tracking-wider">Session Profile Instance</p>
+          <p className="text-[10px] font-mono text-[var(--text-muted)] uppercase tracking-wider font-bold">Date</p>
           <p className="font-semibold text-[var(--text-highlight)]">
-            v{activeSession?.version || '0.0.0'} (Build {activeSession?.build || 'Staging'})
+            {activeSession ? new Date(activeSession.created).toLocaleDateString() : new Date().toLocaleDateString()}
           </p>
         </div>
         <div className="space-y-1 md:border-l md:border-[var(--border)] md:pl-6">
-          <p className="text-[10px] font-mono text-[var(--text-muted)] uppercase tracking-wider">Auditor Representative</p>
-          <p className="font-semibold text-[var(--text-highlight)]">{activeSession?.tester || 'QA Team'}</p>
+          <p className="text-[10px] font-mono text-[var(--text-muted)] uppercase tracking-wider font-bold">Milestone</p>
+          <p className="font-semibold text-[var(--text-highlight)]">{activeSession?.milestone || 'General Staging'}</p>
+        </div>
+        <div className="space-y-1 md:border-l md:border-[var(--border)] md:pl-6">
+          <p className="text-[10px] font-mono text-[var(--text-muted)] uppercase tracking-wider font-bold">App version</p>
+          <p className="font-semibold text-[var(--text-highlight)]">
+            v{activeSession?.version || '0.0.0'}
+          </p>
+        </div>
+        <div className="space-y-1 md:border-l md:border-[var(--border)] md:pl-6">
+          <p className="text-[10px] font-mono text-[var(--text-muted)] uppercase tracking-wider font-bold">Build name</p>
+          <p className="font-semibold text-[var(--text-highlight)]">
+            {activeSession?.build || 'N/A'}
+          </p>
         </div>
       </div>
 
@@ -495,7 +508,6 @@ export default function ExecutiveReportView({
                   <div key={area.guideline.id} className="p-5 rounded-xl border border-[var(--border)] bg-[var(--surface2)] hover:border-[var(--text-muted)] transition-colors">
                     <div className="flex justify-between items-start mb-2.5">
                       <div>
-                        <span className="text-[9px] font-mono text-[var(--text-muted)] uppercase tracking-wider block">Hotspot priority {idx + 1}</span>
                         <h4 className="font-semibold text-sm text-[var(--text-highlight)] mt-0.5">{area.guideline.title}</h4>
                       </div>
                       <span className={`text-[8px] font-mono font-extrabold uppercase px-2 py-0.5 rounded border ${
