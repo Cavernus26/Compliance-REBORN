@@ -3165,7 +3165,8 @@ export const ALL_DATA: Record<string, PlatformData> = {
   },
   android: {
     guidelines: [
-      { id: "AGL-002", title: "Core App Functionality", description: "Android Core App Quality: Core App Functionality", category: "Core App Functionality", impact: "high" }
+      { id: "AGL-002", title: "Core App Functionality", description: "Android Core App Quality: Core App Functionality", category: "Core App Functionality", impact: "high" },
+      { id: "AGL-003", title: "GPG Design Guidelines", description: "Google Play Games Design Guidelines & PC Compatibility Checkpoints", category: "GPG Design Guidelines", impact: "high" }
     ],
     testCases: [
       // Section: Navigation
@@ -3910,5 +3911,6 @@ export const AND_ICONS: Record<string, string> = {
   'Core App Functionality': '⚙️',
   'Google Play': '🛍️',
   'Test Procedures': '🧪',
-  'APK Related Tests': '📦'
+  'APK Related Tests': '📦',
+  'GPG Design Guidelines': '🎮'
 };
