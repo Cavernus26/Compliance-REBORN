@@ -3619,6 +3619,279 @@ export const ALL_DATA: Record<string, PlatformData> = {
         steps: "1. Connect your phone to adb and force the device into Doze mode while standard tasks are scheduled (with: adb shell dumpsys deviceidle force-idle).\n2. Verify that the app pauses tasks gracefully, uses standard WorkManager, and does not popup asking the user for \"Ignore Battery Optimization\" system exemptions.",
         expected: "The app behaves efficiently during Doze boundaries without custom exemption policies.",
         originalRef: "Battery"
+      },
+      // Section: Google Play
+      {
+        id: "And-CAF-12.1",
+        gl: "AGL-002",
+        ref: "12.1",
+        title: "App strictly adheres to the terms of the Google Play Developer Content Policy and does not offer inappropriate content, does not use intellectual property or brand of others, and so on.",
+        steps: "1. Open the app and tap through every screen, setting, and disclaimer.\n2. Confirm that there is NO offensive imagery, hate speech, or adult content.\n3. Make sure the app does not display trademarked logos or copy names of popular competitor apps without written permission.",
+        expected: "The app contains policy-compliant material and respects third-party intellectual property.",
+        originalRef: "Google Play"
+      },
+      {
+        id: "And-CAF-12.2",
+        gl: "AGL-002",
+        ref: "12.2",
+        title: "App maturity level is set appropriately, based on the Content Rating Guidelines. Especially, note that apps that request permission to use the device location cannot be given the maturity level \"Everyone\".",
+        steps: "1. Check if the app prompts you for GPS / Location access anywhere.\n2. Log in to the Google Play Console, click on your app project, and open 'App Content' > 'Content Rating'.\n3. Verify that if location access is requested, the minimum age level is NOT rated as 'Everyone' (3+ or 0+).",
+        expected: "Maturity level rating corresponds correctly with the user location data collection settings.",
+        originalRef: "Google Play"
+      },
+      {
+        id: "And-CAF-12.3",
+        gl: "AGL-002",
+        ref: "12.3",
+        title: "App feature graphic follows the guidelines. Make sure that:\n* The app listing includes a high-quality feature graphic.\n* The feature graphic does not contain device images, screenshots, or small text that will be illegible when scaled down and displayed on the smallest screen size that your app is targeting.\n* The feature graphic does not resemble an advertisement.",
+        steps: "1. Locate the 1024x500 Feature Graphic uploaded on the Google Play Store console.\n2. Spot-check that the design holds premium resolution without visible pixels.\n3. Verify there are NO mock phone screens, actual app screenshots, or tiny hard-to-read text words.\n4. Check that it doesn't look like an ad (no pricing tags, flash promo words, or discount stickers).",
+        expected: "Feature graphic is clean, readable on small screens, and avoids device templates or promotional copy.",
+        originalRef: "Google Play"
+      },
+      {
+        id: "And-CAF-12.4",
+        gl: "AGL-002",
+        ref: "12.4",
+        title: "App screenshots and videos do not show or reference non-Android devices.",
+        steps: "1. Open the app's public store listing page.\n2. Look closely at Google Play carousel screenshots and the promo video.\n3. Confirm that no screenshots display iPhone physical shapes (like a dynamic island), Apple battery indicator icons, or iOS layout designs.",
+        expected: "Promotional listing assets show neutral frames or Android system indicators exclusively.",
+        originalRef: "Google Play"
+      },
+      {
+        id: "And-CAF-12.5",
+        gl: "AGL-002",
+        ref: "12.5",
+        title: "App screenshots or videos do not represent the content and experience of your app in a misleading way.",
+        steps: "1. Inspect all screenshots and preview clips on the Play Store page.\n2. Compare what is displayed in those materials to the actual features of the physical app in front of you.\n3. Verify that no custom simulated graphics or mock features are shown that are missing in the real app build.",
+        expected: "Store marketing media represents the actual operational build and capabilities truthfully.",
+        originalRef: "Google Play"
+      },
+      {
+        id: "And-CAF-12.6",
+        gl: "AGL-002",
+        ref: "12.6",
+        title: "Common user-reported bugs in the Reviews tab of the Google Play page are addressed if they are reproducible and occur on many different devices. If a bug occurs on only a few devices, you should still address it if those devices are particularly popular or new.",
+        steps: "1. Go to the Play Store Reviews dashboard and filter for public '1-star' and '2-star' ratings.\n2. Scan for recent reports of freezes, broken buttons, or screen overlap on popular phones (like Samsung S-series or Pixels).\n3. Re-create those exact scenarios on your physical test device.\n4. Verify that the bugs have been fully fixed and clean workflows are maintained.",
+        expected: "Widespread or critical device-specific user issues are resolved in the latest application build.",
+        originalRef: "Google Play"
+      },
+      // Section: Test Procedures
+      {
+        id: "And-CAF-13.1",
+        gl: "AGL-002",
+        ref: "13.1",
+        title: "Navigate to all parts of the app — all screens, dialogs, settings, and all user flows.\n* If the application allows for editing or content creation, game play, or media playback, make sure to test those flows.\n* While testing the app, introduce interruptions from other apps, such as receiving a notification or a phone call; and apply transient changes to device attributes, such as network connectivity, battery function, GPS availability, and system load.\n* Enter and test all in-app purchase flows",
+        steps: "1. Tap on every menu button and settings tab to browse all screens and dialog boxes in the application.\n2. Try modifying data, playing music or mini-games if active.\n3. Swipe the quick-settings panel to toggle Wi-Fi off and back on during tasks, or simulate a call/notification interruption.\n4. Open and navigate through any in-app purchase screens to ensure the full shopping layouts function correctly.",
+        expected: "All major screen flows, child screens, dynamic settings, and purchase states load cleanly under interruption.",
+        originalRef: "Test Procedures"
+      },
+      {
+        id: "And-CAF-13.2",
+        gl: "AGL-002",
+        ref: "13.2",
+        title: "From each app screen, press the device's Home key or swipe up in gesture navigation, then re-launch the app from the All Apps screen.",
+        steps: "1. Choose any page inside the application.\n2. Tap the device's main Home key or perform an upward-swipe overlay gesture to minimize the app.\n3. Open your phone's full application list drawer.\n4. Scroll and tap our app icon to launch it again.\n5. Verify that it initializes seamlessly without freezing or blank states.",
+        expected: "The app resumes beautifully and displays the correct active layout.",
+        originalRef: "Test Procedures"
+      },
+      {
+        id: "And-CAF-13.3",
+        gl: "AGL-002",
+        ref: "13.3",
+        title: "From each app screen, switch to another running app, and then return to the app under test using the Recents app switcher.",
+        steps: "1. Navigate to a deep screens view in the application.\n2. Tap the Recents box key (or swipe-and-hold from the bottom margin) to bring up standard multitasking.\n3. Open another running app, then quickly switch back to this app again from the Recents menu.\n4. Confirm that the app stays on the active screen with no lost state.",
+        expected: "The user is returned exactly where they left off with no layout freezing.",
+        originalRef: "Test Procedures"
+      },
+      {
+        id: "And-CAF-13.4",
+        gl: "AGL-002",
+        ref: "13.4",
+        title: "From each app screen (and dialogs), press the Back button or use the back swipe gesture.",
+        steps: "1. Trigger any active child alert pop-up, keyboard state, or inner page.\n2. Perform the Android system Back navigation swipe or press the Back key.\n3. Verify the active elements / dialog container dismisses as expected and takes you back to the prior view.",
+        expected: "The system Back action operates uniformly without crashing or creating infinite cycles.",
+        originalRef: "Test Procedures"
+      },
+      {
+        id: "And-CAF-13.5",
+        gl: "AGL-002",
+        ref: "13.5",
+        title: "From each app screen, rotate the device between landscape and portrait orientation and folding / unfolding at least three times.",
+        steps: "1. Open any input page or dashboard layout inside the app.\n2. Turn your test device from vertical (portrait) to wide (landscape) and back 3 times in quick succession.\n3. Fold and unfold collapsible phone panels if available.\n4. Confirm that content elements adapt gracefully without text overlays or buttons clipping.",
+        expected: "Layout coordinates adapt smoothly to orientation shifts and fold changes without breaking user input.",
+        originalRef: "Test Procedures"
+      },
+      {
+        id: "And-CAF-13.6",
+        gl: "AGL-002",
+        ref: "13.6",
+        title: "Switch to another app to send the test app into the background. Go to Settings and check whether the test app has any services running while in the background",
+        steps: "1. Leave the app running in the background by home-keying out.\n2. Go to Android Settings > Developer Options > Running Services.\n3. Scan the active packages checklist.\n4. Confirm that our package name isn't locking continuous network/scans unless actively expected.",
+        expected: "Background services stay completely dormant when the application is minimized.",
+        originalRef: "Test Procedures"
+      },
+      {
+        id: "And-CAF-13.7",
+        gl: "AGL-002",
+        ref: "13.7",
+        title: "Press the power button to put the device to sleep, then press the power button again to wake the screen.",
+        steps: "1. Leave the app visible on screen.\n2. Tap the physical Power button on the side of your test mobile to put the display to sleep.\n3. Wait 3 seconds, then click Power again to light up the display.\n4. Unlock the display and confirm the app remains active at the same place.",
+        expected: "Device power sleep events do not cause memory-refresh loss or app closures.",
+        originalRef: "Test Procedures"
+      },
+      {
+        id: "And-CAF-13.8",
+        gl: "AGL-002",
+        ref: "13.8",
+        title: "Set up a screen lock on the device. Press the power button to put the device to sleep (which locks the device). Then, press the power button again to wake the screen and unlock the device.",
+        steps: "1. Configure any secure screen lock (pattern, bio, PIN) in Android Settings.\n2. Switch to our open application.\n3. Press the physical Power button to sleep and lock your phone.\n4. Press Power again, clear the password prompt screen, and ensure the app is open right where you left off.",
+        expected: "The app resumes perfectly after lockscreen authentication.",
+        originalRef: "Test Procedures"
+      },
+      {
+        id: "And-CAF-13.9",
+        gl: "AGL-002",
+        ref: "13.9",
+        title: "Trigger and observe in the notifications drawer all types of notifications that the app can display. Expand notifications where applicable",
+        steps: "1. Trigger various types of push messages or reminders from the app.\n2. Slide down to pull open your Android notification tray.\n3. Touch the small expansion chevron in the top-right corner of the alert.\n4. Verify that the larger view exhibits perfectly wrapping text and clear buttons.",
+        expected: "The notifications present legible details and expand easily inside the drawer.",
+        originalRef: "Test Procedures"
+      },
+      {
+        id: "And-CAF-13.10",
+        gl: "AGL-002",
+        ref: "13.10",
+        title: "Review the Android manifest file and build configuration to ensure that the application is built against the latest available SDK (targetSdk and compileSdk).",
+        steps: "1. Locate 'AndroidManifest.xml' and 'build.gradle' files in your Android project files explorer.\n2. Read the properties matching 'targetSdk' and 'compileSdk'.\n3. Check Google's latest recommended API levels on the developer portal to make sure there are no out-of-date settings.",
+        expected: "Target properties align with modern Google Play rules and requirements.",
+        originalRef: "Test Procedures"
+      },
+      {
+        id: "And-CAF-13.11",
+        gl: "AGL-002",
+        ref: "13.11",
+        title: "Review the build.gradle file for any outdated dependencies.",
+        steps: "1. Inspect 'build.gradle' dependencies under compilation setups.\n2. Run a standard gradle command or hover indicators to search for deprecated version lines.\n3. Ensure libraries aren't marked as vulnerable or drastically behind.",
+        expected: "Package arrays reflect stable and updated API integrations.",
+        originalRef: "Test Procedures"
+      },
+      {
+        id: "And-CAF-13.12",
+        gl: "AGL-002",
+        ref: "13.12",
+        title: "Use the Android Studio lint tool to detect non-SDK interface usage",
+        steps: "1. Head to the top menu of Android Studio and select 'Analyze' > 'Inspect Code...'.\n2. Run a full suite inspection over the whole project workspace.\n3. Look for private API usage warnings inside the results report console.",
+        expected: "No warnings of restricted non-SDK implementation blocks are reported.",
+        originalRef: "Test Procedures"
+      },
+      {
+        id: "And-CAF-13.13",
+        gl: "AGL-002",
+        ref: "13.13",
+        title: "Review all data stored in external storage.",
+        steps: "1. Connect your device or open Android Studio's 'Device File Explorer'.\n2. Navigate to external storage directories like '/sdcard' or '/storage/emulated/0/'.\n3. Review the saved folders and files created by this app package.\n4. Confirm that user settings, passwords, or diagnostic files are completely private.",
+        expected: "Unencrypted personal records or private tokens are never stored on public storage partitions.",
+        originalRef: "Test Procedures"
+      },
+      {
+        id: "And-CAF-13.14",
+        gl: "AGL-002",
+        ref: "13.14",
+        title: "Review all content providers defined in the Android manifest file. Make sure each provider has an appropriate protectionLevel.",
+        steps: "1. Scan the contents of 'AndroidManifest.xml'.\n2. Locate all '<provider>' tags.\n3. Verify that if 'android:exported' is set to 'true', it has secure read/write permission levels to block foreign access.",
+        expected: "Data content providers prevent leaking sensitive databases to third-party programs.",
+        originalRef: "Test Procedures"
+      },
+      {
+        id: "And-CAF-13.15",
+        gl: "AGL-002",
+        ref: "13.15",
+        title: "Review all permissions that your app requires, in the manifest file, at runtime, and in the app settings screen (Settings > App Info) on the device.",
+        steps: "1. Verify permissions requested inside 'AndroidManifest.xml'.\n2. Navigate through the software on a fresh install and trigger dialog request popups.\n3. Head to Settings > Apps > App Info > Permissions.\n4. Double-check that no unneeded permissions have been left enabled in production.",
+        expected: "The app limits itself strict to essential permissions and gracefully handles users declining access.",
+        originalRef: "Test Procedures"
+      },
+      {
+        id: "And-CAF-13.16",
+        gl: "AGL-002",
+        ref: "13.16",
+        title: "Review all application components defined in the Android manifest file for the appropriate export state.",
+        steps: "1. Examine 'AndroidManifest.xml' contents systematically.\n2. Look up all '<activity>', '<service>', and '<receiver>' targets.\n3. Confirm that 'android:exported' is explicitly marked as 'false' unless it needs to receive broad system alerts or launches from the home screen.",
+        expected: "Intra-app actions are secured to prevent malicious background launches.",
+        originalRef: "Test Procedures"
+      },
+      {
+        id: "And-CAF-13.17",
+        gl: "AGL-002",
+        ref: "13.17",
+        title: "For each WebView, navigate to a page that requires JavaScript.",
+        steps: "1. Click on components that launch nested layout browsers (WebViews) inside the app.\n2. Direct the browser link toward a page relying heavily on modern interactive scripts.\n3. Verify that scrolling elements, sliders, and form components react and render properly.",
+        expected: "Embedded WebViews parse JavaScript correctly and dynamically.",
+        originalRef: "Test Procedures"
+      },
+      {
+        id: "And-CAF-13.18",
+        gl: "AGL-002",
+        ref: "13.18",
+        title: "In each WebView, attempt to navigate to sites and content that aren’t loaded directly by your app.",
+        steps: "1. Access an active WebView screen inside your app build.\n2. Tap an external redirect hyperlink or button.\n3. Confirm that the application intercepts this click and hands it off to an external web browser application, rather than opening outside content inside your protected app container.",
+        expected: "WebViews securely delegate foreign domain targets to the Android system browser.",
+        originalRef: "Test Procedures"
+      },
+      {
+        id: "And-CAF-13.19",
+        gl: "AGL-002",
+        ref: "13.19",
+        title: "Run the application and exercise all core functionality, while observing the device log. No private user information should be logged.",
+        steps: "1. Plug your device into Android Studio or run standard adb logging.\n2. Stream continuous diagnostic logs ('Logcat') on screen.\n3. Perform basic tasks in the app like typing account names, logging in, or uploading content.\n4. Carefully inspect the logs to check that no confidential coordinates or passwords are listed.",
+        expected: "Diagnostics are strictly sanitized of identifiable human user parameters.",
+        originalRef: "Test Procedures"
+      },
+      // Section: APK Related Tests
+      {
+        id: "And-CAF-14.1",
+        gl: "AGL-002",
+        ref: "14.1",
+        title: "Check that the app’s install size (APK/AAB base download) is under 100 MB when built for release.",
+        steps: "1. Open Android Studio and select 'Build' > 'Generate Signed Bundle / APK...'.\n2. Compile a Release build (APK or Android App Bundle) of your app.\n3. Locate the completed compilation file (.apk or .aab) inside your build/outputs directory.\n4. Right-click the file and click 'Properties' (or 'Get Info' on macOS) to read its total file size.\n5. Verify that this file size reads less than 100 MB.",
+        expected: "The build artifact size is confirmed to be under the 100 MB release limit for standard downloads.",
+        originalRef: "APK Related Tests"
+      },
+      {
+        id: "And-CAF-14.2",
+        gl: "AGL-002",
+        ref: "14.2",
+        title: "The build size should be lower than 150 MB for the app generated from App Bundles",
+        steps: "1. Open the Google Play Console page and select your app package.\n2. Navigate to 'Release' > 'App bundle explorer' in the left-hand navigation pane.\n3. Upload your production AAB file or select the active draft.\n4. Read the 'Compressed download size' estimate calculated by the Play Console.\n5. Double-check that it does not exceed 150 MB.",
+        expected: "The final generated App Bundle delivery size is checked online and is strictly below 150 MB.",
+        originalRef: "APK Related Tests"
+      },
+      {
+        id: "And-CAF-14.3",
+        gl: "AGL-002",
+        ref: "14.3",
+        title: "Application uses a single build for all Screen Types.",
+        steps: "1. Review your build.gradle configuration file and check if there are any custom 'splits' for screen densities activated.\n2. Verify that you compile and release a single, universal APK/AAB build containing assets/layouts for all screen types.\n3. Test the same universal install file on both a small-screen smartphone and a broad tablet to confirm identical functionality.",
+        expected: "A single universal build file is verified to package resources for all Android screen form factors.",
+        originalRef: "APK Related Tests"
+      },
+      {
+        id: "And-CAF-14.4",
+        gl: "AGL-002",
+        ref: "14.4",
+        title: "Builds are created for every Screen Type (Small, Normal, Large and Extra Large).",
+        steps: "1. Check the 'src/main/res/' directory in your Android project explorer layout.\n2. Verify the existence of resource folders or responsive layouts for directories matching screen groupings (such as mdpi/hdpi for normal/small screens, and xhdpi/xxhdpi or sw600dp for large/extra large layouts like tablets).\n3. Install the app on four separate emulators running: Small (e.g. 2.7\"), Normal (e.g. 5.1\"), Large (e.g. 7\" tablet), and Extra Large (e.g. 10\" tablet).\n4. Walk through the main page on each emulator to ensure no layouts or assets fail to load.",
+        expected: "The app successfully loads appropriate and legible resources on Small, Normal, Large, and Extra Large emulator options.",
+        originalRef: "APK Related Tests"
+      },
+      {
+        id: "And-CAF-14.5",
+        gl: "AGL-002",
+        ref: "14.5",
+        title: "APK signature check (application can not be updated if different signature is used for signing the  updated build).",
+        steps: "1. Build an update version of the application package signed with a different debug or release key than the currently installed version.\n2. Plug in your test phone and send the new update package to the device using 'adb install -r path/to/mismatched_signed_apk'.\n3. Verify that the Android system refuses to update the app, printing a signature mismatch installation error like 'INSTALL_FAILED_UPDATE_INCOMPATIBLE'.\n4. Re-sign the update package with the original matching production key and verify that it installs successfully over the existing app.",
+        expected: "The system security rules block mismatched signature updates, preventing unauthorized app overwrites.",
+        originalRef: "APK Related Tests"
       }
     ]
   }
@@ -3634,5 +3907,8 @@ export const IOS_ICONS: Record<string, string> = {
 };
 
 export const AND_ICONS: Record<string, string> = { 
-  'Core App Functionality': '⚙️'
+  'Core App Functionality': '⚙️',
+  'Google Play': '🛍️',
+  'Test Procedures': '🧪',
+  'APK Related Tests': '📦'
 };
