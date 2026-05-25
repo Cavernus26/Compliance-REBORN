@@ -318,30 +318,31 @@ export default function ExecutiveReportView({
       {/* Visual background highlights to represent formal auditing desk */}
 
       {/* Report Core Headings */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 border-b border-[var(--border)] pb-6 mb-8">
-        <div>
-          <div className="flex items-center gap-3 mb-1.5">
+      <div className="flex flex-col items-center text-center gap-6 border-b border-[var(--border)] pb-6 mb-8 w-full">
+        <div className="space-y-1.5 w-full">
+          <div className="flex items-center justify-center gap-3">
             <span className="text-[10px] font-mono bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 px-2 py-0.5 rounded uppercase tracking-wider font-extrabold">Enterprise Audit</span>
             <span className="text-[10px] font-mono text-[var(--text-muted)]">Generated on {new Date().toLocaleDateString()}</span>
           </div>
           <h2 className="text-3xl font-light text-[var(--text-highlight)] tracking-tight uppercase">Compliance Report</h2>
-          <p className="text-xs text-[var(--text-muted)] mt-1.5 font-sans leading-normal">
+          <p className="text-xs text-[var(--text-muted)] font-sans leading-normal">
             Platform readiness, Store policy adherence report
           </p>
         </div>
 
-        <div className="flex flex-wrap items-center gap-2">
+        <div className="flex flex-wrap items-center justify-center gap-2 print:hidden">
           <button 
             type="button"
             onClick={() => window.print()}
-            className="px-4 py-2 text-xs font-bold rounded-lg border border-indigo-500/30 bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-400 transition-all flex items-center gap-1.5 shadow-sm print:hidden"
+            className="px-4 py-2 text-xs font-bold rounded-lg border border-indigo-500/30 bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-400 transition-all flex items-center gap-1.5 shadow-sm"
             title="Saves report as a PDF using system print dialog"
           >
             <Printer size={13} /> Export PDF Report
           </button>
           <button 
+            type="button"
             onClick={copyToClipboard}
-            className={`px-4 py-2 text-xs font-bold rounded-lg border transition-all flex items-center gap-1.5 print:hidden ${copySuccess ? 'bg-emerald-500/15 border-emerald-500 text-emerald-400 font-extrabold' : 'bg-[var(--surface2)] border-[var(--border)] text-[var(--text-muted)] hover:text-[var(--text-highlight)] hover:bg-[var(--border)]'}`}
+            className={`px-4 py-2 text-xs font-bold rounded-lg border transition-all flex items-center gap-1.5 ${copySuccess ? 'bg-emerald-500/15 border-emerald-500 text-emerald-400 font-extrabold' : 'bg-[var(--surface2)] border-[var(--border)] text-[var(--text-muted)] hover:text-[var(--text-highlight)] hover:bg-[var(--border)]'}`}
           >
             {copySuccess ? '✨ Copied Plain Text' : '📋 Copy Text Report'}
           </button>
@@ -415,29 +416,29 @@ export default function ExecutiveReportView({
             <h3 className="text-xs font-mono font-extrabold tracking-widest text-[var(--text-highlight)] uppercase">2. Compliance Score Overview</h3>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 pt-1 print-no-split">
-            <div className="bg-[var(--surface2)] border border-[var(--border)] rounded-xl p-4 flex flex-col justify-between h-24">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 pt-1">
+            <div className="bg-[var(--surface2)] border border-[var(--border)] rounded-xl p-4 flex flex-col justify-between h-24 print-no-split">
               <span className="text-[9px] font-mono text-[var(--text-muted)] uppercase">Pass Ratio</span>
               <div className="flex items-baseline gap-2">
                 <span className="text-2xl font-bold text-green-400">{passRate}%</span>
                 <span className="text-[9px] text-[var(--text-muted)]">of assessments</span>
               </div>
             </div>
-            <div className="bg-[var(--surface2)] border border-[var(--border)] rounded-xl p-4 flex flex-col justify-between h-24">
+            <div className="bg-[var(--surface2)] border border-[var(--border)] rounded-xl p-4 flex flex-col justify-between h-24 print-no-split">
               <span className="text-[9px] font-mono text-[var(--text-muted)] uppercase">Violations Found</span>
               <div className="flex items-baseline gap-2">
                 <span className={`text-2xl font-bold ${stats.fail > 0 ? 'text-red-400' : 'text-green-400'}`}>{stats.fail}</span>
                 <span className="text-[9px] text-[var(--text-muted)]">critical issues</span>
               </div>
             </div>
-            <div className="bg-[var(--surface2)] border border-[var(--border)] rounded-xl p-4 flex flex-col justify-between h-24">
+            <div className="bg-[var(--surface2)] border border-[var(--border)] rounded-xl p-4 flex flex-col justify-between h-24 print-no-split">
               <span className="text-[9px] font-mono text-[var(--text-muted)] uppercase">Not Applicable</span>
               <div className="flex items-baseline gap-2">
                 <span className="text-2xl font-bold text-orange-400">{stats.na}</span>
                 <span className="text-[9px] text-[var(--text-muted)]">dismissed</span>
               </div>
             </div>
-            <div className="bg-[var(--surface2)] border border-[var(--border)] rounded-xl p-4 flex flex-col justify-between h-24">
+            <div className="bg-[var(--surface2)] border border-[var(--border)] rounded-xl p-4 flex flex-col justify-between h-24 print-no-split">
               <span className="text-[9px] font-mono text-[var(--text-muted)] uppercase">Unverified Nodes</span>
               <div className="flex items-baseline gap-2">
                 <span className="text-2xl font-bold text-sky-400">{stats.nt}</span>

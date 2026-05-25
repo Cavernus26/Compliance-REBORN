@@ -124,15 +124,27 @@ body {
 
 @media print {
   @page {
-    margin: 1.6cm 1.4cm !important;
+    margin: 0 !important;
   }
   body {
-    padding: 0 !important;
-    margin: 0 !important;
+    padding: 1.8cm 1.5cm !important;
     background-color: white !important;
     color: black !important;
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
+  }
+  
+  /* Reset container styles to render fully in the layout flow */
+  #executive-compliance-report {
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  /* Provide buffer boundaries for nested sections during natural breaks */
+  section {
+    padding-top: 1cm !important;
+    padding-bottom: 1cm !important;
+    break-inside: auto !important;
   }
   
   /* Flatten layout containers and prevent clipping */
