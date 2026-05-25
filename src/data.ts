@@ -3174,7 +3174,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         gl: "AGL-002",
         ref: "1.1",
         title: "App supports standard Back button navigation and does not make use of any custom, on-screen \"Back button\" prompts.",
-        steps: "1. Navigate through the app.\n2. Verify system Back button/gesture is exclusively used for backward navigation.",
+        steps: "1. Open any sub-page or menu in the app.\n2. Tap the Android system Back button or perform the edge-swipe gesture.\n3. Verify if it returns you to the previous screen without encountering on-screen custom \"Go Back\" buttons.",
         expected: "Standard Back button logic is present without custom on-screen prompts.",
         originalRef: "Navigation"
       },
@@ -3183,7 +3183,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         gl: "AGL-002",
         ref: "1.2",
         title: "All dialogs are dismissible using the Gesture Navigation (Back button).",
-        steps: "1. Trigger various dialogs (alerts, confirmations, modals).\n2. Use system Back gesture/button.",
+        steps: "1. Click an action that pops up a dialog window or alert.\n2. Press the system Back button or perform the swipe gesture.\n3. Confirm that the dialog modal immediately dismisses.",
         expected: "Dialog dismisses when Back gesture is used.",
         originalRef: "Navigation"
       },
@@ -3192,7 +3192,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         gl: "AGL-002",
         ref: "1.3",
         title: "When the app is resumed from the Recents app switcher, the app should return the user to the exact state in which it was last used.",
-        steps: "1. Open app and navigate to a specific state.\n2. Send app to background using Recents switcher.\n3. Resume app from Recents.",
+        steps: "1. Locate a specific screen or type text into an input field in the app.\n2. Swipe up from the bottom (or press the square Recents button) to show the app switcher.\n3. Tap on another app, then switch back to this app.\n4. Check if you are returned exactly where you left off with your progress intact.",
         expected: "App returns to the exact previous state.",
         originalRef: "Navigation"
       },
@@ -3201,7 +3201,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         gl: "AGL-002",
         ref: "1.4",
         title: "When the app is resumed after the device wakes from the sleep (locked) state, the app should return the user to the exact state in which it was last used.",
-        steps: "1. Navigate to a specific state in the app.\n2. Lock the device.\n3. Unlock and wake the device.",
+        steps: "1. Navigate to any active screen inside the app.\n2. Press the power button on the side of your test device to lock the screen.\n3. Unlock the device immediately.\n4. Confirm that the app stays loaded on the same screen you were viewing.",
         expected: "App returns to the exact previous state.",
         originalRef: "Navigation"
       },
@@ -3210,7 +3210,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         gl: "AGL-002",
         ref: "1.5",
         title: "When the app is relaunched from Home or All Apps, it should do one of the following, depending on how much time has passed since it was last used.",
-        steps: "1. Minimize the app using the Home button.\n2. Relaunch from Home or All Apps icon after short and long periods.",
+        steps: "1. Press the home button to minimize the app.\n2. Wait a few seconds, then tap the app icon on your home screen to launch it again.\n3. Wait a few hours (or force stop/clear memory to simulate a long period) and launch it again to make sure it loads gracefully.",
         expected: "App handles relaunching appropriately according to standard Android application lifecycles.",
         originalRef: "Navigation"
       },
@@ -3220,7 +3220,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         gl: "AGL-002",
         ref: "2.1",
         title: "Notifications are not used for cross-promotion or advertising another product, as this is strictly prohibited by the Play Store.",
-        steps: "1. Trigger notifications through standard app usage or developer tools.\n2. Review notification content.",
+        steps: "1. Trigger a notification from the app.\n2. Swipe down from the top panel to open the notification list.\n3. Carefully read the title and text to make sure there is NO advertisement or coupon code for separate products.",
         expected: "Notifications do not contain cross-promotion or advertising.",
         originalRef: "Notifications"
       },
@@ -3229,7 +3229,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         gl: "AGL-002",
         ref: "2.2",
         title: "Notification channels are defined according to best practices, rather than serving all notifications from one channel.",
-        steps: "1. Navigate to Android App Info > Notifications.\n2. Verify there are adequately defined separate channels for different types of alerts.",
+        steps: "1. Press and hold the app icon, then tap 'App Info' (the \"i\" icon).\n2. Tap on 'Notifications'.\n3. Review the list of notification categories (channels) to check that different alerts (like \"Messages\" vs \"System\") are split into separate toggles.",
         expected: "Notifications are appropriately separated into channels.",
         originalRef: "Notifications"
       },
@@ -3238,7 +3238,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         gl: "AGL-002",
         ref: "2.3",
         title: "Selecting the correct notification priority.",
-        steps: "1. Trigger different types of notifications.\n2. Check if their intrusiveness (sound, heads-up, silent) matches their importance.",
+        steps: "1. Send various alerts to the device.\n2. Confirm that urgent alerts play a sound/popup at the top, while low-priority background alerts arrive silently.",
         expected: "Notification priorities are correctly assigned based on importance.",
         originalRef: "Notifications"
       },
@@ -3247,7 +3247,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         gl: "AGL-002",
         ref: "2.4",
         title: "Multiple notifications are stacked into a single notification group, where possible.",
-        steps: "1. Trigger 4+ notifications of the same type.\n2. Check notification shade.",
+        steps: "1. Cause the app to send 4 or more notifications of the same kind.\n2. Pull down the status bar.\n3. Verify those notifications are bundled into a single expandable list with a summary count.",
         expected: "Notifications of the same type are grouped together.",
         originalRef: "Notifications"
       },
@@ -3256,7 +3256,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         gl: "AGL-002",
         ref: "2.5",
         title: "Set timeouts for notifications where appropriate.",
-        steps: "1. Trigger a time-sensitive notification (e.g., incoming call, timer).\n2. Wait for expiration.",
+        steps: "1. Start a time-sensitive feature in the app, like an active stopwatch or temporary invite.\n2. Reject/ignore the event or wait for it to expire.\n3. Ensure the notification fades out of the system bar on its own.",
         expected: "Notification disappears automatically when it is no longer relevant.",
         originalRef: "Notifications"
       },
@@ -3265,7 +3265,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         gl: "AGL-002",
         ref: "2.6",
         title: "Notifications are persistent only if related to ongoing events, such as music playback or a phone call.",
-        steps: "1. Trigger a persistent (ongoing) notification.\n2. Verify there is an active ongoing event tied to the notification.",
+        steps: "1. Confirm which notifications can't be cleared by swiping them away.\n2. Ensure these un-clearing alerts are only used when a real background service is active (like a music track playing or active map directions).",
         expected: "Persistent notifications are only used for legitimate ongoing background tasks.",
         originalRef: "Notifications"
       },
@@ -3274,7 +3274,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         gl: "AGL-002",
         ref: "2.7",
         title: "For messaging apps, social apps and conversations: Use the MessagingStyle notifications for conversations.",
-        steps: "1. Trigger a message notification.\n2. Inspect the notification styling.",
+        steps: "1. Trigger a chat or conversational notification in the app.\n2. Expand the notification shade.\n3. Verify that the notification includes the sender's avatar, standard reply buttons, and readable inline logs.",
         expected: "Notification utilizes MessagingStyle to clearly show the sender and conversation context.",
         originalRef: "Notifications"
       },
@@ -3283,7 +3283,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         gl: "AGL-002",
         ref: "2.8",
         title: "For messaging apps, social apps and conversations: Support the direct reply action.",
-        steps: "1. Trigger a message notification.\n2. Attempt to reply directly from the notification shade.",
+        steps: "1. Trigger a chat notification on the lockscreen or notification panel.\n2. Tap the inline \"Reply\" action button in the notification box.\n3. Type some text and press send, verified without opening the main app interface.",
         expected: "A direct reply inline action is available and functional.",
         originalRef: "Notifications"
       },
@@ -3292,7 +3292,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         gl: "AGL-002",
         ref: "2.9",
         title: "For messaging apps, social apps and conversations: Support conversation shortcuts, and implement best practices for getting the best direct share ranking.",
-        steps: "1. Share an item from another app.\n2. Check the system share sheet for conversation shortcuts.",
+        steps: "1. Open Google Chrome or another app, select any item and tap \"Share\".\n2. Look at the top row of the system share panel.\n3. Confirm that direct contacts from this app are recommended list.",
         expected: "Relevant conversation shortcuts appear in the direct share menu.",
         originalRef: "Notifications"
       },
@@ -3301,9 +3301,324 @@ export const ALL_DATA: Record<string, PlatformData> = {
         gl: "AGL-002",
         ref: "2.10",
         title: "For messaging apps, social apps and conversations: Support bubbles.",
-        steps: "1. Trigger a conversation notification.\n2. Tap the bubble icon or enable bubbles for the conversation in settings.",
+        steps: "1. Receive an incoming chat message notification.\n2. Look for the small \"Bubble\" icon in the bottom-right corner of the alert.\n3. Tap it to see if the chat opens in a floating circle overlaying other applications.",
         expected: "The conversation can be opened successfully in a floating bubble.",
         originalRef: "Notifications"
+      },
+      // Section: UI and Graphics
+      {
+        id: "And-CAF-3.1",
+        gl: "AGL-002",
+        ref: "3.1",
+        title: "The app supports both landscape and portrait orientations (if possible) and folding / unfolding.",
+        steps: "1. Open any page inside the app.\n2. Rotate your phone sideways to landscape mode, then back to vertical portrait.\n3. On foldables, fold and unfold the device.\n4. Ensure the content adapts smoothly to the screen shape without overlaps.",
+        expected: "Layout successfully adapts to both orientations and folds without UI distortion or freezing.",
+        originalRef: "UI and Graphics"
+      },
+      {
+        id: "And-CAF-3.2",
+        gl: "AGL-002",
+        ref: "3.2",
+        title: "The app uses the whole screen in both orientations and does not letterbox to account for orientation changes, including folding and unfolding.",
+        steps: "1. Switch the device to horizontal landscape and vertical portrait layouts.\n2. Check the edges around the screen.\n3. Make sure the background color fills the screen edge-to-edge and there are no solid black empty bars.",
+        expected: "The application renders edge-to-edge across the entire screen area without artificial letterboxing.",
+        originalRef: "UI and Graphics"
+      },
+      {
+        id: "And-CAF-3.3",
+        gl: "AGL-002",
+        ref: "3.3",
+        title: "The app correctly handles rapid transitions between display orientations and device folding / unfolding without rendering problems or losing state (Multi Tasking, Switching between the different apps).",
+        steps: "1. Spin your test phone from vertical to horizontal and back 5 times quickly.\n2. Open split-screen multitasking with another app alongside it.\n3. Verify the app does not freeze, lose entered keyboard text, or force close.",
+        expected: "Transitions are smooth, the UI state is perfectly preserved, and no rendering artifacts or crashes occur.",
+        originalRef: "UI and Graphics"
+      },
+      // Section: Visual quality
+      {
+        id: "And-CAF-4.1",
+        gl: "AGL-002",
+        ref: "4.1",
+        title: "The app displays graphics, text, images, and other UI elements without noticeable distortion, blurring, or pixelation.",
+        steps: "1. Look closely at logos, vectors, illustrations, and user photos inside the app.\n2. Check for pixelation, blurriness, or weird stretching (wrong width/height aspect ratios).",
+        expected: "All graphic elements and texts remain crisp, sharp, non-pixelated, and maintain correct aspect ratios.",
+        originalRef: "Visual quality"
+      },
+      {
+        id: "And-CAF-4.2",
+        gl: "AGL-002",
+        ref: "4.2",
+        title: "The app displays text and text blocks in an acceptable manner for each of the app’s supported languages.",
+        steps: "1. Open Android Settings and change the system language to Spanish, German, or any other supported language.\n2. Reopen the app and audit text containers.\n3. Confirm sentences terminate gracefully without overlaying nearby buttons.",
+        expected: "Text wraps naturally and is displayed correctly according to the typographical rules of each supported locale.",
+        originalRef: "Visual quality"
+      },
+      {
+        id: "And-CAF-4.3",
+        gl: "AGL-002",
+        ref: "4.3",
+        title: "No cut-off letters or words are visible.",
+        steps: "1. Go to Android Settings > Accessibility > Display size & text.\n2. Set Font Size to the MAXIMUM option.\n3. Return to the app and review all menus.\n4. Check that no words are cut off at the bottom or truncated with ugly ellipses.",
+        expected: "All textual layouts dynamically scale or scroll without cutting off letters or words.",
+        originalRef: "Visual quality"
+      },
+      {
+        id: "And-CAF-4.4",
+        gl: "AGL-002",
+        ref: "4.4",
+        title: "No improper word wraps within buttons or icons are visible.",
+        steps: "1. Audit call-to-action buttons and icon titles.\n2. Verify that short terms don't break awkwardly onto newline structures (for example, displaying \"OK\" over two lines with \"O\" and then \"K\").",
+        expected: "Label text wraps properly without structural breaks within buttons or adjacent icon indicators.",
+        originalRef: "Visual quality"
+      },
+      {
+        id: "And-CAF-4.5",
+        gl: "AGL-002",
+        ref: "4.5",
+        title: "There is sufficient spacing between text and surrounding elements.",
+        steps: "1. Visually check margins and padding between texts and neighboring elements.\n2. Confirm that margins are consistent and that blocks are not squeezed tight up against screen borders.",
+        expected: "Adequate text margins and line heights prevent crammed or overlapping elements.",
+        originalRef: "Visual quality"
+      },
+      // Section: Accessibility
+      {
+        id: "And-CAF-5.1",
+        gl: "AGL-002",
+        ref: "5.1",
+        title: "Touch targets should be at least 48dp in size.",
+        steps: "1. Turn on Layout Bounds in Android Developer Options (or use accessibility testing overlays).\n2. Touch miniature icons, tiny checkboxes, and close symbols to verify they are easy to press with standard fingers without mis-clicking.",
+        expected: "Every touchable element complies with the minimum 48dp standard to ensure clickability.",
+        originalRef: "Accessibility"
+      },
+      {
+        id: "And-CAF-5.2",
+        gl: "AGL-002",
+        ref: "5.2",
+        title: "The sum of the values of android:paddingLeft, android:minWidth, and android:paddingRight is greater than or equal to 48dp.",
+        steps: "1. For all clickable buttons and tabs, examine if the horizontal tap zone spans at least 48dp.\n2. Ensure thin icons have horizontal padding to broaden their active click area.",
+        expected: "Combined horizontal targets measure 48dp or above.",
+        originalRef: "Accessibility"
+      },
+      {
+        id: "And-CAF-5.3",
+        gl: "AGL-002",
+        ref: "5.3",
+        title: "The sum of the values of android:paddingTop, android:minHeight, and android:paddingBottom is greater than or equal to 48dp.",
+        steps: "1. For compact buttons or small horizontal bars, check if the vertical tap zone spans at least 48dp.\n2. Ensure narrow items have vertical padding bounds to prevent accidental misses.",
+        expected: "Combined vertical targets measure 48dp or above.",
+        originalRef: "Accessibility"
+      },
+      {
+        id: "And-CAF-5.4",
+        gl: "AGL-002",
+        ref: "5.4",
+        title: "The app’s text and foreground content should maintain a high enough color contrast ratio with its background: 3.0:1 for large text / graphics, and 4.5:1 for small text (text smaller than 18pt or bold text smaller than 14pt).",
+        steps: "1. Toggle between light and dark themes.\n2. Check light grey text, active links, and tags relative to the surrounding canvas color.\n3. Confirm that all paragraphs and headings stand out clearly and can be read effortlessly on both light and dark backgrounds.",
+        expected: "Text layouts adhere strictly to the 4.5:1 and 3.0:1 contrast ceilings across both light and dark themes.",
+        originalRef: "Accessibility"
+      },
+      {
+        id: "And-CAF-5.5",
+        gl: "AGL-002",
+        ref: "5.5",
+        title: "Describe each UI element, except for TextView, using content Description.",
+        steps: "1. Turn on TalkBack in Android Settings under Accessibility.\n2. Navigate the screen using double-taps and swipes.\n3. Confirm that every button, status image, and input form is read aloud with a clear description, instead of just saying \"Unlabelled button\".",
+        expected: "Non-text interactive or informational elements have clear content descriptions for screen reader accessibility.",
+        originalRef: "Accessibility"
+      },
+      // Section: Audio
+      {
+        id: "And-CAF-6.1",
+        gl: "AGL-002",
+        ref: "6.1",
+        title: "Audio resumes when the app returns to the foreground (open the app again through multitask window), or indicates to the user that playback is in a paused state.",
+        steps: "1. Play any song or sound track within the app.\n2. Minimize the app, switch to another app, then return back to this app via the multitask screen.\n3. Verify that the audio either resumes playing sound immediately or clearly renders an ongoing, visible \"Paused\" icon.",
+        expected: "Audio successfully resumes, or shows a distinct, user-controlled pause state when returning to the foreground.",
+        originalRef: "Audio"
+      },
+      {
+        id: "And-CAF-6.2",
+        gl: "AGL-002",
+        ref: "6.2",
+        title: "The app should support background playback, If audio playback is a core feature (e.g. Music Player).",
+        steps: "1. Start playing music or audio inside the app.\n2. Return to your phone's home screen or lock the screen.\n3. Verify that the sound continues playing and a system media player block appears in your notification drawer or lockscreen.",
+        expected: "Core playbacks persist in background executing states with active system-level controls.",
+        originalRef: "Audio"
+      },
+      {
+        id: "And-CAF-6.3",
+        gl: "AGL-002",
+        ref: "6.3",
+        title: "When the user initiates audio playback, the app should do one of the following within one second: Start playing the audio, or Provide a visual indicator that the audio data is being prepared.",
+        steps: "1. Tap the \"Play\" button on an audio or video track.\n2. Verify that within 1 second, either the audio sound starts playing, or a clear progress loading circle/animated icon appears of what is preparing.",
+        expected: "Audio starts playing immediately (under 1 second) or a loading state indicator appears to keep the user informed.",
+        originalRef: "Audio"
+      },
+      {
+        id: "And-CAF-6.4",
+        gl: "AGL-002",
+        ref: "6.4",
+        title: "The app should request audio focus when audio starts playing and abandon audio focus when playback stops.",
+        steps: "1. Start playing music in an external player (like Spotify), then play content in our app.\n2. Ensure Spotify immediately pauses as our app requests focus.\n3. Pause our app, open Spotify, and verify that Spotify can regain focus.",
+        expected: "The application requests and releases standard Android system audio focus appropriately.",
+        originalRef: "Audio"
+      },
+      {
+        id: "And-CAF-6.5",
+        gl: "AGL-002",
+        ref: "6.5",
+        title: "The app should handle other apps’ requests for audio focus. For example, an app might reduce playback volume when another app plays speech.",
+        steps: "1. Start audio inside the app.\n2. Long-press the home button to summon Google Assistant so it starts listening.\n3. Ensure our app's audio volume temporarily ducks (lowers significantly) or pauses so you can hear the speech feedback clearly.",
+        expected: "The app reacts correctly to transient or permanent loss of audio focus (such as ducking or pausing).",
+        originalRef: "Audio"
+      },
+      // Section: Media
+      {
+        id: "And-CAF-7.1",
+        gl: "AGL-002",
+        ref: "7.1",
+        title: "If the app plays audio in the background, it must create a Notification styled with Media Style.",
+        steps: "1. Start playback in the app and minimize it to the background.\n2. Swipe down to open your notifications drawer.\n3. Confirm that a standard Media notification is shown (featuring album art, play/pause buttons, and a draggable progress line).",
+        expected: "A system media notification featuring active playback controls, track details, album art, and seek bars is shown.",
+        originalRef: "Media"
+      },
+      {
+        id: "And-CAF-7.2",
+        gl: "AGL-002",
+        ref: "7.2",
+        title: "If the app plays video, it should support picture-in-picture playback.",
+        steps: "1. Play any video in the video player screen.\n2. Swipe up to return Home.\n3. Confirm that the video shrinks into a resizable, draggable floating window on your home screen and continues to play.",
+        expected: "Video continues playback in a resizable, drag-and-drop Picture-in-Picture window without freeze frames.",
+        originalRef: "Media"
+      },
+      {
+        id: "And-CAF-7.3",
+        gl: "AGL-002",
+        ref: "7.3",
+        title: "If the app encodes video, it should do so using the HEVC video compression standard.",
+        steps: "1. Record or export a short video in the app.\n2. Open your device files app, select the video, and tap details.\n3. Verify that the video is encoded in HEVC / H.265 compression format for lightweight file sizes.",
+        expected: "Video files are compressed using efficient modern HEVC standard formats by default.",
+        originalRef: "Media"
+      },
+      {
+        id: "And-CAF-7.4",
+        gl: "AGL-002",
+        ref: "7.4",
+        title: "The app should use the \"Android Share sheet\" when sharing content.",
+        steps: "1. Click any \"Share\" button inside the app.\n2. Verify it prompts the native Android share window (with contacts row, copy button, and standard app icons) rather than listing them on a custom menu.",
+        expected: "App initiates standard Android Share sheet dialogues with quick target icons and direct share targets.",
+        originalRef: "Media"
+      },
+      // Section: Background Services
+      {
+        id: "And-CAF-8.1",
+        gl: "AGL-002",
+        ref: "8.1",
+        title: "The app should avoid running unnecessarily long services in the background, To ensure that system applies various restrictions on background services. \nThese are not considered good uses of background services.\n- Maintaining a network connection for notifications\n- Maintaining a Bluetooth connection\n- Keeping the GPS powered-on",
+        steps: "1. Check if the app runs any long continuous services in the background.\n2. Verify the application does NOT remain continuously active in the background for things like:\n- Keeping open persistent web connections for push alerts (should use standard Firebase Cloud Messaging)\n- Maintaining ongoing Bluetooth scans\n- Keeping GPS turned on when closed.",
+        expected: "No long background processes are scheduled for standard socket, Bluetooth loop, or persistent geolocation connections, conforming properly to background execution limits.",
+        originalRef: "Background Services"
+      },
+      // Section: Performance and stability
+      {
+        id: "And-CAF-9.1",
+        gl: "AGL-002",
+        ref: "9.1",
+        title: "App does not crash, force close, freeze, or otherwise function abnormally (ANR - Application Not Responding) on any targeted device.",
+        steps: "1. Navigate through all screens of the app continuously, tapping buttons and typing comments.\n2. Double-check that you encounter no forced closed dialogs, infinite loaders, or \"App Not Responding\" sluggish screens.",
+        expected: "The app handles unexpected inputs gracefully without thread hangs, ANR, or crashes.",
+        originalRef: "Performance and stability"
+      },
+      {
+        id: "And-CAF-9.2",
+        gl: "AGL-002",
+        ref: "9.2",
+        title: "App loads quickly or provides onscreen feedback to the user (a progress indicator or similar cue) if the app takes longer than two seconds to load.",
+        steps: "1. Force close the app and re-open it.\n2. Watch the initial screen carefully. If it takes longer than 2 seconds to display the home dashboard, ensure there is an active progress spinner or loading indicator to inform you of the wait.",
+        expected: "Initialization is near instant, or loading screens show real-time progress indicators.",
+        originalRef: "Performance and stability"
+      },
+      {
+        id: "And-CAF-9.3",
+        gl: "AGL-002",
+        ref: "9.3",
+        title: "Apps should render frames every 16ms to achieve 60 frames per second. Developers can use the Profile HWUI rendering option in testing.",
+        steps: "1. Go to developer settings and turn on \"Profile HWUI Rendering\" (displays as a colored graph outline on the screen).\n2. Scroll rapidly through lists and slide pages back and forth.\n3. Watch the graph level; verify that almost all frame spikes remain under the horizontal green line (indicating 16ms limit) to maintain fluidity.",
+        expected: "Layout structures avoid frame drops or excessive layouts, maintaining smooth 60fps scrolling animations.",
+        originalRef: "Performance and stability"
+      },
+      {
+        id: "And-CAF-9.4",
+        gl: "AGL-002",
+        ref: "9.4",
+        title: "With StrictMode enabled (see StrictMode Testing, below), no red flashes (performance warnings from StrictMode) are visible when testing the app. Any red flashes indicate bad behaviors regarding storage, network access, or memory leaks, including during game play, animations and UI transitions, and any other part of the app.",
+        steps: "1. Test the developer version of the app with StrictMode toggled on.\n2. Read, save, or retrieve info from database sheets inside the app.\n3. Ensure that screen borders NEVER flash red (which indicates bad main-thread slowdowns standard file operations).",
+        expected: "Main thread stays lean, blocking Disk/Net access is delegated to worker pools, resulting in zero red StrictMode flash boundaries.",
+        originalRef: "Performance and stability"
+      },
+      // Section: SDK
+      {
+        id: "And-CAF-10.1",
+        gl: "AGL-002",
+        ref: "10.1",
+        title: "The app runs on the latest public version of the Android platform without crashing or loss of core function.",
+        steps: "1. Install the app on a phone running the newest public version of Android.\n2. Verify that there are no app crashes, visual offsets, or system dialog interferences.",
+        expected: "No unexpected exception occurs, and the user interface responds perfectly.",
+        originalRef: "SDK"
+      },
+      {
+        id: "And-CAF-10.2",
+        gl: "AGL-002",
+        ref: "10.2",
+        title: "The app targets the latest SDK by setting the targetSdk value to minimize the use of any platform-provided compatibility fallbacks.",
+        steps: "1. Open build.gradle or app build configurations.\n2. Check the \"targetSdk\" attribute.\n3. Make sure it matches the latest officially required Android version level.",
+        expected: "The app sets its target SDK to the latest public level.",
+        originalRef: "SDK"
+      },
+      {
+        id: "And-CAF-10.3",
+        gl: "AGL-002",
+        ref: "10.3",
+        title: "The app is built with the latest SDK by setting the compileSdk value.",
+        steps: "1. Open build.gradle or app files.\n2. Verify that the \"compileSdk\" parameter matches the latest required Android version.",
+        expected: "Compilation aligns with the latest SDK capabilities.",
+        originalRef: "SDK"
+      },
+      {
+        id: "And-CAF-10.4",
+        gl: "AGL-002",
+        ref: "10.4",
+        title: "Any Google or third-party SDKs used are up-to-date. Any improvements to these SDKs, such as stability, compatibility, or security, should be available to users in a timely manner.",
+        steps: "1. Scan through the dependencies listed in gradle or packages configuration.\n2. Ensure that no libraries are labeled as out-of-date or vulnerable, and that Google libraries are updated to modern releases.",
+        expected: "No vulnerable, deprecated, or drastically outdated third party SDK blocks are present.",
+        originalRef: "SDK"
+      },
+      {
+        id: "And-CAF-10.5",
+        gl: "AGL-002",
+        ref: "10.5",
+        title: "The app does not use non-SDK interfaces.",
+        steps: "1. Run compatibility analyzer scans or scan package imports.\n2. Confirm that the application doesn't call system methods that are marked private or restricted in the Android source code.",
+        expected: "Solely public standard SDK classes and interfaces are called, avoiding unsupported hidden components.",
+        originalRef: "SDK"
+      },
+      {
+        id: "And-CAF-10.6",
+        gl: "AGL-002",
+        ref: "10.6",
+        title: "No debug libraries are included in the production app. This can cause performance as well as security issues.",
+        steps: "1. Open the project configuration or generate a release APK.\n2. Check that debugging packages (for example, LeakCanary or developer console bridges) are excluded from the release build structure.",
+        expected: "Production assemblies exclude all developer-focused instrumentation or logging bridges.",
+        originalRef: "SDK"
+      },
+      // Section: Battery
+      {
+        id: "And-CAF-11.1",
+        gl: "AGL-002",
+        ref: "11.1",
+        title: "App supports power management features in Android 6.0+ (Doze and App Standby) properly. In the case where core functionality is disrupted by power management, only qualified apps may request an exemption.",
+        steps: "1. Connect your phone to adb and force the device into Doze mode while standard tasks are scheduled (with: adb shell dumpsys deviceidle force-idle).\n2. Verify that the app pauses tasks gracefully, uses standard WorkManager, and does not popup asking the user for \"Ignore Battery Optimization\" system exemptions.",
+        expected: "The app behaves efficiently during Doze boundaries without custom exemption policies.",
+        originalRef: "Battery"
       }
     ]
   }

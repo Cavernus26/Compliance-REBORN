@@ -24,6 +24,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { ALL_DATA, IOS_ICONS, AND_ICONS } from './data';
 import { AppState, Session, TestCase, ExecutionMap, Guideline } from './types';
 import ExecutiveReportView from './components/ExecutiveReportView';
+import androidShareSheetImg from './assets/images/android_share_sheet_1779710019591.png';
 
 const INITIAL_STATE: AppState = {
   sessions: [],
@@ -864,7 +865,7 @@ function ButtonComplianceDemo({ tcId }: { tcId: string }) {
   const [customLeftHeight, setCustomLeftHeight] = React.useState(44);
   const [customLeftLabel, setCustomLeftLabel] = React.useState('Sign in with Apple');
 
-  if (!tcId || !tcId.startsWith('iOS-AS-BTN-')) return null;
+  if (!tcId || (!tcId.startsWith('iOS-AS-BTN-') && tcId !== 'And-CAF-7.4')) return null;
 
   // Real vector high-fidelity standard Apple logo (perfect proportions, no distortion)
   const appleLogo = (
@@ -1794,6 +1795,26 @@ function ButtonComplianceDemo({ tcId }: { tcId: string }) {
           </div>
         </div>
       )}
+
+      {tcId === "And-CAF-7.4" && (
+        <div className="space-y-4">
+          <p className="text-xs text-[var(--text-muted)] leading-relaxed">
+            When initiating a content share, utilizing the native standard <strong>Android Share sheet</strong> is strongly recommended to ensure direct share targets work seamlessly, consistent preview styling is maintained, and user trust is reinforced.
+          </p>
+          <div className="flex flex-col items-center justify-center p-6 bg-[var(--surface)] border border-[var(--border)] rounded-xl max-w-lg mx-auto animate-in fade-in duration-300">
+            <span className="text-[10px] font-mono text-[var(--text-muted)] mb-3">Android System Layout Reference</span>
+            <img 
+              src={androidShareSheetImg} 
+              alt="Standard Android Share Sheet interface mock-up"
+              className="max-h-72 object-contain rounded-lg shadow-md border border-[var(--border)]"
+              referrerPolicy="no-referrer"
+            />
+            <p className="text-[10px] text-[var(--text-muted)] mt-3 text-center">
+              The native sheet automatically registers quick contacts, app handles, and favorites.
+            </p>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
@@ -2413,7 +2434,7 @@ function TestCaseRow({ tc, tcNumber, execution, setStatus, setState, showToast, 
                <div className="grid grid-cols-5 gap-12">
                  <div className="col-span-3 space-y-6">
                    <div className="space-y-4">
-                     <p className="text-[10px] font-bold text-[var(--text)] uppercase tracking-widest flex items-center gap-2 underline decoration-[var(--border)] underline-offset-4">01 Execution Protocol</p>
+                     <p className="text-[10px] font-bold text-[var(--text)] uppercase tracking-widest flex items-center gap-2 underline decoration-[var(--border)] underline-offset-4">01 Test steps</p>
                      <ul className="space-y-3">
                        {tc.steps.split('\n').map((l: string, i: number) => (
                          <li key={i} className="flex gap-4 group/step">
@@ -2423,14 +2444,14 @@ function TestCaseRow({ tc, tcNumber, execution, setStatus, setState, showToast, 
                        ))}
                      </ul>
                    </div>
-                   <div className="p-5 bg-green-500/5 rounded-xl border border-green-500/10">
-                     <p className="text-[10px] font-bold text-green-500 uppercase tracking-widest mb-2 flex items-center gap-2">02 Expected Deterministic State</p>
-                     <p className="text-sm text-[var(--text-highlight)] leading-relaxed italic">{tc.expected}</p>
+                   <div className="p-5 rounded-xl border border-emerald-300 dark:border-emerald-800/30 bg-emerald-100/40 dark:bg-emerald-950/30 shadow-sm">
+                     <p className="text-[10px] font-bold text-emerald-800 dark:text-emerald-400 uppercase tracking-widest mb-2 flex items-center gap-2 font-mono">02 Expected result</p>
+                     <p className="text-sm text-emerald-950 dark:text-emerald-100 font-semibold leading-relaxed italic">{tc.expected}</p>
                    </div>
                  </div>
                  <div className="col-span-2 space-y-6">
                    <div className="space-y-3">
-                     <label className="text-[10px] font-bold text-[var(--text-muted)] uppercase tracking-widest flex items-center gap-2 underline decoration-[var(--border)] underline-offset-4">03 Field Observations</label>
+                     <label className="text-[10px] font-bold text-[var(--text-muted)] uppercase tracking-widest flex items-center gap-2 underline decoration-[var(--border)] underline-offset-4">03 Observations</label>
                      <textarea 
                        placeholder="Log runtime anomalies, device specifics or build artifacts..." 
                        className="w-full bg-[var(--bg)]/40 border border-[var(--border)] rounded-xl p-4 text-sm text-[var(--text-highlight)] outline-none focus:border-[var(--text-muted)] transition-all resize-none min-h-[160px] font-mono leading-relaxed shadow-inner"
