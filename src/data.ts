@@ -3165,10 +3165,146 @@ export const ALL_DATA: Record<string, PlatformData> = {
   },
   android: {
     guidelines: [
-      { id: "AGL-001", title: "Compliance", description: "Android Google Play checklist: Compliance", category: "Compliance", impact: "high" }
+      { id: "AGL-002", title: "Core App Functionality", description: "Android Core App Quality: Core App Functionality", category: "Core App Functionality", impact: "high" }
     ],
     testCases: [
-      { id: "And-C-1", gl: "AGL-001", ref: "1.1.1", title: "Objectionable Content - General Policy", steps: "1. Review app content for prohibited material.\n2. Verify against Play Store policies.", expected: "Content is compliant with policy." }
+      // Section: Navigation
+      {
+        id: "And-CAF-1.1",
+        gl: "AGL-002",
+        ref: "1.1",
+        title: "App supports standard Back button navigation and does not make use of any custom, on-screen \"Back button\" prompts.",
+        steps: "1. Navigate through the app.\n2. Verify system Back button/gesture is exclusively used for backward navigation.",
+        expected: "Standard Back button logic is present without custom on-screen prompts.",
+        originalRef: "Navigation"
+      },
+      {
+        id: "And-CAF-1.2",
+        gl: "AGL-002",
+        ref: "1.2",
+        title: "All dialogs are dismissible using the Gesture Navigation (Back button).",
+        steps: "1. Trigger various dialogs (alerts, confirmations, modals).\n2. Use system Back gesture/button.",
+        expected: "Dialog dismisses when Back gesture is used.",
+        originalRef: "Navigation"
+      },
+      {
+        id: "And-CAF-1.3",
+        gl: "AGL-002",
+        ref: "1.3",
+        title: "When the app is resumed from the Recents app switcher, the app should return the user to the exact state in which it was last used.",
+        steps: "1. Open app and navigate to a specific state.\n2. Send app to background using Recents switcher.\n3. Resume app from Recents.",
+        expected: "App returns to the exact previous state.",
+        originalRef: "Navigation"
+      },
+      {
+        id: "And-CAF-1.4",
+        gl: "AGL-002",
+        ref: "1.4",
+        title: "When the app is resumed after the device wakes from the sleep (locked) state, the app should return the user to the exact state in which it was last used.",
+        steps: "1. Navigate to a specific state in the app.\n2. Lock the device.\n3. Unlock and wake the device.",
+        expected: "App returns to the exact previous state.",
+        originalRef: "Navigation"
+      },
+      {
+        id: "And-CAF-1.5",
+        gl: "AGL-002",
+        ref: "1.5",
+        title: "When the app is relaunched from Home or All Apps, it should do one of the following, depending on how much time has passed since it was last used.",
+        steps: "1. Minimize the app using the Home button.\n2. Relaunch from Home or All Apps icon after short and long periods.",
+        expected: "App handles relaunching appropriately according to standard Android application lifecycles.",
+        originalRef: "Navigation"
+      },
+      // Section: Notifications
+      {
+        id: "And-CAF-2.1",
+        gl: "AGL-002",
+        ref: "2.1",
+        title: "Notifications are not used for cross-promotion or advertising another product, as this is strictly prohibited by the Play Store.",
+        steps: "1. Trigger notifications through standard app usage or developer tools.\n2. Review notification content.",
+        expected: "Notifications do not contain cross-promotion or advertising.",
+        originalRef: "Notifications"
+      },
+      {
+        id: "And-CAF-2.2",
+        gl: "AGL-002",
+        ref: "2.2",
+        title: "Notification channels are defined according to best practices, rather than serving all notifications from one channel.",
+        steps: "1. Navigate to Android App Info > Notifications.\n2. Verify there are adequately defined separate channels for different types of alerts.",
+        expected: "Notifications are appropriately separated into channels.",
+        originalRef: "Notifications"
+      },
+      {
+        id: "And-CAF-2.3",
+        gl: "AGL-002",
+        ref: "2.3",
+        title: "Selecting the correct notification priority.",
+        steps: "1. Trigger different types of notifications.\n2. Check if their intrusiveness (sound, heads-up, silent) matches their importance.",
+        expected: "Notification priorities are correctly assigned based on importance.",
+        originalRef: "Notifications"
+      },
+      {
+        id: "And-CAF-2.4",
+        gl: "AGL-002",
+        ref: "2.4",
+        title: "Multiple notifications are stacked into a single notification group, where possible.",
+        steps: "1. Trigger 4+ notifications of the same type.\n2. Check notification shade.",
+        expected: "Notifications of the same type are grouped together.",
+        originalRef: "Notifications"
+      },
+      {
+        id: "And-CAF-2.5",
+        gl: "AGL-002",
+        ref: "2.5",
+        title: "Set timeouts for notifications where appropriate.",
+        steps: "1. Trigger a time-sensitive notification (e.g., incoming call, timer).\n2. Wait for expiration.",
+        expected: "Notification disappears automatically when it is no longer relevant.",
+        originalRef: "Notifications"
+      },
+      {
+        id: "And-CAF-2.6",
+        gl: "AGL-002",
+        ref: "2.6",
+        title: "Notifications are persistent only if related to ongoing events, such as music playback or a phone call.",
+        steps: "1. Trigger a persistent (ongoing) notification.\n2. Verify there is an active ongoing event tied to the notification.",
+        expected: "Persistent notifications are only used for legitimate ongoing background tasks.",
+        originalRef: "Notifications"
+      },
+      {
+        id: "And-CAF-2.7",
+        gl: "AGL-002",
+        ref: "2.7",
+        title: "For messaging apps, social apps and conversations: Use the MessagingStyle notifications for conversations.",
+        steps: "1. Trigger a message notification.\n2. Inspect the notification styling.",
+        expected: "Notification utilizes MessagingStyle to clearly show the sender and conversation context.",
+        originalRef: "Notifications"
+      },
+      {
+        id: "And-CAF-2.8",
+        gl: "AGL-002",
+        ref: "2.8",
+        title: "For messaging apps, social apps and conversations: Support the direct reply action.",
+        steps: "1. Trigger a message notification.\n2. Attempt to reply directly from the notification shade.",
+        expected: "A direct reply inline action is available and functional.",
+        originalRef: "Notifications"
+      },
+      {
+        id: "And-CAF-2.9",
+        gl: "AGL-002",
+        ref: "2.9",
+        title: "For messaging apps, social apps and conversations: Support conversation shortcuts, and implement best practices for getting the best direct share ranking.",
+        steps: "1. Share an item from another app.\n2. Check the system share sheet for conversation shortcuts.",
+        expected: "Relevant conversation shortcuts appear in the direct share menu.",
+        originalRef: "Notifications"
+      },
+      {
+        id: "And-CAF-2.10",
+        gl: "AGL-002",
+        ref: "2.10",
+        title: "For messaging apps, social apps and conversations: Support bubbles.",
+        steps: "1. Trigger a conversation notification.\n2. Tap the bubble icon or enable bubbles for the conversation in settings.",
+        expected: "The conversation can be opened successfully in a floating bubble.",
+        originalRef: "Notifications"
+      }
     ]
   }
 };
@@ -3183,5 +3319,5 @@ export const IOS_ICONS: Record<string, string> = {
 };
 
 export const AND_ICONS: Record<string, string> = { 
-  'Compliance': '📋' 
+  'Core App Functionality': '⚙️'
 };

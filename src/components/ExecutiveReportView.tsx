@@ -310,9 +310,8 @@ export default function ExecutiveReportView({
   };
 
   return (
-    <div className="w-full bg-[var(--surface)] border border-[var(--border)] rounded-2xl p-8 shadow-2xl relative overflow-hidden text-left animate-in fade-in duration-300" id="executive-compliance-report">
+    <div className="w-full bg-[var(--surface)] border border-[var(--border)] rounded-2xl p-8 shadow-2xl relative overflow-hidden text-left animate-in fade-in duration-300 print:shadow-none print:border-none print:bg-transparent print:p-0 print:rounded-none" id="executive-compliance-report">
       {/* Visual background highlights to represent formal auditing desk */}
-      <div className="absolute top-0 right-0 w-96 h-96 bg-indigo-500/5 rounded-full blur-3xl pointer-events-none" />
 
       {/* Report Core Headings */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 border-b border-[var(--border)] pb-6 mb-8">
