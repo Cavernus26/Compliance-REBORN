@@ -69,6 +69,12 @@ export default function App() {
   const [statusFilter, setStsF] = useState('');
   const [toast, setToast] = useState<{ msg: string; show: boolean }>({ msg: '', show: false });
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [deleteConf, setDeleteConf] = useState<{
+    onConfirm: () => void;
+    title: string;
+    message: string;
+    confirmText?: string;
+  } | null>(null);
 
   // Persistence
   useEffect(() => {
@@ -209,15 +215,23 @@ export default function App() {
 
   const deleteSession = (e: React.MouseEvent, id: string) => {
     e.stopPropagation();
-    if (!confirm('Delete this session and all results?')) return;
-    setState(prev => {
-      const newSess = prev.sessions.filter(s => s.id !== id);
-      const newActive = prev.activeId === id ? (newSess[0]?.id || null) : prev.activeId;
-      const newExecs = { ...prev.execsByPlatform };
-      Object.keys(newExecs).forEach(k => { if (k.includes(id)) delete newExecs[k]; });
-      return { ...prev, sessions: newSess, activeId: newActive, execsByPlatform: newExecs };
+    const sessObj = state.sessions.find(s => s.id === id);
+    const verInfo = sessObj ? ` "${sessObj.version}"` : '';
+    setDeleteConf({
+      title: 'Delete Build Session',
+      message: `Are you sure you want to delete build session${verInfo} and all associated execution results? This action cannot be undone.`,
+      confirmText: 'Delete Session',
+      onConfirm: () => {
+        setState(prev => {
+          const newSess = prev.sessions.filter(s => s.id !== id);
+          const newActive = prev.activeId === id ? (newSess[0]?.id || null) : prev.activeId;
+          const newExecs = { ...prev.execsByPlatform };
+          Object.keys(newExecs).forEach(k => { if (k.includes(id)) delete newExecs[k]; });
+          return { ...prev, sessions: newSess, activeId: newActive, execsByPlatform: newExecs };
+        });
+        showToast('Session deleted');
+      }
     });
-    showToast('Session deleted');
   };
 
   const toggleTheme = () => {
@@ -319,7 +333,7 @@ export default function App() {
         <main className="flex-1 p-10 print:p-0 print:m-0 overflow-y-auto page-transition max-w-6xl print:max-w-none mx-auto w-full">
         {activePage === 'dashboard' && <DashboardView stats={stats} risk={risk} activeSession={activeSession} onNewSess={() => setIsModalOpen(true)} onGoToTest={() => setActivePage('execute')} />}
         {activePage === 'sessions' && <SessionsView sessions={state.sessions} activeId={state.activeId} onSelect={id => setState(p => ({ ...p, activeId: id }))} onDelete={deleteSession} onNewSess={() => setIsModalOpen(true)} />}
-        {activePage === 'execute' && <ExecuteView state={state} setState={setState} db={db} activeTcs={activeTcs} executions={executions} setStatus={setStatus} bulkSetStatus={bulkSetStatus} expandedTc={expandedTc} setExpandedTc={setExpandedTc} showToast={showToast} icons={icons} />}
+        {activePage === 'execute' && <ExecuteView state={state} setState={setState} db={db} activeTcs={activeTcs} executions={executions} setStatus={setStatus} bulkSetStatus={bulkSetStatus} expandedTc={expandedTc} setExpandedTc={setExpandedTc} showToast={showToast} icons={icons} setDeleteConf={setDeleteConf} />}
         {activePage === 'summary' && <SummaryView stats={stats} risk={risk} activeSession={activeSession} executions={executions} activeTcs={activeTcs} db={db} state={state} />}
         {activePage === 'guidelines' && <GuidelinesView state={state} setState={setState} db={db} icons={icons} showToast={showToast} />}
       </main>
@@ -369,11 +383,52 @@ export default function App() {
       <AnimatePresence>
         {toast.show && (
           <motion.div initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: 20, opacity: 0 }} className="fixed bottom-6 right-6 bg-[var(--surface2)] border border-[var(--border2)] px-4 py-2.5 rounded-xl shadow-xl z-[9999] flex items-center gap-3">
-             <div className="w-5 h-5 rounded-full bg-[var(--accent-dim)] flex items-center justify-center text-[var(--accent)]"><Check size={12} strokeWidth={3} /></div>
-             <span className="text-sm font-medium">{toast.msg}</span>
+              <div className="w-5 h-5 rounded-full bg-[var(--accent-dim)] flex items-center justify-center text-[var(--accent)]"><Check size={12} strokeWidth={3} /></div>
+              <span className="text-sm font-medium">{toast.msg}</span>
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Custom Delete Confirmation Modal */}
+      {deleteConf && (
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[2000] flex items-center justify-center p-4">
+          <motion.div 
+            initial={{ scale: 0.95, opacity: 0 }} 
+            animate={{ scale: 1, opacity: 1 }} 
+            className="bg-[var(--surface)] border border-[var(--border2)] rounded-[18px] p-6 w-full max-w-sm shadow-2xl relative overflow-hidden text-left"
+          >
+            <div className="flex items-start gap-4 mb-4">
+              <div className="w-10 h-10 rounded-full bg-red-500/10 flex items-center justify-center text-red-500 shrink-0">
+                <Trash2 size={20} />
+              </div>
+              <div className="flex-1">
+                <h3 className="text-base font-bold text-[var(--text-highlight)]">{deleteConf.title}</h3>
+                <p className="text-xs text-[var(--text2)] mt-1.5 leading-relaxed">{deleteConf.message}</p>
+              </div>
+            </div>
+
+            <div className="flex justify-end gap-3 mt-6">
+              <button 
+                type="button" 
+                onClick={() => setDeleteConf(null)} 
+                className="px-4 py-2 rounded-lg text-xs font-medium text-[var(--text2)] hover:bg-[var(--surface2)] transition-colors"
+              >
+                Cancel
+              </button>
+              <button 
+                type="button" 
+                onClick={() => {
+                  deleteConf.onConfirm();
+                  setDeleteConf(null);
+                }} 
+                className="bg-red-500 text-white px-4 py-2 rounded-lg text-xs font-semibold hover:bg-red-650 transition-all shadow-lg active:scale-95"
+              >
+                {deleteConf.confirmText || 'Delete'}
+              </button>
+            </div>
+          </motion.div>
+        </div>
+      )}
     </div>
   );
 }
@@ -511,7 +566,7 @@ function SessionsView({ sessions, activeId, onSelect, onDelete, onNewSess }: any
   );
 }
 
-function ExecuteView({ state, setState, db, activeTcs, executions, setStatus, bulkSetStatus, expandedTc, setExpandedTc, showToast, icons }: any) {
+function ExecuteView({ state, setState, db, activeTcs, executions, setStatus, bulkSetStatus, expandedTc, setExpandedTc, showToast, icons, setDeleteConf }: any) {
   const [filterQuery, setFilterQuery] = useState('');
   const [activeSectionId, setActiveSectionId] = useState('all');
   
@@ -828,6 +883,7 @@ function ExecuteView({ state, setState, db, activeTcs, executions, setStatus, bu
                             showToast={showToast}
                             isExpanded={expandedTc === tc.id}
                             onToggle={() => setExpandedTc(expandedTc === tc.id ? null : tc.id)}
+                            setDeleteConf={setDeleteConf}
                           />
                         );
                       })}
@@ -2372,7 +2428,7 @@ function SubscriptionComplianceDemo({ tcId }: { tcId: string }) {
   );
 }
 
-function TestCaseRow({ tc, tcNumber, execution, setStatus, setState, showToast, isExpanded, onToggle }: any) {
+function TestCaseRow({ tc, tcNumber, execution, setStatus, setState, showToast, isExpanded, onToggle, setDeleteConf }: any) {
   const status = execution?.status || 'not_tested';
   
   return (
@@ -2401,7 +2457,20 @@ function TestCaseRow({ tc, tcNumber, execution, setStatus, setState, showToast, 
           {tc.id.startsWith('custom-') && (
             <button 
               onClick={() => {
-                if (confirm('Permanently delete this custom compliance checkpoint?')) {
+                if (setDeleteConf) {
+                  setDeleteConf({
+                    title: 'Delete Custom Checkpoint',
+                    message: `Are you sure you want to permanently delete custom checkpoint "${tc.title}"? This action cannot be undone.`,
+                    confirmText: 'Delete Checkpoint',
+                    onConfirm: () => {
+                      setState((prev: any) => ({
+                        ...prev,
+                        customTcs: (prev.customTcs || []).filter((t: any) => t.id !== tc.id)
+                      }));
+                      showToast('Custom checkpoint deleted');
+                    }
+                  });
+                } else {
                   setState((prev: any) => ({
                     ...prev,
                     customTcs: (prev.customTcs || []).filter((t: any) => t.id !== tc.id)

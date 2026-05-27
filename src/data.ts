@@ -3893,6 +3893,261 @@ export const ALL_DATA: Record<string, PlatformData> = {
         steps: "1. Build an update version of the application package signed with a different debug or release key than the currently installed version.\n2. Plug in your test phone and send the new update package to the device using 'adb install -r path/to/mismatched_signed_apk'.\n3. Verify that the Android system refuses to update the app, printing a signature mismatch installation error like 'INSTALL_FAILED_UPDATE_INCOMPATIBLE'.\n4. Re-sign the update package with the original matching production key and verify that it installs successfully over the existing app.",
         expected: "The system security rules block mismatched signature updates, preventing unauthorized app overwrites.",
         originalRef: "APK Related Tests"
+      },
+      // Section: GPG Design Guidelines - Style
+      {
+        id: "And-GPG-1.1",
+        gl: "AGL-003",
+        ref: "1.1",
+        title: "Android powers hundreds of millions of phones, tablets, and other devices in a wide variety of screen sizes and form factors. By taking advantage of Android's flexible layout system, you can create apps that gracefully scale from large tablets to smaller phones.",
+        steps: "1. Open the application on multiple devices of varying sizes (e.g., small phones, large tablets, and foldables).\n2. Rotate the device to monitor layout adaptation.\n3. Verify that visual elements resize and reposition dynamically without overlapping or breaking layout constraints.",
+        expected: "The application utilizes a flexible layout system that scales seamlessly across all target screen sizes and form factors.",
+        originalRef: "Style"
+      },
+      {
+        id: "And-GPG-1.2",
+        gl: "AGL-003",
+        ref: "1.2",
+        title: "Android themes apply a consistent visual style to an app or activity by defining UI properties like color, height, padding, and font size.",
+        steps: "1. Navigate through all screens of the application.\n2. Compare UI attributes such as brand colors, touch margins, padding blocks, and typography weights.\n3. Confirm that a unified theme is consistently applied across the entire app hierarchy.",
+        expected: "A cohesive visual theme is maintained universally across all application views and activities.",
+        originalRef: "Style"
+      },
+      {
+        id: "And-GPG-1.3",
+        gl: "AGL-003",
+        ref: "1.3",
+        title: "Use illumination and dimming to respond to touches, reinforce the resulting behaviors of gestures, and indicate what actions are enabled and disabled.",
+        steps: "1. Press interactive UI elements like buttons, cards, and tabs.\n2. Verify that focus, hover, press, and drag actions trigger immediate illumination/dimming changes or ripple visual effects.\n3. Disable specific buttons and ensure they visually dim to represent inactive states.",
+        expected: "The interface provides clear responsive visual feedback for active, hovered, pressed, and disabled states.",
+        originalRef: "Style"
+      },
+      {
+        id: "And-GPG-1.4",
+        gl: "AGL-003",
+        ref: "1.4",
+        title: "Optimize your application's UI by designing alternative layouts for some of the different size buckets, and provide alternative bitmap images for different density buckets.",
+        steps: "1. Review the resource structure in the codebase (e.g., mdpi, hdpi, xhdpi folders/buckets).\n2. Test on low-density vs. high-density emulator screens to verify image resolution.\n3. Verify layout configurations switch to optimized tablet-specific structures on large screens.",
+        expected: "Alternative layouts and density-specific bitmap resources are optimized for each device resolution bucket.",
+        originalRef: "Style"
+      },
+      {
+        id: "And-GPG-1.5",
+        gl: "AGL-003",
+        ref: "1.5",
+        title: "An icon is a graphic that takes up a small portion of screen real estate and provides a quick, intuitive representation of an action, a status, or an app. You should follow the 2:3:4:6:8 scaling ratio between the five primary densities (medium, high, x-high, xx-high, and xxx-high respectively).",
+        steps: "1. Access the assets directory for graphic icons in the source project.\n2. Measure the dimension size scaling of individual icon versions across mdpi (1x), hdpi (1.5x), xhdpi (2x), xxhdpi (3x), and xxxhdpi (4x).\n3. Confirm that they precisely match the official 2:3:4:6:8 ratio.",
+        expected: "All bitmap icons follow the standard 2:3:4:6:8 scaling ratio across critical density buckets for crisp rendering.",
+        originalRef: "Style"
+      },
+      // Section: GPG Design Guidelines - Patterns
+      {
+        id: "And-GPG-2.1",
+        gl: "AGL-003",
+        ref: "2.1",
+        title: "Consistent navigation is an essential component of the overall user experience. Few things frustrate users more than basic navigation that behaves in inconsistent and unexpected ways. Android 3.0 introduced significant changes to the global navigation behavior. Thoughtfully following the guidelines for Back and Up will make your app's navigation predictable and reliable for your users.",
+        steps: "1. Navigate deep into the navigation hierarchy or game screens.\n2. Trigger the Back gesture or hardware Back button repeatedly.\n3. Observe the screen-by-screen reverse transition path, and check if Up button navigates cleanly to the parent category.",
+        expected: "Navigation behaves in an expected, predictable, and consistent manner matching standard guidelines.",
+        originalRef: "Patterns"
+      },
+      {
+        id: "And-GPG-2.2",
+        gl: "AGL-003",
+        ref: "2.2",
+        title: "Hardware back button dismisses floating windows (dialogs, popups)",
+        steps: "1. Open a dialog box, detailed popup window, or modal within any game screen.\n2. Press the hardware/system Back gesture/button.\n3. Verify that the floating window is dismissed immediately without changing the screen behind it.",
+        expected: "The dialog or popup closes instantly upon detecting the hardware Back command.",
+        originalRef: "Patterns"
+      },
+      {
+        id: "And-GPG-2.3",
+        gl: "AGL-003",
+        ref: "2.3",
+        title: "Hardware back button dismisses contextual action bars, and removes the highlight from the selected items",
+        steps: "1. Choose one or more items to highlight and trigger a contextual action bar header.\n2. Tap the hardware Back button.\n3. Check that the contextual header overlay is removed and highlights are deselected immediately.",
+        expected: "Contextual states are cleared and highlights are removed upon Back gesture invocation.",
+        originalRef: "Patterns"
+      },
+      {
+        id: "And-GPG-2.4",
+        gl: "AGL-003",
+        ref: "2.4",
+        title: "Hardware back button hides the onscreen keyboard",
+        steps: "1. Select a text input field to open the onscreen mobile keyboard.\n2. Press the hardware Back option/gesture.\n3. Verify that the onscreen keyboard retracts/hides immediately from the display view.",
+        expected: "The software/onscreen keyboard is dismissed cleanly when Back is pressed.",
+        originalRef: "Patterns"
+      },
+      {
+        id: "And-GPG-2.5",
+        gl: "AGL-003",
+        ref: "2.5",
+        title: "Some content is best experienced full screen, like videos, games, image galleries, books, and slides in a presentation. You can engage users more deeply with content in full screen by minimizing visual distraction from app controls and protecting users from escaping the app accidentally.",
+        steps: "1. Launch media, cinematic scenes, or gameplay view inside the app.\n2. Verify the screen automatically hides system bars (status bar, navigation bar) to focus on full-screen rendering.\n3. Ensure system bars can be easily revealed via standard edge swipes without causing accidental page escape.",
+        expected: "Application transitions to a polished immersive full-screen layout containing no visual layout visual noise.",
+        originalRef: "Patterns"
+      },
+      {
+        id: "And-GPG-2.6",
+        gl: "AGL-003",
+        ref: "2.6",
+        title: "In some situations, when a user invokes an action in your app, it's a good idea to confirm or acknowledge that action through text.",
+        steps: "1. Initiate important actions (like resource creation, state modifications, or resets).\n2. Verify a small toast, confirmation prompt, or feedback text message temporarily alerts the user of success.",
+        expected: "Clear user-facing text confirmations acknowledge all major user-triggered actions.",
+        originalRef: "Patterns"
+      },
+      {
+        id: "And-GPG-2.7",
+        gl: "AGL-003",
+        ref: "2.7",
+        title: "The notification system allows users to keep informed about relevant and timely events in your app, such as new chat messages from a friend or a calendar event. Think of notifications as a news channel that alerts the user to important events as they happen or a log that chronicles events while the user is not paying attention—and one that is synced as appropriate across all their Android devices.",
+        steps: "1. Trigger key milestones, friend updates, or live events in background states.\n2. Check if a notification is neatly posted to the Android notification drawer.\n3. Verify notification states are properly synced across additional device screens.",
+        expected: "Notifications act as a reliable chronological log alerting users to essential events.",
+        originalRef: "Patterns"
+      },
+      {
+        id: "And-GPG-2.8",
+        gl: "AGL-003",
+        ref: "2.8",
+        title: "Triggered notifications are mapped to essential and frequent events in the game",
+        steps: "1. Play through typical user cycles in standard game flows.\n2. Check the rate and contextual importance of push notifications delivered to the device drawer.\n3. Verify that non-essential or overly spammy marketing events do not trigger system alerts.",
+        expected: "Notifications correspond exclusively to important game-related events and updates.",
+        originalRef: "Patterns"
+      },
+      {
+        id: "And-GPG-2.9",
+        gl: "AGL-003",
+        ref: "2.9",
+        title: "The notifications allow the user to accomplish some task quickly",
+        steps: "1. Trigger an active task alert in the notification shade (e.g., chat reply, invite accept).\n2. Look for quick-action buttons (e.g. 'Reply', 'Join Now') on the custom push panel.\n3. Click the interactive action and verify the action completes immediately without fully loading the app container.",
+        expected: "Direct action items on notifications allow swift task completion without layout bottlenecks.",
+        originalRef: "Patterns"
+      },
+      {
+        id: "And-GPG-2.10",
+        gl: "AGL-003",
+        ref: "2.10",
+        title: "Icon in notification area is distinct from other Android system icons",
+        steps: "1. Trigger an active alert to view the notification icon inside the system status header.\n2. Inspect design assets and verify that they represent a distinct brand silhouette of your specific app.",
+        expected: "The notification icon stands out clearly, avoiding confusion with system indicators like battery or signal status.",
+        originalRef: "Patterns"
+      },
+      {
+        id: "And-GPG-2.11",
+        gl: "AGL-003",
+        ref: "2.11",
+        title: "Icon in notification area is simple and easy to understand, without excessive detail that is hard to discern",
+        steps: "1. Display the app's notification badge at its standard small size (typically 24x24dp).\n2. Review the layout design details and check if there are any tiny gradients or complex lines that look blurred.",
+        expected: "The design is highly simplified with bold geometric lines that remain crisp at small scale.",
+        originalRef: "Patterns"
+      },
+      {
+        id: "And-GPG-2.12",
+        gl: "AGL-003",
+        ref: "2.12",
+        title: "Icon in notification area should not have any additional visual effect(dimming, fade out)",
+        steps: "1. Inspect the raw PNG/Vector source assets created in the application resource directory.\n2. Confirm that there are no custom alpha fades, soft transparency transitions, gradient masks, or dimming effects styled directly inside the graphic file layers.",
+        expected: "Graphics contain solid opacity layers without unapproved visual fades or pre-baked alpha gradients.",
+        originalRef: "Patterns"
+      },
+      {
+        id: "And-GPG-2.13",
+        gl: "AGL-003",
+        ref: "2.13",
+        title: "Icon in notification area should not be colored. Should be white on transparent background",
+        steps: "1. Inspect the active notification icon graphic under standard status tray visibility constraints.\n2. Make sure that the icon contains only solid pure white pixels mapped against a fully transparent background.",
+        expected: "The icon uses a single flat monochromatic white format built with zero colored tint layers.",
+        originalRef: "Patterns"
+      },
+      {
+        id: "And-GPG-2.14",
+        gl: "AGL-003",
+        ref: "2.14",
+        title: "Some of your users will run into questions or problems along the way. They'll be looking for answers within your app, and if they don't find them quickly, they may leave and never come back.",
+        steps: "1. Open the drawer navigation or menu overlay of the app.\n2. Verify there are clear, intuitive access options directing users to troubleshooting resources.",
+        expected: "The interface provides prominent routes to support and guidance for troubleshooting problems.",
+        originalRef: "Patterns"
+      },
+      {
+        id: "And-GPG-2.15",
+        gl: "AGL-003",
+        ref: "2.15",
+        title: "Ensure that there is a Help section in your game",
+        steps: "1. Navigate around the primary settings or system menu screens.\n2. Locate the designated 'Help' entry point.\n3. Make sure it responds to clicks by opening a dedicated workspace displaying relevant instructions and guides.",
+        expected: "An accessible 'Help' panel is present inside the workspace interface.",
+        originalRef: "Patterns"
+      },
+      {
+        id: "And-GPG-2.16",
+        gl: "AGL-003",
+        ref: "2.16",
+        title: "Highly recommended to include an FAQ section within the game",
+        steps: "1. Open the player profile, context menus, or support lists in the app.\n2. Expand the native 'FAQ' or 'Frequently Asked Questions' section.\n3. Verify relevant, typical gameplay questions and answers render properly in an interactive list.",
+        expected: "A rich, well-formatted FAQ catalog is clearly mapped inside the help screens.",
+        originalRef: "Patterns"
+      },
+      {
+        id: "And-GPG-2.17",
+        gl: "AGL-003",
+        ref: "2.17",
+        title: "Ensure that there is a Contact Us section in the game",
+        steps: "1. In the settings or details section, find the interactive 'Contact Us' or 'Reach Support' trigger.\n2. Ensure it provides active contact channels like a touch-responsive feedback form or active helpdesk email links.",
+        expected: "An interactive and accessible channel is maintained so users can contact active support networks.",
+        originalRef: "Patterns"
+      },
+      {
+        id: "And-GPG-2.18",
+        gl: "AGL-003",
+        ref: "2.18",
+        title: "Most developers want to distribute their apps on multiple platforms. As you plan your app for Android, keep in mind that different platforms play by different rules and conventions. Design decisions that make perfect sense on one platform will look and feel misplaced in the context of a different platform. While a \"design once, ship anywhere\" approach might save you time up-front, you run the very real risk of creating inconsistent apps that alienate users.",
+        steps: "1. Check key interaction designs (like toggle buttons, sheet overlays, tabs, and shares).\n2. Formally verify the application adopts native Material Design mechanics instead of raw iOS-looking navigation hierarchies or layout blocks.",
+        expected: "Platform interfaces embrace standard Android design metaphors rather than general cross-platform compromises.",
+        originalRef: "Patterns"
+      },
+      // Section: GPG Design Guidelines - Building blocks
+      {
+        id: "And-GPG-3.1",
+        gl: "AGL-003",
+        ref: "3.1",
+        title: "Scrolling allows the user to navigate to content in the overflow using a swipe gesture. The scrolling speed is proportional to the speed of the gesture.",
+        steps: "1. Load a view containing elements that overflow the screen bounds.\n2. Apply drag or swipe gestures at different velocities.\n3. Confirm that scrolling speed operates in proportion to gesture velocity (momentum physics), and that boundaries act as expected without jitter.",
+        expected: "Viewport scroll momentum adapts dynamically to the swipe gesture velocity.",
+        originalRef: "Building blocks"
+      },
+      {
+        id: "And-GPG-3.2",
+        gl: "AGL-003",
+        ref: "3.2",
+        title: "A button consists of text and/or an image that clearly communicates what action will occur when the user touches it. A button can have an image, text, or both.",
+        steps: "1. Inspect all visual buttons across the user interface.\n2. Confirm that each button clearly identifies its action through intuitive labels, standard system icons, or both.\n3. Set buttons with distinct shape parameters and border feedback.",
+        expected: "Visual buttons explicitly state and symbolize their exact actions cleanly.",
+        originalRef: "Building blocks"
+      },
+      {
+        id: "And-GPG-3.3",
+        gl: "AGL-003",
+        ref: "3.3",
+        title: "Text fields allow the user to type text into your app. They can be either single line or multi-line. Touching a text field places the cursor and automatically displays the keyboard. In addition to typing, text fields allow for a variety of other activities, such as text selection (cut, copy, paste) and data lookup via auto-completion.",
+        steps: "1. Tap on single-line and multi-line message fields.\n2. Confirm the cursor places instantly and displays the onscreen keyboard.\n3. Long-press on entered text and verify that selection bounds with cut, copy, paste buttons appear properly.",
+        expected: "Text input fields automatically expose system keyboards, cursor placements, and standard text selection functions.",
+        originalRef: "Building blocks"
+      },
+      {
+        id: "And-GPG-3.4",
+        gl: "AGL-003",
+        ref: "3.4",
+        title: "Interactive sliders make it possible to select a value from a continuous or discrete range of values by moving the slider thumb. The smallest value is to the left, the largest to the right. The interactive nature of the slider makes it a great choice for settings that reflect intensity levels, such as volume, brightness, or color saturation.",
+        steps: "1. Locate settings overlays or volume sliders inside the application.\n2. Move the interactive slider thumb and confirm values dynamically shift between left minimums and right maximums.\n3. Verify smooth real-time response of the adjusted intensity level parameter.",
+        expected: "Interactive intensity sliders display dynamic ranges correctly, running lower values on the left and higher values on the right.",
+        originalRef: "Building blocks"
+      },
+      {
+        id: "And-GPG-3.5",
+        gl: "AGL-003",
+        ref: "3.5",
+        title: "Progress bars and activity indicators signal to users that something is happening that will take a moment.",
+        steps: "1. Trigger background transactions, data loading, or assets unpacking procedures.\n2. Ensure a visible activity indicator (spinner) or a continuous horizontal progress bar immediately reveals itself.\n3. Confirm indicators vanish automatically upon completion of the loading task.",
+        expected: "Progress displays or activity spinners reveal active processes to users during wait periods.",
+        originalRef: "Building blocks"
       }
     ]
   }
