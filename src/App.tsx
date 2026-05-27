@@ -910,20 +910,6 @@ function ExecuteView({ state, setState, db, activeTcs, executions, setStatus, bu
           </div>
         )}
 
-        {/* RUNTIME PERMISSIONS DEMO BOTTOM ENTRY */}
-        {((state.platform === 'android' || db?.platform === 'android') && (activeSectionId === 'AGL-004' || (activeGlObject && activeGlObject.title === 'FTCs'))) && (
-          <div className="mt-16 pt-12 border-t border-[var(--border)] space-y-6 text-left">
-            <div className="relative animate-in fade-in duration-300">
-              <div className="flex items-baseline gap-4 mb-2">
-                <span className="text-[10px] font-mono text-[var(--text-muted)]">Interactive Simulation</span>
-                <h2 className="text-xl font-bold text-[var(--text-highlight)] uppercase tracking-wider font-sans">Runtime permissions demo</h2>
-              </div>
-              <div className="h-[2px] w-24 bg-indigo-600" />
-            </div>
-            
-            <RuntimePermissionsDemo />
-          </div>
-        )}
       </div>
     </div>
   );
@@ -2640,7 +2626,7 @@ function RuntimePermissionsDemo() {
                   </span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className={permissionState === 'denied_never' ? 'text-rose-450 font-bold' : ['rationale', 'sys_popup_1', 'warning', 'sys_popup_2'].includes(permissionState) ? 'text-zinc-655' : 'text-emerald-400'}>
+                  <span className={permissionState === 'denied_never' ? 'text-rose-455 font-bold animate-pulse' : ['rationale', 'sys_popup_1', 'warning', 'sys_popup_2'].includes(permissionState) ? 'text-zinc-650' : 'text-emerald-400'}>
                     {permissionState === 'denied_never' ? '🚫' : ['rationale', 'sys_popup_1', 'warning', 'sys_popup_2'].includes(permissionState) ? '○' : '✓'}
                   </span>
                   <span className={permissionState === 'denied_never' ? 'text-rose-405 font-bold animate-pulse' : 'text-[var(--text-muted)]'}>
@@ -3281,6 +3267,9 @@ function TestCaseRow({ tc, tcNumber, execution, setStatus, setState, showToast, 
           >
             <div className="p-8 space-y-8 max-w-4xl mx-auto">
                <ButtonComplianceDemo tcId={tc.id} />
+               {tc.id === 'And-FTC-4.9' && (
+                 <RuntimePermissionsDemo />
+               )}
                <div className="grid grid-cols-5 gap-12">
                  <div className="col-span-3 space-y-6">
                    <div className="space-y-4">

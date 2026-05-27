@@ -4450,6 +4450,133 @@ export const ALL_DATA: Record<string, PlatformData> = {
         steps: "1. Deny a requested permission and verify non-critical features degrade gracefully rather than crashing (e.g. profile photos falling back to defaults if camera is denied).\n2. If the feature/permission is strictly mandatory for the game to start, confirm that the app prevents gameplay and guides the user back to the permission flow.",
         expected: "Platform execution stays robust, returning clean failures, standard safe fallbacks, or re-initiating mandatory requests.",
         originalRef: "Android Manifest checks"
+      },
+      // Section: FTCs - Multi Window Feature
+      {
+        id: "And-FTC-5.1",
+        gl: "AGL-004",
+        ref: "5.1",
+        title: "If the targetSdkVersion is 23 or higher: If user attempts to use the app in multi-window mode, the system forcibly resizes the app unless the app declares a fixed orientation",
+        steps: "1. Build and install an application targeting SDK version 23 or above.\n2. Attempt to trigger multi-window/split-screen mode on the test device.\n3. Verify that the system forcibly resizes the application canvas unless a fixed portrait/landscape orientation has been explicitly requested in the manifest.",
+        expected: "The application is forcibly resized correctly on devices supporting multi-window layouts when no fixed orientation is defined.",
+        originalRef: "Multi Window Feature"
+      },
+      {
+        id: "And-FTC-5.2",
+        gl: "AGL-004",
+        ref: "5.2",
+        title: "If the targetSdkVersion is 23 or higher: If your app does not declare a fixed orientation, you should launch your app on a device running Android 7.0 or higher and attempt to put the app in split-screen mode. Verify that the user experience is acceptable when the app is forcibly resized",
+        steps: "1. Launch your app on a standard device or emulator running Android 7.0 (API level 24) or higher.\n2. Place the device in split-screen configuration.\n3. Examine all screen text, margins, and layouts to verify the UI adapts gracefully and remains fully interactive.",
+        expected: "The user interface adapts dynamically to the split-screen dimensions with readable text and accessible buttons.",
+        originalRef: "Multi Window Feature"
+      },
+      {
+        id: "And-FTC-5.3",
+        gl: "AGL-004",
+        ref: "5.3",
+        title: "If the targetSdkVersion is 23 or higher: If the app declares a fixed orientation, you should attempt to put the app in multi-window mode. Verify that when you do so, the app remains in full-screen mode",
+        steps: "1. Ensure the app has set a fixed screenOrientation (portrait or landscape) in its main manifest activity declarations.\n2. Attempt to trigger multi-window split-screen split layouts.\n3. Confirm that the application ignores split-screen and stays displayed in full-screen mode as enforced by the OS.",
+        expected: "The application stays in full-screen orientation when multi-window is triggered under fixed orientation settings.",
+        originalRef: "Multi Window Feature"
+      },
+      {
+        id: "And-FTC-5.4",
+        gl: "AGL-004",
+        ref: "5.4",
+        title: "If you support multi-window mode: Launch the app in full-screen mode, then switch to multi-window mode by long-pressing the Overview button. Verify that the app switches properly",
+        steps: "1. Boot the app into absolute full-screen mode.\n2. Locate and hold down the hardware or soft-key Overview/Recent Apps system button.\n3. Verify that the system launches multi-window layout and the app smoothly moves to its allocated half without crashing.",
+        expected: "The application processes the system-level transition to multi-window without errors or state resets.",
+        originalRef: "Multi Window Feature"
+      },
+      {
+        id: "And-FTC-5.5",
+        gl: "AGL-004",
+        ref: "5.5",
+        title: "If you support multi-window mode: Launch the app directly in multi-window mode, and verify that the app launches properly.",
+        steps: "1. Press the system Overview button.\n2. Click and hold the app title bar, then drag it to a highlighted screen zone to place it in multi-window mode immediately.\n3. Launch the app directly from this view and ensure it instantiates correctly.",
+        expected: "The application launches on-the-fly and initializes all graphic canvases directly inside the partial-screen boundary.",
+        originalRef: "Multi Window Feature"
+      },
+      {
+        id: "And-FTC-5.6",
+        gl: "AGL-004",
+        ref: "5.6",
+        title: "If you support multi-window mode: Resize your app in split-screen mode by dragging the divider line. Verify that the app resizes without crashing, and that necessary UI elements are visible",
+        steps: "1. Place the device in split-screen mode.\n2. Drag the central screen dividing line back and forth.\n3. Monitor thread activity to verify zero crashes, checking that vital items remain within view.",
+        expected: "The application layout changes smoothly on divider drag with all interactive buttons rendering correctly.",
+        originalRef: "Multi Window Feature"
+      },
+      {
+        id: "And-FTC-5.7",
+        gl: "AGL-004",
+        ref: "5.7",
+        title: "If you support multi-window mode: If you have specified minimum dimensions for your app, attempt to resize the app below those dimensions. Verify that you cannot resize the app to be smaller than the specified minimum",
+        steps: "1. Review layout parameter constraints (e.g. android:defaultWidth, android:defaultHeight) in Android Manifest.\n2. Attempt to force-drag the split-screen divider below these pre-set safe boundaries.\n3. Verify the OS restricts the resize operation, keeping it locked to the defined minimum dimensions.",
+        expected: "The application prevents scaling below declared layout limits, maintaining content presentation safety.",
+        originalRef: "Multi Window Feature"
+      },
+      {
+        id: "And-FTC-5.8",
+        gl: "AGL-004",
+        ref: "5.8",
+        title: "If you support multi-window mode: Through all tests, verify that your app's performance is acceptable. For example, verify that there is not too long a lag to update the UI after the app is resized",
+        steps: "1. Measure layout re-render times during active resize events.\n2. Make sure there are no rendering delays, UI freezes, stuttering visuals, or audio-video desync.\n3. Ensure all menus update virtually instantly to reflect new size states.",
+        expected: "The UI adapts instantly with minimum responsive latency, presenting high frame rates.",
+        originalRef: "Multi Window Feature"
+      },
+      {
+        id: "And-FTC-5.9",
+        gl: "AGL-004",
+        ref: "5.9",
+        title: "Enter and leave multi-window mode",
+        steps: "1. Place the app in split-screen multi-window configuration.\n2. Exit split-screen mode to return the application to native full-screen layout.\n3. Repeat the cycle multiple times to verify no memory leaks, state drops, or process crashes occur.",
+        expected: "Dynamic lifecycle switches between full-screen and split-screen proceed smoothly.",
+        originalRef: "Multi Window Feature"
+      },
+      {
+        id: "And-FTC-5.10",
+        gl: "AGL-004",
+        ref: "5.10",
+        title: "Switch from your app to another app, and verify that the app behaves properly while it is visible but not active. For example, if your app is playing video, verify that the video continues to play while the user is interacting with another app",
+        steps: "1. Launch a continuous media file or simulation track in your app under multi-window mode.\n2. Tap the adjacent pane to interact with another active application.\n3. Verify your app continues playing, executing routines, or updating values correctly while in the visible-but-paused (non-focused) lifecycle stage.",
+        expected: "The application maintains media playbacks and state rendering tasks even when focus is shifted.",
+        originalRef: "Multi Window Feature"
+      },
+      {
+        id: "And-FTC-5.11",
+        gl: "AGL-004",
+        ref: "5.11",
+        title: "In split-screen mode, try moving the dividing bar to make your app both larger and smaller. Try these operations in both side-by-side and one-above-the-other configurations. Verify that the app does not crash, essential functionality is visible, and the resize operation doesn't take too long",
+        steps: "1. Test the app in side-by-side split screen setup, dragging the divider bar to extremes.\n2. Flip the device orientation to trigger standard one-above-the-other layout configuration.\n3. Drag the horizontal separator to confirm it doesn't cause any runtime exceptions and performs changes quickly.",
+        expected: "The layouts in both portrait and landscape multi-window options are highly durable and performant.",
+        originalRef: "Multi Window Feature"
+      },
+      {
+        id: "And-FTC-5.12",
+        gl: "AGL-004",
+        ref: "5.12",
+        title: "Perform several resize operations in rapid succession. Verify that your app doesn't crash",
+        steps: "1. Drag the split-screen divider handle rapidly back and forth several times within a short duration (e.g., 5 seconds).\n2. Monitor the console logs to verify that layout calculations or GC pauses don't cause app instability or full crash events.",
+        expected: "Fast back-to-back resize cycles execute safely, demonstrating high layout architecture stability.",
+        originalRef: "Multi Window Feature"
+      },
+      {
+        id: "And-FTC-5.13",
+        gl: "AGL-004",
+        ref: "5.13",
+        title: "Use your app normally in a number of different window configurations, and verify that the app behaves properly. Verify that text is readable, and that UI elements aren't too small to interact with",
+        steps: "1. Run mainstream application operations under 1/3, 1/2, and 2/3 split-screen ratios.\n2. Verify visual asset rendering scale, button size (at least 48dp target), and font size consistency.\n3. Ensure all clickable items remain comfortable to press with fingers without accidental inputs.",
+        expected: "The user layout stays visually and physically ergonomic across all valid scaling ratios.",
+        originalRef: "Multi Window Feature"
+      },
+      {
+        id: "And-FTC-5.14",
+        gl: "AGL-004",
+        ref: "5.14",
+        title: "You should launch your app on a device running Android 7.0 or higher and attempt to put the app in freeform and split-screen modes. Verify that when you do so, the app remains in full-screen mode",
+        steps: "1. Boot the application on devices with Freeform window mode enabled (e.g. tablet or desktop emulator profiles).\n2. Drag the corners of the app window or attempt to tile it.\n3. Confirm that the application handles freeform configuration natively, or safely forces standard display rules without any visual tearing.",
+        expected: "Freeform scaling or split-screen bounds are respected and rendered correctly.",
+        originalRef: "Multi Window Feature"
       }
     ]
   }
