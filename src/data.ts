@@ -3166,7 +3166,8 @@ export const ALL_DATA: Record<string, PlatformData> = {
   android: {
     guidelines: [
       { id: "AGL-002", title: "Core App Functionality", description: "Android Core App Quality: Core App Functionality", category: "Core App Functionality", impact: "high" },
-      { id: "AGL-003", title: "GPG Design Guidelines", description: "Google Play Games Design Guidelines & PC Compatibility Checkpoints", category: "GPG Design Guidelines", impact: "high" }
+      { id: "AGL-003", title: "GPG Design Guidelines", description: "Google Play Games Design Guidelines & PC Compatibility Checkpoints", category: "GPG Design Guidelines", impact: "high" },
+      { id: "AGL-004", title: "FTCs", description: "Federal Trade Commission guidelines and client disclosures", category: "FTCs", impact: "medium" }
     ],
     testCases: [
       // Section: Navigation
@@ -4148,6 +4149,307 @@ export const ALL_DATA: Record<string, PlatformData> = {
         steps: "1. Trigger background transactions, data loading, or assets unpacking procedures.\n2. Ensure a visible activity indicator (spinner) or a continuous horizontal progress bar immediately reveals itself.\n3. Confirm indicators vanish automatically upon completion of the loading task.",
         expected: "Progress displays or activity spinners reveal active processes to users during wait periods.",
         originalRef: "Building blocks"
+      },
+      // Section: FTCs - Game Content Guidelines
+      {
+        id: "And-FTC-1.1",
+        gl: "AGL-004",
+        ref: "1.1",
+        title: "Apps that duplicate apps already in the market may be rejected, particularly if there are many of them.",
+        steps: "1. Search public stores for identical names, logos, or repackaged templates.\n2. Review visual assets and core mechanics to confirm unique branding and differentiated value.\n3. Make sure the app adds custom value beyond a simple webview envelope.",
+        expected: "The app features original core layouts, assets, and value to prevent instant marketplace duplication flags.",
+        originalRef: "Game Content Guidelines"
+      },
+      {
+        id: "And-FTC-1.2",
+        gl: "AGL-004",
+        ref: "1.2",
+        title: "Apps that are primarily marketing materials or advertisements will be rejected.",
+        steps: "1. Inspect all user navigation routes and screens to verify full functional utility is provided to the end user.\n2. Ensure the app is not merely an interactive billboard, catalog of external coupon links, or solid display ad.",
+        expected: "The app delivers direct functional utility to learners or gamers, rather than strictly hosting commercial ads.",
+        originalRef: "Game Content Guidelines"
+      },
+      {
+        id: "And-FTC-1.3",
+        gl: "AGL-004",
+        ref: "1.3",
+        title: "Apps that encourage excessive consumption of alcohol or illegal substances, or encourage minors to consume alcohol or smoke cigarettes, will be rejected.",
+        steps: "1. Audit in-game text content, images, scenarios, and microtransactions.\n2. Verify the application has no themes promoting underage smoking, substance use, or binging/consumption mechanics.",
+        expected: "The application strictly adheres to high safety standards and does not encourage minors to engage with alcohol or harmful substances.",
+        originalRef: "Game Content Guidelines"
+      },
+      {
+        id: "And-FTC-1.4",
+        gl: "AGL-004",
+        ref: "1.4",
+        title: "Apps that provide incorrect diagnostic or other inaccurate device data will be rejected.",
+        steps: "1. Trigger diagnostic, performance measuring, or device statistics reporting widgets.\n2. Cross-reference shown diagnostic values with actual hardware sensor readings.\n3. Check that mock gauges, deceptive resource meters, or incorrect reports are completely absent.",
+        expected: "All reported device capabilities, clean-up counts, and diagnostics are correct and accurate.",
+        originalRef: "Game Content Guidelines"
+      },
+      {
+        id: "And-FTC-1.5",
+        gl: "AGL-004",
+        ref: "1.5",
+        title: "Apps that download other standalone apps will be rejected.",
+        steps: "1. Attempt to launch dynamic, third-party APK/IPA asset downloads or automatic standalone app installer scripts.\n2. Confirm the app does not self-update outside official channels or trigger unauthorized device-level standalone installer prompts.",
+        expected: "The app loads all interactive logic inside its package or through approved in-app assets rather than downloading secondary apps.",
+        originalRef: "Game Content Guidelines"
+      },
+      // Section: FTCs - Game DRM Guidelines
+      {
+        id: "And-FTC-2.1",
+        gl: "AGL-004",
+        ref: "2.1",
+        title: "Apps that require license keys or implement their own copy protection will be rejected.",
+        steps: "1. Install and launch the application under evaluation.\n2. Look for manual license code prompts, serial input forms, or custom hardware-locked validation dialogs on startup.\n3. Verify the app relies on Google Play Licensing (LVL) or platform native solutions instead.",
+        expected: "The app does not demand custom self-managed licensing screens or proprietary key protections.",
+        originalRef: "Game DRM Guidelines"
+      },
+      {
+        id: "And-FTC-2.2",
+        gl: "AGL-004",
+        ref: "2.2",
+        title: "Apps may not use update mechanisms outside of the Android market.",
+        steps: "1. Prompt the application to detect an available application package version update.\n2. Observe if the app downloads and prompts manual installation of an APK from background server ports.\n3. Ensure it redirects users to the official Google Play Store or uses Google Play In-App Updates SDK.",
+        expected: "Software updates execute exclusively via Google Play or standard platform stores.",
+        originalRef: "Game DRM Guidelines"
+      },
+      // Section: FTCs - Basic Functionality Guidelines
+      {
+        id: "And-FTC-3.1",
+        gl: "AGL-004",
+        ref: "3.1",
+        title: "Apps must contain all language support in a single app bundle (single binary multiple language).",
+        steps: "1. Query the primary build configuration, Android App Bundle (AAB), or universal APK contents.\n2. Switch system language values to French, Spanish, Japanese, etc.\n3. Make sure localized strings load instantly without requiring secondary manual resource downloads.",
+        expected: "All supported translations or locale bundles sit neatly inside a single unified app binary.",
+        originalRef: "Basic Functionality Guidelines"
+      },
+      {
+        id: "And-FTC-3.2",
+        gl: "AGL-004",
+        ref: "3.2",
+        title: "Apps that do not run on the currently shipping OS version will be rejected.",
+        steps: "1. Launch and configure the application on a target device running the latest publicly released stable Android OS.\n2. Run regular interactions, gameplay flows, and option edits.\n3. Verify that zero crashes, black screens, or API incompatibility alerts interrupt the experience.",
+        expected: "Application runs without errors or degradation on the current Android release.",
+        originalRef: "Basic Functionality Guidelines"
+      },
+      {
+        id: "And-FTC-3.3",
+        gl: "AGL-004",
+        ref: "3.3",
+        title: "Apps that are set to auto-launch or have other code automatically run at startup or login without user consent will be rejected.",
+        steps: "1. Inspect the AndroidManifest.xml file for BOOT_COMPLETED broadcast receivers or startup autostart attributes.\n2. Restart the evaluation device and observe background services.\n3. Verify no foreground overlays or sound-emitting code loops launch without explicit initialization/prior consent.",
+        expected: "The app maintains a passive offline state until explicitly activated by user click.",
+        originalRef: "Basic Functionality Guidelines"
+      },
+      {
+        id: "And-FTC-3.4",
+        gl: "AGL-004",
+        ref: "3.4",
+        title: "Pausing the game and going back to Main Menu should be easy to do.",
+        steps: "1. Initiate active gameplay or responsive simulation loops.\n2. Locate the designated pause trigger (e.g. Pause button / Escape / back gesture).\n3. Confirm that a clearly labeled 'Exit to Main Menu' option is accessible with standard click actions.",
+        expected: "Simple menu flows enable users to pause play states and return home in a few quick screen gestures.",
+        originalRef: "Basic Functionality Guidelines"
+      },
+      {
+        id: "And-FTC-3.5",
+        gl: "AGL-004",
+        ref: "3.5",
+        title: "Device's \"home\" button has to minimize the AUT immediately.",
+        steps: "1. Open heavy active game screens or graphics rendering surfaces.\n2. Press the hardware or gesture 'Home' action.\n3. Verify the application minimizes to background memory without visual hang, stutter, or delay.",
+        expected: "System home command immediately suspends the active application view.",
+        originalRef: "Basic Functionality Guidelines"
+      },
+      {
+        id: "And-FTC-3.6",
+        gl: "AGL-004",
+        ref: "3.6",
+        title: "Two commands with different names must not execute the same action.",
+        steps: "1. Review interactive button groupings, action icons, or navigation items placed on the same screen.\n2. Click on elements with distinct labels or titles (e.g., 'Restore' vs. 'Recover').\n3. Ensure distinct titles are mapped to distinct, non-redundant logical flows unless functionally intended (like double-confirmation triggers).",
+        expected: "Distinct UI titles translate to unique visual behaviors or system paths without confusing redundancy.",
+        originalRef: "Basic Functionality Guidelines"
+      },
+      {
+        id: "And-FTC-3.7",
+        gl: "AGL-004",
+        ref: "3.7",
+        title: "All games should allow the user to Accept or Decline external interrupts.",
+        steps: "1. Simulate incoming phone systems, hardware battery logs, or custom background service indicators during active tasks.\n2. Confirm the game does not block system notification banners or volume sliders.\n3. Verify options to pause, dismiss, or tap outside remain accessible.",
+        expected: "The system respects incoming client signals, allowing users to choose how to handle interrupts.",
+        originalRef: "Basic Functionality Guidelines"
+      },
+      {
+        id: "And-FTC-3.8",
+        gl: "AGL-004",
+        ref: "3.8",
+        title: "Game sounds should not be heard during Calls/Video Calls.",
+        steps: "1. Connect a real-time incoming voice or video call line while game streams are playing audio channels.\n2. Confirm application audio track automatically drops to silent state once the line is picked up.\n3. Verify audio remains muted throughout the telephony conversation.",
+        expected: "In-game soundtrack volumes fall completely silent during telephone or VoIP system call connections.",
+        originalRef: "Basic Functionality Guidelines"
+      },
+      {
+        id: "And-FTC-3.9",
+        gl: "AGL-004",
+        ref: "3.9",
+        title: "Incoming call prompt should not be delayed by the application.",
+        steps: "1. Place active telephone voice calls to the device while heavy application graphics rendering or computation is active.\n2. Measure the delivery time from call broadcast to visual ring indicator arrival.\n3. Check there is zero visible delay, UI locking, or latency in displaying the incoming call window.",
+        expected: "Telephony signals take absolute priority, showing prompts with zero graphics bottlenecks.",
+        originalRef: "Basic Functionality Guidelines"
+      },
+      {
+        id: "And-FTC-3.10",
+        gl: "AGL-004",
+        ref: "3.10",
+        title: "The game should save all progress made if the user accepts the call.",
+        steps: "1. Play through interactive modes or content structures.\n2. Accept an incoming audio call interrupt, switching context completely away from the application.\n3. Return to the game after terminating the line, and verify session history, points, or current task states are retained.",
+        expected: "Critical state is persisted on-the-fly upon detection of call suspension events.",
+        originalRef: "Basic Functionality Guidelines"
+      },
+      {
+        id: "And-FTC-3.11",
+        gl: "AGL-004",
+        ref: "3.11",
+        title: "User should be able to listen to his own music without any issues.",
+        steps: "1. Initialize a system background music player (like YouTube Music or Spotify) to start audio playback.\n2. Boot the application up and navigate active dashboards.\n3. Confirm background music continues to stream cleanly and are not forcibly paused, muted, or overlapped by secondary soundtracks.",
+        expected: "User-preferred external soundtracks play continuously with priority over standard non-cinematic game backgrounds.",
+        originalRef: "Basic Functionality Guidelines"
+      },
+      // Section: FTCs - Android Manifest checks
+      {
+        id: "And-FTC-4.1",
+        gl: "AGL-004",
+        ref: "4.1",
+        title: "android:versionName and android:versionCode attributes must be set in the <application> element in the apktool.yml file",
+        steps: "1. Decode the built APK container using Apktool to examine its internal directory structure.\n2. Locate and open the apktool.yml configuration file from the root output folder.\n3. Verify that both android:versionName (representing the friendly public version string) and android:versionCode (representing the monotonically increasing integer schema version) attributes are formally declared and set.",
+        expected: "Both versionName and versionCode parameters are successfully registered inside the apktool application elements.",
+        originalRef: "Android Manifest checks"
+      },
+      {
+        id: "And-FTC-4.2",
+        gl: "AGL-004",
+        ref: "4.2",
+        title: "Ensure that supported screens tab is present in the manifest (not mandatory, but highly recommended)",
+        steps: "1. Read the decompiled AndroidManifest.xml package document details.\n2. Search for the <supports-screens> declaration block code.\n3. Make sure supported hardware configurations, screen size classes, and high-density scaling factors are specified to ensure broad device rendering consistency.",
+        expected: "The <supports-screens> tag is clearly declared in the manifest file of the package to support diverse layout metrics.",
+        originalRef: "Android Manifest checks"
+      },
+      {
+        id: "And-FTC-4.3",
+        gl: "AGL-004",
+        ref: "4.3",
+        title: "Ensure that all required permissions are present in the manifest file",
+        steps: "1. Map out all core application modules and functional tasks (e.g. storage access, camera use, notifications, telemetry).\n2. Cross-check your list of needed capabilities against the registered <uses-permission> tags in the AndroidManifest.xml.\n3. Verify that zero required standard access permissions are missing from the configuration.",
+        expected: "All essential system permissions needed to run the application components are registered properly inside the master manifest.",
+        originalRef: "Android Manifest checks"
+      },
+      {
+        id: "And-FTC-4.4",
+        gl: "AGL-004",
+        ref: "4.4",
+        title: "Ensure that there are no unnecessary permissions declarations in the manifest file",
+        steps: "1. Examine the active list of elements declared in the AndroidManifest.xml.\n2. Trace each permission back to an active, required feature function in the code.\n3. Remove dangerous or sensitive requests that are no longer actively utilized by runtime modules (e.g. READ_SMS, ACCESS_FINE_LOCATION if unused by gameplay).",
+        expected: "No redundant or excessive permissions are present in the manifest, optimizing security hygiene.",
+        originalRef: "Android Manifest checks"
+      },
+      {
+        id: "And-FTC-4.5",
+        gl: "AGL-004",
+        ref: "4.5",
+        title: "Ensure that there are no references to other Stores in the manifest",
+        steps: "1. Open the decompiled manifest document and scan all elements.\n2. Run a global string search for external marketplace URLs, custom intent deep links, store names (e.g. Amazon, Huawei AppGallery, Galaxy Store), or non-Google update packages.\n3. Verify that Google Play Store remains the exclusive targeted service.",
+        expected: "The AndroidManifest.xml contains zero references or configurations directing to alternative app stores.",
+        originalRef: "Android Manifest checks"
+      },
+      {
+        id: "And-FTC-4.6",
+        gl: "AGL-004",
+        ref: "4.6",
+        title: "Ensure that the targetSDK version is the latest one in the manifest/YML file within the APK",
+        steps: "1. Check the targetSdkVersion value declared under the <uses-sdk> element in AndroidManifest.xml or the build configurations.\n2. Compare this value with the latest API level enforced by the Google Play Store console (e.g. API level 33, 34, or above).\n3. Confirm that the application compilation version targets the latest stable platform SDK.",
+        expected: "The package targets the latest required Android SDK level, satisfying modern platform policy rules.",
+        originalRef: "Android Manifest checks"
+      },
+      {
+        id: "And-FTC-4.7",
+        gl: "AGL-004",
+        ref: "4.7",
+        title: "Check that Apps targeting API Level 33 (Android 13) and above must have the com.google.android.gms.permission.AD_ID permission to access the Android Advertising Identifier",
+        steps: "1. Check if the targetSdkVersion is set to API level 33 (Android 13) or higher.\n2. Locate the <uses-permission android:name=\"com.google.android.gms.permission.AD_ID\" /> tag in the manifest configuration.\n3. Verify that this flag is declared for applications using data cookies, advertisements, analytics, or user tracking SDKs.",
+        expected: "The AD_ID permission is properly present in the manifest for API 33+ tracking/analytics utility.",
+        originalRef: "Android Manifest checks"
+      },
+      {
+        id: "And-FTC-4.8",
+        gl: "AGL-004",
+        ref: "4.8",
+        title: "Ensure that dangerous permissions are authenticated from users during runtime of the game (Includes list of dangerous Android permissions)",
+        steps: "1. Identify all manifest declarations matching Android's Dangerous Permissions group.\n2. Review the list of dangerous Android permissions:\n- CALENDAR (READ_CALENDAR, WRITE_CALENDAR)\n- CAMERA (CAMERA)\n- CONTACTS (READ_CONTACTS, WRITE_CONTACTS, GET_ACCOUNTS)\n- LOCATION (ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION, ACCESS_BACKGROUND_LOCATION)\n- MICROPHONE (RECORD_AUDIO)\n- PHONE (READ_PHONE_STATE, CALL_PHONE, ANSWER_PHONE_CALLS)\n- SENSORS (BODY_SENSORS, BODY_SENSORS_BACKGROUND)\n- SMS (SEND_SMS, RECEIVE_SMS, READ_SMS, RECEIVE_WAP_PUSH, RECEIVE_MMS)\n- STORAGE/MEDIA (READ_MEDIA_IMAGES, READ_MEDIA_VIDEO, READ_MEDIA_AUDIO, READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE)\n- NOTIFICATIONS (POST_NOTIFICATIONS)\n3. Verify the app queries user consent at runtime before accessing any of these APIs.",
+        expected: "The application prompts the user for runtime permission authorization before accessing any dangerous API.",
+        originalRef: "Android Manifest checks"
+      },
+      {
+        id: "And-FTC-4.9",
+        gl: "AGL-004",
+        ref: "4.9",
+        title: "At launch, a message should be displayed signifying the need for any permission (with example illustration)",
+        steps: "1. Launch the application for the first time on a fresh device setup session.\n2. Before triggering the system pop-up, verify an elegant custom dialog is displayed to the user.\n3. Confirm that the dialog clearly explains why the application requires the requested permission (e.g., Local Storage for saving game progress file assets).\n4. View the interactive mock device simulator below to see a visual example of this pre-request rationale prompt.",
+        expected: "A distinct pre-request explanatory rationale dialog display is shown to the user on startup to signify permission needs.",
+        originalRef: "Android Manifest checks"
+      },
+      {
+        id: "And-FTC-4.10",
+        gl: "AGL-004",
+        ref: "4.10",
+        title: "On Tapping OK, system should pop-up the permission to be approved from end user (with example illustration)",
+        steps: "1. Review the custom rationale prompt and click the 'OK' button.\n2. Confirm that the official Android OS native system permission popup is triggered immediately.\n3. Check that the user can choose 'Allow' or 'Don't Allow'.\n4. View the live interactive smartphone simulation below to play through this action with accurate system popup graphics.",
+        expected: "Tapping OK on the explanation UI instantly triggers the official system permission approval dialog.",
+        originalRef: "Android Manifest checks"
+      },
+      {
+        id: "And-FTC-4.11",
+        gl: "AGL-004",
+        ref: "4.11",
+        title: "On denying the permission, a warning message should appear that informs user that the game can't run without the permission (with example illustration)",
+        steps: "1. Tap the 'Don't Allow' action on the OS system permission pop-up dialog.\n2. Verify the application handles the denial gracefully by showing a clear warn overlay/dialog.\n3. Ensure this message explains why the game is locked/limited and cannot proceed without approval.\n4. Interact with the live mobile mock-up below to see a visual example of this safety warning container.",
+        expected: "A helpful warning dialog clearly states that the experience is locked/restricted unless the permission is approved.",
+        originalRef: "Android Manifest checks"
+      },
+      {
+        id: "And-FTC-4.12",
+        gl: "AGL-004",
+        ref: "4.12",
+        title: "On retrying from the above pop-up, the system pop-up should be triggered again for user approval",
+        steps: "1. Review the warning notification that appeared after denying consent.\n2. Click the 'Retry' or 'Request Again' action button on that warning card.\n3. Ensure that the native Android OS system permission dialogue is requested and launched a second time.",
+        expected: "Tapping the Retry option from the warning UI successfully requests a system permissions popup once more.",
+        originalRef: "Android Manifest checks"
+      },
+      {
+        id: "And-FTC-4.13",
+        gl: "AGL-004",
+        ref: "4.13",
+        title: "If user denies by selecting Never Ask Again option, a message should be displayed where the settings button should redirect user to the App Settings page (with example illustration)",
+        steps: "1. On the second system permission prompt, deny the permission by choosing the 'Don't Ask Again' option or secondary dismissal.\n2. Verify the app displays a custom UI explaining the permanent denial state.\n3. Confirm it provides a prominent 'Go to Settings' action button.\n4. Check that this button redirects the user directly to the app's system Settings info page to allow manual adjustments.\n5. Click 'Settings' in the interactive phone layout below to see how this transition and setting behaves.",
+        expected: "A persistent settings transition prompt provides a direct route for users who enabled 'Never Ask Again' to toggle the parameter manually in settings.",
+        originalRef: "Android Manifest checks"
+      },
+      {
+        id: "And-FTC-4.14",
+        gl: "AGL-004",
+        ref: "4.14",
+        title: "Check that the app functionality/permissions flow is not affected for each one approved by the user",
+        steps: "1. Navigate to a feature that requires permission (e.g. local save files or asset downloads).\n2. Approve the permission when prompted by the system.\n3. Confirm that the feature loads, performs, and behaves perfectly with zero crash events or layout issues.",
+        expected: "Granting permissions enables seamless feature execution without any performance degradation.",
+        originalRef: "Android Manifest checks"
+      },
+      {
+        id: "And-FTC-4.15",
+        gl: "AGL-004",
+        ref: "4.15",
+        title: "Check that the app functionality is not affected for each permission denied OR check that the app requests approval for the permission again if mandatory to run the game",
+        steps: "1. Deny a requested permission and verify non-critical features degrade gracefully rather than crashing (e.g. profile photos falling back to defaults if camera is denied).\n2. If the feature/permission is strictly mandatory for the game to start, confirm that the app prevents gameplay and guides the user back to the permission flow.",
+        expected: "Platform execution stays robust, returning clean failures, standard safe fallbacks, or re-initiating mandatory requests.",
+        originalRef: "Android Manifest checks"
       }
     ]
   }
@@ -4167,5 +4469,6 @@ export const AND_ICONS: Record<string, string> = {
   'Google Play': '🛍️',
   'Test Procedures': '🧪',
   'APK Related Tests': '📦',
-  'GPG Design Guidelines': '🎮'
+  'GPG Design Guidelines': '🎮',
+  'FTCs': '🛠️'
 };

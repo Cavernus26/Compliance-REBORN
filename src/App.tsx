@@ -909,6 +909,21 @@ function ExecuteView({ state, setState, db, activeTcs, executions, setStatus, bu
             <SubscriptionComplianceDemo tcId="iOS-SUB-demo" />
           </div>
         )}
+
+        {/* RUNTIME PERMISSIONS DEMO BOTTOM ENTRY */}
+        {((state.platform === 'android' || db?.platform === 'android') && (activeSectionId === 'AGL-004' || (activeGlObject && activeGlObject.title === 'FTCs'))) && (
+          <div className="mt-16 pt-12 border-t border-[var(--border)] space-y-6 text-left">
+            <div className="relative animate-in fade-in duration-300">
+              <div className="flex items-baseline gap-4 mb-2">
+                <span className="text-[10px] font-mono text-[var(--text-muted)]">Interactive Simulation</span>
+                <h2 className="text-xl font-bold text-[var(--text-highlight)] uppercase tracking-wider font-sans">Runtime permissions demo</h2>
+              </div>
+              <div className="h-[2px] w-24 bg-indigo-600" />
+            </div>
+            
+            <RuntimePermissionsDemo />
+          </div>
+        )}
       </div>
     </div>
   );
@@ -920,8 +935,12 @@ function ButtonComplianceDemo({ tcId }: { tcId: string }) {
   const [buttonHeight, setButtonHeight] = React.useState(44);
   const [customLeftHeight, setCustomLeftHeight] = React.useState(44);
   const [customLeftLabel, setCustomLeftLabel] = React.useState('Sign in with Apple');
+  const [selectedGroupIdx, setSelectedGroupIdx] = React.useState(0);
+  const [permissionState, setPermissionState] = React.useState<'rationale' | 'sys_popup_1' | 'warning' | 'sys_popup_2' | 'denied_never' | 'granted' | 'settings'>('rationale');
+  const [isNeverAskAgainChecked, setIsNeverAskAgainChecked] = React.useState(false);
+  const [settingsToggled, setSettingsToggled] = React.useState(false);
 
-  if (!tcId || (!tcId.startsWith('iOS-AS-BTN-') && tcId !== 'And-CAF-7.4')) return null;
+  if (!tcId || (!tcId.startsWith('iOS-AS-BTN-') && tcId !== 'And-FTC-4.8' && tcId !== 'And-CAF-7.4')) return null;
 
   // Real vector high-fidelity standard Apple logo (perfect proportions, no distortion)
   const appleLogo = (
@@ -1871,6 +1890,768 @@ function ButtonComplianceDemo({ tcId }: { tcId: string }) {
           </div>
         </div>
       )}
+
+      {tcId === 'And-FTC-4.8' && (
+        <div className="space-y-6 pt-2 select-none text-left">
+          <div className="p-6 bg-[var(--surface)] border border-[var(--border)] rounded-2xl space-y-4 shadow-sm">
+            <div className="flex justify-between items-start border-b border-[var(--border)] pb-4">
+              <div>
+                <h4 className="text-sm font-bold text-[var(--text-highlight)] flex items-center gap-1.5 font-sans">
+                  <span>🛡️ Android Dangerous Permissions Registry</span>
+                  <span className="text-[9px] bg-indigo-500/10 text-indigo-400 px-2 py-0.5 border border-indigo-500/20 rounded font-mono uppercase font-bold">Ref Guidelines</span>
+                </h4>
+                <p className="text-xs text-[var(--text-muted)] leading-relaxed mt-1 font-sans">
+                  The following represents private resources that could affect the user's secure data domain or critical system hardware. Under Google Play Store guidelines, these **MUST** be initialized and requested dynamically at runtime with a clear pre-request explanation.
+                </p>
+              </div>
+            </div>
+
+            {/* Smartphone simulator is disabled here because it has been moved to the standalone global 'Runtime permissions demo' section */}
+            {false && (
+              <>
+              {/* Left Column: Interactive Mobile Mockup */}
+            <div className="lg:col-span-7 flex flex-col items-center justify-center">
+              {/* Smartphone Container */}
+              <div className="w-[310px] h-[550px] bg-zinc-950 border-8 border-zinc-800 rounded-[38px] shadow-2xl relative flex flex-col overflow-hidden select-none border-solid">
+                {/* Smartphone Camera Notch */}
+                <div className="absolute top-2 left-1/2 -translate-x-1/2 w-24 h-4 bg-zinc-805 rounded-full z-20 flex items-center justify-center">
+                  <div className="w-2.5 h-2.5 bg-neutral-900 rounded-full" />
+                </div>
+
+                {/* Smartphone Mock Screen Content */}
+                <div className="w-full h-full flex flex-col pt-8 pb-4 px-4 text-xs font-sans bg-zinc-950 text-zinc-100 z-10 select-none relative">
+                  
+                  {/* Status Bar */}
+                  <div className="flex items-center justify-between text-[9px] text-zinc-500 font-mono tracking-wider px-2 mb-4 shrink-0">
+                    <span>11:08 UTC</span>
+                    <div className="flex items-center gap-1.5">
+                      <span>5G</span>
+                      <div className="w-3 h-2 border border-zinc-500 rounded-xs flex items-end p-0.2">
+                        <div className="w-full h-2/3 bg-zinc-400" />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Settings view mock or Game app mock */}
+                  {permissionState === 'settings' ? (
+                    <div className="flex-1 flex flex-col animate-in fade-in slide-in-from-right duration-300">
+                      <div className="border-b border-zinc-800 pb-3 mb-4 flex items-center gap-2">
+                        <span className="text-[8px] font-mono bg-zinc-800 px-1.5 py-0.5 rounded text-zinc-300 font-bold">OS SETTINGS</span>
+                        <h5 className="font-bold text-zinc-200">App Info: Quest Odyssey</h5>
+                      </div>
+                      <p className="text-[10px] text-zinc-500 mb-4 font-mono">Settings &gt; Apps &gt; Quest Odyssey &gt; Permissions</p>
+                      
+                      <div className="space-y-4 flex-1">
+                        <div className="bg-zinc-900 p-3 rounded-xl border border-zinc-800 space-y-3">
+                          <p className="font-bold text-zinc-450 text-[9px] tracking-wider uppercase">ALLOWED</p>
+                          <p className="text-[10px] text-zinc-500 italic">None</p>
+                          
+                          <div className="h-[1px] bg-zinc-800 my-2" />
+                          
+                          <p className="font-bold text-zinc-450 text-[9px] tracking-wider uppercase">NOT ALLOWED</p>
+                          <div className="flex items-center justify-between py-1">
+                            <div className="flex items-center gap-2">
+                              <span className="text-sm">📁</span>
+                              <div>
+                                <p className="font-semibold text-zinc-300">Files and Media</p>
+                                <p className="text-[9px] text-zinc-500">Access photo and save assets</p>
+                              </div>
+                            </div>
+                            {/* Toggle Switch */}
+                            <button 
+                              onClick={() => setSettingsToggled(!settingsToggled)}
+                              className={`w-9 h-5 rounded-full p-0.5 transition-colors duration-200 ${settingsToggled ? 'bg-indigo-600' : 'bg-zinc-750'}`}
+                            >
+                              <div className={`w-4 h-4 rounded-full bg-white transition-all duration-200 ${settingsToggled ? 'translate-x-4' : 'translate-x-0'}`} />
+                            </button>
+                          </div>
+                        </div>
+
+                        <p className="text-[10px] text-zinc-400 leading-relaxed bg-zinc-900/50 p-3 rounded-lg border border-zinc-805 font-mono">
+                          {settingsToggled 
+                            ? "✅ Storage permissions enabled manually! Return to the game to start your secure adventure." 
+                            : "⚠️ Permission is disabled. Toggle the switch to permit storage files access."}
+                        </p>
+                      </div>
+
+                      <button 
+                        onClick={() => {
+                          if (settingsToggled) {
+                            setPermissionState('granted');
+                          } else {
+                            setPermissionState('denied_never');
+                          }
+                        }}
+                        className="w-full py-2 bg-indigo-600 hover:bg-indigo-700 font-bold rounded-lg text-white text-[11px] transition mt-auto flex items-center justify-center gap-1"
+                      >
+                        ← Return to Game
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="flex-1 flex flex-col relative justify-center">
+                      <div className="absolute top-0 left-0 right-0 h-10 bg-indigo-950/40 border border-indigo-500/20 rounded-xl flex items-center justify-between px-3">
+                        <span className="font-extrabold text-[9px] tracking-widest text-indigo-300 uppercase">QUEST ODYSSEY</span>
+                        <div className="flex items-center gap-1.5 font-mono text-[8px] text-indigo-400">
+                          <span>🛡️ LV10</span>
+                          <span>💎 350</span>
+                        </div>
+                      </div>
+
+                      <div className="text-center space-y-3 px-2 flex-1 flex flex-col justify-center items-center">
+                        {permissionState === 'granted' ? (
+                          <div className="space-y-4 animate-in zoom-in duration-300">
+                            <div className="w-12 h-12 bg-green-500/10 text-green-500 rounded-full border border-green-500/20 flex items-center justify-center text-xl mx-auto shadow-lg shadow-green-500/5">
+                              ✓
+                            </div>
+                            <div>
+                              <h5 className="font-extrabold text-green-400 text-xs">Permission Granted!</h5>
+                              <p className="text-[10px] text-zinc-400 leading-relaxed mt-1">
+                                Core app assets and cloud sync capabilities loaded. Your game is fully compliant!
+                              </p>
+                            </div>
+                            <div className="bg-zinc-900/80 border border-zinc-800 rounded-lg p-3 text-[10px] text-zinc-300 space-y-1 font-mono text-left w-full">
+                              <p className="text-zinc-500 uppercase text-[8px] font-bold tracking-wider">Device Log Trace</p>
+                              <p className="text-green-400">✓ STORAGE_FILES: GRANTED</p>
+                              <p className="text-green-400">✓ CACHE_SYNC: COMPLETED</p>
+                              <p className="text-zinc-400">✓ GAMEPLAY_INIT: OK</p>
+                            </div>
+                          </div>
+                        ) : (
+                          <div className="space-y-3 py-6 text-center">
+                            <span className="text-3xl filter drop-shadow">🎮</span>
+                            <h6 className="font-bold text-zinc-300">Evaluating local game files...</h6>
+                            <p className="text-[10px] text-zinc-500 max-w-xs mx-auto">
+                              Evaluating standard manifest guidelines and runtime authentication checks. Choose an interactive action in the prompt.
+                            </p>
+                          </div>
+                        )}
+                      </div>
+
+                      {/* --- PRE-REQUEST RATIONALE EXPLANATION DIALOG --- */}
+                      {permissionState === 'rationale' && (
+                        <div className="absolute inset-0 bg-black/60 flex items-center justify-center p-3 z-30 animate-in fade-in duration-200">
+                          <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-4 w-full space-y-4 animate-in slide-in-from-bottom duration-300 shadow-xl">
+                            <div className="flex items-center gap-2 border-b border-zinc-800 pb-2">
+                              <span className="text-lg">📁</span>
+                              <h5 className="font-extrabold text-zinc-200 text-[11px] leading-tight">Storage Access Required</h5>
+                            </div>
+                            <p className="text-[10px] text-zinc-400 leading-relaxed">
+                              Quest Odyssey requires storage permissions to download game graphics assets, sync progress logs, and prevent loss of data offline.
+                            </p>
+                            <div className="flex gap-2 justify-end pt-1">
+                              <button 
+                                onClick={() => setPermissionState('warning')}
+                                className="px-3 py-1.5 bg-zinc-800 hover:bg-zinc-700 text-zinc-400 font-bold rounded-lg text-[10px]"
+                              >
+                                Decline
+                              </button>
+                              <button 
+                                onClick={() => setPermissionState('sys_popup_1')}
+                                className="px-4 py-1.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-lg text-[10px] shadow"
+                              >
+                                OK
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      )}
+
+                      {/* --- FIRST SYSTEM POPUP --- */}
+                      {permissionState === 'sys_popup_1' && (
+                        <div className="absolute inset-0 bg-black/50 flex items-end justify-center p-2 z-45 animate-in fade-in duration-200">
+                          <div className="bg-zinc-900 rounded-t-3xl p-5 w-full space-y-4 animate-in slide-in-from-bottom duration-300 shadow-2xl border-t border-zinc-850">
+                            <div className="text-center space-y-2">
+                              <div className="w-10 h-10 bg-zinc-800 rounded-full flex items-center justify-center text-xl mx-auto border border-zinc-700">
+                                📁
+                              </div>
+                              <h5 className="font-bold text-zinc-150 text-xs">
+                                Allow <strong className="text-zinc-100">Quest Odyssey</strong> to access photos and media on this device?
+                              </h5>
+                            </div>
+
+                            <p className="text-[9px] text-zinc-500 text-center uppercase tracking-wider font-mono">
+                              Android Native OS System Prompt
+                            </p>
+
+                            <div className="space-y-1.5 pt-2">
+                              <button 
+                                onClick={() => setPermissionState('granted')}
+                                className="w-full py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl text-[10px] transition"
+                              >
+                                Allow
+                              </button>
+                              <button 
+                                onClick={() => setPermissionState('warning')}
+                                className="w-full py-2 bg-zinc-800 hover:bg-zinc-720 text-zinc-200 font-bold rounded-xl text-[10px] transition"
+                              >
+                                Don't Allow
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      )}
+
+                      {/* --- WARNING DIALOG ON DENIAL --- */}
+                      {permissionState === 'warning' && (
+                        <div className="absolute inset-0 bg-black/60 flex items-center justify-center p-3 z-30 animate-in fade-in duration-200">
+                          <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-4 w-full space-y-4 animate-in zoom-in duration-200 shadow-xl">
+                            <div className="flex items-center gap-2 text-amber-500 border-b border-zinc-800 pb-2">
+                              <span className="text-base">⚠️</span>
+                              <h5 className="font-extrabold text-[11px] leading-tight text-amber-400">Permission Necessary</h5>
+                            </div>
+                            <p className="text-[10px] text-zinc-400 leading-relaxed">
+                              Quest Odyssey cannot download required graphic binaries or secure database keys without storage features. The game will fail to launch if disabled.
+                            </p>
+                            <div className="flex gap-2 justify-end pt-1">
+                              <button 
+                                onClick={() => setPermissionState('rationale')}
+                                className="px-3 py-1.5 bg-zinc-800 hover:bg-zinc-750 text-zinc-450 font-bold rounded-lg text-[10px]"
+                              >
+                                Cancel
+                              </button>
+                              <button 
+                                onClick={() => setPermissionState('sys_popup_2')}
+                                className="px-4 py-1.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-lg text-[10px]"
+                              >
+                                Retry
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      )}
+
+                      {/* --- SECOND SYSTEM POPUP WITH NEVER ASK AGAIN OPTION --- */}
+                      {permissionState === 'sys_popup_2' && (
+                        <div className="absolute inset-0 bg-black/50 flex items-end justify-center p-2 z-45 animate-in fade-in duration-200">
+                          <div className="bg-zinc-900 rounded-t-3xl p-5 w-full space-y-4 animate-in slide-in-from-bottom duration-300 shadow-2xl border-t border-zinc-850">
+                            <div className="text-center space-y-2">
+                              <div className="w-10 h-10 bg-zinc-800 rounded-full flex items-center justify-center text-xl mx-auto border border-zinc-700">
+                                📁
+                              </div>
+                              <h5 className="font-bold text-zinc-150 text-xs">
+                                Allow <strong className="text-zinc-100">Quest Odyssey</strong> to access photos and media on this device?
+                              </h5>
+                            </div>
+
+                            <div className="flex items-center gap-2 justify-center py-1">
+                              <input 
+                                type="checkbox" 
+                                id="neverAskAgain" 
+                                className="rounded border-zinc-800 text-indigo-600 focus:ring-0 bg-zinc-800 h-3.5 w-3.5"
+                                checked={isNeverAskAgainChecked}
+                                onChange={(e) => setIsNeverAskAgainChecked(e.target.checked)}
+                              />
+                              <label htmlFor="neverAskAgain" className="text-[10px] text-zinc-400 font-medium">Don't ask again / Never ask again</label>
+                            </div>
+
+                            <div className="space-y-1.5 pt-1">
+                              <button 
+                                onClick={() => setPermissionState('granted')}
+                                className="w-full py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl text-[10px] transition"
+                              >
+                                Allow
+                              </button>
+                              <button 
+                                onClick={() => {
+                                  if (isNeverAskAgainChecked) {
+                                    setPermissionState('denied_never');
+                                  } else {
+                                    setPermissionState('warning');
+                                  }
+                                }}
+                                className="w-full py-2 bg-zinc-800 hover:bg-zinc-720 text-zinc-200 font-bold rounded-xl text-[10px] transition"
+                              >
+                                Don't Allow
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      )}
+
+                      {/* --- DENIED PERMANENTLY / NEVER ASK STATE --- */}
+                      {permissionState === 'denied_never' && (
+                        <div className="absolute inset-0 bg-black/60 flex items-center justify-center p-3 z-30 animate-in fade-in duration-200">
+                          <div className="bg-zinc-900 border border-zinc-805 rounded-2xl p-4 w-full space-y-4 animate-in zoom-in duration-200 shadow-xl">
+                            <div className="flex items-center gap-2 text-rose-500 border-b border-zinc-800 pb-2">
+                              <span className="text-base">🚫</span>
+                              <h5 className="font-extrabold text-[11px] leading-tight text-rose-400">Permission Blocked</h5>
+                            </div>
+                            <p className="text-[10px] text-zinc-400 leading-relaxed">
+                              You selected "Don't ask again". Storage facilities remain locked by Android policy. Tap "Go to Settings" to manually toggle authorization.
+                            </p>
+                            <div className="flex gap-2 justify-end pt-1">
+                              <button 
+                                onClick={() => {
+                                  setPermissionState('rationale');
+                                  setIsNeverAskAgainChecked(false);
+                                }}
+                                className="px-3 py-1.5 bg-zinc-800 hover:bg-zinc-700 text-zinc-400 font-bold rounded-lg text-[10px]"
+                              >
+                                Cancel
+                              </button>
+                              <button 
+                                onClick={() => setPermissionState('settings')}
+                                className="px-4 py-1.5 bg-amber-500 hover:bg-amber-600 text-zinc-950 font-extrabold rounded-lg text-[10px] shadow"
+                              >
+                                Go to Settings
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  )}
+
+                  {/* Navigation Pill Bar (System) */}
+                  <div className="w-32 h-1 bg-zinc-700 rounded-full mx-auto shrink-0 mt-4" />
+                </div>
+              </div>
+
+              {/* State breadcrumbs */}
+              <div className="mt-3 flex flex-wrap gap-1.5 justify-center max-w-sm">
+                <span className="text-[9px] font-mono font-bold uppercase text-[var(--text-muted)]">Current Phase:</span>
+                <span className="text-[9px] font-mono px-2 py-0.5 rounded bg-zinc-800 text-zinc-300 font-bold uppercase">{permissionState}</span>
+              </div>
+            </div>
+            </>
+          )}
+
+          {/* Full-width Dangerous Permissions Registry */}
+          <div className="space-y-5 w-full">
+              <div className="p-5 rounded-2xl border border-[var(--border)] bg-[var(--surface)] text-xs space-y-4 shadow-sm">
+                <h5 className="font-bold text-[var(--text-highlight)] flex items-center gap-1.5">
+                  📁 <span>Android Dangerous Permissions Registry</span>
+                </h5>
+                <p className="text-[11px] text-[var(--text-muted)] leading-relaxed">
+                  These represent private resources that could affect the user's secure data domain. They **MUST** be initialized and authenticated sequentially using the system rationale flow:
+                </p>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 pt-2">
+                  {[
+                    { group: 'STORAGE & MEDIA', list: ['READ_MEDIA_IMAGES', 'READ_MEDIA_VIDEO', 'READ_MEDIA_AUDIO', 'READ_EXTERNAL_STORAGE', 'WRITE_EXTERNAL_STORAGE'], desc: 'Handles local photos, asset caches, and dynamic progress saves.' },
+                    { group: 'LOCATION', list: ['ACCESS_FINE_LOCATION', 'ACCESS_COARSE_LOCATION', 'ACCESS_BACKGROUND_LOCATION'], desc: 'Precision GPS coordinates for geo-mapping or native store lookup targets.' },
+                    { group: 'CAMERA', list: ['CAMERA'], desc: 'Enables custom user profile capture or live barcode scans.' },
+                    { group: 'MICROPHONE', list: ['RECORD_AUDIO'], desc: 'Supports multiplayer voice communication and session audio recordings.' },
+                    { group: 'NOTIFICATIONS', list: ['POST_NOTIFICATIONS'], desc: 'System alert push hooks launched under Android 13+ rules.' },
+                    { group: 'CONTACTS', list: ['READ_CONTACTS', 'WRITE_CONTACTS', 'GET_ACCOUNTS'], desc: 'Retrieves friend listings and local account configurations.' },
+                    { group: 'PHONE & CALLS', list: ['READ_PHONE_STATE', 'CALL_PHONE', 'ANSWER_PHONE_CALLS'], desc: 'Monitors audio focus priorities to silent the app during active video calls.' },
+                    { group: 'SMS', list: ['SEND_SMS', 'RECEIVE_SMS', 'READ_SMS', 'RECEIVE_WAP_PUSH', 'RECEIVE_MMS'], desc: 'Processes or monitors authentication SMS verification codes.' },
+                    { group: 'SENSORS', list: ['BODY_SENSORS', 'BODY_SENSORS_BACKGROUND'], desc: 'Accesses biometric, health, or motion details during active sessions.' },
+                    { group: 'CALENDAR', list: ['READ_CALENDAR', 'WRITE_CALENDAR'], desc: 'Schedules matched matchings or live event callbacks into calendar feeds.' }
+                  ].map((g, idx) => (
+                    <div key={idx} className="bg-[var(--surface2)]/80 p-3 rounded-xl border border-[var(--border)] space-y-1.5 flex flex-col justify-between">
+                      <div>
+                        <div className="flex items-center justify-between mb-1">
+                          <span className="font-mono font-bold text-[9px] text-indigo-400 continental tracking-widest">{g.group}</span>
+                          <span className="text-[8px] text-[var(--text-muted)] font-bold">RUNTIME</span>
+                        </div>
+                        <div className="flex flex-wrap gap-1 font-mono text-[8.5px] mb-2">
+                          {g.list.map((p, pIdx) => (
+                            <span key={pIdx} className="bg-[var(--surface3)] text-[var(--text-highlight)] border border-[var(--border)] px-1 py-0.2 rounded">{p}</span>
+                          ))}
+                        </div>
+                      </div>
+                      <p className="text-[10px] text-[var(--text-muted)] leading-snug">{g.desc}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function RuntimePermissionsDemo() {
+  const [permissionState, setPermissionState] = React.useState<'rationale' | 'sys_popup_1' | 'warning' | 'sys_popup_2' | 'denied_never' | 'granted' | 'settings'>('rationale');
+  const [isNeverAskAgainChecked, setIsNeverAskAgainChecked] = React.useState(false);
+  const [settingsToggled, setSettingsToggled] = React.useState(false);
+
+  return (
+    <div className="bg-[var(--surface)] border border-[var(--border)] rounded-2xl p-6 space-y-6">
+      <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border-b border-[var(--border)] pb-4">
+        <div>
+          <h4 className="text-sm font-bold text-[var(--text-highlight)] flex items-center gap-1.5 font-sans">
+            <span>🤖 Practice Interactive Sandbox</span>
+          </h4>
+          <p className="text-[11px] text-[var(--text-muted)] mt-1 font-sans">
+            Visualizes and validates the complete user journey of explanation, system prompts, denial handling, "Don't ask again" gates, and device settings overlays.
+          </p>
+        </div>
+        <button 
+          onClick={() => {
+            setPermissionState('rationale');
+            setIsNeverAskAgainChecked(false);
+            setSettingsToggled(false);
+          }}
+          className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white border border-indigo-500/20 rounded-lg text-xs font-bold transition shadow-sm shrink-0 font-sans cursor-pointer"
+        >
+          Reset Simulation
+        </button>
+      </div>
+
+      <div className="flex flex-col lg:flex-row items-center justify-center gap-8 py-4">
+        {/* Smartphone Container */}
+        <div className="w-[310px] h-[550px] bg-zinc-950 border-8 border-zinc-800 rounded-[38px] shadow-2xl relative flex flex-col overflow-hidden select-none border-solid shrink-0">
+          {/* Smartphone Camera Notch */}
+          <div className="absolute top-2 left-1/2 -translate-x-1/2 w-24 h-4 bg-zinc-805 rounded-full z-20 flex items-center justify-center">
+            <div className="w-2.5 h-2.5 bg-neutral-900 rounded-full" />
+          </div>
+
+          {/* Smartphone Mock Screen Content */}
+          <div className="w-full h-full flex flex-col pt-8 pb-4 px-4 text-xs font-sans bg-zinc-950 text-zinc-100 z-10 select-none relative">
+            
+            {/* Status Bar */}
+            <div className="flex items-center justify-between text-[9px] text-zinc-500 font-mono tracking-wider px-2 mb-4 shrink-0">
+              <span>11:08 UTC</span>
+              <div className="flex items-center gap-1.5">
+                <span>5G</span>
+                <div className="w-3 h-2 border border-zinc-500 rounded-xs flex items-end p-0.2">
+                  <div className="w-full h-2/3 bg-zinc-400" />
+                </div>
+              </div>
+            </div>
+
+            {/* Settings view mock or Game app mock */}
+            {permissionState === 'settings' ? (
+              <div className="flex-1 flex flex-col animate-in fade-in slide-in-from-right duration-300">
+                <div className="border-b border-zinc-800 pb-3 mb-4 flex items-center gap-2">
+                  <span className="text-[8px] font-mono bg-zinc-800 px-1.5 py-0.5 rounded text-zinc-300 font-bold">OS SETTINGS</span>
+                  <h5 className="font-bold text-zinc-200">App Info: Quest Odyssey</h5>
+                </div>
+                <p className="text-[10px] text-zinc-500 mb-4 font-mono">Settings &gt; Apps &gt; Quest Odyssey &gt; Permissions</p>
+                
+                <div className="space-y-4 flex-1">
+                  <div className="bg-zinc-900 p-3 rounded-xl border border-zinc-800 space-y-3">
+                    <p className="font-bold text-zinc-400 text-[9px] tracking-wider uppercase">ALLOWED</p>
+                    <p className="text-[10px] text-zinc-500 italic">None</p>
+                    
+                    <div className="h-[1px] bg-zinc-800 my-2" />
+                    
+                    <p className="font-bold text-zinc-400 text-[9px] tracking-wider uppercase">NOT ALLOWED</p>
+                    <div className="flex items-center justify-between py-1">
+                      <div className="flex items-center gap-2">
+                        <span className="text-sm">📁</span>
+                        <div>
+                          <p className="font-semibold text-zinc-300">Files and Media</p>
+                          <p className="text-[9px] text-zinc-500">Access photo and save assets</p>
+                        </div>
+                      </div>
+                      {/* Toggle Switch */}
+                      <button 
+                        type="button"
+                        onClick={() => setSettingsToggled(!settingsToggled)}
+                        className={`w-9 h-5 rounded-full p-0.5 transition-colors duration-200 cursor-pointer ${settingsToggled ? 'bg-indigo-600' : 'bg-zinc-750'}`}
+                      >
+                        <div className={`w-4 h-4 rounded-full bg-white transition-all duration-200 ${settingsToggled ? 'translate-x-4' : 'translate-x-0'}`} />
+                      </button>
+                    </div>
+                  </div>
+
+                  <p className="text-[10px] text-zinc-400 leading-relaxed bg-zinc-900/50 p-3 rounded-lg border border-zinc-805 font-mono">
+                    {settingsToggled 
+                      ? "✅ Storage permissions enabled manually! Return to the game to start your secure adventure." 
+                      : "⚠️ Permission is disabled. Toggle the switch to permit storage files access."}
+                  </p>
+                </div>
+
+                <button 
+                  onClick={() => {
+                    if (settingsToggled) {
+                      setPermissionState('granted');
+                    } else {
+                      setPermissionState('denied_never');
+                    }
+                  }}
+                  className="w-full py-2 bg-indigo-600 hover:bg-indigo-700 font-bold rounded-lg text-white text-[11px] transition mt-auto flex items-center justify-center gap-1 cursor-pointer"
+                >
+                  ← Return to Game
+                </button>
+              </div>
+            ) : (
+              <div className="flex-1 flex flex-col relative justify-center">
+                <div className="absolute top-0 left-0 right-0 h-10 bg-indigo-950/40 border border-indigo-500/20 rounded-xl flex items-center justify-between px-3">
+                  <span className="font-extrabold text-[9px] tracking-widest text-indigo-300 uppercase">QUEST ODYSSEY</span>
+                  <div className="flex items-center gap-1.5 font-mono text-[8px] text-indigo-400">
+                    <span>🛡️ LV10</span>
+                    <span>💎 350</span>
+                  </div>
+                </div>
+
+                <div className="text-center space-y-3 px-2 flex-1 flex flex-col justify-center items-center">
+                  {permissionState === 'granted' ? (
+                    <div className="space-y-4 animate-in zoom-in duration-300">
+                      <div className="w-12 h-12 bg-green-500/10 text-green-500 rounded-full border border-green-500/20 flex items-center justify-center text-xl mx-auto shadow-lg shadow-green-500/5">
+                        ✓
+                      </div>
+                      <div>
+                        <h5 className="font-extrabold text-green-400 text-xs text-center font-sans">Permission Granted!</h5>
+                        <p className="text-[10px] text-zinc-400 leading-relaxed mt-1 text-center font-sans">
+                          Core app assets and cloud sync capabilities loaded. Your game is fully compliant!
+                        </p>
+                      </div>
+                      <div className="bg-zinc-900/80 border border-zinc-800 rounded-lg p-3 text-[10px] text-zinc-300 space-y-1 font-mono text-left w-full p-3">
+                        <p className="text-zinc-500 uppercase text-[8px] font-bold tracking-wider">Device Log Trace</p>
+                        <p className="text-green-400">✓ STORAGE_FILES: GRANTED</p>
+                        <p className="text-green-400">✓ CACHE_SYNC: COMPLETED</p>
+                        <p className="text-zinc-400">✓ GAMEPLAY_INIT: OK</p>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="space-y-3 py-6 text-center">
+                      <span className="text-3xl filter drop-shadow">🎮</span>
+                      <h6 className="font-bold text-zinc-300 text-center font-sans">Evaluating local game files...</h6>
+                      <p className="text-[10px] text-zinc-500 max-w-xs mx-auto text-center font-sans leading-relaxed">
+                        Evaluating standard manifest guidelines and runtime authentication checks. Choose an interactive action in the prompt.
+                      </p>
+                    </div>
+                  )}
+                </div>
+
+                {/* --- PRE-REQUEST RATIONALE EXPLANATION DIALOG --- */}
+                {permissionState === 'rationale' && (
+                  <div className="absolute inset-0 bg-black/60 flex items-center justify-center p-3 z-30 animate-in fade-in duration-200">
+                    <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-4 w-full space-y-4 animate-in slide-in-from-bottom duration-300 shadow-xl">
+                      <div className="flex items-center gap-2 border-b border-zinc-800 pb-2">
+                        <span className="text-lg">📁</span>
+                        <h5 className="font-extrabold text-zinc-200 text-[11px] leading-tight font-sans text-left">Storage Access Required</h5>
+                      </div>
+                      <p className="text-[10px] text-zinc-400 leading-relaxed text-left font-sans">
+                        Quest Odyssey requires storage permissions to download game graphics assets, sync progress logs, and prevent loss of data offline.
+                      </p>
+                      <div className="flex gap-2 justify-end pt-1">
+                        <button 
+                          onClick={() => setPermissionState('warning')}
+                          className="px-3 py-1.5 bg-zinc-800 hover:bg-zinc-700 text-zinc-400 font-bold rounded-lg text-[10px] cursor-pointer"
+                        >
+                          Decline
+                        </button>
+                        <button 
+                          onClick={() => setPermissionState('sys_popup_1')}
+                          className="px-4 py-1.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-lg text-[10px] shadow cursor-pointer"
+                        >
+                          OK
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* --- FIRST SYSTEM POPUP --- */}
+                {permissionState === 'sys_popup_1' && (
+                  <div className="absolute inset-0 bg-black/50 flex items-end justify-center p-2 z-45 animate-in fade-in duration-200">
+                    <div className="bg-zinc-900 rounded-t-3xl p-5 w-full space-y-4 animate-in slide-in-from-bottom duration-300 shadow-2xl border-t border-zinc-850">
+                      <div className="text-center space-y-2">
+                        <div className="w-10 h-10 bg-zinc-800 rounded-full flex items-center justify-center text-xl mx-auto border border-zinc-700">
+                          📁
+                        </div>
+                        <h5 className="font-bold text-zinc-150 text-xs text-center font-sans">
+                          Allow <strong className="text-zinc-100">Quest Odyssey</strong> to access photos and media on this device?
+                        </h5>
+                      </div>
+
+                      <p className="text-[9px] text-zinc-500 text-center uppercase tracking-wider font-mono">
+                        Android Native OS System Prompt
+                      </p>
+
+                      <div className="space-y-1.5 pt-2">
+                        <button 
+                          onClick={() => setPermissionState('granted')}
+                          className="w-full py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl text-[10px] transition cursor-pointer"
+                        >
+                          Allow
+                        </button>
+                        <button 
+                          onClick={() => setPermissionState('warning')}
+                          className="w-full py-2 bg-zinc-800 hover:bg-zinc-720 text-zinc-200 font-bold rounded-xl text-[10px] transition cursor-pointer"
+                        >
+                          Don't Allow
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* --- WARNING DIALOG ON DENIAL --- */}
+                {permissionState === 'warning' && (
+                  <div className="absolute inset-0 bg-black/60 flex items-center justify-center p-3 z-30 animate-in fade-in duration-200">
+                    <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-4 w-full space-y-4 animate-in zoom-in duration-200 shadow-xl">
+                      <div className="flex items-center gap-2 text-amber-500 border-b border-zinc-800 pb-2">
+                        <span className="text-base text-left">⚠️</span>
+                        <h5 className="font-extrabold text-[11px] leading-tight text-amber-400 text-left font-sans">Permission Necessary</h5>
+                      </div>
+                      <p className="text-[10px] text-zinc-400 leading-relaxed text-left font-sans">
+                        Quest Odyssey cannot download required graphic binaries or secure database keys without storage features. The game will fail to launch if disabled.
+                      </p>
+                      <div className="flex gap-2 justify-end pt-1">
+                        <button 
+                          onClick={() => setPermissionState('rationale')}
+                          className="px-3 py-1.5 bg-zinc-800 hover:bg-zinc-750 text-zinc-400 font-bold rounded-lg text-[10px] cursor-pointer"
+                        >
+                          Cancel
+                        </button>
+                        <button 
+                          onClick={() => setPermissionState('sys_popup_2')}
+                          className="px-4 py-1.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-lg text-[10px] cursor-pointer"
+                        >
+                          Retry
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* --- SECOND SYSTEM POPUP WITH NEVER ASK AGAIN OPTION --- */}
+                {permissionState === 'sys_popup_2' && (
+                  <div className="absolute inset-0 bg-black/50 flex items-end justify-center p-2 z-45 animate-in fade-in duration-200">
+                    <div className="bg-zinc-900 rounded-t-3xl p-5 w-full space-y-4 animate-in slide-in-from-bottom duration-300 shadow-2xl border-t border-zinc-850">
+                      <div className="text-center space-y-2">
+                        <div className="w-10 h-10 bg-zinc-800 rounded-full flex items-center justify-center text-xl mx-auto border border-zinc-700">
+                          📁
+                        </div>
+                        <h5 className="font-bold text-zinc-150 text-xs text-center font-sans">
+                          Allow <strong className="text-zinc-100">Quest Odyssey</strong> to access photos and media on this device?
+                        </h5>
+                      </div>
+
+                      <div className="flex items-center gap-2 justify-center py-1 font-sans">
+                        <input 
+                          type="checkbox" 
+                          id="neverAskAgain_demo" 
+                          className="rounded border-zinc-800 text-indigo-600 focus:ring-0 bg-zinc-800 h-3.5 w-3.5 cursor-pointer"
+                          checked={isNeverAskAgainChecked}
+                          onChange={(e) => setIsNeverAskAgainChecked(e.target.checked)}
+                        />
+                        <label htmlFor="neverAskAgain_demo" className="text-[10px] text-zinc-400 font-medium cursor-pointer">Don't ask again / Never ask again</label>
+                      </div>
+
+                      <div className="space-y-1.5 pt-1">
+                        <button 
+                          onClick={() => setPermissionState('granted')}
+                          className="w-full py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl text-[10px] transition cursor-pointer"
+                        >
+                          Allow
+                        </button>
+                        <button 
+                          onClick={() => {
+                            if (isNeverAskAgainChecked) {
+                              setPermissionState('denied_never');
+                            } else {
+                              setPermissionState('warning');
+                            }
+                          }}
+                          className="w-full py-2 bg-zinc-800 hover:bg-zinc-720 text-zinc-200 font-bold rounded-xl text-[10px] transition cursor-pointer"
+                        >
+                          Don't Allow
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* --- DENIED PERMANENTLY / NEVER ASK STATE --- */}
+                {permissionState === 'denied_never' && (
+                  <div className="absolute inset-0 bg-black/60 flex items-center justify-center p-3 z-30 animate-in fade-in duration-200">
+                    <div className="bg-zinc-900 border border-zinc-805 rounded-2xl p-4 w-full space-y-4 animate-in zoom-in duration-200 shadow-xl">
+                      <div className="flex items-center gap-2 text-rose-500 border-b border-zinc-800 pb-2 animate-pulse">
+                        <span className="text-base text-left">🚫</span>
+                        <h5 className="font-extrabold text-[11px] leading-tight text-rose-400 text-left font-sans">Permission Blocked</h5>
+                      </div>
+                      <p className="text-[10px] text-zinc-405 leading-relaxed text-left font-sans">
+                        You selected "Don't ask again". Storage facilities remain locked by Android policy. Tap "Go to Settings" to manually toggle authorization.
+                      </p>
+                      <div className="flex gap-2 justify-end pt-1">
+                        <button 
+                          onClick={() => {
+                            setPermissionState('rationale');
+                            setIsNeverAskAgainChecked(false);
+                          }}
+                          className="px-3 py-1.5 bg-zinc-800 hover:bg-zinc-700 text-zinc-400 font-bold rounded-lg text-[10px] cursor-pointer"
+                        >
+                          Cancel
+                        </button>
+                        <button 
+                          onClick={() => setPermissionState('settings')}
+                          className="px-4 py-1.5 bg-amber-500 hover:bg-amber-600 text-zinc-950 font-extrabold rounded-lg text-[10px] shadow cursor-pointer"
+                        >
+                          Go to Settings
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* Navigation Pill Bar (System) */}
+            <div className="w-32 h-1 bg-zinc-700 rounded-full mx-auto shrink-0 mt-4" />
+          </div>
+        </div>
+
+        {/* Phase State Progress Guide logger */}
+        <div className="flex-1 w-full space-y-4 text-left leading-relaxed">
+          <span className="text-[9px] font-bold text-[var(--text-muted)] uppercase tracking-wider font-mono">Dynamic State Evaluation Log</span>
+          <div className="border border-[var(--border)] bg-[var(--surface2)]/55 p-5 rounded-2xl space-y-4">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-mono font-bold uppercase text-[var(--text-highlight)]">Simulator Status:</span>
+              <span className="text-[10.5px] font-mono px-2 py-0.5 rounded bg-amber-500/10 border border-amber-500/20 text-amber-500 font-extrabold uppercase">
+                {permissionState === 'granted' ? '✓ FULLY GRANTED' : `⌚ STATUS_${permissionState.toUpperCase()}`}
+              </span>
+            </div>
+
+            <div className="text-xs text-[var(--text-muted)] space-y-2 leading-relaxed font-sans">
+              <p>
+                This interactive state machine walks developers and auditors through the strict user authentication loops required by Android Play Store Guidelines.
+              </p>
+              <div className="h-px bg-[var(--border)] my-1" />
+              <div className="space-y-1.5 font-mono text-[10px]">
+                <div className="flex items-center gap-2">
+                  <span className={permissionState === 'rationale' ? 'text-indigo-400 animate-pulse' : 'text-emerald-400'}>
+                    {permissionState === 'rationale' ? '●' : '✓'}
+                  </span>
+                  <span className={permissionState === 'rationale' ? 'text-[var(--text-highlight)] font-bold' : 'text-[var(--text-muted)]'}>
+                    1. Rationale Explanation Dialog
+                  </span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className={permissionState === 'sys_popup_1' ? 'text-indigo-400 animate-pulse' : ['rationale'].includes(permissionState) ? 'text-zinc-650' : 'text-emerald-400'}>
+                    {permissionState === 'sys_popup_1' ? '●' : ['rationale'].includes(permissionState) ? '○' : '✓'}
+                  </span>
+                  <span className={permissionState === 'sys_popup_1' ? 'text-[var(--text-highlight)] font-bold' : 'text-[var(--text-muted)]'}>
+                    2. Native OS Consent Popup
+                  </span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className={permissionState === 'warning' ? 'text-indigo-400 animate-pulse' : ['rationale', 'sys_popup_1'].includes(permissionState) ? 'text-zinc-650' : 'text-emerald-400'}>
+                    {permissionState === 'warning' ? '●' : ['rationale', 'sys_popup_1'].includes(permissionState) ? '○' : '✓'}
+                  </span>
+                  <span className={permissionState === 'warning' ? 'text-[var(--text-highlight)] font-bold' : 'text-[var(--text-muted)]'}>
+                    3. Soft Denial Warning Trigger
+                  </span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className={permissionState === 'sys_popup_2' ? 'text-indigo-400 animate-pulse' : ['rationale', 'sys_popup_1', 'warning'].includes(permissionState) ? 'text-zinc-650' : 'text-emerald-400'}>
+                    {permissionState === 'sys_popup_2' ? '●' : ['rationale', 'sys_popup_1', 'warning'].includes(permissionState) ? '○' : '✓'}
+                  </span>
+                  <span className={permissionState === 'sys_popup_2' ? 'text-[var(--text-highlight)] font-bold' : 'text-[var(--text-muted)]'}>
+                    4. Secondary OS Prompt (with Never Ask checkbox)
+                  </span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className={permissionState === 'denied_never' ? 'text-rose-450 font-bold' : ['rationale', 'sys_popup_1', 'warning', 'sys_popup_2'].includes(permissionState) ? 'text-zinc-655' : 'text-emerald-400'}>
+                    {permissionState === 'denied_never' ? '🚫' : ['rationale', 'sys_popup_1', 'warning', 'sys_popup_2'].includes(permissionState) ? '○' : '✓'}
+                  </span>
+                  <span className={permissionState === 'denied_never' ? 'text-rose-405 font-bold animate-pulse' : 'text-[var(--text-muted)]'}>
+                    5. Hard Denial Settings Gate
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
