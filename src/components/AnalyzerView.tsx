@@ -92,6 +92,256 @@ const ANDROID_DANGEROUS_PERMISSIONS = [
   { permission: 'android.permission.BLUETOOTH_SCAN', desc: 'Bluetooth Scan - Scans for nearby beacons and peripherals' }
 ];
 
+// Helper functions to parse binary plists (bplist00) and convert them to compliant XML format
+function parseBinaryPlist(buffer: ArrayBuffer): any {
+  const view = new DataView(buffer);
+  const u8 = new Uint8Array(buffer);
+  
+  if (u8.length < 8) {
+    throw new Error('File too short');
+  }
+  
+  const header = String.fromCharCode(...Array.from(u8.slice(0, 8)));
+  if (header !== 'bplist00') {
+    throw new Error('Not a binary plist');
+  }
+  
+  const len = buffer.byteLength;
+  if (len < 32) throw new Error('File too short for trailer');
+  
+  const trailerOffset = len - 32;
+  const offsetIntSize = view.getUint8(trailerOffset + 6);
+  const objectRefSize = view.getUint8(trailerOffset + 7);
+  
+  const numObjects = readUInt64(view, trailerOffset + 8);
+  const topObject = readUInt50(view, trailerOffset + 16);
+  const offsetTableOffset = readUInt50(view, trailerOffset + 24);
+  
+  const offsets: number[] = [];
+  for (let i = 0; i < numObjects; i++) {
+    const off = readInt(u8, offsetTableOffset + i * offsetIntSize, offsetIntSize);
+    offsets.push(off);
+  }
+  
+  function readInt(bytes: Uint8Array, offset: number, size: number): number {
+    let val = 0;
+    for (let i = 0; i < size; i++) {
+      val = (val * 256) + bytes[offset + i];
+    }
+    return val;
+  }
+  
+  function readUInt64(dataView: DataView, offset: number): number {
+    const high = dataView.getUint32(offset);
+    const low = dataView.getUint32(offset + 4);
+    return high * 0x100000000 + low;
+  }
+  
+  function readUInt50(dataView: DataView, offset: number): number {
+    const high = dataView.getUint32(offset);
+    const low = dataView.getUint32(offset + 4);
+    return high * 0x100000000 + low;
+  }
+  
+  function parseObject(objIndex: number): any {
+    if (objIndex >= offsets.length || objIndex < 0) {
+      return null;
+    }
+    const offset = offsets[objIndex];
+    if (offset >= len || offset < 0) {
+      return null;
+    }
+    const typeByte = u8[offset];
+    const type = typeByte & 0xF0;
+    const count = typeByte & 0x0F;
+    
+    if (typeByte === 0x00) return null;
+    if (typeByte === 0x08) return false;
+    if (typeByte === 0x09) return true;
+    if (typeByte === 0x0F) return null;
+    
+    if (type === 0x10) {
+      const size = Math.pow(2, count);
+      return readInt(u8, offset + 1, size);
+    }
+    
+    if (type === 0x20) {
+      const size = Math.pow(2, count);
+      if (size === 4) return view.getFloat32(offset + 1);
+      if (size === 8) return view.getFloat64(offset + 1);
+      return 0;
+    }
+    
+    if (typeByte === 0x33) {
+      const seconds = view.getFloat64(offset + 1);
+      const appleEpoch = Date.UTC(2001, 0, 1, 0, 0, 0);
+      return new Date(appleEpoch + seconds * 1000);
+    }
+    
+    if (type === 0x40) {
+      let size = count;
+      let nextOffset = offset + 1;
+      if (count === 15) {
+        const sizeByte = u8[offset + 1];
+        const sizeLength = Math.pow(2, sizeByte & 0x0F);
+        size = readInt(u8, offset + 2, sizeLength);
+        nextOffset = offset + 2 + sizeLength;
+      }
+      return u8.slice(nextOffset, nextOffset + size);
+    }
+    
+    if (type === 0x50) {
+      let size = count;
+      let nextOffset = offset + 1;
+      if (count === 15) {
+        const sizeByte = u8[offset + 1];
+        const sizeLength = Math.pow(2, sizeByte & 0x0F);
+        size = readInt(u8, offset + 2, sizeLength);
+        nextOffset = offset + 2 + sizeLength;
+      }
+      let str = "";
+      for (let i = 0; i < size; i++) {
+        str += String.fromCharCode(u8[nextOffset + i]);
+      }
+      return str;
+    }
+    
+    if (type === 0x60) {
+      let size = count;
+      let nextOffset = offset + 1;
+      if (count === 15) {
+        const sizeByte = u8[offset + 1];
+        const sizeLength = Math.pow(2, sizeByte & 0x0F);
+        size = readInt(u8, offset + 2, sizeLength);
+        nextOffset = offset + 2 + sizeLength;
+      }
+      let str = "";
+      for (let i = 0; i < size; i++) {
+        const code = (u8[nextOffset + i * 2] << 8) | u8[nextOffset + i * 2 + 1];
+        str += String.fromCharCode(code);
+      }
+      return str;
+    }
+    
+    if (type === 0x80) {
+      return readInt(u8, offset + 1, count + 1);
+    }
+    
+    if (type === 0xA0) {
+      let size = count;
+      let nextOffset = offset + 1;
+      if (count === 15) {
+        const sizeByte = u8[offset + 1];
+        const sizeLength = Math.pow(2, sizeByte & 0x0F);
+        size = readInt(u8, offset + 2, sizeLength);
+        nextOffset = offset + 2 + sizeLength;
+      }
+      const arr: any[] = [];
+      for (let i = 0; i < size; i++) {
+        const refIdx = nextOffset + i * objectRefSize;
+        if (refIdx + objectRefSize <= u8.length) {
+          const ref = readInt(u8, refIdx, objectRefSize);
+          arr.push(parseObject(ref));
+        }
+      }
+      return arr;
+    }
+    
+    if (type === 0xD0) {
+      let size = count;
+      let nextOffset = offset + 1;
+      if (count === 15) {
+        const sizeByte = u8[offset + 1];
+        const sizeLength = Math.pow(2, sizeByte & 0x0F);
+        size = readInt(u8, offset + 2, sizeLength);
+        nextOffset = offset + 2 + sizeLength;
+      }
+      const dict: Record<string, any> = {};
+      const keyRefs: number[] = [];
+      const valRefs: number[] = [];
+      for (let i = 0; i < size; i++) {
+        const refIdx = nextOffset + i * objectRefSize;
+        if (refIdx + objectRefSize <= u8.length) {
+          keyRefs.push(readInt(u8, refIdx, objectRefSize));
+        }
+      }
+      const valOffset = nextOffset + size * objectRefSize;
+      for (let i = 0; i < size; i++) {
+        const refIdx = valOffset + i * objectRefSize;
+        if (refIdx + objectRefSize <= u8.length) {
+          valRefs.push(readInt(u8, refIdx, objectRefSize));
+        }
+      }
+      for (let i = 0; i < Math.min(keyRefs.length, valRefs.length); i++) {
+        const k = parseObject(keyRefs[i]);
+        const v = parseObject(valRefs[i]);
+        if (typeof k === 'string') {
+          dict[k] = v;
+        }
+      }
+      return dict;
+    }
+    
+    return null;
+  }
+  
+  return parseObject(topObject);
+}
+
+function jsToXmlPlist(val: any, indent = ''): string {
+  const nextIndent = indent + '    ';
+  if (val === null || val === undefined) {
+    return `${indent}<string></string>`;
+  }
+  if (typeof val === 'boolean') {
+    return `${indent}<${val}/>`;
+  }
+  if (typeof val === 'number') {
+    if (Number.isInteger(val)) {
+      return `${indent}<integer>${val}</integer>`;
+    } else {
+      return `${indent}<real>${val}</real>`;
+    }
+  }
+  if (val instanceof Date) {
+    return `${indent}<date>${val.toISOString()}</date>`;
+  }
+  if (typeof val === 'string') {
+    const escaped = val
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;');
+    return `${indent}<string>${escaped}</string>`;
+  }
+  if (Array.isArray(val)) {
+    if (val.length === 0) {
+      return `${indent}<array/>`;
+    }
+    const items = val.map(item => jsToXmlPlist(item, nextIndent)).join('\n');
+    return `${indent}<array>\n${items}\n${indent}</array>`;
+  }
+  if (typeof val === 'object') {
+    if (val instanceof Uint8Array) {
+      let binaryStr = "";
+      for (let i = 0; i < val.length; i++) {
+        binaryStr += String.fromCharCode(val[i]);
+      }
+      const base64 = btoa(binaryStr);
+      return `${indent}<data>${base64}</data>`;
+    }
+    const keys = Object.keys(val);
+    if (keys.length === 0) {
+      return `${indent}<dict/>`;
+    }
+    const entries = keys.map(k => {
+      const escapedKey = k.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      return `${nextIndent}<key>${escapedKey}</key>\n${jsToXmlPlist(val[k], nextIndent)}`;
+    }).join('\n');
+    return `${indent}<dict>\n${entries}\n${indent}</dict>`;
+  }
+  return `${indent}<string>${val}</string>`;
+}
+
 export default function AnalyzerView({ platform }: AnalyzerViewProps) {
   const [activeTab, setActiveTab] = useState<'ios' | 'android'>(platform);
   const [rawText, setRawText] = useState<string>('');
@@ -143,11 +393,42 @@ export default function AnalyzerView({ platform }: AnalyzerViewProps) {
   const handleFile = (file: File) => {
     const reader = new FileReader();
     reader.onload = (e) => {
-      const text = e.target?.result as string;
-      setRawText(text);
-      analyzeContent(text, activeTab);
+      const buffer = e.target?.result as ArrayBuffer;
+      if (!buffer) return;
+      
+      const u8 = new Uint8Array(buffer);
+      const isBinary = u8.length >= 8 && String.fromCharCode(...Array.from(u8.slice(0, 8))) === 'bplist00';
+
+      if (isBinary) {
+        try {
+          const parsed = parseBinaryPlist(buffer);
+          const body = jsToXmlPlist(parsed, '    ');
+          const xmlText = `<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+${body}
+</plist>`;
+          // If loaded file is binary plist but current tab is Android, auto-switch to iOS
+          if (activeTab === 'android') {
+            setActiveTab('ios');
+          }
+          setRawText(xmlText);
+          analyzeContent(xmlText, 'ios');
+        } catch (err: any) {
+          console.error("Failed to parse binary plist, falling back to text decoder:", err);
+          const decoder = new TextDecoder('utf-8');
+          const text = decoder.decode(buffer);
+          setRawText(text);
+          analyzeContent(text, activeTab);
+        }
+      } else {
+        const decoder = new TextDecoder('utf-8');
+        const text = decoder.decode(buffer);
+        setRawText(text);
+        analyzeContent(text, activeTab);
+      }
     };
-    reader.readAsText(file);
+    reader.readAsArrayBuffer(file);
   };
 
   // Content analyzer
