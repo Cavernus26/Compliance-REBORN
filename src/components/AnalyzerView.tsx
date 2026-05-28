@@ -1,0 +1,922 @@
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
+import { 
+  ShieldAlert, 
+  CheckCircle2, 
+  XCircle, 
+  AlertTriangle, 
+  Upload, 
+  Clipboard, 
+  FileCode, 
+  Sparkles, 
+  HelpCircle,
+  FileText,
+  ShieldCheck,
+  Check,
+  Copy,
+  FolderOpen
+} from 'lucide-react';
+
+interface AnalyzerViewProps {
+  platform: 'ios' | 'android';
+}
+
+interface iOSKeyResult {
+  key: string;
+  description: string;
+  isMandatory: boolean;
+  isPresent: boolean;
+  value?: string;
+}
+
+interface PermissionResult {
+  permission: string;
+  description: string;
+  value?: string;
+  isPresent: boolean;
+}
+
+// Predefined iOS Mandatory compliance keys
+const IOS_MANDATORY_KEYS = [
+  { key: 'CFBundleIdentifier', desc: 'Bundle Identifier - Unique App ID with App Store Connect' },
+  { key: 'CFBundleVersion', desc: 'Bundle Version - Build number of the release' },
+  { key: 'CFBundleShortVersionString', desc: 'Bundle Short Version String - Release version number shown to users' },
+  { key: 'CFBundleExecutable', desc: 'Executable File - Name of the app\'s main runnable file' },
+  { key: 'CFBundlePackageType', desc: 'Bundle Package Type - Must equal APPL for applications' },
+  { key: 'LSRequiresIPhoneOS', desc: 'Requires iOS - Ensures app runs selectively on iOS devices' },
+  { key: 'UILaunchStoryboardName', desc: 'Launch Screen Storyboard - Name of user-facing launch screen interface' }
+];
+
+// Predefined iOS Non-Mandatory/Recommended compliance keys
+const IOS_NON_MANDATORY_KEYS = [
+  { key: 'CFBundleDisplayName', desc: 'Display Name - Human-readable name displayed on the user\'s home screen' },
+  { key: 'ITSAppUsesNonExemptEncryption', desc: 'Uses Non-Exempt Encryption - Export compliance flag for Apple Security' },
+  { key: 'NSAppTransportSecurity', desc: 'App Transport Security - Dictates HTTP/HTTPS exceptions settings' },
+  { key: 'UIViewControllerBasedStatusBarAppearance', desc: 'View-Controller Status Bar Control - Lets view managers override system bar color' },
+  { key: 'UIBackgroundModes', desc: 'Background Modes - Declares audio playback, location tracking or background sync behaviors' },
+  { key: 'UISupportedInterfaceOrientations', desc: 'Supported Orientations - Governs allowed landscape/portrait rotations' },
+  { key: 'UIRequiredDeviceCapabilities', desc: 'Required Device Capabilities - Limits downloads to items with specific hardware (metal, gps, etc.)' }
+];
+
+// Known iOS Permission usage description keys with explanations
+const IOS_PERMISSION_KEYS = [
+  { permission: 'NSCameraUsageDescription', desc: 'Camera access (e.g. scanning QR codes, profile pictures)' },
+  { permission: 'NSMicrophoneUsageDescription', desc: 'Microphone access (e.g. audio calling, sound recording)' },
+  { permission: 'NSLocationWhenInUseUsageDescription', desc: 'Location access while in use (e.g. map center, localized features)' },
+  { permission: 'NSLocationAlwaysAndWhenInUseUsageDescription', desc: 'Persistent location access (e.g. background alerts, geo-fencing)' },
+  { permission: 'NSPhotoLibraryUsageDescription', desc: 'Photo Library access (e.g. uploading images, attachment attachments)' },
+  { permission: 'NSUserTrackingUsageDescription', desc: 'App Tracking Transparency (e.g. tailored analytics, ad attribution)' },
+  { permission: 'NSContactsUsageDescription', desc: 'Contacts access (e.g. finding friends, address synchronization)' },
+  { permission: 'NSCalendarsUsageDescription', desc: 'Calendars access (e.g. scheduling events, scheduling sessions)' },
+  { permission: 'NSFaceIDUsageDescription', desc: 'Face ID authentication access (e.g. bio-locks, login protection)' },
+  { permission: 'NSBluetoothAlwaysUsageDescription', desc: 'Persistent Bluetooth access (e.g. hardware integrations, beacon sync)' },
+  { permission: 'NSLocalNetworkUsageDescription', desc: 'Local Network authorization (e.g. discovery of peripheral devices)' }
+];
+
+// Android Dangerous Permissions (conforming to compliance warning criteria)
+const ANDROID_DANGEROUS_PERMISSIONS = [
+  { permission: 'android.permission.ACCESS_FINE_LOCATION', desc: 'Precise Location - Accesses high-accuracy GPS/Galileo coordinate trackers' },
+  { permission: 'android.permission.ACCESS_COARSE_LOCATION', desc: 'Approximate Location - Accesses cellular/WiFi-based network estimates' },
+  { permission: 'android.permission.CAMERA', desc: 'Camera - Operates camera lenses for taking photos or videos' },
+  { permission: 'android.permission.RECORD_AUDIO', desc: 'Record Audio - Activates microphone recording channels at any time' },
+  { permission: 'android.permission.READ_CONTACTS', desc: 'Read Contacts - Scans personal contact directory listing records' },
+  { permission: 'android.permission.WRITE_CONTACTS', desc: 'Write Contacts - Add/updates storage files inside user address list' },
+  { permission: 'android.permission.READ_EXTERNAL_STORAGE', desc: 'Read Storage (Legacy) - Accesses shared memory folders, media archives, or text dumps' },
+  { permission: 'android.permission.WRITE_EXTERNAL_STORAGE', desc: 'Write Storage (Legacy) - Allows creating or deleting files anywhere in shared folders' },
+  { permission: 'android.permission.READ_PHONE_STATE', desc: 'Read Phone State - Reads IMEI identifier, active cell data, and cellular operator indices' },
+  { permission: 'android.permission.SEND_SMS', desc: 'Send SMS - Dispatches standard text service payloads with direct carrier pricing' },
+  { permission: 'android.permission.RECEIVE_SMS', desc: 'Receive SMS - Intercepts incoming wireless cell notification packets' },
+  { permission: 'android.permission.READ_SMS', desc: 'Read SMS - Views private records of inbox text messages' },
+  { permission: 'android.permission.POST_NOTIFICATIONS', desc: 'Post Notifications - Pushes custom pop-ups and alert tags on SDK 33+' },
+  { permission: 'android.permission.BLUETOOTH_CONNECT', desc: 'Bluetooth Connect - Connects to peripheral devices (Android 12+)' },
+  { permission: 'android.permission.BLUETOOTH_SCAN', desc: 'Bluetooth Scan - Scans for nearby beacons and peripherals' }
+];
+
+export default function AnalyzerView({ platform }: AnalyzerViewProps) {
+  const [activeTab, setActiveTab] = useState<'ios' | 'android'>(platform);
+  const [rawText, setRawText] = useState<string>('');
+  const [dragActive, setDragActive] = useState<boolean>(false);
+  const [analysisDone, setAnalysisDone] = useState<boolean>(false);
+  const [copiedSample, setCopiedSample] = useState<boolean>(false);
+
+  // Analysis result states
+  const [iosMandatory, setIosMandatory] = useState<iOSKeyResult[]>([]);
+  const [iosNonMandatory, setIosNonMandatory] = useState<iOSKeyResult[]>([]);
+  const [iosPermissions, setIosPermissions] = useState<PermissionResult[]>([]);
+  const [androidDangerous, setAndroidDangerous] = useState<Array<{ permission: string; desc: string; isPresent: boolean }>>([]);
+  const [manifestPermissions, setManifestPermissions] = useState<string[]>([]);
+
+  // Automatically sync with platform selection changes
+  useEffect(() => {
+    setActiveTab(platform);
+    setRawText('');
+    setAnalysisDone(false);
+  }, [platform]);
+
+  // Handle drag configurations
+  const handleDrag = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (e.type === "dragenter" || e.type === "dragover") {
+      setDragActive(true);
+    } else if (e.type === "dragleave") {
+      setDragActive(false);
+    }
+  };
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setDragActive(false);
+
+    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+      handleFile(e.dataTransfer.files[0]);
+    }
+  };
+
+  const handleFileInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      handleFile(e.target.files[0]);
+    }
+  };
+
+  const handleFile = (file: File) => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const text = e.target?.result as string;
+      setRawText(text);
+      analyzeContent(text, activeTab);
+    };
+    reader.readAsText(file);
+  };
+
+  // Content analyzer
+  const analyzeContent = (content: string, type: 'ios' | 'android') => {
+    if (!content.trim()) return;
+
+    if (type === 'ios') {
+      // 1. Extract values of keys inside Plist XML
+      // Plists typically represent keys in <key>KEY_NAME</key> followed by <string>VALUE</string>, <true/>, <false/>, or <array> etc.
+      const mandatoryResults: iOSKeyResult[] = IOS_MANDATORY_KEYS.map(item => {
+        // Construct dynamic regex to look for <key>KEY_NAME</key>
+        const keyEscaped = item.key.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+        const keyRegex = new RegExp(`<key>\\s*${keyEscaped}\\s*<\/key>`, 'i');
+        const isPresent = keyRegex.test(content);
+        
+        // Attempt to extract string value or type
+        let value = undefined;
+        if (isPresent) {
+          const valueRegex = new RegExp(`<key>\\s*${keyEscaped}\\s*<\/key>\\s*<string>([^<]+)<\/string>`, 'i');
+          const valueBlock = content.match(valueRegex);
+          if (valueBlock && valueBlock[1]) {
+            value = valueBlock[1].trim();
+          } else {
+            // Check for simple booleans or other types
+            const boolRegex = new RegExp(`<key>\\s*${keyEscaped}\\s*<\/key>\\s*<(true|false|array|integer)\\s*\/?>`, 'i');
+            const boolBlock = content.match(boolRegex);
+            if (boolBlock && boolBlock[1]) {
+              value = boolBlock[1].toLowerCase() === 'true' ? 'Boolean (True)' : boolBlock[1].toLowerCase() === 'false' ? 'Boolean (False)' : `<${boolBlock[1]}> structure`;
+            } else {
+              value = 'Declared (Present)';
+            }
+          }
+        }
+
+        return {
+          key: item.key,
+          description: item.desc,
+          isMandatory: true,
+          isPresent,
+          value
+        };
+      });
+
+      const nonMandatoryResults: iOSKeyResult[] = IOS_NON_MANDATORY_KEYS.map(item => {
+        const keyEscaped = item.key.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+        const keyRegex = new RegExp(`<key>\\s*${keyEscaped}\\s*<\/key>`, 'i');
+        const isPresent = keyRegex.test(content);
+
+        let value = undefined;
+        if (isPresent) {
+          const valueRegex = new RegExp(`<key>\\s*${keyEscaped}\\s*<\/key>\\s*<string>([^<]+)<\/string>`, 'i');
+          const valueBlock = content.match(valueRegex);
+          if (valueBlock && valueBlock[1]) {
+            value = valueBlock[1].trim();
+          } else {
+            const boolRegex = new RegExp(`<key>\\s*${keyEscaped}\\s*<\/key>\\s*<(true|false|array|dict|integer)\\s*\/?>`, 'i');
+            const boolBlock = content.match(boolRegex);
+            if (boolBlock && boolBlock[1]) {
+              value = boolBlock[1].toLowerCase() === 'true' ? 'True' : boolBlock[1].toLowerCase() === 'false' ? 'False' : `<${boolBlock[1]}> configuration`;
+            } else {
+              value = 'Declared';
+            }
+          }
+        }
+
+        return {
+          key: item.key,
+          description: item.desc,
+          isMandatory: false,
+          isPresent,
+          value
+        };
+      });
+
+      // Extract details about specified Permissions in Info.plist
+      const permResults: PermissionResult[] = IOS_PERMISSION_KEYS.map(item => {
+        const keyEscaped = item.permission.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+        const keyRegex = new RegExp(`<key>\\s*${keyEscaped}\\s*<\/key>`, 'i');
+        const isPresent = keyRegex.test(content);
+
+        let value = undefined;
+        if (isPresent) {
+          const valueRegex = new RegExp(`<key>\\s*${keyEscaped}\\s*<\/key>\\s*<string>([^<]+)<\/string>`, 'i');
+          const valueBlock = content.match(valueRegex);
+          if (valueBlock && valueBlock[1]) {
+            value = valueBlock[1].trim();
+          } else {
+            value = 'Present (No descriptive string found!)';
+          }
+        }
+
+        return {
+          permission: item.permission,
+          description: item.desc,
+          value,
+          isPresent
+        };
+      });
+
+      setIosMandatory(mandatoryResults);
+      setIosNonMandatory(nonMandatoryResults);
+      setIosPermissions(permResults.filter(p => p.isPresent));
+
+    } else {
+      // Android Manifest parsing
+      // Extract all permission tags present in manifest (Uses-Permission tags)
+      const scannedPerms: string[] = [];
+      const usesPermRegex = /<uses-permission[^>]*android:name=["']([^"']+)["']/g;
+      let match;
+      while ((match = usesPermRegex.exec(content)) !== null) {
+        scannedPerms.push(match[1]);
+      }
+
+      // Fallback for simple raw string matches if user pasted output from command line logs
+      if (scannedPerms.length === 0) {
+        const rawMatches = content.match(/android\.permission\.[A-Z_]+/g);
+        if (rawMatches) {
+          scannedPerms.push(...Array.from(new Set(rawMatches)));
+        }
+      }
+
+      setManifestPermissions(scannedPerms);
+
+      // Detect matches with dangerous ones
+      const dangerousResults = ANDROID_DANGEROUS_PERMISSIONS.map(item => {
+        const isPresent = scannedPerms.some(p => p.toLowerCase().includes(item.permission.toLowerCase()) || item.permission.toLowerCase().includes(p.toLowerCase()));
+        return {
+          permission: item.permission,
+          desc: item.desc,
+          isPresent
+        };
+      });
+
+      setAndroidDangerous(dangerousResults.filter(dp => dp.isPresent));
+    }
+
+    setAnalysisDone(true);
+  };
+
+  // Predefined Sample contents
+  const loadValidIossample = () => {
+    const validPlist = `<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>CFBundleIdentifier</key>
+    <string>com.example.compliancehub</string>
+    <key>CFBundleVersion</key>
+    <string>42</string>
+    <key>CFBundleShortVersionString</key>
+    <string>1.2.0</string>
+    <key>CFBundleExecutable</key>
+    <string>ComplianceHub</string>
+    <key>CFBundlePackageType</key>
+    <string>APPL</string>
+    <key>LSRequiresIPhoneOS</key>
+    <true/>
+    <key>UILaunchStoryboardName</key>
+    <string>LaunchScreen</string>
+    <key>CFBundleDisplayName</key>
+    <string>Compliance Hub Pro</string>
+    <key>ITSAppUsesNonExemptEncryption</key>
+    <false/>
+    <key>NSCameraUsageDescription</key>
+    <string>This application requires camera privileges to scan test case manifest QR codes inside the sandbox testing workspace.</string>
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>Your location determines cellular regulatory boundaries for wireless interface validation testing.</string>
+</dict>
+</plist>`;
+    setRawText(validPlist);
+    analyzeContent(validPlist, 'ios');
+  };
+
+  const loadMissingIossample = () => {
+    const invalidPlist = `<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <!-- Critical identifiers are missing here! (e.g. CFBundleIdentifier and CFBundleVersion) -->
+    <key>CFBundleShortVersionString</key>
+    <string>0.9.0-rc1</string>
+    <key>CFBundleExecutable</key>
+    <string>IncompleteTarget</string>
+    <key>CFBundlePackageType</key>
+    <string>APPL</string>
+    <key>LSRequiresIPhoneOS</key>
+    <true/>
+    <key>CFBundleDisplayName</key>
+    <string>Sandbox Beta</string>
+</dict>
+</plist>`;
+    setRawText(invalidPlist);
+    analyzeContent(invalidPlist, 'ios');
+  };
+
+  const loadDangerousAndroidSample = () => {
+    const dangerousManifest = `<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.leaktarget">
+
+    <!-- Benign permissions -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <!-- Dangerous Permissions which flags warnings -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="LeakSandbox">
+        <activity android:name=".MainActivity" android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+</manifest>`;
+    setRawText(dangerousManifest);
+    analyzeContent(dangerousManifest, 'android');
+  };
+
+  const loadCleanAndroidSample = () => {
+    const cleanManifest = `<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.cleancompliance">
+
+    <!-- Only minimal non-dangerous permissions specified -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+
+    <application
+        android:allowBackup="true"
+        android:label="StrictSecure">
+        <activity android:name=".MainActivity" android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
+    </application>
+</manifest>`;
+    setRawText(cleanManifest);
+    analyzeContent(cleanManifest, 'android');
+  };
+
+  const handleClear = () => {
+    setRawText('');
+    setAnalysisDone(false);
+    setIosMandatory([]);
+    setIosNonMandatory([]);
+    setIosPermissions([]);
+    setAndroidDangerous([]);
+    setManifestPermissions([]);
+  };
+
+  return (
+    <div className="space-y-8 animate-in fade-in duration-300">
+      {/* Header section */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-[var(--border)] pb-6">
+        <div>
+          <span className="text-[10px] bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 px-3 py-1 rounded-full uppercase tracking-wider font-mono font-bold">
+            Interactive Diagnostics
+          </span>
+          <h1 className="text-3xl font-black text-[var(--text-highlight)] tracking-tight uppercase mt-2 font-sans">
+            Manifest & Info.plist Analyzer
+          </h1>
+          <p className="text-sm text-[var(--text-muted)] mt-1 max-w-2xl leading-relaxed">
+            Upload or paste security manifest layouts to automatically audit regulatory structural properties, mandatory iOS plist variables, and identify high-risk Android dangerous permission declarations.
+          </p>
+        </div>
+      </div>
+
+      {/* Tabs Switcher */}
+      <div className="flex bg-[var(--surface2)]/50 p-1 rounded-xl border border-[var(--border)] max-w-md">
+        <button
+          onClick={() => {
+            setActiveTab('ios');
+            handleClear();
+          }}
+          className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg text-xs font-semibold tracking-wider uppercase transition-all duration-200 ${activeTab === 'ios' ? 'bg-indigo-600 text-white shadow' : 'text-[var(--text-muted)] hover:text-[var(--text-highlight)]'}`}
+        >
+          🍎 iOS Info.plist
+        </button>
+        <button
+          onClick={() => {
+            setActiveTab('android');
+            handleClear();
+          }}
+          className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg text-xs font-semibold tracking-wider uppercase transition-all duration-200 ${activeTab === 'android' ? 'bg-indigo-600 text-white shadow' : 'text-[var(--text-muted)] hover:text-[var(--text-highlight)]'}`}
+        >
+          🤖 Android Manifest
+        </button>
+      </div>
+
+      {/* MAIN LAYOUT */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        {/* INPUT WORKSPACE (Left Side) */}
+        <div className="lg:col-span-5 space-y-6">
+          <div className="bg-[var(--surface)] border border-[var(--border)] rounded-2xl p-6 space-y-5">
+            <h3 className="text-sm font-bold uppercase tracking-wider text-[var(--text-highlight)] flex items-center gap-2">
+              <FileCode className="text-indigo-400" size={16} />
+              <span>Diagnostic Workspace</span>
+            </h3>
+
+            {/* DRAG AND DROP ZONE */}
+            <div
+              onDragEnter={handleDrag}
+              onDragOver={handleDrag}
+              onDragLeave={handleDrag}
+              onDrop={handleDrop}
+              className={`border-2 border-dashed rounded-xl p-8 flex flex-col items-center justify-center text-center transition-all min-h-[160px] relative cursor-pointer ${
+                dragActive 
+                  ? 'border-indigo-400 bg-indigo-500/10 shadow-lg' 
+                  : 'border-[var(--border)] hover:border-indigo-500/30 bg-[var(--bg)]/10'
+              }`}
+            >
+              <input
+                type="file"
+                id="file-upload"
+                accept={activeTab === 'ios' ? '.plist,text/xml' : '.xml,text/xml'}
+                onChange={handleFileInput}
+                className="hidden"
+              />
+              <label htmlFor="file-upload" className="w-full h-full flex flex-col items-center justify-center cursor-pointer">
+                <div className="w-12 h-12 rounded-full bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400 mb-3 animate-pulse">
+                  <Upload size={20} />
+                </div>
+                <p className="text-xs font-semibold text-[var(--text-highlight)] font-sans">
+                  Click to choose file or drag & drop
+                </p>
+                <p className="text-[10px] text-[var(--text-muted)] mt-1 font-mono">
+                  {activeTab === 'ios' ? 'Accepts .plist files' : 'Accepts AndroidManifest.xml'}
+                </p>
+              </label>
+            </div>
+
+            {/* TEXTAREA INPUT */}
+            <div className="space-y-2">
+              <span className="text-[10px] font-mono text-[var(--text-muted)] uppercase tracking-widest block">
+                Or paste raw file code content below
+              </span>
+              <textarea
+                value={rawText}
+                onChange={(e) => {
+                  setRawText(e.target.value);
+                  if (analysisDone) setAnalysisDone(false);
+                }}
+                placeholder={activeTab === 'ios' 
+                  ? 'Paste iOS Info.plist file contents (XML structure) here...' 
+                  : 'Paste AndroidManifest.xml contents here...'
+                }
+                className="w-full h-48 bg-zinc-950/90 text-zinc-300 placeholder-zinc-700 p-4 border border-[var(--border)] rounded-xl text-xs font-mono leading-relaxed outline-none focus:border-indigo-550 focus:ring-1 focus:ring-indigo-550/20 resize-none"
+              />
+            </div>
+
+            {/* WORKSPACE ACTIONS */}
+            <div className="flex flex-wrap items-center justify-between gap-3 pt-2">
+              <div className="flex gap-2">
+                <button
+                  onClick={() => analyzeContent(rawText, activeTab)}
+                  disabled={!rawText.trim()}
+                  className="px-4 py-2 bg-indigo-600 hover:bg-indigo-550 active:scale-95 text-white disabled:bg-zinc-800 disabled:text-zinc-650 disabled:scale-100 rounded-lg text-xs font-bold transition flex items-center gap-1.5 cursor-pointer shadow"
+                >
+                  <Sparkles size={13} />
+                  <span>Execute Audit</span>
+                </button>
+
+                {rawText.trim() && (
+                  <button
+                    onClick={handleClear}
+                    className="px-3 py-2 bg-zinc-900 border border-[var(--border)] hover:bg-zinc-850 active:scale-95 text-zinc-400 rounded-lg text-xs font-bold transition cursor-pointer"
+                  >
+                    Clear Workspace
+                  </button>
+                )}
+              </div>
+
+              {/* Instant Load Templates (Fulfills sandbox-friendly testability) */}
+              <div className="space-y-1.5">
+                <span className="block text-[8px] font-mono font-bold text-indigo-400 tracking-wider uppercase text-right">
+                  ⚡ Load Test Templates
+                </span>
+                <div className="flex flex-wrap gap-1.5 justify-end">
+                  {activeTab === 'ios' ? (
+                    <>
+                      <button
+                        onClick={loadValidIossample}
+                        className="px-2 py-1 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/20 rounded text-[9px] font-mono transition cursor-pointer"
+                      >
+                        Valid Plist
+                      </button>
+                      <button
+                        onClick={loadMissingIossample}
+                        className="px-2 py-1 bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/20 rounded text-[9px] font-mono transition cursor-pointer"
+                      >
+                        Missing Keys
+                      </button>
+                    </>
+                  ) : (
+                    <>
+                      <button
+                        onClick={loadDangerousAndroidSample}
+                        className="px-2 py-1 bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 border border-amber-500/20 rounded text-[9px] font-mono transition cursor-pointer"
+                      >
+                        With Warnings
+                      </button>
+                      <button
+                        onClick={loadCleanAndroidSample}
+                        className="px-2 py-1 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/20 rounded text-[9px] font-mono transition cursor-pointer"
+                      >
+                        Clean Manifest
+                      </button>
+                    </>
+                  )}
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        {/* ANALYSIS OUTCOME REPORT (Right Side) */}
+        <div className="lg:col-span-7">
+          <AnimatePresence mode="wait">
+            {!analysisDone ? (
+              <motion.div
+                key="empty"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                className="bg-[var(--surface2)]/30 border border-dashed border-[var(--border)] rounded-2xl p-12 text-center flex flex-col items-center justify-center min-h-[460px]"
+              >
+                <div className="w-16 h-16 rounded-2xl bg-zinc-900 flex items-center justify-center border border-[var(--border)] text-zinc-650 mb-4">
+                  <FileCode size={32} />
+                </div>
+                <h4 className="text-base font-bold text-[var(--text-highlight)] mt-1 font-sans">
+                  No Manifest File Parsed Yet
+                </h4>
+                <p className="text-xs text-[var(--text-muted)] mt-2 max-w-sm leading-relaxed">
+                  Upload an existing platform configuration file, paste code content, or click any of our pre-built sandbox test templates on the left to review parsed results instantly.
+                </p>
+              </motion.div>
+            ) : (
+              <motion.div
+                key="report"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                className="space-y-6"
+              >
+                {/* GENERAL ANALYSIS SCOREBOARD BANNER */}
+                <div className="bg-[var(--surface)] border border-[var(--border)] rounded-2xl p-6 space-y-4">
+                  <div className="flex items-center justify-between border-b border-[var(--border)] pb-4">
+                    <div className="flex items-center gap-2.5">
+                      <div className="w-10 h-10 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400 shadow-sm shrink-0">
+                        <ShieldCheck size={20} />
+                      </div>
+                      <div>
+                        <h3 className="text-sm font-bold text-[var(--text-highlight)] font-sans uppercase">
+                          {activeTab === 'ios' ? 'iOS plist Audit Report' : 'Android Manifest Audit Report'}
+                        </h3>
+                        <p className="text-[10px] text-[var(--text-muted)] mt-0.5 font-mono">
+                          Format: XML-structure parser • Verified UTC 2026
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="text-right">
+                      {activeTab === 'ios' ? (
+                        (() => {
+                          const passedCount = iosMandatory.filter(m => m.isPresent).length;
+                          const totalCount = iosMandatory.length;
+                          const pct = Math.round((passedCount / totalCount) * 100);
+                          return (
+                            <div>
+                              <span className={`text-base font-black font-mono leading-none ${pct === 100 ? 'text-emerald-450' : 'text-rose-450'}`}>
+                                {passedCount} / {totalCount}
+                              </span>
+                              <p className="text-[9px] font-bold text-[var(--text-muted)] uppercase tracking-wider mt-0.5 font-sans">
+                                Mandatory Keys Passed
+                              </p>
+                            </div>
+                          );
+                        })()
+                      ) : (
+                        <div>
+                          <span className={`text-base font-black font-mono leading-none ${androidDangerous.length === 0 ? 'text-emerald-450' : 'text-amber-450'}`}>
+                            {androidDangerous.length}
+                          </span>
+                          <p className="text-[9px] font-bold text-[var(--text-muted)] uppercase tracking-wider mt-0.5 font-sans">
+                            Run-time Warnings Registered
+                          </p>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* SUB-SECTION RENDERERS */}
+                  {activeTab === 'ios' ? (
+                    <div className="space-y-6">
+                      {/* 1. MANDATORY KEYS SECTION */}
+                      <div className="space-y-3.5">
+                        <div className="flex items-baseline justify-between border-b border-zinc-900/40 pb-1.5">
+                          <span className="text-[11px] font-bold text-red-400 font-mono uppercase tracking-widest flex items-center gap-1.5">
+                            <span className="w-1.5 h-1.5 bg-red-400 rounded-full animate-ping" />
+                            Mandatory Structure Keys ({iosMandatory.filter(m => m.isPresent).length} / {iosMandatory.length})
+                          </span>
+                          <span className="text-[9px] text-[var(--text-muted)] italic font-semibold font-sans">
+                            Must be present for App Store upload
+                          </span>
+                        </div>
+
+                        <div className="grid grid-cols-1 gap-2.5">
+                          {iosMandatory.map((item) => (
+                            <div 
+                              key={item.key} 
+                              className={`p-3.5 rounded-xl border flex flex-col md:flex-row md:items-center justify-between gap-3.5 transition-colors duration-200 ${
+                                item.isPresent 
+                                  ? 'bg-emerald-500/10 border-emerald-555/20 text-emerald-350' 
+                                  : 'bg-rose-500/10 border-rose-555/20 text-rose-350'
+                              }`}
+                            >
+                              <div className="space-y-1 max-w-[80%]">
+                                <div className="flex items-baseline gap-2.5 flex-wrap">
+                                  <span className="text-xs font-mono font-bold font-sans select-all selection:bg-indigo-500/30">
+                                    {item.key}
+                                  </span>
+                                  {item.isPresent && item.value && (
+                                    <span className="text-[9px] bg-black/45 border border-emerald-500/20 text-emerald-400 px-1.5 py-0.2 rounded font-mono truncate max-w-[200px]">
+                                      {item.value}
+                                    </span>
+                                  )}
+                                </div>
+                                <p className="text-[10px] text-zinc-400 leading-snug font-sans">
+                                  {item.description}
+                                </p>
+                              </div>
+
+                              <div className="shrink-0">
+                                {item.isPresent ? (
+                                  <div className="flex items-center gap-1 bg-emerald-500/15 text-emerald-410 border border-emerald-500/20 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase font-mono shadow-sm">
+                                    <CheckCircle2 size={11} className="text-emerald-500" />
+                                    <span>Passed</span>
+                                  </div>
+                                ) : (
+                                  <div className="flex items-center gap-1 bg-rose-500/15 text-rose-410 border border-rose-500/20 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase font-mono shadow-sm animate-pulse">
+                                    <XCircle size={11} className="text-rose-500" />
+                                    <span>Failed</span>
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* 2. NON-MANDATORY KEYS SECTION */}
+                      <div className="space-y-3.5 pt-2">
+                        <div className="flex items-baseline justify-between border-b border-zinc-900/40 pb-1.5">
+                          <span className="text-[11px] font-bold text-zinc-400 font-mono uppercase tracking-widest flex items-center gap-1.5">
+                            <span className="w-1.5 h-1.5 bg-zinc-400 rounded-full" />
+                            Non-Mandatory / Recommended Keys ({iosNonMandatory.filter(n => n.isPresent).length} / {iosNonMandatory.length})
+                          </span>
+                          <span className="text-[9px] text-[var(--text-muted)] italic font-semibold font-sans">
+                            Optional metadata properties
+                          </span>
+                        </div>
+
+                        <div className="grid grid-cols-1 gap-2.5">
+                          {iosNonMandatory.map((item) => (
+                            <div 
+                              key={item.key} 
+                              className={`p-3.5 rounded-xl border flex flex-col md:flex-row md:items-center justify-between gap-3.5 transition-colors duration-200 ${
+                                item.isPresent 
+                                  ? 'bg-emerald-500/5 border-emerald-500/10 text-emerald-350' 
+                                  : 'bg-zinc-900/40 border-zinc-800/80 text-zinc-500'
+                              }`}
+                            >
+                              <div className="space-y-1 max-w-[80%]">
+                                <div className="flex items-baseline gap-2.5 flex-wrap">
+                                  <span className={`text-xs font-mono font-bold ${item.isPresent ? 'text-zinc-200' : 'text-zinc-500'}`}>
+                                    {item.key}
+                                  </span>
+                                  {item.isPresent && item.value && (
+                                    <span className="text-[9px] bg-black/45 border border-emerald-500/10 text-emerald-400/90 px-1.5 py-0.2 rounded font-mono truncate max-w-[200px]">
+                                      {item.value}
+                                    </span>
+                                  )}
+                                </div>
+                                <p className="text-[10px] text-zinc-400 leading-snug font-sans">
+                                  {item.description}
+                                </p>
+                              </div>
+
+                              <div className="shrink-0 col-span-1">
+                                {item.isPresent ? (
+                                  <div className="flex items-center gap-1 bg-emerald-500/10 text-emerald-400 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase font-mono shadow-sm">
+                                    <CheckCircle2 size={11} className="text-emerald-500" />
+                                    <span>Passed</span>
+                                  </div>
+                                ) : (
+                                  <div className="flex items-center gap-1 bg-zinc-900/80 text-zinc-500 border border-zinc-800 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase font-mono shadow-sm">
+                                    <HelpCircle size={11} className="text-zinc-550" />
+                                    <span>Not Applicable</span>
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* 3. EXTRACTED PRIVACY DESCRIPTIONS SECTION */}
+                      <div className="space-y-3.5 pt-2">
+                        <div className="border-b border-zinc-900/40 pb-1.5">
+                          <span className="text-[11px] font-bold text-indigo-400 font-mono uppercase tracking-widest flex items-center gap-1.5">
+                            <ShieldAlert size={14} className="text-indigo-400" />
+                            Extracted App Store Privacy Declarations ({iosPermissions.length})
+                          </span>
+                        </div>
+
+                        {iosPermissions.length === 0 ? (
+                          <div className="p-5 text-center bg-zinc-950/40 border border-[var(--border)] rounded-xl">
+                            <p className="text-xs text-[var(--text-muted)] leading-relaxed italic">
+                              No Apple Privacy Permission keys (NSCameraUsageDescription, NSLocationWhenInUseUsageDescription, etc.) were found inside this plist file.
+                            </p>
+                          </div>
+                        ) : (
+                          <div className="grid grid-cols-1 gap-2.5">
+                            {iosPermissions.map((item) => (
+                              <div key={item.permission} className="p-4 bg-zinc-950 border border-[var(--border)] rounded-xl space-y-2">
+                                <div className="flex items-center justify-between gap-4">
+                                  <span className="text-xs font-mono font-bold text-indigo-400 select-all selection:bg-indigo-500/30">
+                                    {item.permission}
+                                  </span>
+                                  <span className="text-[9px] bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 px-2 py-0.5 rounded font-mono font-bold uppercase">
+                                    Privacy Key
+                                  </span>
+                                </div>
+                                <div className="p-2.5 bg-zinc-900/80 border border-zinc-850 rounded-lg">
+                                  <p className="text-[9px] text-zinc-500 font-bold uppercase font-mono">
+                                    Core Context:
+                                  </p>
+                                  <p className="text-[11px] text-zinc-300 leading-normal font-sans italic mt-0.5 select-all font-medium">
+                                    "{item.value}"
+                                  </p>
+                                </div>
+                                <p className="text-[9.5px] text-[var(--text-muted)]">
+                                  Explanation: {item.description}
+                                </p>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  ) : (
+                    /* ANDROID OUTPUT RENDERER */
+                    <div className="space-y-6">
+                      {/* DANGEROUS PERMISSIONS LIST */}
+                      <div className="space-y-4">
+                        <div className="flex items-baseline justify-between border-b border-zinc-900/40 pb-1.5">
+                          <span className="text-[11px] font-bold text-amber-500 font-mono uppercase tracking-widest flex items-center gap-1.5">
+                            <span className="w-1.5 h-1.5 bg-amber-500 rounded-full animate-bounce" />
+                            Scanned Dangerous Permission Audits ({androidDangerous.length})
+                          </span>
+                          <span className="text-[9px] text-[var(--text-muted)] italic font-semibold font-sans">
+                            Subject to custom run-time gating rules
+                          </span>
+                        </div>
+
+                        {androidDangerous.length === 0 ? (
+                          <div className="p-8 text-center bg-emerald-500/5 border border-emerald-500/10 rounded-2xl flex flex-col items-center justify-center space-y-2">
+                            <div className="w-10 h-10 rounded-full bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
+                              <CheckCircle2 size={16} />
+                            </div>
+                            <h5 className="text-xs font-bold text-emerald-400 font-sans">
+                              Manifest Compliance Clean!
+                            </h5>
+                            <p className="text-[10px] text-zinc-400 max-w-sm leading-relaxed">
+                              No Google Play dangerous permissions were found in this manifest. App complies directly with background sandboxing without requiring structural runtime prompts.
+                            </p>
+                          </div>
+                        ) : (
+                          <div className="grid grid-cols-1 gap-3">
+                            {androidDangerous.map((item) => (
+                              <div 
+                                key={item.permission} 
+                                className="p-4 bg-[var(--surface2)]/55 border border-amber-500/25 rounded-xl space-y-3 shadow-sm"
+                              >
+                                <div className="flex items-center justify-between gap-4 flex-wrap">
+                                  <span className="text-xs font-mono font-bold text-amber-500 select-all selection:bg-amber-500/30">
+                                    {item.permission}
+                                  </span>
+                                  <div className="flex items-center gap-1 bg-amber-500/15 text-amber-400 border border-amber-500/25 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase font-mono shadow-sm">
+                                    <AlertTriangle size={11} className="text-amber-500 animate-pulse" />
+                                    <span>Warning Status</span>
+                                  </div>
+                                </div>
+
+                                <div className="space-y-1.5">
+                                  <p className="text-[10.5px] text-zinc-300 font-sans leading-relaxed">
+                                    <span className="font-semibold text-zinc-200">Scope impact:</span> {item.desc}
+                                  </p>
+                                  <div className="p-2 px-3 bg-zinc-950/60 border border-amber-500/10 rounded-lg text-[10px] text-amber-300 flex items-center gap-1.5 font-sans leading-normal">
+                                    <span className="text-sm">⚠️</span>
+                                    <span>Confirm permission is indeed necessary during app runtime and verify fallback gracefully handles denials.</span>
+                                  </div>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+
+                      {/* OTHER PARSED PERMISSIONS GENERAL ACCORDION */}
+                      <div className="space-y-3 pt-2">
+                        <div className="border-b border-zinc-900/40 pb-1.5">
+                          <span className="text-[11px] font-bold text-zinc-400 font-mono uppercase tracking-widest flex items-center gap-1.5">
+                            <FolderOpen size={14} className="text-zinc-400" />
+                            All Scanned Permissions Raw Collection ({manifestPermissions.length})
+                          </span>
+                        </div>
+
+                        {manifestPermissions.length === 0 ? (
+                          <div className="p-4 text-center bg-zinc-950/40 border border-zinc-900 rounded-xl">
+                            <p className="text-[10px] text-[var(--text-muted)] leading-relaxed italic">
+                              No permissions overall declared in the loaded document.
+                            </p>
+                          </div>
+                        ) : (
+                          <div className="p-4 bg-zinc-950 rounded-xl border border-[var(--border)] max-h-48 overflow-y-auto scrollbar-thin">
+                            <div className="flex flex-wrap gap-2">
+                              {manifestPermissions.map((perm, idx) => {
+                                const isDangerous = ANDROID_DANGEROUS_PERMISSIONS.some(dp => dp.permission === perm);
+                                return (
+                                  <span 
+                                    key={idx} 
+                                    className={`px-2.5 py-1.5 rounded-lg font-mono text-[9px] font-semibold border tracking-tight ${
+                                      isDangerous 
+                                        ? 'bg-amber-500/10 border-amber-500/25 text-amber-400' 
+                                        : 'bg-zinc-900 border-zinc-800 text-zinc-400'
+                                    }`}
+                                  >
+                                    {perm}
+                                  </span>
+                                );
+                              })}
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  )}
+
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+      </div>
+
+    </div>
+  );
+}

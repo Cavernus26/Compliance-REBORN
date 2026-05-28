@@ -18,12 +18,14 @@ import {
   Save,
   MessageSquare,
   Moon,
-  Sun
+  Sun,
+  ShieldCheck
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ALL_DATA, IOS_ICONS, AND_ICONS } from './data';
 import { AppState, Session, TestCase, ExecutionMap, Guideline } from './types';
 import ExecutiveReportView from './components/ExecutiveReportView';
+import AnalyzerView from './components/AnalyzerView';
 import androidShareSheetImg from './assets/images/android_share_sheet_1779710019591.png';
 
 const INITIAL_STATE: AppState = {
@@ -295,6 +297,11 @@ export default function App() {
             <SidebarItem active={activePage === 'execute'} onClick={() => setActivePage('execute')} icon={<Play size={14} />} label="Test Execution" />
             <SidebarItem active={activePage === 'summary'} onClick={() => setActivePage('summary')} icon={<BarChart3 size={14} />} label="Summary" />
           </div>
+
+          <div className="mt-8">
+            <h3 className="text-[11px] font-bold text-[var(--text-muted)] uppercase tracking-widest mb-4">Diagnostics</h3>
+            <SidebarItem active={activePage === 'analyzer'} onClick={() => setActivePage('analyzer')} icon={<ShieldCheck size={14} />} label="Manifest & Info.plist" />
+          </div>
           
           <div className="mt-8">
             <h3 className="text-[11px] font-bold text-[var(--text-muted)] uppercase tracking-widest mb-4">System</h3>
@@ -335,6 +342,7 @@ export default function App() {
         {activePage === 'sessions' && <SessionsView sessions={state.sessions} activeId={state.activeId} onSelect={id => setState(p => ({ ...p, activeId: id }))} onDelete={deleteSession} onNewSess={() => setIsModalOpen(true)} />}
         {activePage === 'execute' && <ExecuteView state={state} setState={setState} db={db} activeTcs={activeTcs} executions={executions} setStatus={setStatus} bulkSetStatus={bulkSetStatus} expandedTc={expandedTc} setExpandedTc={setExpandedTc} showToast={showToast} icons={icons} setDeleteConf={setDeleteConf} />}
         {activePage === 'summary' && <SummaryView stats={stats} risk={risk} activeSession={activeSession} executions={executions} activeTcs={activeTcs} db={db} state={state} />}
+        {activePage === 'analyzer' && <AnalyzerView platform={state.platform} />}
         {activePage === 'guidelines' && <GuidelinesView state={state} setState={setState} db={db} icons={icons} showToast={showToast} />}
       </main>
       </div>
