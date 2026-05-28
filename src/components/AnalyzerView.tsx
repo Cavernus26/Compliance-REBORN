@@ -38,24 +38,79 @@ interface PermissionResult {
 
 // Predefined iOS Mandatory compliance keys
 const IOS_MANDATORY_KEYS = [
-  { key: 'CFBundleIdentifier', desc: 'Bundle Identifier - Unique App ID with App Store Connect' },
+  { key: 'CFBundleName', desc: 'Bundle Name - Short name of the bundle (e.g., app name)' },
+  { key: 'DTPlatformVersion', desc: 'Platform Version - The version of the SDK platform used to build the app' },
   { key: 'CFBundleVersion', desc: 'Bundle Version - Build number of the release' },
   { key: 'CFBundleShortVersionString', desc: 'Bundle Short Version String - Release version number shown to users' },
-  { key: 'CFBundleExecutable', desc: 'Executable File - Name of the app\'s main runnable file' },
-  { key: 'CFBundlePackageType', desc: 'Bundle Package Type - Must equal APPL for applications' },
-  { key: 'LSRequiresIPhoneOS', desc: 'Requires iOS - Ensures app runs selectively on iOS devices' },
-  { key: 'UILaunchStoryboardName', desc: 'Launch Screen Storyboard - Name of user-facing launch screen interface' }
+  { key: 'CFBundleDevelopmentRegion', desc: 'Development Region - Default language code/locale for the bundle' },
+  { key: 'CFBundleInfoDictionaryVersion', desc: 'Info Dictionary Version - Version of the Info.plist structure format' },
+  { key: 'CFBundleDisplayName', desc: 'Display Name - Human-readable name displayed on the user\'s home screen' },
+  { key: 'CFBundleIdentifier', desc: 'Bundle Identifier - Unique App ID with App Store Connect' },
+  { key: 'DTXcode', desc: 'Xcode Version - Version number of Xcode used to build the app' },
+  { key: 'CFBundleExecutable', desc: 'Executable File - Name of the app\'s main runnable file' }
 ];
 
 // Predefined iOS Non-Mandatory/Recommended compliance keys
 const IOS_NON_MANDATORY_KEYS = [
-  { key: 'CFBundleDisplayName', desc: 'Display Name - Human-readable name displayed on the user\'s home screen' },
-  { key: 'ITSAppUsesNonExemptEncryption', desc: 'Uses Non-Exempt Encryption - Export compliance flag for Apple Security' },
-  { key: 'NSAppTransportSecurity', desc: 'App Transport Security - Dictates HTTP/HTTPS exceptions settings' },
-  { key: 'UIViewControllerBasedStatusBarAppearance', desc: 'View-Controller Status Bar Control - Lets view managers override system bar color' },
-  { key: 'UIBackgroundModes', desc: 'Background Modes - Declares audio playback, location tracking or background sync behaviors' },
+  { key: 'CFBundleAllowMixedLocalizations', desc: 'Allow Mixed Localizations - Allows the app to assist with mixing localization resources' },
+  { key: 'CFBundleURLTypes', desc: 'URL Types - Custom URL scheme protocols supported by the app' },
+  { key: 'GKGameCenterBadgingDisabled', desc: 'Game Center Badging - Indicates if Game Center icon badges are toggled off' },
+  { key: 'UTExportedTypeDeclarations', desc: 'Exported Type Declarations - Uniform Type Identifiers exported by the app' },
   { key: 'UISupportedInterfaceOrientations', desc: 'Supported Orientations - Governs allowed landscape/portrait rotations' },
-  { key: 'UIRequiredDeviceCapabilities', desc: 'Required Device Capabilities - Limits downloads to items with specific hardware (metal, gps, etc.)' }
+  { key: 'NSLocationUsageDescription', desc: 'Location Usage - Description for legacy location services on older devices' },
+  { key: 'GCSupportsMultipleMicroGamepads', desc: 'Supports Multiple Micro Gamepads - Allows multi-player controller setup' },
+  { key: 'UIRequiredDeviceCapabilities', desc: 'Required Device Capabilities - Limits downloads to specific hardware' },
+  { key: 'DTSDKBuild', desc: 'SDK Build Number - Build number of the SDK used to compile' },
+  { key: 'UIDeviceFamily', desc: 'Device Family - Target iOS device category families (iPhone, iPad, etc.)' },
+  { key: 'NSUbiquitousContainer', desc: 'iCloud Ubiquitous Container - Root layout configuration for iCloud sync folders' },
+  { key: 'CFBundleIconFile', desc: 'Icon File - Main icon file declaration of the app bundle' },
+  { key: 'LSApplicationQueriesSchemes', desc: 'Application Queries Schemes - Allowed custom URL schemes the app can call' },
+  { key: 'GCSupportedGameControllers', desc: 'Supported Game Controllers - List of supported gamepad interface models' },
+  { key: 'UILaunchStoryboardName', desc: 'Launch Screen Storyboard - Name of user-facing launch screen interface' },
+  { key: 'CFBundleLocalizations', desc: 'Localizations - Explicit list of localized region codes supported' },
+  { key: 'LSRequiresIPhoneOS', desc: 'Requires iOS - Ensures app runs selectively on iOS devices' },
+  { key: 'UIWhitePointAdaptivityStyle', desc: 'White Point Adaptivity Style - Tone adjustment settings for display adaptation' },
+  { key: 'DTPlatformName', desc: 'Platform Name - Target operating system name (e.g. iphoneos)' },
+  { key: 'UIStatusBarStyle', desc: 'Status Bar Style - Establishes light/dark theme behavior of system status bar' },
+  { key: 'DTPlatformBuild', desc: 'Platform Build Number - Build number of target deployment platform' },
+  { key: 'UILaunchImages', desc: 'Launch Images - Static launch representations and background splash sizes' },
+  { key: 'UILaunchImageFile', desc: 'Launch Image File - Specific file specifying initial launch splash assets' },
+  { key: 'UIPrerenderedIcon', desc: 'Prerendered Icon - Tells Apple to skip adding standard gloss overlays to app icon' },
+  { key: 'MKDirectionsApplicationSupportedModes', desc: 'Maps Directions - Declares supported routing types (driving, transit, walking)' },
+  { key: 'DTXcodeBuild', desc: 'Xcode Build Number - Exact Xcode assembly build version tag' },
+  { key: 'DTSDKName', desc: 'SDK Name - Full name of compiler-targeted SDK environment' },
+  { key: 'UIViewEdgeAntialiasing', desc: 'Edge Antialiasing - Enables sub-pixel graphics edge filtering' },
+  { key: 'CFBundleIcons', desc: 'Icon Packages - Group containing primary and alternative launcher icon dictionaries' },
+  { key: 'NSAppTransportSecurity', desc: 'App Transport Security - Dictates HTTP/HTTPS exclusion exceptions settings' },
+  { key: 'UISupportedExternalAccessoryProtocols', desc: 'External Accessory Protocols - Communication keys for authorized MFi hardware accessories' },
+  { key: 'UIFileSharingEnabled', desc: 'File Sharing - Exposes app documents folder in iTunes/Finder UI' },
+  { key: 'CFBundleIconName', desc: 'Icon Name - The catalog name of primary icon asset' },
+  { key: 'UINewsstandApp', desc: 'Newsstand Support - Configures bundle integration as Newsstand subscription' },
+  { key: 'UIInterfaceOrientation', desc: 'Initial Orientation - Baseline layout orientation loaded upon startup' },
+  { key: 'coreSpotlightContinuation', desc: 'CoreSpotlight Continuation - Lets Spotlight search items restore user activity' },
+  { key: 'UIApplicationExitsOnSuspend', desc: 'Exit on Suspend - Terminates app immediately instead of running background processes' },
+  { key: 'NSUbiquitousContainerIsDocumentScopePublic', desc: 'iCloud Document Scope - Public access flag for folder sharing' },
+  { key: 'UIAppSupportsHDR', desc: 'HDR Compatibility - Explicit graphics pipeline compatibility flag' },
+  { key: 'NSMainNibFile', desc: 'Main Interface Nib - Standard main storyboard/interface filename' },
+  { key: 'CFBundleDocumentTypes', desc: 'Document Types - File formats app is registered to associate to' },
+  { key: 'NSSupportsPurgeableLocalStorage', desc: 'Purgeable Storage - Allows clearing cached data layers' },
+  { key: 'DTCompiler', desc: 'Compiler Suite - Specific compiler version string identifying build runner' },
+  { key: 'CoreSpotlightContinuation', desc: 'Spotlight Continuation Identifier - Configured indexing handler tags' },
+  { key: 'NSUbiquitousContainerSupportedFolderLevels', desc: 'iCloud Folder Levels - Dictates nested folder depth for cloud workspace' },
+  { key: 'UIRequiresPersistentWiFi', desc: 'Requires WiFi - Configures iOS to hold active Wi-Fi connections when dormant' },
+  { key: 'NSUbiquitousContainerName', desc: 'iCloud Container Name - Human display title of iCloud folder' },
+  { key: 'UIBackgroundModes', desc: 'Background Modes - Declares background audio, location, or background task requirements' },
+  { key: 'NSUbiquitousDisplaySet', desc: 'iCloud Display Set - Internal identifier collection indexing iCloud spaces' },
+  { key: 'CFBundleSpokenName', desc: 'Spoken Name - Optional text to speak instead of spelling app text' },
+  { key: 'UIViewGroupOpacity', desc: 'Group Opacity - Coordinates subview opacity transitions on standard layers' },
+  { key: 'UIApplicationShortcutWidget', desc: 'Shortcut Widget - Widget identifier tied directly to app shortcuts' },
+  { key: 'UIApplicationShortcutItems', desc: 'Shortcut Items - Rich definitions of force-touch home screen quick actions' },
+  { key: 'CFBundleIconFiles', desc: 'Icon Asset Array - List of filenames representing icons in bundle' },
+  { key: 'UIRequiresFullScreen', desc: 'Requires Full Screen - Inhibits Split View and Slide Over multi-tasking on iPad' },
+  { key: 'UIAppFonts', desc: 'App Fonts - Declares custom font files embedded inside application' },
+  { key: 'UTImportedTypeDeclarations', desc: 'Imported Types - Declared standards imported for association' },
+  { key: 'MinimumOSVersion', desc: 'Minimum OS Version - Absolute lowest version required to execute' },
+  { key: 'UIStatusBarHidden', desc: 'Hide Status Bar - Toggles default status bar initial visibility' }
 ];
 
 // Known iOS Permission usage description keys with explanations
@@ -772,41 +827,13 @@ ${body}
               </label>
             </div>
 
-            {/* TEXTAREA INPUT */}
-            <div className="space-y-2">
-              <span className="text-[10px] font-mono text-[var(--text-muted)] uppercase tracking-widest block">
-                Or paste raw file code content below
-              </span>
-              <textarea
-                value={rawText}
-                onChange={(e) => {
-                  setRawText(e.target.value);
-                  if (analysisDone) setAnalysisDone(false);
-                }}
-                placeholder={activeTab === 'ios' 
-                  ? 'Paste iOS Info.plist file contents (XML structure) here...' 
-                  : 'Paste AndroidManifest.xml contents here...'
-                }
-                className="w-full h-48 bg-zinc-950/90 text-zinc-300 placeholder-zinc-700 p-4 border border-[var(--border)] rounded-xl text-xs font-mono leading-relaxed outline-none focus:border-indigo-550 focus:ring-1 focus:ring-indigo-550/20 resize-none"
-              />
-            </div>
-
             {/* WORKSPACE ACTIONS */}
-            <div className="flex flex-wrap items-center justify-between gap-3 pt-2">
-              <div className="flex gap-2">
-                <button
-                  onClick={() => analyzeContent(rawText, activeTab)}
-                  disabled={!rawText.trim()}
-                  className="px-4 py-2 bg-indigo-600 hover:bg-indigo-550 active:scale-95 text-white disabled:bg-zinc-800 disabled:text-zinc-650 disabled:scale-100 rounded-lg text-xs font-bold transition flex items-center gap-1.5 cursor-pointer shadow"
-                >
-                  <Sparkles size={13} />
-                  <span>Execute Audit</span>
-                </button>
-
+            <div className="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-[var(--border)]/45">
+              <div>
                 {rawText.trim() && (
                   <button
                     onClick={handleClear}
-                    className="px-3 py-2 bg-zinc-900 border border-[var(--border)] hover:bg-zinc-850 active:scale-95 text-zinc-400 rounded-lg text-xs font-bold transition cursor-pointer"
+                    className="px-3 py-2 bg-[var(--surface2)] border border-[var(--border)] hover:bg-[var(--surface3)] active:scale-95 text-[var(--text-muted)] rounded-lg text-xs font-bold transition cursor-pointer"
                   >
                     Clear Workspace
                   </button>
@@ -823,13 +850,13 @@ ${body}
                     <>
                       <button
                         onClick={loadValidIossample}
-                        className="px-2 py-1 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/20 rounded text-[9px] font-mono transition cursor-pointer"
+                        className="px-2 py-1 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-500 dark:text-emerald-400 border border-emerald-500/20 rounded text-[9px] font-mono transition cursor-pointer"
                       >
                         Valid Plist
                       </button>
                       <button
                         onClick={loadMissingIossample}
-                        className="px-2 py-1 bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/20 rounded text-[9px] font-mono transition cursor-pointer"
+                        className="px-2 py-1 bg-rose-500/10 hover:bg-rose-500/20 text-rose-500 dark:text-rose-400 border border-rose-500/20 rounded text-[9px] font-mono transition cursor-pointer"
                       >
                         Missing Keys
                       </button>
@@ -838,13 +865,13 @@ ${body}
                     <>
                       <button
                         onClick={loadDangerousAndroidSample}
-                        className="px-2 py-1 bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 border border-amber-500/20 rounded text-[9px] font-mono transition cursor-pointer"
+                        className="px-2 py-1 bg-amber-500/10 hover:bg-amber-500/20 text-amber-550 dark:text-amber-400 border border-amber-500/20 rounded text-[9px] font-mono transition cursor-pointer"
                       >
                         With Warnings
                       </button>
                       <button
                         onClick={loadCleanAndroidSample}
-                        className="px-2 py-1 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/20 rounded text-[9px] font-mono transition cursor-pointer"
+                        className="px-2 py-1 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-500 dark:text-emerald-400 border border-emerald-500/20 rounded text-[9px] font-mono transition cursor-pointer"
                       >
                         Clean Manifest
                       </button>
@@ -868,7 +895,7 @@ ${body}
                 exit={{ opacity: 0, y: -10 }}
                 className="bg-[var(--surface2)]/30 border border-dashed border-[var(--border)] rounded-2xl p-12 text-center flex flex-col items-center justify-center min-h-[460px]"
               >
-                <div className="w-16 h-16 rounded-2xl bg-zinc-900 flex items-center justify-center border border-[var(--border)] text-zinc-650 mb-4">
+                <div className="w-16 h-16 rounded-2xl bg-[var(--surface2)] flex items-center justify-center border border-[var(--border)] text-[var(--text-muted)] mb-4">
                   <FileCode size={32} />
                 </div>
                 <h4 className="text-base font-bold text-[var(--text-highlight)] mt-1 font-sans">
@@ -938,9 +965,9 @@ ${body}
                     <div className="space-y-6">
                       {/* 1. MANDATORY KEYS SECTION */}
                       <div className="space-y-3.5">
-                        <div className="flex items-baseline justify-between border-b border-zinc-900/40 pb-1.5">
-                          <span className="text-[11px] font-bold text-red-400 font-mono uppercase tracking-widest flex items-center gap-1.5">
-                            <span className="w-1.5 h-1.5 bg-red-400 rounded-full animate-ping" />
+                        <div className="flex items-baseline justify-between border-b border-[var(--border)] pb-1.5">
+                          <span className="text-[11px] font-bold text-red-500 dark:text-red-400 font-mono uppercase tracking-widest flex items-center gap-1.5">
+                            <span className="w-1.5 h-1.5 bg-red-500 dark:bg-red-400 rounded-full animate-ping" />
                             Mandatory Structure Keys ({iosMandatory.filter(m => m.isPresent).length} / {iosMandatory.length})
                           </span>
                           <span className="text-[9px] text-[var(--text-muted)] italic font-semibold font-sans">
@@ -954,35 +981,43 @@ ${body}
                               key={item.key} 
                               className={`p-3.5 rounded-xl border flex flex-col md:flex-row md:items-center justify-between gap-3.5 transition-colors duration-200 ${
                                 item.isPresent 
-                                  ? 'bg-emerald-500/10 border-emerald-555/20 text-emerald-350' 
-                                  : 'bg-rose-500/10 border-rose-555/20 text-rose-350'
+                                  ? 'bg-emerald-500/10 dark:bg-emerald-500/5 border-emerald-500/20 dark:border-emerald-500/10 text-emerald-800 dark:text-emerald-300' 
+                                  : 'bg-rose-500/10 dark:bg-rose-500/5 border-rose-500/20 dark:border-rose-500/10 text-rose-800 dark:text-rose-300'
                               }`}
                             >
                               <div className="space-y-1 max-w-[80%]">
                                 <div className="flex items-baseline gap-2.5 flex-wrap">
-                                  <span className="text-xs font-mono font-bold font-sans select-all selection:bg-indigo-500/30">
+                                  <span className={`text-xs font-mono font-bold font-sans select-all selection:bg-indigo-500/30 ${
+                                    item.isPresent 
+                                      ? 'text-emerald-900 dark:text-emerald-250' 
+                                      : 'text-rose-900 dark:text-rose-250'
+                                  }`}>
                                     {item.key}
                                   </span>
                                   {item.isPresent && item.value && (
-                                    <span className="text-[9px] bg-black/45 border border-emerald-500/20 text-emerald-400 px-1.5 py-0.2 rounded font-mono truncate max-w-[200px]">
+                                    <span className="text-[9px] bg-emerald-500/15 dark:bg-black/45 border border-emerald-500/20 text-emerald-700 dark:text-emerald-300 px-1.5 py-0.2 rounded font-mono truncate max-w-[200px]">
                                       {item.value}
                                     </span>
                                   )}
                                 </div>
-                                <p className="text-[10px] text-zinc-400 leading-snug font-sans">
+                                <p className={`text-[10px] leading-snug font-sans ${
+                                  item.isPresent
+                                    ? 'text-emerald-800 dark:text-zinc-405'
+                                    : 'text-rose-800 dark:text-zinc-405'
+                                }`}>
                                   {item.description}
                                 </p>
                               </div>
 
                               <div className="shrink-0">
                                 {item.isPresent ? (
-                                  <div className="flex items-center gap-1 bg-emerald-500/15 text-emerald-410 border border-emerald-500/20 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase font-mono shadow-sm">
-                                    <CheckCircle2 size={11} className="text-emerald-500" />
+                                  <div className="flex items-center gap-1 bg-emerald-500/15 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-500/20 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase font-mono shadow-sm">
+                                    <CheckCircle2 size={11} className="text-emerald-600 dark:text-emerald-500" />
                                     <span>Passed</span>
                                   </div>
                                 ) : (
-                                  <div className="flex items-center gap-1 bg-rose-500/15 text-rose-410 border border-rose-500/20 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase font-mono shadow-sm animate-pulse">
-                                    <XCircle size={11} className="text-rose-500" />
+                                  <div className="flex items-center gap-1 bg-rose-500/15 dark:bg-rose-500/10 text-rose-700 dark:text-rose-400 border border-rose-500/20 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase font-mono shadow-sm animate-pulse">
+                                    <XCircle size={11} className="text-rose-600 dark:text-rose-500" />
                                     <span>Failed</span>
                                   </div>
                                 )}
@@ -994,9 +1029,9 @@ ${body}
 
                       {/* 2. NON-MANDATORY KEYS SECTION */}
                       <div className="space-y-3.5 pt-2">
-                        <div className="flex items-baseline justify-between border-b border-zinc-900/40 pb-1.5">
-                          <span className="text-[11px] font-bold text-zinc-400 font-mono uppercase tracking-widest flex items-center gap-1.5">
-                            <span className="w-1.5 h-1.5 bg-zinc-400 rounded-full" />
+                        <div className="flex items-baseline justify-between border-b border-[var(--border)] pb-1.5">
+                          <span className="text-[11px] font-bold text-[var(--text-muted)] font-mono uppercase tracking-widest flex items-center gap-1.5">
+                            <span className="w-1.5 h-1.5 bg-[var(--text-muted)] rounded-full" />
                             Non-Mandatory / Recommended Keys ({iosNonMandatory.filter(n => n.isPresent).length} / {iosNonMandatory.length})
                           </span>
                           <span className="text-[9px] text-[var(--text-muted)] italic font-semibold font-sans">
@@ -1010,35 +1045,43 @@ ${body}
                               key={item.key} 
                               className={`p-3.5 rounded-xl border flex flex-col md:flex-row md:items-center justify-between gap-3.5 transition-colors duration-200 ${
                                 item.isPresent 
-                                  ? 'bg-emerald-500/5 border-emerald-500/10 text-emerald-350' 
-                                  : 'bg-zinc-900/40 border-zinc-800/80 text-zinc-500'
+                                  ? 'bg-emerald-500/10 dark:bg-emerald-500/5 border-emerald-500/15 dark:border-emerald-500/10 text-emerald-800 dark:text-emerald-300' 
+                                  : 'bg-[var(--surface2)]/80 border-[var(--border)] text-[var(--text-muted)]'
                               }`}
                             >
                               <div className="space-y-1 max-w-[80%]">
                                 <div className="flex items-baseline gap-2.5 flex-wrap">
-                                  <span className={`text-xs font-mono font-bold ${item.isPresent ? 'text-zinc-200' : 'text-zinc-500'}`}>
+                                  <span className={`text-xs font-mono font-bold ${
+                                    item.isPresent 
+                                      ? 'text-emerald-900 dark:text-emerald-200' 
+                                      : 'text-[var(--text-muted)] font-semibold'
+                                  }`}>
                                     {item.key}
                                   </span>
                                   {item.isPresent && item.value && (
-                                    <span className="text-[9px] bg-black/45 border border-emerald-500/10 text-emerald-400/90 px-1.5 py-0.2 rounded font-mono truncate max-w-[200px]">
+                                    <span className="text-[9px] bg-emerald-500/15 dark:bg-black/45 border border-emerald-500/10 text-emerald-700 dark:text-emerald-400 px-1.5 py-0.2 rounded font-mono truncate max-w-[200px]">
                                       {item.value}
                                     </span>
                                   )}
                                 </div>
-                                <p className="text-[10px] text-zinc-400 leading-snug font-sans">
+                                <p className={`text-[10px] leading-snug font-sans ${
+                                  item.isPresent 
+                                    ? 'text-emerald-800 dark:text-zinc-400' 
+                                    : 'text-[var(--text-muted)]/85'
+                                }`}>
                                   {item.description}
                                 </p>
                               </div>
 
                               <div className="shrink-0 col-span-1">
                                 {item.isPresent ? (
-                                  <div className="flex items-center gap-1 bg-emerald-500/10 text-emerald-400 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase font-mono shadow-sm">
-                                    <CheckCircle2 size={11} className="text-emerald-500" />
+                                  <div className="flex items-center gap-1 bg-emerald-500/15 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase font-mono shadow-sm">
+                                    <CheckCircle2 size={11} className="text-emerald-600 dark:text-emerald-500" />
                                     <span>Passed</span>
                                   </div>
                                 ) : (
-                                  <div className="flex items-center gap-1 bg-zinc-900/80 text-zinc-500 border border-zinc-800 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase font-mono shadow-sm">
-                                    <HelpCircle size={11} className="text-zinc-550" />
+                                  <div className="flex items-center gap-1 bg-[var(--surface3)] text-[var(--text-muted)] border border-[var(--border)] px-2.5 py-1 rounded-full text-[10px] font-bold uppercase font-mono shadow-sm">
+                                    <HelpCircle size={11} className="text-[var(--text-muted)]/70" />
                                     <span>Not Applicable</span>
                                   </div>
                                 )}
@@ -1050,15 +1093,15 @@ ${body}
 
                       {/* 3. EXTRACTED PRIVACY DESCRIPTIONS SECTION */}
                       <div className="space-y-3.5 pt-2">
-                        <div className="border-b border-zinc-900/40 pb-1.5">
-                          <span className="text-[11px] font-bold text-indigo-400 font-mono uppercase tracking-widest flex items-center gap-1.5">
-                            <ShieldAlert size={14} className="text-indigo-400" />
+                        <div className="border-b border-[var(--border)] pb-1.5">
+                          <span className="text-[11px] font-bold text-indigo-500 dark:text-indigo-400 font-mono uppercase tracking-widest flex items-center gap-1.5">
+                            <ShieldAlert size={14} className="text-indigo-550 dark:text-indigo-400" />
                             Extracted App Store Privacy Declarations ({iosPermissions.length})
                           </span>
                         </div>
 
                         {iosPermissions.length === 0 ? (
-                          <div className="p-5 text-center bg-zinc-950/40 border border-[var(--border)] rounded-xl">
+                          <div className="p-5 text-center bg-[var(--surface2)]/40 border border-[var(--border)] rounded-xl">
                             <p className="text-xs text-[var(--text-muted)] leading-relaxed italic">
                               No Apple Privacy Permission keys (NSCameraUsageDescription, NSLocationWhenInUseUsageDescription, etc.) were found inside this plist file.
                             </p>
@@ -1066,20 +1109,20 @@ ${body}
                         ) : (
                           <div className="grid grid-cols-1 gap-2.5">
                             {iosPermissions.map((item) => (
-                              <div key={item.permission} className="p-4 bg-zinc-950 border border-[var(--border)] rounded-xl space-y-2">
+                              <div key={item.permission} className="p-4 bg-[var(--surface)] border border-[var(--border)] rounded-xl space-y-2">
                                 <div className="flex items-center justify-between gap-4">
-                                  <span className="text-xs font-mono font-bold text-indigo-400 select-all selection:bg-indigo-500/30">
+                                  <span className="text-xs font-mono font-bold text-indigo-600 dark:text-indigo-400 select-all selection:bg-indigo-500/30">
                                     {item.permission}
                                   </span>
-                                  <span className="text-[9px] bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 px-2 py-0.5 rounded font-mono font-bold uppercase">
+                                  <span className="text-[9px] bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20 px-2 py-0.5 rounded font-mono font-bold uppercase">
                                     Privacy Key
                                   </span>
                                 </div>
-                                <div className="p-2.5 bg-zinc-900/80 border border-zinc-850 rounded-lg">
-                                  <p className="text-[9px] text-zinc-500 font-bold uppercase font-mono">
+                                <div className="p-2.5 bg-[var(--surface2)] border border-[var(--border)] rounded-lg">
+                                  <p className="text-[9px] text-[var(--text-muted)] font-bold uppercase font-mono">
                                     Core Context:
                                   </p>
-                                  <p className="text-[11px] text-zinc-300 leading-normal font-sans italic mt-0.5 select-all font-medium">
+                                  <p className="text-[11px] text-[var(--text)] leading-normal font-sans italic mt-0.5 select-all font-medium">
                                     "{item.value}"
                                   </p>
                                 </div>
@@ -1097,8 +1140,8 @@ ${body}
                     <div className="space-y-6">
                       {/* DANGEROUS PERMISSIONS LIST */}
                       <div className="space-y-4">
-                        <div className="flex items-baseline justify-between border-b border-zinc-900/40 pb-1.5">
-                          <span className="text-[11px] font-bold text-amber-500 font-mono uppercase tracking-widest flex items-center gap-1.5">
+                        <div className="flex items-baseline justify-between border-b border-[var(--border)] pb-1.5">
+                          <span className="text-[11px] font-bold text-amber-550 dark:text-amber-500 font-mono uppercase tracking-widest flex items-center gap-1.5">
                             <span className="w-1.5 h-1.5 bg-amber-500 rounded-full animate-bounce" />
                             Scanned Dangerous Permission Audits ({androidDangerous.length})
                           </span>
@@ -1108,14 +1151,14 @@ ${body}
                         </div>
 
                         {androidDangerous.length === 0 ? (
-                          <div className="p-8 text-center bg-emerald-500/5 border border-emerald-500/10 rounded-2xl flex flex-col items-center justify-center space-y-2">
-                            <div className="w-10 h-10 rounded-full bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
+                          <div className="p-8 text-center bg-emerald-500/10 dark:bg-emerald-500/5 border border-emerald-500/20 dark:border-emerald-500/10 rounded-2xl flex flex-col items-center justify-center space-y-2">
+                            <div className="w-10 h-10 rounded-full bg-emerald-500/15 dark:bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-600 dark:text-emerald-400">
                               <CheckCircle2 size={16} />
                             </div>
-                            <h5 className="text-xs font-bold text-emerald-400 font-sans">
+                            <h5 className="text-xs font-bold text-emerald-600 dark:text-emerald-400 font-sans">
                               Manifest Compliance Clean!
                             </h5>
-                            <p className="text-[10px] text-zinc-400 max-w-sm leading-relaxed">
+                            <p className="text-[10px] text-[var(--text-muted)] max-w-sm leading-relaxed">
                               No Google Play dangerous permissions were found in this manifest. App complies directly with background sandboxing without requiring structural runtime prompts.
                             </p>
                           </div>
@@ -1124,23 +1167,23 @@ ${body}
                             {androidDangerous.map((item) => (
                               <div 
                                 key={item.permission} 
-                                className="p-4 bg-[var(--surface2)]/55 border border-amber-500/25 rounded-xl space-y-3 shadow-sm"
+                                className="p-4 bg-[var(--surface)] border border-amber-500/25 dark:border-amber-500/15 rounded-xl space-y-3 shadow-sm"
                               >
                                 <div className="flex items-center justify-between gap-4 flex-wrap">
-                                  <span className="text-xs font-mono font-bold text-amber-500 select-all selection:bg-amber-500/30">
+                                  <span className="text-xs font-mono font-bold text-amber-600 dark:text-amber-500 select-all selection:bg-amber-500/30">
                                     {item.permission}
                                   </span>
-                                  <div className="flex items-center gap-1 bg-amber-500/15 text-amber-400 border border-amber-500/25 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase font-mono shadow-sm">
-                                    <AlertTriangle size={11} className="text-amber-500 animate-pulse" />
+                                  <div className="flex items-center gap-1 bg-amber-500/15 text-amber-700 dark:text-amber-400 border border-amber-500/25 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase font-mono shadow-sm">
+                                    <AlertTriangle size={11} className="text-amber-600 dark:text-amber-500 animate-pulse" />
                                     <span>Warning Status</span>
                                   </div>
                                 </div>
 
                                 <div className="space-y-1.5">
-                                  <p className="text-[10.5px] text-zinc-300 font-sans leading-relaxed">
-                                    <span className="font-semibold text-zinc-200">Scope impact:</span> {item.desc}
+                                  <p className="text-[10.5px] text-[var(--text)] font-sans leading-relaxed">
+                                    <span className="font-semibold text-[var(--text-highlight)] font-sans">Scope impact:</span> {item.desc}
                                   </p>
-                                  <div className="p-2 px-3 bg-zinc-950/60 border border-amber-500/10 rounded-lg text-[10px] text-amber-300 flex items-center gap-1.5 font-sans leading-normal">
+                                  <div className="p-2.5 px-3 bg-[var(--surface2)] border border-amber-500/15 rounded-lg text-[10px] text-amber-800 dark:text-amber-300 flex items-center gap-1.5 font-sans leading-normal">
                                     <span className="text-sm">⚠️</span>
                                     <span>Confirm permission is indeed necessary during app runtime and verify fallback gracefully handles denials.</span>
                                   </div>
@@ -1153,21 +1196,21 @@ ${body}
 
                       {/* OTHER PARSED PERMISSIONS GENERAL ACCORDION */}
                       <div className="space-y-3 pt-2">
-                        <div className="border-b border-zinc-900/40 pb-1.5">
-                          <span className="text-[11px] font-bold text-zinc-400 font-mono uppercase tracking-widest flex items-center gap-1.5">
-                            <FolderOpen size={14} className="text-zinc-400" />
+                        <div className="border-b border-[var(--border)] pb-1.5">
+                          <span className="text-[11px] font-bold text-[var(--text-muted)] font-mono uppercase tracking-widest flex items-center gap-1.5">
+                            <FolderOpen size={14} className="text-[var(--text-muted)]" />
                             All Scanned Permissions Raw Collection ({manifestPermissions.length})
                           </span>
                         </div>
 
                         {manifestPermissions.length === 0 ? (
-                          <div className="p-4 text-center bg-zinc-950/40 border border-zinc-900 rounded-xl">
+                          <div className="p-4 text-center bg-[var(--surface2)]/40 border border-[var(--border)] rounded-xl">
                             <p className="text-[10px] text-[var(--text-muted)] leading-relaxed italic">
                               No permissions overall declared in the loaded document.
                             </p>
                           </div>
                         ) : (
-                          <div className="p-4 bg-zinc-950 rounded-xl border border-[var(--border)] max-h-48 overflow-y-auto scrollbar-thin">
+                          <div className="p-4 bg-[var(--bg)] rounded-xl border border-[var(--border)] max-h-48 overflow-y-auto scrollbar-thin">
                             <div className="flex flex-wrap gap-2">
                               {manifestPermissions.map((perm, idx) => {
                                 const isDangerous = ANDROID_DANGEROUS_PERMISSIONS.some(dp => dp.permission === perm);
@@ -1176,8 +1219,8 @@ ${body}
                                     key={idx} 
                                     className={`px-2.5 py-1.5 rounded-lg font-mono text-[9px] font-semibold border tracking-tight ${
                                       isDangerous 
-                                        ? 'bg-amber-500/10 border-amber-500/25 text-amber-400' 
-                                        : 'bg-zinc-900 border-zinc-800 text-zinc-400'
+                                        ? 'bg-amber-500/10 border-amber-500/25 text-amber-700 dark:text-amber-400' 
+                                        : 'bg-[var(--surface3)] border border-[var(--border)] text-[var(--text-muted)]'
                                     }`}
                                   >
                                     {perm}
