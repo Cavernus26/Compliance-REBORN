@@ -5304,6 +5304,266 @@ export const ALL_DATA: Record<string, PlatformData> = {
         expected: "NFTs are utilized solely to enhance gameplay without functioning as gambling instruments.",
         policyText: "Additional Requirements for NFT Gamification\n1) Apps that do not qualify as gambling apps or are not part of Other Real-Money Game Pilots should not accept anything of monetary value in exchange for a chance to obtain an NFT of unknown value.\n2) NFTs purchased by users should be used within the game to enhance the user experience or aid in advancing gameplay.\n3) NFTs must not be used for gambling purposes, including wagering, or staking in exchange for opportunities to win real-world monetary prizes, including other NFTs.\nExamples:\n• Apps that sell bundles of NFTs without disclosing the specific contents and values of the NFTs.\n• Pay-to-play social casino games, such as slot machines, that reward NFTs.",
         originalRef: "Restricted Content"
+      },
+      {
+        id: "And-GPGP-1.26",
+        gl: "AGL-006",
+        ref: "1.26",
+        title: "Unauthorized Use of Copyrighted Content",
+        steps: "1. Inspect all visual assets (icons, backgrounds, item sprites, promotional banners) for unoriginal, copyrighted material.\n2. Verify the app does not incorporate unauthorized audio tracks or sound effects from popular media.\n3. Check if 'fan art' or modified versions of copyrighted properties are present without verified authorization.",
+        expected: "All assets are original, appropriately licensed, or public domain.",
+        policyText: "Unauthorized Use of Copyrighted Content\nWe don’t allow apps that infringe copyright. Modifying copyrighted content may still lead to a violation. Developers may be required to provide evidence of their rights to use copyrighted content.\nFollowing are the examples of copyrighted content that is often used without authorization or a legally valid reason:\n1) Cover art for music albums, video games, and books.\n2) Marketing images from movies, television, or video games.\n3) Artwork or images from comic books, cartoons, movies, music videos, or television.\n4) College and professional sports team logos.\n5) Photos taken from a public figure’s social media account.\n6) Professional images of public figures.\n7) Reproductions or “fan art” indistinguishable from the original work under copyright.\n8) Apps that have soundboards that play audio clips from copyrighted content.\n9) Full reproductions or translations of books that are not in the public domain.",
+        originalRef: "Intellectual Property :"
+      },
+      {
+        id: "And-GPGP-1.27",
+        gl: "AGL-006",
+        ref: "1.27",
+        title: "Encouraging Infringement of Copyright",
+        steps: "1. Check if the app features any functionality allowing users to stream or download copyrighted material without limits/rights.\n2. Ensure the app does not provide instructions, mechanisms, or links to third-party piracy sites.",
+        expected: "The app does not promote or facilitate the unauthorized acquisition of copyrighted materials.",
+        policyText: "Encouraging Infringement of Copyright:\nApps are not allowed that induce or encourage copyright infringement. Before you publish your app, look for ways your app may be encouraging copyright infringement and get legal advice if necessary.\n\nFollowing are the examples of common violations:\n1) Streaming apps that allow users to download a local copy of copyrighted content without authorization.\n2) Apps that encourage users to stream and download copyrighted works, including music and video, in violation of applicable copyright law",
+        originalRef: "Intellectual Property :"
+      },
+      {
+        id: "And-GPGP-1.28",
+        gl: "AGL-006",
+        ref: "1.28",
+        title: "Trademark Infringement",
+        steps: "1. Review the app's name, logo, and in-game brand descriptions to ensure they do not replicate existing trademarks.\n2. Confirm whether identical or confusingly similar trademarks are used that might imply false affiliations.",
+        expected: "App identity and assets do not illegally mimic formal trademarks belonging to other entities.",
+        policyText: "Trademark Infringement:\n1) Apps are not allowed that infringe on others’ trademarks. A trademark is a word, symbol, or combination that identifies the source of a good or service. Once acquired, a trademark gives the owner exclusive rights to the trademark usage with respect to certain goods or services.\n2) Trademark infringement is improper or unauthorized use of an identical or similar trademark in a way that is likely to cause confusion as to the source of that product. If your app uses another party’s trademarks in a way that is likely to cause confusion, your app may be suspended",
+        originalRef: "Intellectual Property :"
+      },
+      {
+        id: "And-GPGP-1.29",
+        gl: "AGL-006",
+        ref: "1.29",
+        title: "Counterfeit",
+        steps: "1. Verify any physical or digital merchandise sold/promoted via the app is officially branded.\n2. Ensure the app does not distribute counterfeit items mimicking genuine products or attempt to deceive users regarding a brand's authenticity.",
+        expected: "The application absolutely avoids promoting, housing, or facilitating counterfeit brands and goods.",
+        policyText: "Counterfeit:\nWe don't allow apps that sell or promote for sale counterfeit goods. Counterfeit goods contain a trademark or logo that is identical to or substantially indistinguishable from the trademark of another. They mimic the brand features of the product in an attempt to pass themselves off as a genuine product of the brand owner.",
+        originalRef: "Intellectual Property :"
+      },
+      {
+        id: "And-GPGP-1.30",
+        gl: "AGL-006",
+        ref: "1.30",
+        title: "User Data",
+        steps: "1. Check the app's privacy policy and in-app disclosures to ensure transparency regarding data collection.\n2. Verify the data usage matches the disclosed purposes and user consent.",
+        expected: "Complete transparency and adherence to disclosed user data handling practices.",
+        policyText: "User Data: \nApp must be transparent in how it handles user data (e.g., information collected from or about a user, including device information), disclosing the collection, use, and sharing of the data, and limiting the use of the data to the purposes disclosed, and the consent provided by the user.",
+        originalRef: "Privacy, Security, and Deception"
+      },
+      {
+        id: "And-GPGP-1.31",
+        gl: "AGL-006",
+        ref: "1.31",
+        title: "Personal and Sensitive Information",
+        steps: "1. Audit the app to verify it only collects data needed for documented features.\n2. Check that all sensitive data is transmitted securely (e.g., HTTPS).\n3. Ensure runtime permissions are requested before accessing sensitive data.\n4. Confirm the app does not sell personal/sensitive data.",
+        expected: "Sensitive user data is handled securely, not sold, and collected only for necessary features.",
+        policyText: "Personal and Sensitive Information : \nPersonal and sensitive user data includes, but isn't limited to, personally identifiable information, financial and payment information, authentication information, phonebook, contacts SMS and call related data, microphone and camera sensor data, and sensitive device or usage data. Following are the guidelines -\n1) App must limit your collection and use of this data to purposes directly related to providing and improving the features of the app...\n2) App may also transfer data as necessary to service providers or for legal reasons...\n3) App must Handle all personal and sensitive user data securely...\n4) App must Use a runtime permissions request whenever available...\n5) Not to sell personal and sensitive user data.",
+        originalRef: "Privacy, Security, and Deception"
+      },
+      {
+        id: "And-GPGP-1.32",
+        gl: "AGL-006",
+        ref: "1.32",
+        title: "Prominent Disclosure Requirement",
+        steps: "1. Launch the app and observe if a prominent disclosure is shown before sensitive data is collected.\n2. Check that the disclosure is in-app (not just web/settings), clearly describes what data is collected, and how it's used.\n3. Ensure the consent dialog requires an affirmative tap/check (not an auto-dismiss or passing navigation).",
+        expected: "Prominent, in-app disclosures and explicit consent dialogs correctly precede any data collection.",
+        policyText: "Prominent Disclosure Requirement :\nApps requesting users for their personal or sensitive user data provide or improve the features of the app must provide an in-app disclosure of your data collection and use as mentioned below -\n1) Must be within the app itself, not only in the app description or on a website;\n2) Must be displayed in the normal usage of the app...\n3) Must describe the data being accessed...\n4) Must explain how the data will be used...\n5) Cannot only be placed in a privacy policy...\n6) Cannot be included with other disclosures...\nSecondarily, the App providing in-app disclosure must include a request for user consent and MUST contain following :\n1) Must present the consent dialog clearly...\n2) Must require affirmative user action...\n3) Must not interpret navigation away...\n4) Must not use auto-dismissing...\n5) Must be granted by the user before app can begin to collect...",
+        originalRef: "Privacy, Security, and Deception"
+      },
+      {
+        id: "And-GPGP-1.33",
+        gl: "AGL-006",
+        ref: "1.33",
+        title: "Privacy Policy",
+        steps: "1. Open the Play Console data and the app itself to locate the Privacy Policy.\n2. Read the policy to confirm it specifies developer info, data types collected, secure handling procedures, and a clear data retention/deletion policy.",
+        expected: "A clear, accessible Privacy Policy is present both in the app and on the Play listing.",
+        policyText: "Privacy Policy\nApps must post a privacy policy in both the designated field in Play Console and within the app itself. The privacy policy must, together with any in-app disclosures, comprehensively disclose how your app accesses, collects, uses, and shares user data...\nApps should include - \n• Developer information and a privacy point of contact...\n• Disclosing the types of personal and sensitive user data...\n• Secure data handling procedures...\n• Developer’s data retention and deletion policy\n• Clear labeling as a privacy policy",
+        originalRef: "Privacy, Security, and Deception"
+      },
+      {
+        id: "And-GPGP-1.34",
+        gl: "AGL-006",
+        ref: "1.34",
+        title: "Account Deletion Requirement",
+        steps: "1. Create an account within the app.\n2. Look for a clearly visible in-app option to delete the account.\n3. Verify an external web link is provided for account deletion.\n4. Confirm that deletion removes associated data, rather than just freezing the account.",
+        expected: "Users can readily discover and initiate a true account deletion both in-app and via web.",
+        policyText: "Account Deletion Requirement\n1) Your app must provide users with the ability to create an account directly within the app.\n2) Users should be able to request deletion of their account from both within the app and through an external method...\n3) A clearly visible option for initiating account deletion must be readily discoverable...\n4) You must provide a designated URL in the Play Console...\n5) Deleting an app account, upon user request, necessitates the deletion of all associated user data.\n6) Merely deactivating, disabling, or freezing an account does not qualify as deletion.\n7) If certain data must be retained for legitimate purposes... users must be informed.",
+        originalRef: "Privacy, Security, and Deception"
+      },
+      {
+        id: "And-GPGP-1.35",
+        gl: "AGL-006",
+        ref: "1.35",
+        title: "Usage of App Set ID",
+        steps: "1. Review any network outgoing data to check if 'App set ID' is sent to advertising networks.\n2. Verify the ID is not linked to Android advertising IDs (AAID) or sensitive data for ads tracking.",
+        expected: "App set ID is used exclusively for analytics/fraud prevention, never ads personalization.",
+        policyText: "Usage of App Set ID\nAndroid introduce a new ID to support essential use cases such as analytics and fraud prevention. Such as -\n• Usage: App set ID must not be used for ads personalization and ads measurement. \n• Association with personally-identifiable information... may not be connected to any Android identifiers (e.g., AAID)...\n• Transparency and consent: The collection and use... must be disclosed to users.",
+        originalRef: "Privacy, Security, and Deception"
+      },
+      {
+        id: "And-GPGP-1.36",
+        gl: "AGL-006",
+        ref: "1.36",
+        title: "EU-U.S., Swiss Privacy Shield",
+        steps: "1. Check if the app targets or accesses personal data from EU/Swiss citizens via Google.\n2. Confirm the app strictly complies with the Privacy Shield framework and related European data security rules.",
+        expected: "EU and Swiss user data is handled securely under the appropriate privacy shields and laws.",
+        policyText: "EU-U.S., Swiss Privacy Shield\nApps which access, use, or process personal information made available by Google that directly or indirectly identifies an individual and that originated in the European Union or Switzerland... then - \n• Comply with all applicable privacy, data security, and data protection laws...\n• Access, use or process EU Personal Information only for purposes that are consistent with the consent...\n• Implement appropriate organizational and technical measures to protect EU Personal Information...\n• Provide the same level of protection as is required by the Privacy Shield Principles",
+        originalRef: "Privacy, Security, and Deception"
+      },
+      {
+        id: "And-GPGP-1.37",
+        gl: "AGL-006",
+        ref: "1.37",
+        title: "Permissions",
+        steps: "1. Extract the AndroidManifest.xml and review requested permissions.\n2. Match permissions to current app features; flag unneeded or unused permissions.\n3. Test the app by denying permissions to ensure it gracefully handles missing access.",
+        expected: "Requested permissions are minimal, understood contextually, and tightly connected to current features.",
+        policyText: "Permissions :\nRequested permissions by app should be simple to understand, and can request permissions that are necessary to implement critical current features or services in your application\nApp is not allowed to use permissions that give access to user or device data for undisclosed, unimplemented, or disallowed features or purposes. Personal or sensitive data accessed through permissions may never be sold.\nRequest permissions to access data in context (via incremental auth), so that users understand why your app is requesting the permission.",
+        originalRef: "Privacy, Security, and Deception"
+      },
+      {
+        id: "And-GPGP-1.38",
+        gl: "AGL-006",
+        ref: "1.38",
+        title: "Restricted Permissions",
+        steps: "1. Identify if Restricted Permissions (like Call Logs, SMS) are requested.\n2. Deny the restricted permission and check if the app provides a manual alternative.\n3. Confirm data from these permissions is not sold or transferred beyond core functionality needs.",
+        expected: "Restricted permissions are treated with high sensitivity and users are never forced into granting them.",
+        policyText: "Restricted Permissions :-\n1) Sensitive user or device data accessed through Restricted Permissions may only be transferred to third parties if necessary to provide or improve current features...\n2) Respect users’ decisions if they decline a request for a Restricted Permission... App must accommodate users who do not grant access...\n3) Use of permissions in contravention of official Android developer App permissions best practices... are expressly prohibited.\n4) Certain Restricted Permissions may be subject to additional requirements...",
+        originalRef: "Privacy, Security, and Deception"
+      },
+      {
+        id: "And-GPGP-1.39",
+        gl: "AGL-006",
+        ref: "1.39",
+        title: "Location Permissions",
+        steps: "1. Ensure background location isn't requested unless the app offers a compelling, core feature that requires it.\n2. Confirm coarse location is preferred over fine location where applicable.\n3. Check that location data isn't used purely for advertising.",
+        expected: "Location tracking is tightly scoped and primarily foreground unless heavily justified.",
+        policyText: "Location Permissions :Apps may not access data protected by location permissions (e.g., ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION, ACCESS_BACKGROUND_LOCATION) after it is no longer necessary to deliver current features...\nApp's should never request location permissions from users for the sole purpose of advertising or analytics...\nApps should request the minimum scope necessary (i.e., coarse instead of fine, and foreground instead of background)...\nBackground location may only be used to provide features beneficial to the user and relevant to the core functionality of the app...\nApps are allowed to access location using foreground service... if the use: 1) has been initiated... 2) is terminated immediately...",
+        originalRef: "Privacy, Security, and Deception"
+      },
+      {
+        id: "And-GPGP-1.40",
+        gl: "AGL-006",
+        ref: "1.40",
+        title: "Package (App) Visibility Permission",
+        steps: "1. Search for 'QUERY_ALL_PACKAGES' in the manifest.\n2. Verify if broad visibility is absolutely necessary for the app to function (e.g., an antivirus or launcher).\n3. Replace broad app visibility queries with targeted approaches if specific packages are known.",
+        expected: "Broad app visibility permissions are restricted to verified utility/launcher apps and absent otherwise.",
+        policyText: "Package (App) Visibility Permission :-\nApps that have a core purpose to launch, search, or interoperate with other apps on the device, may obtain scope-appropriate visibility...\nBroad app visibility: Capability of an app to have extensive visibility of the installed apps...\n• For apps targeting API level 30 or later, broad visibility to installed apps via the QUERY_ALL_PACKAGES permission is restricted to specific use cases...\n• You may not use QUERY_ALL_PACKAGES if your app can operate with a more targeted scoped package visibility declaration...\nLimited app visibility: Limited visibility is when an app minimizes access to data by querying for specific apps... App inventory data queried from Play-distributed apps may never be sold nor shared for analytics...",
+        originalRef: "Privacy, Security, and Deception"
+      },
+      {
+        id: "And-GPGP-1.41",
+        gl: "AGL-006",
+        ref: "1.41",
+        title: "Accessibility API",
+        steps: "1. Test if the app requests Accessibility services.\n2. Confirm it does not stealthily change system settings or prevent uninstalls using the API.\n3. Ensure the service isn't used to bypass built-in privacy controls.",
+        expected: "Accessibility APIs are strictly used to assist users, not for deceptive configuration changes.",
+        policyText: "Accessibility API :-\nThe Accessibility API cannot be used to:\n• Change user settings without their permission...\n• Prevent the ability for users to disable or uninstall any app or service,\n• Work around Android built-in privacy controls and notifications, or\n• Change or leverage the user interface in a way that is deceptive or otherwise violates Google Play Developer Policies",
+        originalRef: "Privacy, Security, and Deception"
+      },
+      {
+        id: "And-GPGP-1.42",
+        gl: "AGL-006",
+        ref: "1.42",
+        title: "Device and Network Abuse",
+        steps: "1. Test the app for background activities that circumvent power management without being whitelisted.\n2. Verify the application doesn't block other apps from displaying ads.\n3. Ensure 'USE_FULL_SCREEN_INTENT' isn't abused to push disruptive notifications.\n4. Confirm all downloaded code/SDKs are hosted safely and are not arbitrary executables.",
+        expected: "The app respects the device ecosystem, system limits, and other applications on the user's device.",
+        policyText: "Device and Network Abuse: \nApps are not allowed on store that interfere with, disrupt, damage, or access in an unauthorized manner the user’s device, other devices or computers...\nApps on Google Play must comply with the default Android system optimization requirements...\nExamples of common violations -\n• Apps that block or interfere with another app displaying ads.\n• Game cheating apps that affect the gameplay of other apps.\n• Apps that facilitate or provide instructions on how to hack services...\n• Apps that access or use a service or API in a manner that violates its terms of service.\n• Apps that are not eligible for whitelisting and attempt to bypass system power management .\n• Apps or third party code (e.g., SDKs) that download executable code... from a source other than Google Play.\n• Apps that install other apps on a device without the user's prior consent.\n• Apps that link to or facilitate the distribution or installation of malicious software.\n• Apps or third party code (e.g., SDKs) containing a WebView with added JavaScript Interface that loads untrusted web content.\n• Apps that use the full-screen intent permission to force user interaction with disruptive ads or notifications.",
+        originalRef: "Privacy, Security, and Deception"
+      },
+      {
+        id: "And-GPGP-1.43",
+        gl: "AGL-006",
+        ref: "1.43",
+        title: "Deceptive Behavior",
+        steps: "1. Playtest the app to confirm its actual function matches its store description and screenshots.\n2. Look for UI elements that mimic Android system notifications or warnings.\n3. Verify the app doesn't incentivize users into rating or uninstalling third-party apps.",
+        expected: "App operates precisely as marketed without system mimicry or functional deception.",
+        policyText: "Deceptive Behavior:\nApps are not allowed that that attempt to deceive users or enable dishonest behavior including but not limited to apps which are determined to be functionally impossible. Apps must provide an accurate disclosure, description and images/video of their functionality... Apps must not attempt to mimic functionality or warnings from the operating system or other apps...\n• Apps must not encourage, incentivize or mislead users into removing or disabling third-party apps...",
+        originalRef: "Privacy, Security, and Deception"
+      },
+      {
+        id: "And-GPGP-1.44",
+        gl: "AGL-006",
+        ref: "1.44",
+        title: "Misleading Claims",
+        steps: "1. Check the app title and description for false affiliations (like 'Official Government App').\n2. Ensure the app doesn't claim medically impossible or physically unfeasible tasks (like an insect repellent audio tool).\n3. Ensure the app is correctly categorized in the Play Console.",
+        expected: "Descriptions and titles reflect only the real, achievable capabilities of the app.",
+        policyText: "Misleading Claims : \nApps are not allowed that contain false or misleading information or claims, including in the description, title, icon, and screenshots.\nExamples of common violations\n1) Apps that misrepresent or do not accurately and clearly describe their functionality...\n2) An app that claims to be a racing game... but is actually a puzzle block game...\n3) An app that claims to be an antivirus app, but only contains a text guide...\n4) Apps that feature medical or health-related content or functionalities that are misleading...\n5) Apps that claim functionalities that are not possible to implement, such as insect repellent apps...\n6) Apps that are improperly categorized...\n7) Demonstrably deceptive or false content that may interfere with voting processes.\n8) Apps that falsely claim affiliation with a government entity...\n9) Apps that falsely claim to be the official app of an established entity...",
+        originalRef: "Privacy, Security, and Deception"
+      },
+      {
+        id: "And-GPGP-1.45",
+        gl: "AGL-006",
+        ref: "1.45",
+        title: "Deceptive Device Settings Changes",
+        steps: "1. Confirm the app does not alter home screen shortcuts, bookmarks, or system settings outside its purview.\n2. Verify any authorized settings modifications are easily reversible.\n3. Ensure ads served in the app do not modify device settings.",
+        expected: "The app strictly obeys system boundaries and user configurations.",
+        policyText: "Deceptive Device Settings Changes :\nApps are not allowed that make changes to the user’s device settings or features outside of the app without the user’s knowledge and consent. Device settings and features include system and browser settings, bookmarks, shortcuts, icons, widgets...\nAdditionally, following settings are not allowed:\n- Apps that modify device settings or features with the user’s consent but do so in a way that is not easily reversible.\n- Apps or ads that modify device settings or features as a service to third parties or for advertising purposes.\n- Apps that mislead users into removing or disabling third-party apps...\n- Apps that encourage or incentivize users into removing or disabling third-party apps...",
+        originalRef: "Privacy, Security, and Deception"
+      },
+      {
+        id: "And-GPGP-1.46",
+        gl: "AGL-006",
+        ref: "1.46",
+        title: "Enabling Dishonest Behavior",
+        steps: "1. Ensure the app does not create fake IDs, forged diplomas, or fake credit cards (even if labeled as a 'prank').\n2. Test that it doesn't display real-world PII of non-consenting users.\n3. Ensure core functionality doesn't drastically change post-review without store listing updates.",
+        expected: "No deceptive generation engines or hidden proxy logic exist in the app.",
+        policyText: "Enabling Dishonest Behavior :\n1) Apps are not allowed that help users to mislead others, including, but not limited to, apps that generate or facilitate the generation of ID cards, social security numbers, passports, diplomas, credit cards and driver's licenses. \n2) Any claim that an app is a \"prank\", \"for entertainment purposes\"... does not exempt an app from application of our policies.\n3) Apps must provide accurate disclosures, titles, descriptions and images/video...\nExamples of common violations - \n• Apps that mimic other apps or websites to trick users into disclosing personal or authentication information.\n• Apps that depict or display unverified or real world phone numbers...\n• Apps with different core functionality based on a user’s geography...\n• Apps that change significantly between versions without alerting the user...\n• Apps that attempt to modify or obfuscate behavior during review.\n• Apps with content delivery network (CDN) facilitated downloads that fail to prompt the user...",
+        originalRef: "Privacy, Security, and Deception"
+      },
+      {
+        id: "And-GPGP-1.47",
+        gl: "AGL-006",
+        ref: "1.47",
+        title: "Manipulated Media",
+        steps: "1. If the app facilitates deepfakes or altered media, ensure it embeds prominent watermarks.\n2. Confirm the app does not encourage generating false news clips or sensitive event manipulation.",
+        expected: "Altered media tools implement clear disclaimers and visible watermarks on outputs.",
+        policyText: "Manipulated Media :\n- Apps that promote or help create false or misleading information or claims conveyed through imagery, videos and/or text are not allowed. \n- Apps that determined to promote or perpetuate demonstrably misleading or deceptive imagery...\n- Apps that manipulate or alter media... must prominently disclose or watermark altered media when it may not be clear...\nExamples of common violations - \n• Apps adding a public figure to a demonstration during a politically sensitive event.\n• Apps using public figures or media from a sensitive event to advertise media altering capability...\n• Apps that alter media clips to mimic a news broadcast.",
+        originalRef: "Privacy, Security, and Deception"
+      },
+      {
+        id: "And-GPGP-1.48",
+        gl: "AGL-006",
+        ref: "1.48",
+        title: "Behavior Transparency",
+        steps: "1. Audit the source code and app bundles for hidden 'dormant' features that wait until post-launch.\n2. Make sure UI flows are reasonably clear and avoid trick-based interactions.",
+        expected: "The app limits itself strictly to transparent, documented behavior.",
+        policyText: "Behavior Transparency\nApp’s functionality should be reasonably clear to users; don't include any hidden, dormant, or undocumented features within the app. Techniques to evade app reviews are not allowed. Apps may be required to provide additional details to ensure user safety...',",
+        originalRef: "Privacy, Security, and Deception"
+      },
+      {
+        id: "And-GPGP-1.49",
+        gl: "AGL-006",
+        ref: "1.49",
+        title: "Misrepresentation",
+        steps: "1. Verify the developer account details match the app's apparent origin and purpose.\n2. Ensure the app is not coordinating artificially with other apps to manipulate user metrics or hide its origin.",
+        expected: "Developer identities and the country of origin accurately match what is publicly represented.",
+        policyText: "Misrepresentation:\nApps or developer accounts are not allowed that are - \n• Impersonate any person or organization, or that misrepresent or conceal their ownership or primary purpose...\n• Coordinate with other apps, sites, developers, or other accounts to conceal or misrepresent developer or app identity...",
+        originalRef: "Privacy, Security, and Deception"
+      },
+      {
+        id: "And-GPGP-1.50",
+        gl: "AGL-006",
+        ref: "1.50",
+        title: "Google Play's Target API Level Policy",
+        steps: "1. Check the build.gradle or manifest for the targetSdkVersion.\n2. Ensure it targets an API level released within the last year for new apps, or two years for updates.\n3. Compile to confirm no deprecated APIs conflict with the target level.",
+        expected: "The application targets the most recent, secure Android API standards.",
+        policyText: "Google Play's Target API Level Policy\n1) New Apps and Updates:\n•Apps must target an Android API level within one year of the latest major Android version release.\n•Failure to meet this requirement will prevent new app submissions in Play Console.\n2) Existing Apps:\n•Apps on Google Play must target an API level within two years...\n•Apps that do not comply will not be available to new users on devices running newer Android OS...",
+        originalRef: "Privacy, Security, and Deception"
+      },
+      {
+        id: "And-GPGP-1.51",
+        gl: "AGL-006",
+        ref: "1.51",
+        title: "SDK Requirements",
+        steps: "1. Review all third-party SDKs imported into the app (e.g., ads, analytics).\n2. Verify the SDKs do not covertly steal OAuth tokens, AAIDs, locations, or bypass the permission model.\n3. Ensure SDK usage matches user consent scopes (e.g. data given to an anti-fraud SDK is not used for ads).",
+        expected: "Integrated SDKs meet the same privacy, security, and consent burdens as native code.",
+        policyText: "SDK Requirements\nPersonal and Sensitive User Data\n•Limit the access, collection, use, and sharing of personal and sensitive user data acquired through the app to app and service functionality...\n•Apps that extend usage... must comply with Google Play’s Ads policy.\n•Handle all personal and sensitive user data securely...\n•Use a runtime permissions request whenever available...\nSale of Personal and Sensitive User Data\nDo not sell personal and sensitive user data.\n•\"Sale\" means the exchange or transfer of personal and sensitive user data to a third party...\nProminent Disclosure & Consent Requirements\nYour app’s access, collection, use, or sharing of personal and sensitive user data may not be within the reasonable expectation of the user... you must meet the prominent disclosure and consent requirements...\nExamples of SDK-caused violations\n•An app with an SDK that collects personal and sensitive user data and doesn’t treat this data as subject to this User Data policy...\n•An app integrates an SDK that collects personal and sensitive user data by default in violation...\n•An app with an SDK that claims to collect personal and sensitive user data only to provide anti-fraud... but the SDK also shares the data...\n•An app includes an SDK that transmits users’ installed packages information without meeting the prominent disclosure guidelines...\n•An app using an SDK which links Android ID and Location\n•An app with an SDK which connects AAID to persistent device identifiers...\n•An app using an SDK that connects AAID and email address...\n•Your app includes an SDK which requests location in the background for an unallowed or undisclosed purpose.\n•An app that violatesthe Android permissions model...",
+        originalRef: "Privacy, Security, and Deception"
       }
     ]
   }
