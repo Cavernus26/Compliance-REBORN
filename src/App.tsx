@@ -3585,7 +3585,7 @@ function PlayGamesServicesChecklist({ tcs, executions, setStatus, setState, show
                     </div>
 
                     {/* Main Content Column */}
-                    <div className="col-span-12 md:col-span-9 lg:col-span-6 space-y-1.5 pr-4">
+                    <div className="col-span-12 md:col-span-9 lg:col-span-5 space-y-1.5 pr-4">
                       {/* Guideline Title */}
                       <h4 className="text-xs font-bold text-[var(--text-highlight)] leading-snug">
                         {item.title}
@@ -3597,7 +3597,7 @@ function PlayGamesServicesChecklist({ tcs, executions, setStatus, setState, show
                     </div>
 
                     {/* Right Column: Status & Expand controls */}
-                    <div className="col-span-12 lg:col-span-3 flex items-center justify-end gap-3" onClick={e => e.stopPropagation()}>
+                    <div className="col-span-12 lg:col-span-4 flex items-center justify-end gap-3" onClick={e => e.stopPropagation()}>
                       <div className="flex gap-1.5 flex-wrap justify-end">
                         <StatusBtn active={status === 'pass'} onClick={() => { setStatus(item.id, 'pass'); showToast(`${item.id} Pass registered`); }} label="Pass" color="bg-green-500/10 text-green-500 border border-green-500/20" activeCls="bg-green-500 text-black border-green-500 shadow-glow-green" />
                         <StatusBtn active={status === 'fail'} onClick={() => { setStatus(item.id, 'fail'); showToast(`${item.id} Fail registered`); }} label="Fail" color="bg-red-500/10 text-red-500 border border-red-500/20" activeCls="bg-red-500 text-white border-red-500 shadow-glow-red" />
