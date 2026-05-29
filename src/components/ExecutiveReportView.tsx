@@ -235,7 +235,7 @@ export default function ExecutiveReportView({
     let text = `====================================================\n`;
     text += `COMPLIANCE REPORT\n`;
     text += `====================================================\n\n`;
-    text += `Status: ${stats.fail === 0 && !isInsufficientData ? 'APPROVABLE' : 'ACTION REQUIRED'}\n`;
+    text += `Status: ${stats.fail === 0 && !isInsufficientData ? 'Compliant' : 'Not Compliant'}\n`;
     text += `Date: ${activeSession ? new Date(activeSession.created).toLocaleDateString() : new Date().toLocaleDateString()}\n`;
     text += `Milestone: ${activeSession?.milestone || 'General Staging'}\n`;
     text += `App version: ${activeSession?.version || 'N/A'}\n`;
@@ -353,7 +353,9 @@ export default function ExecutiveReportView({
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-6 bg-[var(--bg)]/40 border border-[var(--border)] rounded-xl p-6 mb-8 text-xs relative">
         <div className="space-y-1">
           <p className="text-[10px] font-mono text-[var(--text-muted)] uppercase tracking-wider font-bold">Status</p>
-          <p className="font-semibold text-[var(--text-highlight)]">{stats.fail === 0 && !isInsufficientData ? 'APPROVABLE' : 'ACTION REQUIRED'}</p>
+          <p className={`font-bold ${stats.fail === 0 && !isInsufficientData ? 'text-emerald-500' : 'text-red-500'}`}>
+            {stats.fail === 0 && !isInsufficientData ? 'Compliant' : 'Not Compliant'}
+          </p>
         </div>
         <div className="space-y-1 md:border-l md:border-[var(--border)] md:pl-6">
           <p className="text-[10px] font-mono text-[var(--text-muted)] uppercase tracking-wider font-bold">Date</p>
@@ -393,8 +395,12 @@ export default function ExecutiveReportView({
                 <p className="text-[10px] font-mono text-[var(--text-muted)] uppercase tracking-wider">Assessed Posture</p>
                 <h4 className="text-lg font-bold text-[var(--text-highlight)] mt-0.5 leading-tight">{posture.status}</h4>
               </div>
-              <span className={`text-[10px] font-mono font-extrabold uppercase px-3 py-1 rounded-full border tracking-widest ${posture.badgeColor}`}>
-                {stats.fail === 0 && !isInsufficientData ? 'APPROVABLE' : 'ACTION REQUIRED'}
+              <span className={`text-[10px] font-mono font-extrabold uppercase px-3 py-1 rounded-full border tracking-widest ${
+                stats.fail === 0 && !isInsufficientData 
+                  ? 'border-emerald-500/30 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 shadow-glow-green' 
+                  : 'border-red-500/30 bg-red-500/10 text-red-600 dark:text-red-400 shadow-glow-red'
+              }`}>
+                {stats.fail === 0 && !isInsufficientData ? 'Compliant' : 'Not Compliant'}
               </span>
             </div>
 
