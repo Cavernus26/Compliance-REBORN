@@ -767,7 +767,7 @@ ${body}
             Manifest & Info.plist Analyzer
           </h1>
           <p className="text-sm text-[var(--text-muted)] mt-1 max-w-2xl leading-relaxed">
-            Upload or paste security manifest layouts to automatically evaluate regulatory structural properties, mandatory iOS plist variables, and identify high-risk Android dangerous permission declarations using our First Party Compliance Review framework.
+            Drag&Drop or upload security manifest files to automatically check structure rules, required iOS plist settings, and risky Android permissions using our First Party Compliance Review framework.
           </p>
         </div>
       </div>
@@ -908,7 +908,7 @@ ${body}
                   <FileCode size={32} />
                 </div>
                 <h4 className="text-base font-bold text-[var(--text-highlight)] mt-1 font-sans">
-                  No Manifest File Parsed Yet
+                  {activeTab === 'ios' ? 'No .plist File Parsed Yet' : 'No Manifest File Parsed Yet'}
                 </h4>
                 <p className="text-xs text-[var(--text-muted)] mt-2 max-w-sm leading-relaxed">
                   Upload an existing platform configuration file, paste code content, or click any of our pre-built sandbox test templates on the left to review parsed results instantly.
