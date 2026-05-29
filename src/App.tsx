@@ -190,6 +190,45 @@ export default function App() {
     showToast(`Bulk updated ${tcIds.length} items`);
   };
 
+  const handleSyncPlistResults = useCallback((mandatory: Array<{ key: string; isPresent: boolean }>, nonMandatory: Array<{ key: string; isPresent: boolean }>) => {
+    if (!state.activeId) return;
+    const key = `ios_${state.activeId}`;
+    setState(prev => {
+      const platExecs = { ...(prev.execsByPlatform[key] || {}) };
+      const tcs = ALL_DATA['ios'].testCases;
+
+      mandatory.forEach(res => {
+        const tc = tcs.find(t => t.title === res.key);
+        if (tc) {
+          platExecs[tc.id] = {
+            status: res.isPresent ? 'pass' : 'fail',
+            notes: `Auto-analyzed from Info.plist. Key '${res.key}' was ${res.isPresent ? 'found on dynamic scan (PASS)' : 'missing on dynamic scan (FAIL)'}.`
+          };
+        }
+      });
+
+      nonMandatory.forEach(res => {
+        const tc = tcs.find(t => t.title === res.key);
+        if (tc) {
+          platExecs[tc.id] = {
+            status: res.isPresent ? 'pass' : 'not_applicable',
+            notes: `Auto-analyzed from Info.plist. Optional key '${res.key}' was ${res.isPresent ? 'found on dynamic scan (PASS)' : 'missing on dynamic scan (N/A)'}.`
+          };
+        }
+      });
+
+      return {
+        ...prev,
+        execsByPlatform: {
+          ...prev.execsByPlatform,
+          [key]: platExecs
+        }
+      };
+    });
+    const verString = state.sessions.find(s => s.id === state.activeId)?.version || '';
+    showToast(`Synced! Core Info.plist properties synced to checklist for Release v${verString}.`);
+  }, [state.activeId, state.sessions, showToast]);
+
   const createSession = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
@@ -342,7 +381,7 @@ export default function App() {
         {activePage === 'sessions' && <SessionsView sessions={state.sessions} activeId={state.activeId} onSelect={id => setState(p => ({ ...p, activeId: id }))} onDelete={deleteSession} onNewSess={() => setIsModalOpen(true)} />}
         {activePage === 'execute' && <ExecuteView state={state} setState={setState} db={db} activeTcs={activeTcs} executions={executions} setStatus={setStatus} bulkSetStatus={bulkSetStatus} expandedTc={expandedTc} setExpandedTc={setExpandedTc} showToast={showToast} icons={icons} setDeleteConf={setDeleteConf} />}
         {activePage === 'summary' && <SummaryView stats={stats} risk={risk} activeSession={activeSession} executions={executions} activeTcs={activeTcs} db={db} state={state} />}
-        {activePage === 'analyzer' && <AnalyzerView platform={state.platform} />}
+        {activePage === 'analyzer' && <AnalyzerView platform={state.platform} activeSession={activeSession} onSyncPlistResults={handleSyncPlistResults} />}
         {activePage === 'guidelines' && <GuidelinesView state={state} setState={setState} db={db} icons={icons} showToast={showToast} />}
       </main>
       </div>

@@ -19,6 +19,11 @@ import {
 
 interface AnalyzerViewProps {
   platform: 'ios' | 'android';
+  activeSession?: { id: string; version: string; build: string; tester: string } | null;
+  onSyncPlistResults?: (
+    mandatoryResults: iOSKeyResult[],
+    nonMandatoryResults: iOSKeyResult[]
+  ) => void;
 }
 
 interface iOSKeyResult {
@@ -397,7 +402,7 @@ function jsToXmlPlist(val: any, indent = ''): string {
   return `${indent}<string>${val}</string>`;
 }
 
-export default function AnalyzerView({ platform }: AnalyzerViewProps) {
+export default function AnalyzerView({ platform, activeSession, onSyncPlistResults }: AnalyzerViewProps) {
   const [activeTab, setActiveTab] = useState<'ios' | 'android'>(platform);
   const [rawText, setRawText] = useState<string>('');
   const [dragActive, setDragActive] = useState<boolean>(false);
@@ -586,6 +591,10 @@ ${body}
       setIosMandatory(mandatoryResults);
       setIosNonMandatory(nonMandatoryResults);
       setIosPermissions(permResults.filter(p => p.isPresent));
+
+      if (onSyncPlistResults && activeSession) {
+        onSyncPlistResults(mandatoryResults, nonMandatoryResults);
+      }
 
     } else {
       // Android Manifest parsing
@@ -963,6 +972,37 @@ ${body}
                   {/* SUB-SECTION RENDERERS */}
                   {activeTab === 'ios' ? (
                     <div className="space-y-6">
+                      {/* Active Session Auto-Sync Info */}
+                      {activeSession ? (
+                        <div className="p-3.5 bg-indigo-500/10 dark:bg-indigo-500/5 border border-indigo-500/20 text-indigo-850 dark:text-indigo-300 rounded-xl flex items-center justify-between gap-3 text-xs">
+                          <div className="flex items-center gap-2">
+                            <CheckCircle2 size={16} className="text-emerald-500 dark:text-emerald-400 shrink-0" />
+                            <div>
+                              <span className="font-bold">Auto-Synced with Active Session:</span>{' '}
+                              <span className="font-mono bg-[var(--surface2)] px-1.5 py-0.5 rounded text-[10.5px]">
+                                Build v{activeSession.version} (Build {activeSession.build || 'N/A'})
+                              </span>
+                            </div>
+                          </div>
+                          <button
+                            onClick={() => onSyncPlistResults?.(iosMandatory, iosNonMandatory)}
+                            className="px-2.5 py-1 bg-indigo-605 hover:bg-indigo-600 active:scale-95 text-white text-[10px] font-bold rounded shadow transition cursor-pointer shrink-0"
+                          >
+                            Trigger Re-Sync
+                          </button>
+                        </div>
+                      ) : (
+                        <div className="p-3.5 bg-amber-500/10 dark:bg-amber-500/5 border border-amber-500/20 rounded-xl flex items-center justify-between gap-3 text-xs">
+                          <div className="flex items-center gap-2">
+                            <AlertTriangle size={16} className="text-amber-500 shrink-0" />
+                            <span className="text-[var(--text)]">
+                              No active Build Session. Create/activate a tracking session on the{' '}
+                              <strong className="underline">Sessions</strong> tab to auto-sync these results directly into your checklists.
+                            </span>
+                          </div>
+                        </div>
+                      )}
+
                       {/* 1. MANDATORY KEYS SECTION */}
                       <div className="space-y-3.5">
                         <div className="flex items-baseline justify-between border-b border-[var(--border)] pb-1.5">
