@@ -3168,7 +3168,8 @@ export const ALL_DATA: Record<string, PlatformData> = {
       { id: "AGL-002", title: "Core App Functionality", description: "Android Core App Quality: Core App Functionality", category: "Core App Functionality", impact: "high" },
       { id: "AGL-003", title: "GPG Design Guidelines", description: "Google Play Games Design Guidelines & PC Compatibility Checkpoints", category: "GPG Design Guidelines", impact: "high" },
       { id: "AGL-004", title: "FTCs", description: "Basic Android Functionality&Best Practices guidelines", category: "FTCs", impact: "medium" },
-      { id: "AGL-005", title: "Play Games Services", description: "Google Play Games Services requirements", category: "Play Games Services", impact: "medium" }
+      { id: "AGL-005", title: "Play Games Services", description: "Google Play Games Services requirements", category: "Play Games Services", impact: "medium" },
+      { id: "AGL-006", title: "GPG Policies", description: "Google Play Games services policy compliance guidelines", category: "GPG Policies", impact: "high" }
     ],
     testCases: [
       // Section: Navigation
@@ -5052,6 +5053,257 @@ export const ALL_DATA: Record<string, PlatformData> = {
         steps: "In the game settings or main menu, navigate to load a saved file or make a selection from the Google Play Games saved game user interface.\nVerify that selecting a save file correctly loads the exact state, position, and progress corresponding to that entry.",
         expected: "Saved games load precisely to the exact gameplay point requested by the player.",
         originalRef: "Saved games"
+      },
+      {
+        id: "And-GPGP-1.1",
+        gl: "AGL-006",
+        ref: "1.1",
+        title: "Child Endangerment",
+        steps: "1. Review the application's overall content and theme to determine if it is targeted towards children.\n2. If the app allows user-generated content, verify that clear mechanisms exist to report and prohibit exploitation materials.\n3. Check for any in-app features that could promote inappropriate interaction, grooming, or child sexualization.\n4. Confirm that the application has zero tolerance for apps that endanger children, including adult themes marketed to minors.",
+        expected: "Application fully adheres to the Child Endangerment policy restrictions.",
+        policyText: "Child Endangerment:\nApps that do not prohibit users from creating, uploading, or distributing content that facilitates the exploitation or abuse of children will be subject to immediate removal from Google Play. This includes all child sexual abuse materials. To report content on a Google product that may exploit a child, click Report abuse. If you find content elsewhere on the internet, please contact the appropriate agency in your country directly.\n\nWe prohibit the use of apps to endanger children. This includes but is not limited to use of apps to promote predatory behavior towards children, such as:\n\n1. Inappropriate interaction targeted at a child (for example, groping or caressing).\n2.Child grooming (for example, befriending a child online to facilitate, either online or offline, sexual contact and/or exchanging sexual imagery with that child).\n3.Sexualization of a minor (for example, imagery that depicts, encourages or promotes the sexual abuse of children or the portrayal of children in a manner that could result in the sexual exploitation of children).\n4.Sextortion (for example, threatening or blackmailing a child by using real or alleged access to a child's intimate images).\n5.Trafficking of a child (for example, advertising or solicitation of a child for commercial sexual exploitation).\n\nWe will take appropriate action, which may include reporting to the National Center for Missing & Exploited Children, if we become aware of content with child sexual abuse materials. If you believe a child is in danger of or has been subject to abuse, exploitation, or trafficking, please contact your local law enforcement and contact a child safety organization listed here.\n\nIn addition, apps that appeal to children but contain adult themes are not allowed, including but not limited to:\n1.Apps with excessive violence, blood, and gore.\n2.Apps that depict or encourage harmful and dangerous activities.\nWe also don't allow apps that promote negative body or self image including apps that depict for entertainment purposes plastic surgery, weight loss, and other cosmetic adjustments to a person's physical appearance.",
+        originalRef: "Restricted Content"
+      },
+      {
+        id: "And-GPGP-1.2",
+        gl: "AGL-006",
+        ref: "1.2",
+        title: "Sexual Content and Profanity",
+        steps: "1. Review all in-game content, images, dialogue, and store listings for sexual content, nudity, or sexually suggestive imagery.\n2. Check for any lewd or profane content, slurs, or explicit text within the app or its metadata.\n3. Verify the application does not contain or promote services related to sexually gratifying content or compensation for sexual acts.\n4. Ensure no characters or subjects are depicted in a degrading or objectified manner.",
+        expected: "Application fully adheres to the Sexual Content and Profanity policy restrictions.",
+        policyText: "Sexual Content and Profanity :-\nApps are not allowed that contain or promote sexual content or profanity, including pornography, or any content or services intended to be sexually gratifying. App contents are not allowed that appear to promote or solicit a sexual act in exchange for compensation. Apps are not allowed that contain or promote content associated with sexually predatory behavior, or distribute non-consensual sexual content. Content that contains nudity may be allowed if the primary purpose is educational, documentary, scientific or artistic, and is not gratuitous.\n\nHere are some examples of common violations:\n1) Depictions of sexual nudity, or sexually suggestive poses in which the subject is nude, blurred or minimally clothed, and/or where the clothing would not be acceptable in an appropriate public context.\n2) Depictions, animations or illustrations of sex acts, sexually suggestive poses or the sexual depiction of body parts.\n3) Content that depicts or are functionally sexual aids, sex guides, illegal sexual themes and fetishes.\n4) Content that is lewd or profane - including but not limited to content which may contain profanity, slurs, explicit text, adult/sexual keywords in the store listing or in-app.\n5) Content that depicts, describes, or encourages bestiality.\n6) Apps that promote sex-related entertainment, escort services, or other services that may be interpreted as providing sexual acts in exchange for compensation.\n7) Apps that degrade or objectify people.",
+        originalRef: "Restricted Content"
+
+      },
+      {
+        id: "And-GPGP-1.3",
+        gl: "AGL-006",
+        ref: "1.3",
+        title: "Hate Speech",
+        steps: "1. Review all app text, dialogue, and metadata for slurs, stereotypes, or hate symbols.\n2. Ensure no content promotes violence or incites hatred against protected groups.\n3. Verify if any EDSA content related to Nazis is appropriately geo-blocked where required by local laws.",
+        expected: "Application is free of any hate speech or promotional material for violence/discrimination.",
+        policyText: "Hate Speech: \nApps are not allowed that promote violence, or incite hatred against individuals or groups based on race or ethnic origin, religion, disability, age, nationality, veteran status, sexual orientation, gender, gender identity, or any other characteristic that is associated with systemic discrimination or marginalization.\nApps which contain EDSA (Educational, Documentary, Scientific, or Artistic) content related to Nazis may be blocked in certain countries, in accordance with local laws and regulations.\n\nHere are examples of common violations:\n• Content or speech asserting that a protected group is inhuman, inferior or worthy of being hated.\n• Apps that contain hateful slurs, stereotypes, or theories about a protected group possessing negative characteristics (e.g. malicious, corrupt, evil, etc.), or explicitly or implicitly claims the group is a threat.\n• Content or speech trying to encourage others to believe that people should be hated or discriminated against because they are a member of a protected group.\n• Content which promotes hate symbols such as flags, symbols, insignias, paraphernalia or behaviors associated with hate groups.",
+        originalRef: "Restricted Content"
+      },
+      {
+        id: "And-GPGP-1.4",
+        gl: "AGL-006",
+        ref: "1.4",
+        title: "Violence",
+        steps: "1. Review the app for graphic depictions of realistic violence or threats.\n2. Ensure the app does not promote self-harm, eating disorders, or choking games.\n3. Check if violent depictions are strictly fictional and context-appropriate (like cartoons or hunting games).",
+        expected: "Application avoids gratuitous, realistic violence and dangerous activities.",
+        policyText: "Violence :\nDepictions of gratuitous violence or other dangerous activities are not allowed. Apps that depict fictional violence in the context of a game, such as cartoons, hunting or fishing, are generally allowed.\nHere are some examples of common violations:\n - Graphic depictions or descriptions of realistic violence or violent threats to any person or animal.\n - Apps that promote self harm, suicide, eating disorders, choking games or other acts where serious injury or death may result",
+        originalRef: "Restricted Content"
+      },
+      {
+        id: "And-GPGP-1.5",
+        gl: "AGL-006",
+        ref: "1.5",
+        title: "Violent Extremism",
+        steps: "1. Search for content that glorifies, plans, or prepares violence against civilians.\n2. Ensure no recruitment material for dangerous organizations exists.\n3. Check that any EDSA content covering extremism is clearly contextualized.",
+        expected: "Application is completely clear of terrorist or extremist recruitment/promotion.",
+        policyText: "Violent Extremism :\nApps are not allowed which permit terrorist organizations, or other dangerous organizations or movements that have engaged in, prepared for, or claimed responsibility for acts of violence against civilians to publish apps on Google Play for any purpose, including recruitment.\n\nApps are not allowed with content related to violent extremism, or content related to planning, preparing, or glorifying violence against civilians, such as content that promotes terrorist acts, incites violence, or celebrates terrorist attacks. If posting content related to violent extremism for an educational, documentary, scientific, or artistic purpose, be mindful to provide relevant EDSA context.",
+        originalRef: "Restricted Content"
+      },
+      {
+        id: "And-GPGP-1.6",
+        gl: "AGL-006",
+        ref: "1.6",
+        title: "Sensitive Events",
+        steps: "1. Verify the app does not deny major tragic events or natural disasters.\n2. Ensure no content capitalizes on recent deaths, health crises, or atrocities without discernible benefit to victims.\n3. Review for insensitivity toward ongoing or past conflicts.",
+        expected: "Application treats tragic events with respect and avoids profiting from suffering.",
+        policyText: "Sensitive Events: \nApps are not allowed with content which may be deemed as capitalizing on or lacking reasonable sensitivity towards a natural disaster, atrocity, health crisis, conflict, death or other tragic event.\nHere are examples of common violations:\n• Lacking sensitivity regarding the death of a real person or group of people due to suicide, overdose, natural causes, etc.\n• Denying a major tragic event.\n• Appearing to profit from a tragic event with no discernible benefit to the victims.",
+        originalRef: "Restricted Content"
+      },
+      {
+        id: "And-GPGP-1.7",
+        gl: "AGL-006",
+        ref: "1.7",
+        title: "Bullying and Harassment",
+        steps: "1. Verify user interactions for potential exploitation, extortion, or blackmail.\n2. Ensure there are tools to prevent public humiliation of individuals.\n3. Checks that no content harasses victims of tragedies or conflicts.",
+        expected: "Application prevents and strictly prohibits bullying, harassment, and extortion.",
+        policyText: "Bullying and Harassment:\nApps are not allowed that contain or facilitate threats, harassment, or bullying. Following are the common examples of violations:\n• Bullying victims of international or religious conflicts.\n• Content that seeks to exploit others, including extortion, blackmail, etc.\n• Posting content in order to humiliate someone publicly.\n• Harassing victims, or their friends and families, of a tragic event.",
+        originalRef: "Restricted Content"
+      },
+      {
+        id: "And-GPGP-1.8",
+        gl: "AGL-006",
+        ref: "1.8",
+        title: "Dangerous Products",
+        steps: "1. Review any in-app store or external links to ensure no sale of firearms, ammo, or explosives.\n2. Check that the app lacks instructions for manufacturing weapons or converting them to automatic fire.\n3. Ensure restricted firearm accessories are not facilitated.",
+        expected: "Application does not sell or instruct on the creation of dangerous products.",
+        policyText: "Dangerous Products :\nApps are not allowed that facilitate the sale of explosives, firearms, ammunition, or certain firearms accessories.\n - Restricted accessories include those that enable a firearm to simulate automatic fire or convert a firearm to automatic fire (e.g. bump stocks, gatling triggers, drop-in auto sears, conversion kits), and magazines or belts carrying more than 30 rounds.\n• Apps are not allowed that provide instructions for the manufacture of explosives, firearms, ammunition, restricted firearm accessories, or other weapons. This includes instructions on how to convert a firearm to automatic, or simulated automatic, firing capabilities",
+        originalRef: "Restricted Content"
+      },
+      {
+        id: "And-GPGP-1.9",
+        gl: "AGL-006",
+        ref: "1.9",
+        title: "Marijuana",
+        steps: "1. Attempt to add marijuana or THC items to an in-app shopping cart if present.\n2. Verify the app does not arrange deliveries or pickups for marijuana.\n3. Check that CBD products with THC are properly restricted from sale.",
+        expected: "Application strictly prohibits the sale and delivery of marijuana/THC products.",
+        policyText: "Marijuana\nApps are not allowed that facilitate the sale of marijuana or marijuana products, regardless of legality.\nFew examples of common violations:\n•Allowing users to order marijuana through an in-app shopping cart feature.\n•Assisting users in arranging delivery or pick up of marijuana.\n•Facilitating the sale of products containing THC (Tetrahydrocannabinol), including products such as CBD oils containing THC.",
+        originalRef: "Restricted Content"
+      },
+      {
+        id: "And-GPGP-1.10",
+        gl: "AGL-006",
+        ref: "1.10",
+        title: "Tobacco and Alcohol",
+        steps: "1. Ensure the app does not depict or encourage alcohol/tobacco use by minors.\n2. Check for implications that tobacco improves social/athletic standing.\n3. Look for advertising, banners, or links to tobacco-selling sites.\n4. Verify any food/delivery apps that sell alcohol/tobacco implement strict age-gating.",
+        expected: "Application complies with all rules regarding the display and sale of tobacco/alcohol.",
+        policyText: "Tobacco and Alcohol\nApps are not allowed that facilitate the sale of tobacco or products containing nicotine (such as e-cigarettes, vape pens and nicotine pouches) or encourage the illegal or inappropriate use of alcohol, tobacco, or nicotine.\nHere are examples of common violations:\n• Depicting or encouraging the use or sale of alcohol or tobacco to minors is not allowed.\n• Implying that consuming tobacco can improve social, sexual, professional, intellectual, or athletic standing is not allowed.\n• Portraying excessive drinking favorably, including the favorable portrayal of excessive, binge or competition drinking is not allowed.\n• Advertisements, promotions, or prominent featuring of tobacco products (includes ads, banners, categories and links out to tobacco selling sites) is not allowed.\n• Google may allow the limited sale of tobacco products in food/grocery delivery apps, in certain regions, and subject to age-gating safeguards (such as ID check at delivery).\n• Google may allow the sale of products marketed as nicotine cessation aids subject to age-gating safeguards.",
+        originalRef: "Restricted Content"
+      },
+      {
+        id: "And-GPGP-1.11",
+        gl: "AGL-006",
+        ref: "1.11",
+        title: "Financial Services",
+        steps: "1. Review any financial instruments offered (loans, crypto, trading).\n2. Ensure all risks and fees are transparently disclosed before taking user action.\n3. Check that there are no deceptive UI elements forcing or obscuring financial commitments.",
+        expected: "Financial instruments presented do not deceive or harm users.",
+        policyText: "Financial Services : Apps are not allowed that expose users to deceptive or harmful financial instruments",
+        originalRef: "Restricted Content"
+      },
+      {
+        id: "And-GPGP-1.12",
+        gl: "AGL-006",
+        ref: "1.12",
+        title: "Binary Options",
+        steps: "1. Check the app for any feature that allows trading binary options.\n2. Ensure related terminology is not used to obfuscate such trading.\n3. Test the trading workflows to confirm no binary option mechanics exist.",
+        expected: "Trading of binary options is entirely absent from the application.",
+        policyText: "Binary Options :\nApps are not allowed that provide users with the ability to trade binary options.",
+        originalRef: "Restricted Content"
+      },
+      {
+        id: "And-GPGP-1.13",
+        gl: "AGL-006",
+        ref: "1.13",
+        title: "Cryptocurrencies",
+        steps: "1. Monitor device performance and background tasks for cryptocurrency mining activities.\n2. Ensure any mining features operate strictly as remote-management rather than on-device processing.\n3. Review code traces for integrated mining scripts.",
+        expected: "No direct on-device cryptomining is performed by the app.",
+        policyText: "Cryptocurrencies :\nApps are not allowed that mine cryptocurrency on devices. Apps are permitted that remotely manage the mining of cryptocurrency.",
+        originalRef: "Restricted Content"
+      },
+      {
+        id: "And-GPGP-1.14",
+        gl: "AGL-006",
+        ref: "1.14",
+        title: "Personal loans",
+        steps: "1. Verify the app metadata lists the minimum/maximum repayment period, maximum APR, and a representative cost example.\n2. Submit a test application to confirm no short-term personal loans (60 days or less) are offered.\n3. Ensure high APR loans (36%+) are not provided to US users.\n4. Check required regulatory documents in specific countries (India, Indonesia, Nigeria, Kenya, Pakistan, Thailand).",
+        expected: "Personal loan facilities meet global transparency policies and strict regional lending regulations.",
+        policyText: "Personal loans :-\nPersonal loans are defined by Google as lending money from one person/organization, or entity to an individual consumer on a nonrecurring basis, not for the purpose of financing purchase of a fixed asset or education. \nPersonal loan consumers require information about the quality, features, fees, risks, and benefits of loan products in order to make informed decisions about whether to undertake the loan.\nExamples: Personal loans, payday loans, peer-to-peer loans, title loans\nNot included: Mortgages, car loans, student loans, revolving lines of credit (such as credit cards, personal lines of credit)\n\nApps for personal loans must disclose the following information in the app metadata:\n1) Minimum and maximum period for repayment\n2) Maximum Annual Percentage Rate (APR), which generally includes interest rate plus fees and other costs for a year, or similar other rate calculated consistently with local law\n3) A representative example of the total cost of the loan, including all applicable fees\n\nApps are not allowed that promote personal loans which require repayment in full in 60 days or less from the date the loan is issued (we refer to these as \"short-term personal loans\"). This policy applies to apps which offer loans directly, lead generators, and those who connect consumers with third-party lenders.\n\nHigh APR personal loans :-\nApps are not allowed for personal loans where the Annual Percentage Rate (APR) is 36% or higher in United States.\nThis policy applies to apps which offer loans directly, lead generators, and those who connect consumers with third-party lenders.\n\nRequirements for personal loan apps in India and Indonesia - \nPersonal loan apps in India and Indonesia must complete the additional proof of eligibility requirements stated below.\nIndia -\n• Complete the Personal Loan App Declaration for India, and provide necessary documentation to support your declaration.\n• If you are licensed by the Reserve Bank of India (RBI) to provide personal loans, you must submit a copy of your license for our review.\n• If you are not directly engaged in money lending activities and are only providing a platform to facilitate money lending by registered Non-Banking Financial Companies.\n• Ensure that the developer account name reflects the name of the associated registered business name provided through your declaration.\nIndonesia -  \nPersonal loan apps licensed by or registered with the Financial Services Authority are only allowed.\n• Complete the Personal Loan App Declaration for Indonesia, and provide the OJK documentation to support the declaration.\n• Ensure that the developer account name reflects the name of the associated registered business name provided through the declaration.\nNigeria - \nDigital Money Lenders (DML) must adhere to and complete the LIMITED INTERIM REGULATORY/ REGISTRATION FRAMEWORK AND GUIDELINES FOR DIGITAL LENDING, 2022 (as may be amended from time to time) by the Federal Competition and Consumer Protection Commission (FCCPC) of Nigeria and obtain a verifiable approval letter from the FCCPC.\nLoan Aggregators must provide documentation and/or certification for digital lending services and contact details for every partnered DML.\nKenya\n•Digital Credit Providers (DCP) should complete the DCP registration process and obtain a license from the Central Bank of Kenya (CBK). •You must provide a copy of your license from the CBK as part of your declaration.\n•If you are not directly engaged in money lending activities and are only providing a platform to facilitate money lending by registered DCP(s) to users, you will need to accurately reflect this in the declaration and provide a copy of the DCP license of your respective partner(s).\n•Currently, we only accept declarations and licenses from entities published under the Directory of Digital Credit Providers on the official website of the CBK.\nPakistan\n•Each Non-Banking Finance Company (NBFC) lender can only publish one Digital Lending App (DLA). Developers who attempt to publish more than one DLA per NBFC risk the termination of their developer account and any other associated accounts.\n•You must submit proof of approval from the SECP to offer or facilitate digital lending services in Pakistan.\nThailand\n•Personal loan apps targeting Thailand, with interest rates at or above 15%, must obtain a valid license from the Bank of Thailand (BoT) or the Ministry of Finance (MoF). Developers must provide documentation that proves their ability to provide or facilitate personal loans in Thailand. This documentation should include:\n•A copy of their license issued by the Bank of Thailand to operate as a personal loan provider or nano finance organization.\n•A copy of their Pico-finance business license issued by the Ministry of Finance to operate as a Pico or Pico-plus lender.",
+        originalRef: "Restricted Content"
+      },
+      {
+        id: "And-GPGP-1.15",
+        gl: "AGL-006",
+        ref: "1.15",
+        title: "Gambling Apps",
+        steps: "1. Confirm the app is free to download and does not use Google Play In-app Billing for purchases.\n2. Ensure the rating is AO (Adult Only) or IARC equivalent, and underage gambling safeguards exist.\n3. Test that the app blocks IP connections from countries where the developer lacks a gambling license.\n4. Verify clear, responsible gambling information is prominently displayed.",
+        expected: "Regulated gambling apps adhere to strict licensing, age-gating, and geographic restrictions.",
+        policyText: "Gambling Apps :\nGoogle allow apps that are enable or facilitate online gambling in select countries, as long as the Developer completes the application process for gambling apps being distributed on Google Play, is an approved governmental operator and/or is registered as a licensed operator with the appropriate governmental gambling authority in the specified country, and provides a valid operating license in the specified country for the type of online gambling product they want to offer.\nValid licensed or authorized gambling apps that have the following types of online gambling products are allowed by Google.\nOnline Casino games, Sports Betting, Horse Racing (where regulated and licensed separately from Sports Betting), Lotteries, Daily Fantasy Sports.\nBelow mentioned are the specific types of gambling products that are allowed in each country - Eligible apps must meet the following requirements :\n• Developer must successfully complete the application process in order to distribute the app on Play;\n• App must comply with all applicable laws and industry standards for any country in which it is distributed;\n• Developer must have a valid gambling license for each country in which the app is distributed;\n• App must prevent under-age users from gambling in the app;\n• App must prevent use from countries not covered by the developer-provided gambling license;\n• App must NOT be purchasable as a paid app on Google Play, nor use Google Play In-app Billing;\n• App must be free to download and install from the Store;\n• App must be rated AO (Adult Only) or IARC equivalent; and\n• App and its app listing must clearly display information about responsible gambling.",
+        originalRef: "Restricted Content"
+      },
+      {
+        id: "And-GPGP-1.16",
+        gl: "AGL-006",
+        ref: "1.16",
+        title: "Other Real-Money Games, Contests, and Tournament Apps",
+        steps: "1. Traverse the app menus to check if users can participate using real money (or purchased in-app items) to win cash prizes.\n2. Look for call-to-action buttons (e.g., “BET!”, “COMPETE!”) that trigger real-money stakes.\n3. Confirm no physical/monetary prizes are being rewarded through wagering.",
+        expected: "Without a valid gambling license, the app does not allow betting or cash tournaments.",
+        policyText: "Other Real-Money Games, Contests, and Tournament Apps :\nApps which does not meet the eligibility requirements for gambling Stated above), doesn't allow content or services that enable or facilitate users ability to wager, stake, or participate using real money (including in-app items purchased with money) to obtain a prize of real world monetary value.\nExamples of violations - \n• Games that accept money in exchange for an opportunity to win a physical or monetary prize\n• Apps that have navigational elements or features (e.g. menu items, tabs, buttons, webviews, etc.) that provide a “call to action” to wager, stake, or participate in real-money games, contests or tournaments using real money, such as apps that invite users to “BET!” or “REGISTER!” or “COMPETE!” in a tournament for a chance to win a cash prize.\n• Apps that accept or manage wagers, in-app currencies, winnings, or deposits in order to gamble for, or obtain a physical or monetary prize.",
+        originalRef: "Restricted Content"
+      },
+      {
+        id: "And-GPGP-1.17",
+        gl: "AGL-006",
+        ref: "1.17",
+        title: "Gamified Loyalty Programs",
+        steps: "1. Review how loyalty rewards are earned in relation to monetary transactions.\n2. For games, confirm that rewards are given on a fixed ratio, not tied to game performance or chance.\n3. For non-games using a chance/contest system, check that official rules with fixed entry deadlines and transparent ratios are published in the app.",
+        expected: "Loyalty programs do not serve as stealth gambling mechanisms and disclose clear, fixed rules.",
+        policyText: "Gamified Loyalty Programs :\nLoyalty programs that reward users with real world prizes or monetary equivalent, are allowed to subject to the following Play Store eligibility requirements.\nFor all apps (games and non-games) - \nLoyalty program benefits, perks, or rewards must be clearly supplementary and subordinate to any qualifying monetary transaction within the app and may not be subject to purchase nor tied to any mode of exchange otherwise in violation of the Real-Money Gambling, Games, and Contests policy restrictions.\nFor example:- No portion of the qualifying monetary transaction may represent a fee or wager to participate in the loyalty program, and the qualifying monetary transaction must not result in the purchase of goods or services above its usual price.\n\nFor Game apps - \nLoyalty points or rewards with benefits, perks or rewards associated with a qualifying monetary transaction may only be awarded and redeemed on a fixed ratio basis, and the earning of benefits or redemptive value may not be wagered, awarded or exponentiated by game performance or chance-based outcomes.\nFor non-Game apps - \nLoyalty points or rewards may be tied to a contest or chance based outcomes if they fulfill the requirements noted below. Loyalty programs with benefits, perks or rewards associated with a qualifying monetary transaction must:\n• Publish official rules for the program within the app\n• Programs involving variable, chance-based, or randomized reward systems: disclose within the official terms.\n• Specify a fixed number of winners, fixed entry deadline, and prize award date, per promotion, within the official terms of a program offering drawings, sweepstakes, or other similar style promotions.\n• Document any fixed ratio for loyalty point or loyalty reward accrual and redemption conspicuously in the app and also within the official terms of the program.",
+        originalRef: "Restricted Content"
+      },
+      {
+        id: "And-GPGP-1.18",
+        gl: "AGL-006",
+        ref: "1.18",
+        title: "Gambling Ads within Play-distributed apps",
+        steps: "1. Use the app as an under-18 user and confirm no gambling ads are displayed.\n2. Observe any in-app ads to verify they don't use deceptive UI buttons to disguise gambling promotions.\n3. Verify the app is not enrolled in 'Designed for Families' or targeting minors while showing these ads.",
+        expected: "Gambling ads are strictly regulated, age-gated, and avoid deceptive UI.",
+        policyText: "Gambling Ads within Play-distributed apps :\nApps which have ads that promotes gambling, real-money games, contests, and tournaments are allowed if they meet the following requirements:\n• App and ad (including gambling advertisers) must comply with all applicable laws and industry standards for any location where the gambling ad is displayed;\n• Ad must meet local licensing requirements for all gambling-related products and services being promoted;\n• App must not display a gambling ad to individuals known to be under the age of 18;\n• App must not be enrolled in the Designed for Families program;\n• App must not target individuals under the age of 18;\n• App must not provide simulated gambling content (e.g. social casino apps; apps with virtual slot machines);\n• App must not provide gambling or real-money games, lotteries or tournament support functionality (e.g. functionality that assists  with wagering, payouts, sports score/odds tracking, or management of participation funds);\n• You must not have an ownership interest in gambling or real-money games, lotteries or tournament services advertised within the app; \n• App content must not promote or direct users to gambling or real-money games, lotteries or tournament services  \nExamples of violations - \n• App that’s designed for under-age users and shows an ad promoting gambling services\n• Simulated casino game that promotes or directs users to real money casinos\n• Dedicated sports odds tracker app containing integrated gambling ads linking to a sports betting site\n• Apps that have gambling ads that violate our Deceptive Ads policy, such as ads that appear to users as buttons, icons, or other interactive in-app elements",
+        originalRef: "Restricted Content"
+      },
+      {
+        id: "And-GPGP-1.19",
+        gl: "AGL-006",
+        ref: "1.19",
+        title: "Illegal Activities",
+        steps: "1. Browse app shops and communities to check if illegal or prescription drugs without prescriptions are facilitated.\n2. Check for instructions or guides on how to manufacture illegal drugs.\n3. Ensure any activities depicted in games do not actively instruct or encourage real-world illegal actions.",
+        expected: "App does not promote or supply illegal goods or instructions.",
+        policyText: "Illegal Activities:  Apps are not allowed that facilitate or promote illegal activities. \nHere are some examples of common violations:\n1) Facilitating the sale or purchase of illegal drugs or prescription drugs without a prescription.\n2) Depicting or encouraging the use or sale of drugs, alcohol, or tobacco by minors.\n3) Instructions for growing or manufacturing illegal drugs.",
+        originalRef: "Restricted Content"
+      },
+      {
+        id: "And-GPGP-1.20",
+        gl: "AGL-006",
+        ref: "1.20",
+        title: "User Generated Content",
+        steps: "1. Locate UGC features (forums, messaging, AR anchoring).\n2. Test the reporting and blocking systems by attempting to block a user and report an item.\n3. Ensure terms of use clearly define and prohibit objectionable behaviors before allowing UGC creation.",
+        expected: "All UGC is governed by clear policies and robust in-app reporting/blocking systems.",
+        policyText: "User Generated Content :\nUser-generated content (UGC) is content that users contribute to an app, and which is visible to or accessible by at least a subset of the app's users. Objectionable content is content that violates our policies.\nApps that contain or feature UGC must:\n1) require that users accept the app's terms of use and/or user policy before users can create or upload UGC;\n2) define objectionable content and behaviors (in a way that complies with Play’s Developer Program Policies), and prohibit them in the app’s terms of use or user policies; \n3) Conducts UGC moderation, as is reasonable and consistent with the type of UGC hosted by the app. This includes providing an in-app system for reporting and blocking objectionable UGC and users, and taking action against UGC or users where appropriate. Different UGC experiences may require different moderation efforts. For example:\n• Apps featuring UGC that identify a specified set of users through means such as user verification or offline registration (for example, apps exclusively used within a specific school or company, etc.) must provide in-app functionality to report content and users.\n• UGC features that enable 1:1 user interaction with specific users (for example, direct messaging, tagging, mentioning, etc.) must provide an in-app functionality for blocking users.\n• Apps that provide access to publicly accessible UGC, such as social networking apps and blogger apps, must implement in-app functionality to report users and content, and to block users.\n• In the case of augmented reality (AR) apps, UGC moderation (including the in-app reporting system) must account for both objectionable AR UGC (for example, a sexually explicit AR image) and sensitive AR anchoring location (for example, AR content anchored to a restricted area, such as a military base, or a private property where AR anchoring may cause issues for the property owner).\n4) provide safeguards to prevent in-app monetization from encouraging objectionable user behavior.",
+        originalRef: "Restricted Content"
+      },
+      {
+        id: "And-GPGP-1.21",
+        gl: "AGL-006",
+        ref: "1.21",
+        title: "Incidental Sexual Content",
+        steps: "1. Identify if the UGC app hides incidental sexual content behind a secondary safe filter.\n2. Confirm it takes at least two actions for a user to disable this filter.\n3. Test age screening systems to ensure children cannot access this app.",
+        expected: "Incidental sexual content in legitimate UGC platforms is hidden safely by default and age-restricted.",
+        policyText: "Incidental Sexual Content\nSexual content is considered “incidental” if it appears in a UGC app that (1) provides access to primarily non-sexual content, and (2) does not actively promote or recommend sexual content. Sexual content defined as illegal by applicable law and child endangerment content are not considered “incidental” and are not permitted.\nUGC apps may contain incidental sexual content if all of the following requirements are met:\n• Such content is hidden by default behind filters that require at least two user actions in order to completely disable (for example, behind an obfuscating interstitial or precluded from view by default unless “safe search” is disabled).\n• Children, as defined in the Families policy, are explicitly prohibited from accessing your app using age screening systems such as a neutral age screen or an appropriate system as defined by applicable law.\n• Your app provides accurate responses to the content rating questionnaire regarding UGC, as required by the Content Ratings policy.\nApps whose primary purpose is featuring objectionable UGC will be removed from Google Play. Similarly, apps that end up being used primarily for hosting objectionable UGC, or that develop a reputation among users of being a place where such content thrives, will also be removed from Google Play.",
+        originalRef: "Restricted Content"
+      },
+      {
+        id: "And-GPGP-1.22",
+        gl: "AGL-006",
+        ref: "1.22",
+        title: "Cryptocurrency Exchanges and Software Wallets",
+        steps: "1. Review the app's services for purchasing or exchanging cryptocurrency.\n2. Ensure the developer is a certified service operating in regulated jurisdictions.\n3. Validate the app is not published in regions where such products are prohibited.",
+        expected: "Crypto wallet and exchange apps are properly certified and geo-restricted based on local regulations.",
+        policyText: "Cryptocurrency Exchanges and Software Wallets\n1)  Purchase, holding, or exchange of cryptocurrencies should be conducted through certified services in regulated jurisdictions.\n2) App must comply with applicable regulations for any region or country that your app targets and avoid publishing your app where your products and services are prohibited.\n3) Google Play may request you to provide additional information or documents regarding your compliance with any applicable regulatory or licensing requirements.",
+        originalRef: "Restricted Content"
+      },
+      {
+        id: "And-GPGP-1.23",
+        gl: "AGL-006",
+        ref: "1.23",
+        title: "Cryptomining",
+        steps: "1. Check if the app runs any scripts that consume significant device CPU natively for cryptomining.\n2. Confirm that only remote management tools for external mining operations are provided.",
+        expected: "No direct on-device mining is permitted.",
+        policyText: "Cryptomining\n1) Policy prohibits apps from conducting cryptocurrency mining directly on devices. However, apps that facilitate remote management of cryptocurrency mining operations are permissible within Android guidelines.",
+        originalRef: "Restricted Content"
+      },
+      {
+        id: "And-GPGP-1.24",
+        gl: "AGL-006",
+        ref: "1.24",
+        title: "Transparency Requirements for Distributing Tokenized Digital Assets",
+        steps: "1. View any in-app products representing a Tokenized Digital Asset.\n2. Ensure the product details explicitly specify that they contain digital assets or NFTs.\n3. Verify the app's promotional material does not glamorize potential trading earnings.",
+        expected: "Sale of tokenized assets is fully transparent and accurately categorised in the Play Console.",
+        policyText: "Transparency Requirements for Distributing Tokenized Digital Assets\n1) Apps that sell or enable users to earn Tokenized Digital Assets must declare this via the Financial features declaration form on the App Content page in Play Console.\n2) When creating an in-app product that represents a Tokenized Digital Asset, you must specify this in the product details.\n3) Apps are prohibited from promoting or glamorizing potential earnings from playing or trading activities.",
+        originalRef: "Restricted Content"
+      },
+      {
+        id: "And-GPGP-1.25",
+        gl: "AGL-006",
+        ref: "1.25",
+        title: "Additional Requirements for NFT Gamification",
+        steps: "1. Attempt to purchase a bundle of NFTs and confirm the specific contents and values are clear.\n2. Test that NFTs earned are usable within the game rather than mere speculative wagering devices.\n3. Make sure NFTs cannot be staked or gambled for real-world monetary prizes.",
+        expected: "NFTs are utilized solely to enhance gameplay without functioning as gambling instruments.",
+        policyText: "Additional Requirements for NFT Gamification\n1) Apps that do not qualify as gambling apps or are not part of Other Real-Money Game Pilots should not accept anything of monetary value in exchange for a chance to obtain an NFT of unknown value.\n2) NFTs purchased by users should be used within the game to enhance the user experience or aid in advancing gameplay.\n3) NFTs must not be used for gambling purposes, including wagering, or staking in exchange for opportunities to win real-world monetary prizes, including other NFTs.\nExamples:\n• Apps that sell bundles of NFTs without disclosing the specific contents and values of the NFTs.\n• Pay-to-play social casino games, such as slot machines, that reward NFTs.",
+        originalRef: "Restricted Content"
       }
     ]
   }
@@ -5073,5 +5325,6 @@ export const AND_ICONS: Record<string, string> = {
   'APK Related Tests': '📦',
   'GPG Design Guidelines': '🎮',
   'FTCs': '🛠️',
-  'Play Games Services': '🕹️'
+  'Play Games Services': '🕹️',
+  'GPG Policies': '🛡️'
 };

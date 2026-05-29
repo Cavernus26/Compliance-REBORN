@@ -3872,6 +3872,16 @@ function TestCaseRow({ tc, tcNumber, execution, setStatus, setState, showToast, 
                <div className="grid grid-cols-5 gap-12">
                  <div className="col-span-3 space-y-6">
                    <div className="space-y-4">
+                     {tc.policyText && (
+                       <div className="mb-6">
+                         <p className="text-[10px] font-bold text-[var(--text)] uppercase tracking-widest flex items-center gap-2 underline decoration-[var(--border)] underline-offset-4 mb-3">Policy Details</p>
+                         <div className="p-5 rounded-xl border border-[var(--border)] bg-[var(--surface2)] shadow-inner space-y-4 text-[13px] leading-[1.6] text-[var(--text-highlight)] font-medium">
+                           {tc.policyText.split('\n\n').map((paragraph: string, idx: number) => (
+                             <p key={idx} className="whitespace-pre-wrap">{paragraph}</p>
+                           ))}
+                         </div>
+                       </div>
+                     )}
                      <p className="text-[10px] font-bold text-[var(--text)] uppercase tracking-widest flex items-center gap-2 underline decoration-[var(--border)] underline-offset-4">01 Test steps</p>
                      <ul className="space-y-3">
                        {tc.steps.split('\n').map((l: string, i: number) => (
