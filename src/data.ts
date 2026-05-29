@@ -4632,6 +4632,426 @@ export const ALL_DATA: Record<string, PlatformData> = {
         steps: "1. Mock poor, degraded, or decoupled network connections during progress saves or loads.\n2. Confirm that progression storage handles the failure gracefully.\n3. Ensure it prompts simple retries or backs up data safely without crashing.",
         expected: "Saves and loads fail gracefully under severe network degradation without crashing the client.",
         originalRef: "Error Handling"
+      },
+      {
+        id: "And-GPGS-1.1",
+        gl: "AGL-005",
+        ref: "1.1",
+        title: "Initialize the Google Play Games Services SDK and check if the player is authenticated.",
+        type: "required",
+        steps: "Launch the game representation as a new or returning player.\nNotice if the Google Play Games authentication overlay automatically pops up and signs you in.\nVerify that if automatic sign-in is disabled or declined, a clear \"Sign In\" button is visible and functional on the main menu or settings panel.",
+        expected: "The Google Play Games Services SDK initializes correctly, attempts automatic authentication, and supports a prominent Settings or main screen sign-in trigger if initial sign-in is declined.",
+        originalRef: "Platform authentication"
+      },
+      {
+        id: "And-GPGS-1.2",
+        gl: "AGL-005",
+        ref: "1.2",
+        title: "Follow Google branding guidelines.",
+        type: "best_practice",
+        steps: "Locate the sign-in button and logo elements mapped to the Google Play Games integration.\nVerify that the button shape, color scheme, icon assets, and trademark labels follow standard branding instructions.\nEnsure layout constraints preserve aspect ratio and don't squeeze or low-res scale Google assets.",
+        expected: "In-game branding, icons, logo placements, and colors are displayed in full alignment with official Google branding criteria.",
+        originalRef: "Platform authentication"
+      },
+      {
+        id: "And-GPGS-1.3",
+        gl: "AGL-005",
+        ref: "1.3",
+        title: "Remind players that they are authenticated.",
+        type: "best_practice",
+        steps: "Ensure you are authenticated with Google Play Games services in the active session.\nPerform an asynchronous player event that syncs state, like finishing a round or unlocking a visual trophy.\nLook for an on-screen dialog or popup message reinforcing state storage (e.g., \"You are authenticated with Google. Your achievements and scores will be saved automatically\").",
+        expected: "Autosave alerts, action cues, or user notifications actively remind players of automatic progress cloud sync.",
+        originalRef: "Platform authentication"
+      },
+      {
+        id: "And-GPGS-1.4",
+        gl: "AGL-005",
+        ref: "1.4",
+        title: "Back up player progress using the Play Games Services ID.",
+        type: "required",
+        steps: "Earn higher scores or modify app preferences as an authenticated player to generate save state.\nTrigger a manual device reset simulation or wipe browser/client-side storage entirely.\nReopen the game, re-authenticate via the same Play Games account, and ensure all progress data gets retrieved and restored to your session.",
+        expected: "Save progress profiles are correctly associated with the authenticated Google Play Games Service ID, and local progression caches are cleanly reconciled upon post-launch authentication.",
+        originalRef: "Platform authentication"
+      },
+      {
+        id: "And-GPGS-ACH-1",
+        gl: "AGL-005",
+        ref: "2.1",
+        title: "Minimum of ten visible achievements spread across the lifetime of the game.",
+        type: "required",
+        steps: "Open the Google Play Games overlay or in-game achievements pane.\nCount the total number of visible or standard achievements listed in the UI.\nConfirm there are at least ten separate, fully-revealed achievements available on day one.",
+        expected: "At least 10 visible achievements are shown as revealed to the player.",
+        originalRef: "Achievements"
+      },
+      {
+        id: "And-GPGS-ACH-2",
+        gl: "AGL-005",
+        ref: "2.2",
+        title: "Allow at least four achievements to be reasonably achievable within one hour.",
+        type: "required",
+        steps: "Launch a fresh game instance and play through the initial game loops naturally.\nTrack your session timer and count the achievements unlocked during the first hour of normal play.\nVerify that at least four different achievements are unlocked with relative ease by an average beginner.",
+        expected: "Four or more distinct achievements can be unlocked reliably within the first 60 minutes of gameplay.",
+        originalRef: "Achievements"
+      },
+      {
+        id: "And-GPGS-ACH-3",
+        gl: "AGL-005",
+        ref: "2.3",
+        title: "Ensure all achievements have unique names and descriptions.",
+        type: "required",
+        steps: "Review the complete list of achievements in the Play Console or achievement dashboard.\nCheck each entry's title, description, and conditions.\nConfirm no two achievements share the same name or repeat identical objective text.",
+        expected: "Every achievement features a distinctive name and copy describing its exact unlock instructions.",
+        originalRef: "Achievements"
+      },
+      {
+        id: "And-GPGS-ACH-4",
+        gl: "AGL-005",
+        ref: "2.4",
+        title: "Provide unique custom icons for each achievement.",
+        type: "required",
+        steps: "Inspect the graphics uploaded for achievements in Google Play Console or custom in-game menus.\nVerify that each achievement has its own distinct illustration or badge art (no duplicates).\nEnsure files are designed as 512x512 PNG, JPEG, or JPG assets on transparent background.",
+        expected: "No achievements reuse artwork or icons, and all badges utilize unique 512x512 high-resolution assets.",
+        originalRef: "Achievements"
+      },
+      {
+        id: "And-GPGS-ACH-5",
+        gl: "AGL-005",
+        ref: "2.5",
+        title: "Verify that all achievements are fully attainable.",
+        type: "required",
+        steps: "Audit achievement trigger conditions against level designs or high score ceilings.\nSimulate progress updates for each condition via QA tools or debug states.\nConfirm players can physically unlock and trigger 100% of the defined achievements without game blocks.",
+        expected: "All achievements are technically and logically unlockable during natural gameplay.",
+        originalRef: "Achievements"
+      },
+      {
+        id: "And-GPGS-ACH-6",
+        gl: "AGL-005",
+        ref: "2.6",
+        title: "Use incremental achievements to show cumulative progress.",
+        type: "best_practice",
+        steps: "Locate a long-term goal achievement (e.g., 'Defeat 100 enemies' or 'Collect 5000 coins').\nPerform a partial action (e.g., defeat 20 enemies) and close the game, then reopen it.\nConfirm the achievement tracker persists the step progression (e.g., showing 20% complete).",
+        expected: "Incremental tracker correctly aggregates and exposes progressive unlock milestones across sessions.",
+        originalRef: "Achievements"
+      },
+      {
+        id: "And-GPGS-ACH-7",
+        gl: "AGL-005",
+        ref: "2.7",
+        title: "Establish at least forty achievements spread across the game lifetime.",
+        type: "best_practice",
+        steps: "Verify the comprehensive list of achievements defined for the title in the registry.\nCalculate the total size of the achievement matrix across all stages, difficulty levels, and hidden tiers.\nVerify the quantity meets or exceeds 40 unique achievements, capturing diverse milestones.",
+        expected: "A rich catalog of 40+ achievements is available to support user retention.",
+        originalRef: "Achievements"
+      },
+      {
+        id: "And-GPGS-ACH-8",
+        gl: "AGL-005",
+        ref: "2.8",
+        title: "Use hidden achievements to spark surprise and delight.",
+        type: "best_practice",
+        steps: "Find achievements designed for secret milestones or easter eggs.\nVerify they are flagged as 'Hidden' in the Google Play Console configuration.\nEnsure their descriptive labels are masked until the player completes the mystery trigger.",
+        expected: "Secret milestones are flagged as hidden so details are masked until they are successfully achieved.",
+        originalRef: "Achievements"
+      },
+      {
+        id: "And-GPGS-ACH-9",
+        gl: "AGL-005",
+        ref: "2.9",
+        title: "Introduce new achievements when adding fresh expansions or episodes.",
+        type: "best_practice",
+        steps: "Identify new game levels, episodic DLCs, or map updates rolled out in a software release.\nReview the accompanying achievement catalog mapped to the new content pack.\nVerify new objectives exist to motivate players to explore the added gameplay segments.",
+        expected: "New DLC or map episodes are launched alongside a proportional addition of newly lockable accomplishments.",
+        originalRef: "Achievements"
+      },
+      {
+        id: "And-GPGS-ACH-10",
+        gl: "AGL-005",
+        ref: "2.10",
+        title: "Score achievement experience points proportionately.",
+        type: "best_practice",
+        steps: "Compare easy achievement scores (e.g., finishing the tutorial) against difficult ones (e.g., defeating the final boss on hard).\nVerify that the allocated Play Games XP or point scale curves upwards with difficulty.\nEnsure simple achievements aren't over-rewarded and grueling milestones aren't under-valued.",
+        expected: "XP/Points map proportionally to gameplay effort, where hard rewards yield higher currency than simple tutorial steps.",
+        originalRef: "Achievements"
+      },
+      {
+        id: "And-GPGS-ACH-11",
+        gl: "AGL-005",
+        ref: "2.11",
+        title: "Design achievements spanning a balanced variety of difficulty tiers.",
+        type: "best_practice",
+        steps: "Examine the complete achievement matrix.\nConfirm there is a healthy ratio of low-difficulty (casual), medium-difficulty (progression), and high-difficulty (elite) milestones.\nCheck that at least 1-2 ultra-hard achievements exist to challenge dedicated collectors.",
+        expected: "The catalog covers a wide spectrum of visual tiers, from casual onboarding badges up to extreme, hard-earned feats.",
+        originalRef: "Achievements"
+      },
+      {
+        id: "And-GPGS-ACH-12",
+        gl: "AGL-005",
+        ref: "2.12",
+        title: "Avoid frontloading achievements in the early stages of gameplay.",
+        type: "best_practice",
+        steps: "Start a brand-new play session and monitor the rate of achievements for the first 5 minutes.\nVerify that not more than one achievement pops up during this initial introductory window.\nConfirm trophies are not granted too trivially before the player invests attention.",
+        expected: "Achievement notifications are cleanly paced to avoid oversaturating the user experience in the opening minutes of play.",
+        originalRef: "Achievements"
+      },
+      {
+        id: "And-GPGS-ACH-13",
+        gl: "AGL-005",
+        ref: "2.13",
+        title: "Structure achievements around compelling in-game metrics.",
+        type: "best_practice",
+        steps: "Review the primary metrics used to trigger in-game achievements.\nEnsure they challenge active engagement (e.g. 'Defeat 100 zombies') rather than mechanical labor (e.g. 'Walk 100 miles on an empty road').\nVerify the criteria reinforce re-playability and game exploration.",
+        expected: "Achievements are aligned with active, exciting mechanical gameplay instead of boring repetition.",
+        originalRef: "Achievements"
+      },
+      {
+        id: "And-GPGS-ACH-14",
+        gl: "AGL-005",
+        ref: "2.14",
+        title: "Build colored badge graphics that degrade to grayscale when unearned.",
+        type: "best_practice",
+        steps: "View an unearned, locked achievement badge on your profile; verify it is rendered in clean grayscale.\nEarn the target achievement and trigger the success unlock.\nCheck that the locked grayscale graphic transforms into a highly saturated, full-color icon.",
+        expected: "Achievement illustrations leverage elegant colors, with unearned versions rendering as crisp grayscale overlays by default.",
+        originalRef: "Achievements"
+      },
+      {
+        id: "And-GPGS-ACH-15",
+        gl: "AGL-005",
+        ref: "2.15",
+        title: "Minimize the use of hidden achievements to avoid unnecessary mystery.",
+        type: "best_practice",
+        steps: "Scan the full list of achievements and count the total flagged as hidden vs visible.\nVerify that the visual majority of the achievement library remains fully visible.\nConfirm hidden tags are strictly reserved for narrative plot points or endgame secrets.",
+        expected: "Most achievements are visible, with hidden categories kept to a low, intentional percentage.",
+        originalRef: "Achievements"
+      },
+      {
+        id: "And-GPGS-ACH-16",
+        gl: "AGL-005",
+        ref: "2.16",
+        title: "Avoid achievements too heavily dependent on pure chance.",
+        type: "best_practice",
+        steps: "Review any luck-based parameters in achievements (e.g., dropping ultra-rare loot).\nVerify that users can earn the badge through dedication (e.g., 'Examine 100 chests') instead of lucky outcomes (e.g., 'Find an item with a 1% chance in a chest').\nEnsure accomplishments reward player agency.",
+        expected: "Trophies measure player skill, technique, or exploration progress, without being locked behind raw probability thresholds.",
+        originalRef: "Achievements"
+      },
+      {
+        id: "And-GPGS-ACH-17",
+        gl: "AGL-005",
+        ref: "2.17",
+        title: "Cater to dedicated achievement hunters without lockouts.",
+        type: "best_practice",
+        steps: "Analyze major branching paths or decisions in the story.\nVerify that making one choice does not permanently prevent a player from eventually unlocking other achievements on the same profile.\nEnsure players are never placed in an unrecoverable state where 100% completion is forever blocked.",
+        expected: "The game architecture allows completionists to eventually claim all achievement trophies on a single account profile.",
+        originalRef: "Achievements"
+      },
+      {
+        id: "And-GPGS-LEAD-1",
+        gl: "AGL-005",
+        ref: "3.1",
+        title: "Make leaderboards visible in your main menu and after key transitions.",
+        type: "best_practice",
+        steps: "Verify launcher or main menu has links or access buttons to leaderboards.\nAlso, check after critical transitions (e.g., game over, level clear) that links to relevant leaderboards are displayed.",
+        expected: "Leaderboards are accessible directly from the main menu and during key gameplay transitions, keeping players connected to competitive stats.",
+        originalRef: "Leaderboards"
+      },
+      {
+        id: "And-GPGS-LEAD-2",
+        gl: "AGL-005",
+        ref: "3.2",
+        title: "Define upper limits for scores that can be submitted.",
+        type: "best_practice",
+        steps: "Inspect leaderboard parameters on Google Play Console and client checks.\nVerify that maximum scoring limits are defined to drop/discard fake or impossible values automatically.",
+        expected: "Upper thresholds are configured to prevent obviously fraudulent or cheated scores from entering leaderboards.",
+        originalRef: "Leaderboards"
+      },
+      {
+        id: "And-GPGS-LEAD-3",
+        gl: "AGL-005",
+        ref: "3.3",
+        title: "Use custom icons.",
+        type: "best_practice",
+        steps: "Check graphic assets uploaded to Google Play Games Services Console for leaderboards.\nConfirm custom styled icons are provided instead of repeating the default game icon.",
+        expected: "Distinct custom artwork and individual representative icons are styled for each leaderboard.",
+        originalRef: "Leaderboards"
+      },
+      {
+        id: "And-GPGS-LEAD-4",
+        gl: "AGL-005",
+        ref: "3.4",
+        title: "Keep the frequency of score submissions appropriate.",
+        type: "best_practice",
+        steps: "Analyze code event triggers for score submission request rate.\nVerify scores are only posted during critical boundaries (e.g. level completion, death) and not continuously or every second.",
+        expected: "Score synchronization occurs at structured transition events only to avoid network congestion and API spam.",
+        originalRef: "Leaderboards"
+      },
+      {
+        id: "And-GPGS-LEAD-5",
+        gl: "AGL-005",
+        ref: "3.5",
+        title: "Make use of scoretags.",
+        type: "best_practice",
+        steps: "Review the payload format submitted to leaderboards API.\nEnsure scoretags feature extra metadata (e.g. gameplay proof clips or validity verification flags) as extra context.",
+        expected: "Scoretags are appended correctly with score updates to attach verification tokens or replay references.",
+        originalRef: "Leaderboards"
+      },
+      {
+        id: "And-GPGS-LEAD-6",
+        gl: "AGL-005",
+        ref: "3.6",
+        title: "Creatively design your own leaderboard UI.",
+        type: "best_practice",
+        steps: "Verify if custom, themed layouts are drawn in-game to list ranking tables directly.\nConfirm the system queries social leaderboards first, falling back gracefully to public leaderboards if list entries are empty.",
+        expected: "An immersive, beautifully integrated in-game leaderboards interface is displayed with social filter prioritization.",
+        originalRef: "Leaderboards"
+      },
+      {
+        id: "And-GPGS-LEAD-7",
+        gl: "AGL-005",
+        ref: "3.7",
+        title: "Show players how they stack up against the competition.",
+        type: "best_practice",
+        steps: "Look at the visual scoring window presentation in high-score views.\nConfirm ranking details display a player-centered relative offset window (e.g., +/- 10 spots) to motivate competitive re-playability.",
+        expected: "Leaderboard panels dynamically focus around the current player's relative performance window to demonstrate local ranking competitive proximity.",
+        originalRef: "Leaderboards"
+      },
+      {
+        id: "And-GPGS-FRND-1",
+        gl: "AGL-005",
+        ref: "4.1",
+        title: "Show the Play Games Services icon next to users who have a Play Games profile in user lists.",
+        type: "required",
+        steps: "Open any friends list, recently-played list, or social menu in the game.\nFind players who have linked a Play Games profile.\nConfirm that the official Google Play Games logo is visible right next to their name.",
+        expected: "The official Google Play Games Services icon is rendered prominently beside users who have verified Play Games profiles.",
+        originalRef: "Friends"
+      },
+      {
+        id: "And-GPGS-FRND-2",
+        gl: "AGL-005",
+        ref: "4.1.1",
+        title: "Ensure the Play Games Services icon is clickable to compare profiles.",
+        type: "required",
+        steps: "Navigate to your social list and locate a player with the Google Play Games icon.\nTap or click directly on the Google Play Games icon near their name.\nConfirm that a comparison interface opens, letting you compare your accomplishments and statistics against theirs.",
+        expected: "A profile comparison window is correctly presented upon pressing the Google Play Games icon.",
+        originalRef: "Friends"
+      },
+      {
+        id: "And-GPGS-FRND-3",
+        gl: "AGL-005",
+        ref: "4.1.2",
+        title: "Support player profiles and friend invitations for customizable in-game player names.",
+        type: "required",
+        steps: "Go to your profile options and set up a custom, unique in-game display name different from your main Play Games account name.\nSend a friend invitation or open a profile view with another player.\nConfirm that both players can clearly see your custom nickname alongside your profile, giving clear in-game context to the invitation.",
+        expected: "Friendship setups convey custom in-game identifiers alongside original Google Play user profiles securely.",
+        originalRef: "Friends"
+      },
+      {
+        id: "And-GPGS-FRND-4",
+        gl: "AGL-005",
+        ref: "4.2",
+        title: "Differentiate friends from authenticated non-friends using clear icon states.",
+        type: "best_practice",
+        steps: "Look at your list of other players.\nVerify that the game uses two distinct visual status indicators: one emblem to show players who are already your friends, and another style of emblem for players who have authenticated profiles but are not your friends yet.",
+        expected: "Two highly distinct graphic symbols denote 'Friend' vs 'Not Friend' or 'Unknown' relationships.",
+        originalRef: "Friends"
+      },
+      {
+        id: "And-GPGS-FRND-5",
+        gl: "AGL-005",
+        ref: "4.3",
+        title: "Keep your friends list automatically updated whenever displaying it.",
+        type: "best_practice",
+        steps: "Open your social list or friends dashboard shortly after booting up the game or linking your account.\nVerify that your Play Games friends list automatically updates in the background, showing all online statuses and newly added friends without you needing to manually trigger a refresh.",
+        expected: "A fresh state represents current Google Play friendship changes as a result of active background sync triggers.",
+        originalRef: "Friends"
+      },
+      {
+        id: "And-GPGS-FRND-6",
+        gl: "AGL-005",
+        ref: "4.4",
+        title: "Incorporate Play Games Friends into existing in-game friends trackers.",
+        type: "best_practice",
+        steps: "Open your active social or in-game contact desk.\nCheck if players from your Google Play Games friend network are merged directly into your overall game friends dashboard, and linked friends carry the correct Play Games indicator.",
+        expected: "The social dashboard unifies direct game contacts and Play Games profiles under a cohesive, marked layout.",
+        originalRef: "Friends"
+      },
+      {
+        id: "And-GPGS-FRND-7",
+        gl: "AGL-005",
+        ref: "4.5",
+        title: "Do not trigger automatic access requests again if a player has denied friends list permission.",
+        type: "best_practice",
+        steps: "When prompted for permission to access your Play Games friends list, select 'Deny'.\nRestart or navigate around the game, and verify that the game does not continuously spam or auto-prompt you with the same permission dialog unless you explicitly request it.",
+        expected: "Repeated intrusive permission panels are suppressed following initial negative response from the player.",
+        originalRef: "Friends"
+      },
+      {
+        id: "And-GPGS-FRND-8",
+        gl: "AGL-005",
+        ref: "4.6",
+        title: "Adorn the interface with an 'Import Play Games Friends' entry point after rejection.",
+        type: "best_practice",
+        steps: "Decline the friends list permission prompt initially.\nGo to your game settings or social menu.\nVerify that there is a clear button labeled 'Import Play Games Friends' (or similar) that lets you manually request set up and grant access on-demand.",
+        expected: "A prominent user-activated command is provided to let users easily grant friends list access again on-demand.",
+        originalRef: "Friends"
+      },
+      {
+        id: "And-GPGS-FRND-9",
+        gl: "AGL-005",
+        ref: "4.7",
+        title: "Ensure secure and consistent social player profile management across platforms.",
+        type: "best_practice",
+        steps: "Log in using multiple different profiles across devices or test accounts.\nVerify that each player profile displays their own correct friends, progress, and usernames consistently, without any profile mixing or incorrect identity links.",
+        expected: "Backend integration relies on secure API channels to consistently authenticate and parse player identification properties.",
+        originalRef: "Friends"
+      },
+      {
+        id: "And-GPGS-QUOTA-1",
+        gl: "AGL-005",
+        ref: "5.1",
+        title: "Use modern SDK libraries to automatically optimize connectivity and data caching.",
+        type: "best_practice",
+        steps: "Play the game and navigate between dashboards and menus repeatedly.\nVerify that list elements represent cached structures that load immediately without generating excessive network calls, loading freezes, or heavy battery drainage.",
+        expected: "Data caching and score filtering occurs seamlessly in the background to minimize server calls.",
+        originalRef: "Quota and rate limiting"
+      },
+      {
+        id: "And-GPGS-QUOTA-2",
+        gl: "AGL-005",
+        ref: "5.2",
+        title: "Combine frequent incremental progress updates into spaced batch updates.",
+        type: "best_practice",
+        steps: "Generate quick repetitive task actions, such as shooting targets, doing jumps, or harvesting resources.\nVerify that individual progress numbers do not trigger persistent immediate network synchronization, instead bundling increments and updating either at level-end or in fixed milestone groups.",
+        expected: "Incremental progress is bundled and submitted in batches to optimize network use and battery life.",
+        originalRef: "Quota and rate limiting"
+      },
+      {
+        id: "And-GPGS-QUOTA-3",
+        gl: "AGL-005",
+        ref: "5.3",
+        title: "Limit automatic data synchronization schedules to essential gameplay transitions.",
+        type: "best_practice",
+        steps: "Play the game continuously and toggle save/load states.\nConfirm that progress-saving synchronization runs at reasonable periodic intervals rather than on every screen touch, and supreme scores publish solely once a round concludes.",
+        expected: "Synchronization frequency is capped gracefully to prevent battery strain, high network load, and quota exhaustion.",
+        originalRef: "Quota and rate limiting"
+      },
+      {
+        id: "And-GPGS-SAVE-1",
+        gl: "AGL-005",
+        ref: "6.1",
+        title: "Add metadata to provide additional context for saved games.",
+        type: "required",
+        steps: "Initiate a save game action or inspect the game saving files screen.\nConfirm that each saved slot includes context details: a representative cover image screenshot of gameplay, a short description of progress, and a timestamp showing how long you have been playing.",
+        expected: "Saved game files are committed with cover images, progress descriptions, and active duration timestamps.",
+        originalRef: "Saved games"
+      },
+      {
+        id: "And-GPGS-SAVE-2",
+        gl: "AGL-005",
+        ref: "6.2",
+        title: "Allow players to load saved games.",
+        type: "required",
+        steps: "In the game settings or main menu, navigate to load a saved file or make a selection from the Google Play Games saved game user interface.\nVerify that selecting a save file correctly loads the exact state, position, and progress corresponding to that entry.",
+        expected: "Saved games load precisely to the exact gameplay point requested by the player.",
+        originalRef: "Saved games"
       }
     ]
   }

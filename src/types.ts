@@ -15,6 +15,7 @@ export interface TestCase {
   expected: string;
   displayNum?: number;
   originalRef?: string;
+  type?: 'required' | 'best_practice';
 }
 
 export interface PlatformData {

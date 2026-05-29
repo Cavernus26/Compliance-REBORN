@@ -27,6 +27,9 @@ import { AppState, Session, TestCase, ExecutionMap, Guideline } from './types';
 import ExecutiveReportView from './components/ExecutiveReportView';
 import AnalyzerView from './components/AnalyzerView';
 import androidShareSheetImg from './assets/images/android_share_sheet_1779710019591.png';
+import gpgIncrementalImg from './assets/images/gpg_incremental_1780057315640.png';
+import gpgDifficultyImg from './assets/images/gpg_clash_royale_achievement_1780058034915.png';
+import gpgFriendsIconsImg from './assets/images/gpg_friends_icons_1780059458838.png';
 
 const INITIAL_STATE: AppState = {
   sessions: [],
@@ -879,67 +882,95 @@ function ExecuteView({ state, setState, db, activeTcs, executions, setStatus, bu
             </button>
           </div>
         ) : (
-          grouped.map((section, sIdx) => (
-            <div key={sIdx} className="space-y-12">
-              {/* Section Name */}
-              <div className="relative">
-                <div className="flex items-baseline gap-4 mb-2">
-                  <span className="text-[10px] font-mono text-[var(--text-muted)]">Section</span>
-                  <h2 className="text-2xl font-light text-[var(--text-highlight)] uppercase tracking-[0.2em]">{section.guideline.title}</h2>
-                </div>
-                <div className="h-[2px] w-24 bg-[var(--text-highlight)]" />
-              </div>
-
-              <div className="space-y-12 ml-4">
-                {section.bundles.map((bundle, bIdx) => (
-                  <div key={bIdx} className="space-y-6">
-                    {/* Section Header */}
-                    {bundle.header && (
-                      <div className="flex items-center gap-4 group/header">
-                        <div className="w-1.5 h-1.5 rounded-full bg-[var(--text-muted)]" />
-                        <h3 className="text-xs font-bold text-[var(--text-muted)] uppercase tracking-[0.2em]">{bundle.header}</h3>
-                        <div className="h-px bg-[var(--surface2)] flex-1" />
-                        <div className="flex gap-2">
-                          <button 
-                            onClick={() => bulkSetStatus(bundle.tcs.map((t: TestCase) => t.id), 'pass')}
-                            className="px-3 py-1 rounded text-[9px] font-bold uppercase tracking-tighter bg-green-500/10 text-green-500 border border-green-500/20 hover:bg-green-500 hover:text-black transition-all"
-                          >
-                            Bulk Pass
-                          </button>
-                          <button 
-                            onClick={() => bulkSetStatus(bundle.tcs.map((t: TestCase) => t.id), 'not_applicable')}
-                            className="px-3 py-1 rounded text-[9px] font-bold uppercase tracking-tighter bg-orange-500/10 text-orange-500 border border-orange-500/20 hover:bg-orange-500 hover:text-black transition-all"
-                          >
-                            Bulk N/A
-                          </button>
-                        </div>
-                      </div>
-                    )}
-
-                    <div className="space-y-3">
-                      {bundle.tcs.map((tc: TestCase) => {
-                        const num = getTestCaseNumber(tc, db.testCases);
-                        return (
-                          <TestCaseRow 
-                            key={tc.id} 
-                            tc={tc} 
-                            tcNumber={num}
-                            execution={executions[tc.id]} 
-                            setStatus={setStatus} 
-                            setState={setState}
-                            showToast={showToast}
-                            isExpanded={expandedTc === tc.id}
-                            onToggle={() => setExpandedTc(expandedTc === tc.id ? null : tc.id)}
-                            setDeleteConf={setDeleteConf}
-                          />
-                        );
-                      })}
+          grouped.map((section, sIdx) => {
+            if (section.guideline.id === 'AGL-005') {
+              return (
+                <div key={sIdx} className="space-y-6">
+                  {/* Section Name */}
+                  <div className="relative">
+                    <div className="flex items-baseline gap-4 mb-2">
+                      <span className="text-[10px] font-mono text-[var(--text-muted)]">Section</span>
+                      <h2 className="text-2xl font-light text-[var(--text-highlight)] uppercase tracking-[0.2em]">{section.guideline.title}</h2>
                     </div>
+                    <div className="h-[2px] w-24 bg-[var(--text-highlight)]" />
                   </div>
-                ))}
+
+                  <div className="pt-2">
+                    <PlayGamesServicesChecklist 
+                      tcs={section.bundles.flatMap((b: any) => b.tcs)}
+                      executions={executions}
+                      setStatus={setStatus}
+                      setState={setState}
+                      showToast={showToast}
+                      expandedTc={expandedTc}
+                      setExpandedTc={setExpandedTc}
+                    />
+                  </div>
+                </div>
+              );
+            }
+            return (
+              <div key={sIdx} className="space-y-12">
+                {/* Section Name */}
+                <div className="relative">
+                  <div className="flex items-baseline gap-4 mb-2">
+                    <span className="text-[10px] font-mono text-[var(--text-muted)]">Section</span>
+                    <h2 className="text-2xl font-light text-[var(--text-highlight)] uppercase tracking-[0.2em]">{section.guideline.title}</h2>
+                  </div>
+                  <div className="h-[2px] w-24 bg-[var(--text-highlight)]" />
+                </div>
+
+                <div className="space-y-12 ml-4">
+                  {section.bundles.map((bundle: any, bIdx: number) => (
+                    <div key={bIdx} className="space-y-6">
+                      {/* Section Header */}
+                      {bundle.header && (
+                        <div className="flex items-center gap-4 group/header">
+                          <div className="w-1.5 h-1.5 rounded-full bg-[var(--text-muted)]" />
+                          <h3 className="text-xs font-bold text-[var(--text-muted)] uppercase tracking-[0.2em]">{bundle.header}</h3>
+                          <div className="h-px bg-[var(--surface2)] flex-1" />
+                          <div className="flex gap-2">
+                            <button 
+                              onClick={() => bulkSetStatus(bundle.tcs.map((t: TestCase) => t.id), 'pass')}
+                              className="px-3 py-1 rounded text-[9px] font-bold uppercase tracking-tighter bg-green-500/10 text-green-500 border border-green-500/20 hover:bg-green-500 hover:text-black transition-all"
+                            >
+                              Bulk Pass
+                            </button>
+                            <button 
+                              onClick={() => bulkSetStatus(bundle.tcs.map((t: TestCase) => t.id), 'not_applicable')}
+                              className="px-3 py-1 rounded text-[9px] font-bold uppercase tracking-tighter bg-orange-500/10 text-orange-500 border border-orange-500/20 hover:bg-orange-500 hover:text-black transition-all"
+                            >
+                              Bulk N/A
+                            </button>
+                          </div>
+                        </div>
+                      )}
+
+                      <div className="space-y-3">
+                        {bundle.tcs.map((tc: any) => {
+                          const num = getTestCaseNumber(tc, db.testCases);
+                          return (
+                            <TestCaseRow 
+                              key={tc.id} 
+                              tc={tc} 
+                              tcNumber={num}
+                              execution={executions[tc.id]} 
+                              setStatus={setStatus} 
+                              setState={setState}
+                              showToast={showToast}
+                              isExpanded={expandedTc === tc.id}
+                              onToggle={() => setExpandedTc(expandedTc === tc.id ? null : tc.id)}
+                              setDeleteConf={setDeleteConf}
+                            />
+                          );
+                        })}
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
-            </div>
-          ))
+            );
+          })
         )}
 
         {/* SUBSCRIPTION FLOW DEMO BOTTOM ENTRY */}
@@ -3230,7 +3261,7 @@ function SubscriptionComplianceDemo({ tcId }: { tcId: string }) {
             <div className="pt-2 font-mono">
               <button 
                 onClick={() => setPromotedTriggered(true)}
-                className="w-full text-xs font-mono py-2.5 bg-indigo-500/10 text-indigo-400 border border-indigo-554/20 rounded-xl hover:bg-indigo-500/20 transition-all text-center flex items-center justify-center gap-2 font-semibold cursor-pointer"
+                className="w-full text-xs font-mono py-2.5 bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 rounded-xl hover:bg-indigo-500/20 transition-all text-center flex items-center justify-center gap-2 font-semibold cursor-pointer"
               >
                 <span>🚀 Simulate App Store Promoted IAP Trigger</span>
               </button>
@@ -3241,6 +3272,514 @@ function SubscriptionComplianceDemo({ tcId }: { tcId: string }) {
     </div>
   );
 }
+
+function PlayGamesServicesChecklist({ tcs, executions, setStatus, setState, showToast, expandedTc, setExpandedTc }: any) {
+  const GUIDELINE_DETAILS_MAP: Record<string, string[]> = {
+    'And-GPGS-1.1': [
+      'Automatic authentication will get players quickly authenticated and authorized to use the full set of features provided by the Google Play Games Services.',
+      "If the user declines, your game should offer the opportunity for them to authenticate later (e.g. with a button in the game menu, etc.). The sign-in button should be easy for players to find; for example, it should be accessible from your main screen or located in the Settings screen. This button shouldn't be buried multiple levels deep in your game menu."
+    ],
+    'And-GPGS-1.2': [
+      'To provide players with an end-to-end experience that is attractive and consistent, implement the Google Play Games Services branding guidelines.'
+    ],
+    'And-GPGS-1.3': [
+      'Give authenticated players an appropriate reminder or cue when your game performs some action on their behalf. For example, when an authenticated player finishes a level, you can provide a message like this to indicate that the player\'s score and achievements are being automatically uploaded: "You are authenticated with Google. Your achievements and scores will be saved automatically."'
+    ],
+    'And-GPGS-1.4': [
+      'To ensure players don\'t lose their progress when switching or resetting devices, or if they play on multiple devices, ensure their progress is backed up to a Cloud Save solution, and use the Play Games Services ID as a key. When players authenticate with their Play Games Services ID, check whether progress exists for that account and if it does, allow the player to pick up where they left off.',
+      'If the user is not authenticated, try to maintain the player\'s progress locally, then sync that progress when the player eventually authenticates. This helps to prevent losing any of the player\'s progress if the player postpones to authenticate your game.'
+    ],
+    'And-GPGS-ACH-1': [
+      'At least 10 visible achievements must be in a revealed (non-hidden) state. Reveal achievements so that players can look over the goals and decide how to tackle them on launching your game.',
+      'Do not lock or hide the description for these base achievements, as players need a clear initial roadmap of what is possible in the title.'
+    ],
+    'And-GPGS-ACH-2': [
+      'At least four achievements should be reasonably and reliably achievable within an hour of gameplay by everyone who plays.',
+      'This initial validation ensures immediate gratification for new players, helping build strong engagement and keeping them hooked early.'
+    ],
+    'And-GPGS-ACH-3': [
+      'All achievements should have unique names and descriptions. These must make it clear to players what they need to do to unlock the achievement.',
+      'Avoid copy-pasting description text across milestones, as this compromises user clarity and feels unpolished.'
+    ],
+    'And-GPGS-ACH-4': [
+      'All achievements should have unique icons.',
+      'Icons should be created as 512 x 512 pixels PNG, JPEG, or JPG files on transparent background. Avoid reusing artwork or default templates.'
+    ],
+    'And-GPGS-ACH-5': [
+      'Ensure that all achievements are attainable. Players must be able to unlock all achievements you create.',
+      'Double-check server-side triggers, progression math, and logical thresholds to guarantee zero broken trigger conditions.'
+    ],
+    'And-GPGS-ACH-6': [
+      'Use incremental achievements to show progress. Incremental achievements are cumulative across game sessions (e.g. 23% complete).',
+      'This helps players understand that their long-term efforts are being tracked faithfully by Play Services.'
+    ],
+    'And-GPGS-ACH-7': [
+      'At least forty or more achievements spread across the lifetime of the game including ones that surprise and delight, recognise milestones, and capture player progress.'
+    ],
+    'And-GPGS-ACH-8': [
+      'Use hidden achievements for element of surprise and delight.',
+      'Hidden achievements means that details about the achievement are hidden from the player. These are perfect to shield players from early plot spoilers.'
+    ],
+    'And-GPGS-ACH-9': [
+      'Add new achievements when new levels or episodes are added to the game to keep active users incentivized.'
+    ],
+    'And-GPGS-ACH-10': [
+      'Score achievements proportionately. Achievement points should be proportional to the amount of time or skill required to earn that achievement.',
+      'Easy achievements should yield modest points, while grueling end-game feats should offer heavy scores.'
+    ],
+    'And-GPGS-ACH-11': [
+      'Design achievements for a variety of difficulty levels.',
+      'Include some easy achievements that a player could earn through casual gameplay, intermediate achievements, and one or two very difficult achievements.'
+    ],
+    'And-GPGS-ACH-12': [
+      'Don\'t frontload achievements.',
+      'Avoid awarding more than one achievement in the first 5 minutes of gameplay, since players who are new to your game won\'t be deeply invested enough to care.',
+      'Watch out for achievements likely to be trivially earned, such as "Complete a level without taking damage" at the absolute beginning of the game.'
+    ],
+    'And-GPGS-ACH-13': [
+      'Define achievements around compelling in-game activities.',
+      'Select metrics to build achievements that make your game more compelling and replayable (e.g., "number of zombies killed" is better than "number of miles walked").'
+    ],
+    'And-GPGS-ACH-14': [
+      'Use color achievement icons.',
+      'Play Games Services uses grayscale versions of achievement icons to show if they\'re earned or unearned. If you are restricted to using monochromatic icons, display them on a colored background.'
+    ],
+    'And-GPGS-ACH-15': [
+      'Minimize the use of hidden achievements.',
+      'Hidden achievements should only be used to avoid early-game spoilers; they shouldn\'t be the norm.'
+    ],
+    'And-GPGS-ACH-16': [
+      'Avoid achievements that are too reliant on chance.',
+      'For example, "Find 100 treasure chests" is a better achievement than "Find an item that has a 1% chance of appearing in a treasure chest" as it rewards player effort.'
+    ],
+    'And-GPGS-ACH-17': [
+      'Think like an "Achievement Hunter".',
+      'Some players will attempt to earn every achievement you create. Try to provide achievements that cater to this category, and avoid permanent story locks or unrecoverable lockouts.'
+    ],
+    'And-GPGS-LEAD-1': [
+      'Make leaderboards visible in your main menu and after key transitions.',
+      'Leaderboards should be readily accessible on the loading of a game. After critical transitions in a game (for example, at the end of a level, or when the player dies), players should immediately see links to the relevant leaderboards.'
+    ],
+    'And-GPGS-LEAD-2': [
+      'Define upper limits for scores that can be submitted.',
+      'If possible, add limits when defining your leaderboards so that obviously fake scores are discarded.'
+    ],
+    'And-GPGS-LEAD-3': [
+      'Use custom icons.',
+      'Create a custom icon for each leaderboard you define; don\'t just use your game\'s icon, as it will display poorly in the Google Play Games app.'
+    ],
+    'And-GPGS-LEAD-4': [
+      'Keep the frequency of score submissions appropriate.',
+      'Submit scores after critical transitions in the game, such as at the end of a level or when a player\'s game character dies. For games without critical transitions (for example, an "endless runner" type game), use good judgment on how frequently to submit scores. Scores shouldn\'t be submitted continuously or every second.'
+    ],
+    'And-GPGS-LEAD-5': [
+      'Make use of scoretags.',
+      'Scoretags are extra bits of data that can be sent with your score submission. For example, you can implement a scoretag as a flag to confirm that a player\'s submitted score is valid.',
+      'Custom leaderboards can also read this tag data. If the scoretag consisted of an ID for a YouTube video containing that player\'s gameplay, for example, your game could create a link to view that video within your leaderboard.'
+    ],
+    'And-GPGS-LEAD-6': [
+      'Creatively design your own leaderboard UI.',
+      'If you have the resources, build your own custom leaderboard view on top of the social leaderboard data. Social leaderboards typically create a more engaging experience than public leaderboards. Check first to determine if there are any entries in the social leaderboard. If not, use the public leaderboard instead.'
+    ],
+    'And-GPGS-LEAD-7': [
+      'Show players how they stack up against the competition.',
+      'The leaderboards API supports showing score windows (for example, a player\'s rank within +/-10 spots). If you are creating a custom view, this can be a powerful way to motivate engagement. This could be shown right after a critical transition in the game (for example, at the end of a level or when a player\'s game character dies). Avoid putting unnecessary clicks between your players and their ranking information.'
+    ],
+    'And-GPGS-FRND-1': [
+      'Show the Play Games Services icon next to users who have a Play Games profile in user lists.',
+      'This list could be an existing friends list, a recently-played friends list, or another list of friends in the game interface.'
+    ],
+    'And-GPGS-FRND-2': [
+      'The Play Games Services icon must be clickable.',
+      'Pressing the icon should trigger a smooth visual view allowing the player to compare achievements, metrics, and profiles against the chosen player.'
+    ],
+    'And-GPGS-FRND-3': [
+      'Player profiles and friend invitations support, for customizable in-game player names.',
+      'If a player customizes their name within the game (rather than using their default Play Games name), the system should share this in-game nickname as context during friend invites and profile comparisons.',
+      'This means that friend invitations sent from within the game provide clear context to both parties:',
+      '• The recipient sees the active in-game display name of the person who sent the invite, plus the name of the game.',
+      '• The sender sees the recipient\'s custom in-game nickname and the game name they connected from.'
+    ],
+    'And-GPGS-FRND-4': [
+      'Use different icons to show which Play Games users are already friends, and which are not yet Play Games friends but have authenticated with Play Games.',
+      'Use two icons for Play Games users, one for "Friends" and one for "Not friends" (or when the friendship status is unknown).'
+    ],
+    'And-GPGS-FRND-5': [
+      'Keep your friends list automatically updated whenever displaying it.',
+      'Ensure the game requests the latest social data from Google Play Games in the background whenever the player enters the friends panel, guaranteeing you see an up-to-date online list.'
+    ],
+    'And-GPGS-FRND-6': [
+      'Incorporate Play Games Friends into existing in-game friends trackers.',
+      'If your game already contains in-game friends, use the Friends service to increase the list of friends by adding the Play Games friends. If a player is in the in-game friends list and they are also a Play Games friend, show the icon for "Friends".'
+    ],
+    'And-GPGS-FRND-7': [
+      'Do not show the Friends API access dialog repeatedly after denial.',
+      'If a player has denied the request to access their friends list, don\'t show the dialog asking for access again unless the user has taken an action to indicate they want to give access (for example, pressing an "Import Play Games Friends" button).'
+    ],
+    'And-GPGS-FRND-8': [
+      'Provide a recovery gateway mechanism to grant friends list access.',
+      'If a player has denied access to the friends list, give them a way to grant friends list access in the future (for example, after pressing an "Import Play Games Friends" button).'
+    ],
+    'And-GPGS-FRND-9': [
+      'Secure backend and social identity integration rules.',
+      'If you verify user records using a backend service, ensure identifiers are queried and synced securely through recommended APIs.',
+      'This guarantees that players always see uniform, correct, and secure account names across devices and game networks without identity mix-ups.'
+    ],
+    'And-GPGS-QUOTA-1': [
+      'Utilize standardized game library components to optimize service usage.',
+      'Integrating through standard libraries automates several key client-side performance saving actions:',
+      '• Cache details offline: Locally holds achievement status and leaderboard info, allowing users to review their badges freely without triggering extra calls.',
+      '• Filter score submissions: Only posts high scores if they actively exceed your previous record tier.',
+      '• Combine rapid calls: Smoothly buffers frequent progress increments to bypass backend restrictions.'
+    ],
+    'And-GPGS-QUOTA-2': [
+      'Combine highly frequent progress updates into spaced intervals.',
+      'For fast-paced or highly repeatable actions (such as striking a target, executing standard jumps, or gathering coins), do not sync progress on every single individual count.',
+      'Instead, wait until a natural level boundary or game-round completes to post the total sum, or queue and push increments in larger logical groups.'
+    ],
+    'And-GPGS-QUOTA-3': [
+      'Coordinate and monitor your applet service quota usage.',
+      'Be mindful of overall synchronizations to preserve internet bandwidth and device battery lifetimes.',
+      '• Keep progress updates to every few minutes rather than submitting on every single tap or transition.',
+      '• Defer leaderboard postings until active play sessions terminate.',
+      '• Monitor system health and daily request limits from your cloud project portal.'
+    ],
+    'And-GPGS-SAVE-1': [
+      'Add metadata to provide additional context for saved games.',
+      'At minimum, you must include the following metadata when saving a game state:',
+      '• Cover Image: A screenshot that captures active game progress to remind players of where they left the title.',
+      '• Description: Short summary text that provides helpful context for the screenshot (e.g. "Level 4 - Ice Cavern").',
+      '• Active Duration/Timestamp: Accurately indicates how long the player has spent playing the game for this specific slot.'
+    ],
+    'And-GPGS-SAVE-2': [
+      'Allow players to load saved games.',
+      'Confirm that the game successfully loads the exact requested saved file when players make a selection from the Google Play Games app or the default Saved Games selection UI.',
+      'The title must restore the gameplay precisely to the appropriate checkpoint and state corresponding to that specific file.'
+    ]
+  };
+
+  const allGuidelines = tcs.map((tc: any) => {
+    const isAchievements = tc.id.includes('ACH') || tc.originalRef === 'Achievements';
+    const isLeaderboards = tc.id.includes('LEAD') || tc.originalRef === 'Leaderboards';
+    const isFriends = tc.id.includes('FRND') || tc.originalRef === 'Friends';
+    const isQuota = tc.id.includes('QUOTA') || tc.originalRef === 'Quota and rate limiting';
+    const isSavedGames = tc.id.includes('SAVE') || tc.originalRef === 'Saved games';
+    return {
+      id: tc.id,
+      isBestPractice: tc.type === 'best_practice' || tc.isBestPractice,
+      category: isAchievements 
+        ? 'Achievements Design' 
+        : (isLeaderboards 
+          ? 'Leaderboards Design' 
+          : (isFriends 
+            ? 'Friends Integration' 
+            : (isQuota 
+              ? 'Quota & Rate Limiting' 
+              : (isSavedGames
+                ? 'Saved Games'
+                : (tc.originalRef || 'Platform authentication'))))),
+      title: tc.title,
+      snippet: tc.steps ? tc.steps.split('\n')[0] : tc.title,
+      steps: tc.steps || '',
+      expected: tc.expected || 'Correct verification of specified game services policies.',
+      details: GUIDELINE_DETAILS_MAP[tc.id] || [tc.title],
+      link: tc.id === 'And-GPGS-1.2' ? 'https://developers.google.com/games/services/branding' : undefined
+    };
+  });
+
+  const platformItems = allGuidelines.filter((i: any) => !i.id.includes('ACH') && !i.id.includes('LEAD') && !i.id.includes('FRND') && !i.id.includes('QUOTA') && !i.id.includes('SAVE'));
+  const achievementsItems = allGuidelines.filter((i: any) => i.id.includes('ACH'));
+  const leaderboardsItems = allGuidelines.filter((i: any) => i.id.includes('LEAD'));
+  const friendsItems = allGuidelines.filter((i: any) => i.id.includes('FRND'));
+  const quotaItems = allGuidelines.filter((i: any) => i.id.includes('QUOTA'));
+  const savedGamesItems = allGuidelines.filter((i: any) => i.id.includes('SAVE'));
+
+  const subsections = [
+    {
+      title: "Platform Authentication",
+      badge: "Auth & Sync",
+      description: "Google Play Games Services client integration, automatic sign-in workflows, and active cloud-save behaviors.",
+      items: platformItems
+    },
+    {
+      title: "Achievements Design",
+      badge: "Achievements",
+      description: "Milestone distribution, early gameplay engagement, attainable parameters, scoring balance, and progression tracking rules.",
+      items: achievementsItems
+    },
+    {
+      title: "Leaderboards Design",
+      badge: "Leaderboards",
+      description: "Establish intuitive access, secure anti-cheat score thresholds, custom dashboard art, and contextual local rank focus.",
+      items: leaderboardsItems
+    },
+    {
+      title: "Friends Integration",
+      badge: "Friends",
+      description: "Represent social connections, merge custom in-game contacts with Play profile lists, and securely compare rankings.",
+      items: friendsItems
+    },
+    {
+      title: "Quota and Rate Limiting",
+      badge: "Quotas",
+      description: "Optimize server calls, batch repetitive incremental milestones, and preserve mobile device battery efficiency.",
+      items: quotaItems
+    },
+    {
+      title: "Saved Games",
+      badge: "Saves",
+      description: "Commit comprehensive cloud context metadata, include gameplay preview screenshots and session durations, and support seamless file restore states.",
+      items: savedGamesItems
+    }
+  ];
+
+  const visibleSections = subsections.filter(s => s.items.length > 0);
+
+  return (
+    <div className="space-y-10 font-sans">
+      {visibleSections.map((sect, sectIdx) => (
+        <div key={sect.title} className="bg-[var(--surface)] text-[var(--text-highlight)] rounded-2xl border border-[var(--border)] shadow-xl overflow-hidden">
+          {/* Subsection Header */}
+          <div className="bg-[var(--surface2)]/50 border-b border-[var(--border)] px-6 py-4 flex flex-col md:flex-row justify-between items-start md:items-center gap-3">
+            <div>
+              <div className="flex items-center gap-2">
+                <span className="text-[9px] font-mono font-bold uppercase tracking-widest bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 px-2 py-0.5 rounded">
+                  {sect.badge}
+                </span>
+              </div>
+              <h4 className="text-sm font-semibold text-[var(--text-highlight)] mt-1">{sect.title}</h4>
+              <p className="text-[11px] text-[var(--text-muted)] leading-relaxed max-w-2xl mt-0.5">{sect.description}</p>
+            </div>
+          </div>
+
+          <div className="divide-y divide-[var(--border)] bg-[var(--surface)]" id={`playgames-sub-${sectIdx}`}>
+            {sect.items.map((item, itemIdx) => {
+              const tc = tcs.find((t: any) => t.id === item.id) || { id: item.id, expected: item.expected };
+              const status = executions[item.id]?.status || 'not_tested';
+              const isExpanded = expandedTc === item.id;
+              
+              return (
+                <div key={item.id} className="transition-all duration-300 hover:bg-[var(--surface2)]/20">
+                  <div 
+                    className="grid grid-cols-12 gap-5 p-5 md:p-6 cursor-pointer select-none items-center"
+                    onClick={() => setExpandedTc(isExpanded ? null : item.id)}
+                  >
+                    {/* Index column */}
+                    <div className="col-span-12 md:col-span-1 flex items-center gap-3">
+                      <span className="text-[10px] font-mono text-[var(--text-muted)] bg-[var(--surface2)] w-6 h-6 rounded-md flex items-center justify-center border border-[var(--border)] font-bold">
+                        {itemIdx + 1}
+                      </span>
+                    </div>
+
+                    {/* Left column: Type Tag */}
+                    <div className="col-span-12 md:col-span-2">
+                      {item.isBestPractice ? (
+                        <span className="text-[9px] font-mono font-bold uppercase tracking-widest bg-amber-500/10 text-amber-500 border border-amber-500/30 py-1 px-3 rounded-md inline-block">
+                          Best Practice
+                        </span>
+                      ) : (
+                        <span className="text-[9px] font-mono font-bold uppercase tracking-widest bg-red-500/10 text-red-500 border border-red-500/30 py-1 px-3 rounded-md inline-block">
+                          Required
+                        </span>
+                      )}
+                    </div>
+
+                    {/* Main Content Column */}
+                    <div className="col-span-12 md:col-span-9 lg:col-span-6 space-y-1.5 pr-4">
+                      {/* Guideline Title */}
+                      <h4 className="text-xs font-bold text-[var(--text-highlight)] leading-snug">
+                        {item.title}
+                      </h4>
+                      {/* Short snippet of description */}
+                      <p className="text-[11px] text-[var(--text-muted)] leading-relaxed italic truncate">
+                        {item.snippet}
+                      </p>
+                    </div>
+
+                    {/* Right Column: Status & Expand controls */}
+                    <div className="col-span-12 lg:col-span-3 flex items-center justify-end gap-3" onClick={e => e.stopPropagation()}>
+                      <div className="flex gap-1.5 flex-wrap justify-end">
+                        <StatusBtn active={status === 'pass'} onClick={() => { setStatus(item.id, 'pass'); showToast(`${item.id} Pass registered`); }} label="Pass" color="bg-green-500/10 text-green-500 border border-green-500/20" activeCls="bg-green-500 text-black border-green-500 shadow-glow-green" />
+                        <StatusBtn active={status === 'fail'} onClick={() => { setStatus(item.id, 'fail'); showToast(`${item.id} Fail registered`); }} label="Fail" color="bg-red-500/10 text-red-500 border border-red-500/20" activeCls="bg-red-500 text-white border-red-500 shadow-glow-red" />
+                        <StatusBtn active={status === 'not_applicable'} onClick={() => { setStatus(item.id, 'not_applicable'); showToast(`${item.id} N/A registered`); }} label="N/A" color="bg-orange-500/10 text-orange-500 border border-orange-500/20" activeCls="bg-orange-500 text-black border-orange-500 shadow-glow-orange" />
+                        <StatusBtn active={status === 'not_tested'} onClick={() => setStatus(item.id, 'not_tested')} label="Not Tested" color="bg-[var(--bg)]/40 text-[var(--text-muted)] border border-transparent" activeCls="bg-[var(--text-highlight)] text-[var(--bg)] border-[var(--text-highlight)] shadow-glow" />
+                      </div>
+
+                      <motion.div animate={{ rotate: isExpanded ? 90 : 0 }} className="text-[var(--text-muted)] hover:text-[var(--text-highlight)] transition-colors cursor-pointer p-1" onClick={() => setExpandedTc(isExpanded ? null : item.id)}>
+                        <ChevronRight size={14} />
+                      </motion.div>
+                    </div>
+                  </div>
+
+                  {/* Expandable test details */}
+                  <AnimatePresence>
+                    {isExpanded && (
+                      <motion.div 
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: 'auto', opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        className="border-t border-[var(--border)] bg-[var(--surface2)]/50 overflow-hidden"
+                      >
+                        <div className="p-5 md:p-6 space-y-6 max-w-4xl mx-auto">
+                          <div className="grid grid-cols-1 md:grid-cols-5 gap-8">
+                            <div className="md:col-span-3 space-y-6">
+                              {/* Test specification list */}
+                              <div className="space-y-3">
+                                <p className="text-[9px] font-bold text-[var(--text-muted)] uppercase tracking-widest flex items-center gap-2 underline decoration-[var(--border)] underline-offset-4 font-mono">01 Play Games Guidelines Details</p>
+                                <div className="text-xs text-[var(--text)] leading-relaxed space-y-3 font-normal">
+                                  {item.details.map((p, pIdx) => (
+                                    <p key={pIdx}>
+                                      {item.link && p.includes('branding guidelines') ? (
+                                        <>
+                                          To provide players with an end-to-end experience that is attractive and consistent, implement the{' '}
+                                          <a 
+                                            href={item.link}
+                                            target="_blank" 
+                                            rel="noreferrer" 
+                                            className="text-indigo-400 hover:underline hover:text-indigo-300 font-semibold cursor-pointer text-xs"
+                                            onClick={(e) => e.stopPropagation()}
+                                          >
+                                            Google Play Games Services branding guidelines
+                                          </a>
+                                          .
+                                        </>
+                                      ) : p}
+                                    </p>
+                                  ))}
+                                </div>
+                              </div>
+
+                              {/* Test steps block with Split lines */}
+                              <div className="space-y-3">
+                                <p className="text-[9px] font-bold text-[var(--text-muted)] uppercase tracking-widest flex items-center gap-2 underline decoration-[var(--border)] underline-offset-4 font-mono">02 Test steps</p>
+                                <ul className="space-y-2.5">
+                                  {item.steps.split('\n').map((l: string, i: number) => (
+                                    <li key={i} className="flex gap-4 group/step">
+                                      <span className="text-[10px] font-mono text-[var(--text)] font-bold bg-[var(--bg)] w-5 h-5 rounded flex items-center justify-center shrink-0 border border-[var(--border)] shadow-sm">{i+1}</span>
+                                      <span className="text-sm text-[var(--text)] group-hover/step:text-[var(--text-highlight)] transition-colors leading-relaxed">{l}</span>
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
+
+                              {/* Expected criteria block */}
+                              <div className="p-4 rounded-xl border border-emerald-500/20 dark:border-emerald-800/20 bg-emerald-500/5 shadow-sm">
+                                <p className="text-[9px] font-bold text-emerald-500 dark:text-emerald-400 uppercase tracking-widest mb-1.5 flex items-center gap-2 font-mono">03 Expected result</p>
+                                <p className="text-xs text-[var(--text)] leading-relaxed font-semibold italic">{item.expected}</p>
+                              </div>
+
+                              {item.id === 'And-GPGS-ACH-6' && (
+                                <div className="space-y-3">
+                                  <p className="text-[9px] font-bold text-[var(--text-muted)] uppercase tracking-widest flex items-center gap-2 underline decoration-[var(--border)] underline-offset-4 font-mono">
+                                    05 Incremental Progress UI Example
+                                  </p>
+                                  <div className="rounded-2xl overflow-hidden border border-[var(--border)] bg-[var(--surface3)] max-w-sm shadow-md mt-2">
+                                    <img 
+                                      src={gpgIncrementalImg} 
+                                      alt="Google Play Games Incremental Achievement UI Example Representation" 
+                                      className="w-full h-auto object-cover"
+                                      referrerPolicy="no-referrer"
+                                    />
+                                    <div className="p-3 bg-[var(--surface2)]/50 border-t border-[var(--border)]">
+                                      <p className="text-[11px] text-[var(--text-muted)] leading-relaxed font-medium">
+                                        An elegant visual layout of an active incremental achievement showing high-contrast progress checkpoints, descriptive rewards, and live completion counts.
+                                      </p>
+                                    </div>
+                                  </div>
+                                </div>
+                              )}
+
+                              {item.id === 'And-GPGS-ACH-11' && (
+                                <div className="space-y-3">
+                                  <p className="text-[9px] font-bold text-[var(--text-muted)] uppercase tracking-widest flex items-center gap-2 underline decoration-[var(--border)] underline-offset-4 font-mono">
+                                    05 High-Difficulty Achievement UI Example
+                                  </p>
+                                  <div className="rounded-2xl overflow-hidden border border-[var(--border)] bg-[var(--surface3)] max-w-sm shadow-md mt-2">
+                                    <img 
+                                      src={gpgDifficultyImg} 
+                                      alt="Google Play Games High-Difficulty Achievement Milestone Example Representation" 
+                                      className="w-full h-auto object-cover"
+                                      referrerPolicy="no-referrer"
+                                    />
+                                    <div className="p-3 bg-[var(--surface2)]/50 border-t border-[var(--border)]">
+                                      <p className="text-[11px] text-[var(--text-muted)] leading-relaxed font-medium">
+                                        For example, the following screenshot shows a hard-to-earn achievement that helps to motivate and retain fans of the title.
+                                      </p>
+                                    </div>
+                                  </div>
+                                </div>
+                              )}
+
+                              {item.id === 'And-GPGS-FRND-4' && (
+                                <div className="space-y-3">
+                                  <p className="text-[9px] font-bold text-[var(--text-muted)] uppercase tracking-widest flex items-center gap-2 underline decoration-[var(--border)] underline-offset-4 font-mono">
+                                    05 Friends vs Non-Friends Icon Status Example
+                                  </p>
+                                  <div className="rounded-2xl overflow-hidden border border-[var(--border)] bg-[var(--surface3)] max-w-sm shadow-md mt-2">
+                                    <img 
+                                      src={gpgFriendsIconsImg} 
+                                      alt="Google Play Games Services Friends vs Non-Friends Social Icon Status Indicators" 
+                                      className="w-full h-auto object-cover"
+                                      referrerPolicy="no-referrer"
+                                    />
+                                    <div className="p-3 bg-[var(--surface2)]/50 border-t border-[var(--border)]">
+                                      <p className="text-[11px] text-[var(--text-muted)] leading-relaxed font-medium">
+                                        Use distinct icon badge variations next to users to represent confirmed reciprocity vs un-linked or unknown friend statuses.
+                                      </p>
+                                    </div>
+                                  </div>
+                                </div>
+                              )}
+                            </div>
+
+                            {/* Notes block */}
+                            <div className="md:col-span-2 space-y-4">
+                              <div className="space-y-2">
+                                <label className="text-[9px] font-bold text-[var(--text-muted)] uppercase tracking-widest flex items-center gap-2 underline decoration-[var(--border)] underline-offset-4 font-mono">04 Observations & Notes</label>
+                                <textarea 
+                                  placeholder="Log runtime anomalies, device specifics or play credentials..." 
+                                  className="w-full bg-[var(--bg)]/40 border border-[var(--border)] rounded-xl p-3 text-xs text-[var(--text-highlight)] outline-none focus:border-[var(--text-muted)] transition-all resize-none min-h-[110px] font-mono leading-relaxed shadow-inner"
+                                  value={executions[item.id]?.notes || ''}
+                                  onChange={e => {
+                                    setState((prev: any) => {
+                                      const key = `${prev.platform}_${prev.activeId}`;
+                                      const platExecs = prev.execsByPlatform[key] || {};
+                                      return {
+                                        ...prev,
+                                        execsByPlatform: {
+                                          ...prev.execsByPlatform,
+                                          [key]: {
+                                            ...platExecs,
+                                            [item.id]: { ...(platExecs[item.id] || { status: 'not_tested' }), notes: e.target.value }
+                                          }
+                                        }
+                                      };
+                                    });
+                                  }}
+                                />
+                              </div>
+                              <button 
+                                onClick={() => showToast('Observations committed to session')}
+                                className="w-full bg-[var(--text-highlight)] text-[var(--bg)] text-[10px] font-bold py-2 rounded-lg hover:opacity-90 transition-all shadow-md flex items-center justify-center gap-2 active:scale-[0.98]"
+                              >
+                                <Save size={12} /> Commit Notes
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 
 function TestCaseRow({ tc, tcNumber, execution, setStatus, setState, showToast, isExpanded, onToggle, setDeleteConf }: any) {
   const status = execution?.status || 'not_tested';
@@ -3256,6 +3795,19 @@ function TestCaseRow({ tc, tcNumber, execution, setStatus, setState, showToast, 
         
         <div className="flex-1 min-w-0 h-14 flex items-center pr-4">
           <div className="max-h-full overflow-y-auto pr-2 custom-scrollbar w-full py-1">
+            {tc.type && (
+              <div className="flex items-center gap-2 mb-1.5 animate-in fade-in zoom-in-95 duration-200">
+                {tc.type === 'required' ? (
+                  <span className="text-[8px] font-mono font-bold uppercase tracking-widest bg-red-500/10 text-red-400 border border-red-500/30 py-0.5 px-2 rounded">
+                    &bull; Required
+                  </span>
+                ) : (
+                  <span className="text-[8px] font-mono font-bold uppercase tracking-widest bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 py-0.5 px-2 rounded">
+                    &bull; Best Practice
+                  </span>
+                )}
+              </div>
+            )}
             <h3 className={`text-sm font-medium leading-[1.4] whitespace-pre-wrap transition-colors ${status === 'not_tested' ? 'text-[var(--text-muted)] group-hover:text-[var(--text-highlight)]' : 'text-[var(--text-highlight)]'}`}>
               {tc.title}
             </h3>
