@@ -419,9 +419,24 @@ export default function AnalyzerView({ platform, activeSession, onSyncPlistResul
   // Automatically sync with platform selection changes
   useEffect(() => {
     setActiveTab(platform);
-    setRawText('');
-    setAnalysisDone(false);
   }, [platform]);
+
+  // Handle loading and analysis when activeTab changes
+  useEffect(() => {
+    const saved = localStorage.getItem(`compliance-hub-analyzer-rawText-${activeTab}`);
+    if (saved) {
+      setRawText(saved);
+      analyzeContent(saved, activeTab);
+    } else {
+      setRawText('');
+      setAnalysisDone(false);
+      setIosMandatory([]);
+      setIosNonMandatory([]);
+      setIosPermissions([]);
+      setAndroidDangerous([]);
+      setManifestPermissions([]);
+    }
+  }, [activeTab]);
 
   // Handle drag configurations
   const handleDrag = (e: React.DragEvent) => {
@@ -492,8 +507,10 @@ ${body}
   };
 
   // Content analyzer
-  const analyzeContent = (content: string, type: 'ios' | 'android') => {
+  function analyzeContent(content: string, type: 'ios' | 'android') {
     if (!content.trim()) return;
+
+    localStorage.setItem(`compliance-hub-analyzer-rawText-${type}`, content);
 
     if (type === 'ios') {
       // 1. Extract values of keys inside Plist XML
@@ -777,7 +794,6 @@ ${body}
         <button
           onClick={() => {
             setActiveTab('ios');
-            handleClear();
           }}
           className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg text-xs font-semibold tracking-wider uppercase transition-all duration-200 ${activeTab === 'ios' ? 'bg-indigo-600 text-white shadow' : 'text-[var(--text-muted)] hover:text-[var(--text-highlight)]'}`}
         >
@@ -786,7 +802,6 @@ ${body}
         <button
           onClick={() => {
             setActiveTab('android');
-            handleClear();
           }}
           className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg text-xs font-semibold tracking-wider uppercase transition-all duration-200 ${activeTab === 'android' ? 'bg-indigo-600 text-white shadow' : 'text-[var(--text-muted)] hover:text-[var(--text-highlight)]'}`}
         >

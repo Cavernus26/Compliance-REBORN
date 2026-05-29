@@ -378,7 +378,7 @@ export default function App() {
         {/* Content Section */}
         <main className="flex-1 p-10 print:p-0 print:m-0 overflow-y-auto page-transition max-w-6xl print:max-w-none mx-auto w-full">
         {activePage === 'dashboard' && <DashboardView stats={stats} risk={risk} activeSession={activeSession} onNewSess={() => setIsModalOpen(true)} onGoToTest={() => setActivePage('execute')} />}
-        {activePage === 'sessions' && <SessionsView sessions={state.sessions} activeId={state.activeId} onSelect={id => setState(p => ({ ...p, activeId: id }))} onDelete={deleteSession} onNewSess={() => setIsModalOpen(true)} />}
+        {activePage === 'sessions' && <SessionsView sessions={state.sessions} activeId={state.activeId} onSelect={(id: string) => { setState(p => ({ ...p, activeId: id })); setActivePage('execute'); showToast("Switched context to selected test session"); }} onDelete={deleteSession} onNewSess={() => setIsModalOpen(true)} />}
         {activePage === 'execute' && <ExecuteView state={state} setState={setState} db={db} activeTcs={activeTcs} executions={executions} setStatus={setStatus} bulkSetStatus={bulkSetStatus} expandedTc={expandedTc} setExpandedTc={setExpandedTc} showToast={showToast} icons={icons} setDeleteConf={setDeleteConf} />}
         {activePage === 'summary' && <SummaryView stats={stats} risk={risk} activeSession={activeSession} executions={executions} activeTcs={activeTcs} db={db} state={state} />}
         {activePage === 'analyzer' && <AnalyzerView platform={state.platform} activeSession={activeSession} onSyncPlistResults={handleSyncPlistResults} />}
