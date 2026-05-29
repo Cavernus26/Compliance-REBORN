@@ -133,7 +133,7 @@ export default function ExecutiveReportView({
         bullets: [
           'No test execution results have been recorded in this session yet.',
           'Stakeholders cannot verify store compliance. Critical business risks may remain unmitigated.',
-          'Priority Recommendation: Initiate verification audits in the Test Execution first party compliance evaluation area immediately.'
+          'Priority Recommendation: Initiate verification reviews in the Test Execution first party compliance evaluation area immediately.'
         ]
       };
     }
@@ -146,7 +146,7 @@ export default function ExecutiveReportView({
           textColor: 'text-emerald-600 dark:text-emerald-400',
           bullets: [
             'All evaluated requirements currently meet platform compliance criteria.',
-            `There are still ${stats.nt} outstanding test nodes that require active assessment.`,
+            `There are still ${stats.nt} outstanding test cases that require active assessment.`,
             'Zero critical barriers identified in evaluated sections, but full store validation is blocked until pending assessments complete.'
           ]
         };
@@ -191,7 +191,7 @@ export default function ExecutiveReportView({
       textColor: 'text-amber-600 dark:text-amber-400',
       bullets: [
         'Moderate submission threat: Evaluated build meets basic framework policies, but holds outstanding active violations.',
-        `Registered ${stats.fail} active failure nodes of medium/low risk score.`,
+        `Registered ${stats.fail} active failure test cases of medium/low risk score.`,
         'Approval probability is reduced to ~40% due to non-standard UX disclosures and warning flags.',
         'Apply remediation adjustments to secure standard platform approval.'
       ]
@@ -256,7 +256,7 @@ export default function ExecutiveReportView({
     text += `----------------------------------------------------\n`;
     text += `2. COMPLIANCE SCORE OVERVIEW\n`;
     text += `----------------------------------------------------\n`;
-    text += ` * Total Compliance Nodes: ${stats.total}\n`;
+    text += ` * Total Compliance Test Cases: ${stats.total}\n`;
     text += ` * Requirements Passed: ${stats.pass} (${passRate}% of assessed)\n`;
     text += ` * Violations Identified: ${stats.fail}\n`;
     text += ` * Not Applicable (N/A): ${stats.na}\n`;
@@ -315,13 +315,13 @@ export default function ExecutiveReportView({
 
   return (
     <div className="w-full bg-[var(--surface)] border border-[var(--border)] rounded-2xl p-8 shadow-2xl relative overflow-hidden text-left animate-in fade-in duration-300 print:shadow-none print:border-none print:bg-transparent print:p-0 print:rounded-none" id="executive-compliance-report">
-      {/* Visual background highlights to represent formal auditing desk */}
+      {/* Visual background highlights to represent formal first party compliance review desk */}
 
       {/* Report Core Headings */}
       <div className="flex flex-col items-center text-center gap-6 border-b border-[var(--border)] pb-6 mb-8 w-full">
         <div className="space-y-1.5 w-full">
           <div className="flex items-center justify-center gap-3">
-            <span className="text-[10px] font-mono bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 px-2 py-0.5 rounded uppercase tracking-wider font-extrabold">Enterprise Audit</span>
+            <span className="text-[10px] font-mono bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 px-2 py-0.5 rounded uppercase tracking-wider font-extrabold">First Party Compliance Review</span>
             <span className="text-[10px] font-mono text-[var(--text-muted)]">Generated on {new Date().toLocaleDateString()}</span>
           </div>
           <h2 className="text-3xl font-light text-[var(--text-highlight)] tracking-tight uppercase">Compliance Report</h2>
@@ -445,7 +445,7 @@ export default function ExecutiveReportView({
               </div>
             </div>
             <div className="bg-[var(--surface2)] border border-[var(--border)] rounded-xl p-4 flex flex-col justify-between h-24 print-no-split">
-              <span className="text-[9px] font-mono text-[var(--text-muted)] uppercase">Unverified Nodes</span>
+              <span className="text-[9px] font-mono text-[var(--text-muted)] uppercase">Unverified Test Cases</span>
               <div className="flex items-baseline gap-2">
                 <span className="text-2xl font-bold text-sky-400">{stats.nt}</span>
                 <span className="text-[9px] text-[var(--text-muted)]">pending notes</span>
@@ -610,7 +610,7 @@ export default function ExecutiveReportView({
 
                       {notes && (
                         <div className="mt-3 bg-red-500/5 border border-red-400/10 p-3 rounded-lg text-xs">
-                          <span className="font-bold text-red-400 block mb-1 uppercase tracking-wider font-mono text-[10px]">Auditor Findings & Evidence Summary:</span>
+                          <span className="font-bold text-red-400 block mb-1 uppercase tracking-wider font-mono text-[10px]">Compliance Review Findings & Evidence Summary:</span>
                           <p className="italic text-[var(--text)] pl-1 whitespace-pre-line leading-relaxed">“{notes}”</p>
                         </div>
                       )}
@@ -625,7 +625,7 @@ export default function ExecutiveReportView({
         {/* SECTION 5: APPENDIX (SHORT STATS ONLY) */}
         <div className="pt-6 border-t border-[var(--border)] flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 text-[10px] font-mono text-[var(--text-muted)] print-no-split">
           <div>
-            <span>Audit density: {totalAssessed}/{stats.total} total criteria checked.</span>
+            <span>Compliance Review density: {totalAssessed}/{stats.total} total criteria checked.</span>
           </div>
           <div>
             <span>Aggregate risk ratio: {risk.score} / recommendation coefficient.</span>

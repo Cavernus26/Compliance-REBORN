@@ -767,7 +767,7 @@ ${body}
             Manifest & Info.plist Analyzer
           </h1>
           <p className="text-sm text-[var(--text-muted)] mt-1 max-w-2xl leading-relaxed">
-            Upload or paste security manifest layouts to automatically audit regulatory structural properties, mandatory iOS plist variables, and identify high-risk Android dangerous permission declarations.
+            Upload or paste security manifest layouts to automatically evaluate regulatory structural properties, mandatory iOS plist variables, and identify high-risk Android dangerous permission declarations using our First Party Compliance Review framework.
           </p>
         </div>
       </div>
@@ -931,7 +931,7 @@ ${body}
                       </div>
                       <div>
                         <h3 className="text-sm font-bold text-[var(--text-highlight)] font-sans uppercase">
-                          {activeTab === 'ios' ? 'iOS plist Audit Report' : 'Android Manifest Audit Report'}
+                          {activeTab === 'ios' ? 'iOS plist First Party Compliance Review Report' : 'Android Manifest First Party Compliance Review Report'}
                         </h3>
                         <p className="text-[10px] text-[var(--text-muted)] mt-0.5 font-mono">
                           Format: XML-structure parser • Verified UTC 2026
@@ -1183,7 +1183,7 @@ ${body}
                         <div className="flex items-baseline justify-between border-b border-[var(--border)] pb-1.5">
                           <span className="text-[11px] font-bold text-amber-550 dark:text-amber-500 font-mono uppercase tracking-widest flex items-center gap-1.5">
                             <span className="w-1.5 h-1.5 bg-amber-500 rounded-full animate-bounce" />
-                            Scanned Dangerous Permission Audits ({androidDangerous.length})
+                            Scanned Dangerous Permission First Party Compliance Reviews ({androidDangerous.length})
                           </span>
                           <span className="text-[9px] text-[var(--text-muted)] italic font-semibold font-sans">
                             Subject to custom run-time gating rules

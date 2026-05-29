@@ -617,7 +617,7 @@ function ExecuteView({ state, setState, db, activeTcs, executions, setStatus, bu
   const [filterQuery, setFilterQuery] = useState('');
   const [activeSectionId, setActiveSectionId] = useState('all');
   
-  // Custom Node form states
+  // Custom Test Case form states
   const [showAddForm, setShowAddForm] = useState(false);
   const [newRef, setNewRef] = useState('');
   const [newTitle, setNewTitle] = useState('');
@@ -664,7 +664,7 @@ function ExecuteView({ state, setState, db, activeTcs, executions, setStatus, bu
     return Object.values(sectionMap);
   }, [filtered, db.guidelines]);
 
-  const handleCreateNode = (e: React.FormEvent) => {
+  const handleCreateTestCase = (e: React.FormEvent) => {
     e.preventDefault();
     if (!newTitle.trim()) return;
 
@@ -705,7 +705,7 @@ function ExecuteView({ state, setState, db, activeTcs, executions, setStatus, bu
         </div>
         <div className="text-right">
            <p className="text-[10px] font-bold text-[var(--text-muted)] uppercase tracking-widest mb-1">Complexity</p>
-           <p className="text-xs text-[var(--text-highlight)] font-mono">{filtered.length} active nodes</p>
+           <p className="text-xs text-[var(--text-highlight)] font-mono">{filtered.length} active test cases</p>
         </div>
       </div>
 
@@ -750,12 +750,12 @@ function ExecuteView({ state, setState, db, activeTcs, executions, setStatus, bu
         })}
       </div>
 
-      {/* Manual Custom Node Builder panel (rendered conditionally or inline) */}
+      {/* Manual Custom Test Case Builder panel (rendered conditionally or inline) */}
       {showAddForm && (
-        <form onSubmit={handleCreateNode} className="space-y-4 bg-[var(--surface)] border border-[var(--border2)] p-6 rounded-xl animate-in slide-in-from-top-4 duration-300">
+        <form onSubmit={handleCreateTestCase} className="space-y-4 bg-[var(--surface)] border border-[var(--border2)] p-6 rounded-xl animate-in slide-in-from-top-4 duration-300">
           <div className="flex justify-between items-center pb-2 border-b border-[var(--border)]">
             <h3 className="text-xs font-mono font-bold uppercase tracking-widest text-[var(--text-highlight)]">
-              Manual Node Builder &rarr; {activeSectionId === 'all' ? 'Compliance' : (activeGlObject?.title || 'Section')}
+              Manual Test Case Builder &rarr; {activeSectionId === 'all' ? 'Compliance' : (activeGlObject?.title || 'Section')}
             </h3>
             <button 
               type="button" 
@@ -831,7 +831,7 @@ function ExecuteView({ state, setState, db, activeTcs, executions, setStatus, bu
               type="submit" 
               className="bg-[var(--text-highlight)] text-[var(--bg)] px-4 py-1.5 rounded text-xs font-bold hover:opacity-90 transition-all shadow active:scale-95 flex items-center gap-1.5"
             >
-              <Plus size={11} strokeWidth={3} /> Add Manual Node
+              <Plus size={11} strokeWidth={3} /> Add Manual Test Case
             </button>
           </div>
         </form>
@@ -840,7 +840,7 @@ function ExecuteView({ state, setState, db, activeTcs, executions, setStatus, bu
       {/* Control Filters */}
       <div className="bg-[var(--surface)] border border-[var(--border)] rounded-lg p-1 flex items-center gap-3 shadow-inner shadow-black/20">
         <input 
-          placeholder={`Filter ${activeSectionId === 'all' ? 'all guidelines' : (activeGlObject?.title || 'current')} nodes by identifier or keyword...`}
+          placeholder={`Filter ${activeSectionId === 'all' ? 'all guidelines' : (activeGlObject?.title || 'current')} test cases by identifier or keyword...`}
           className="flex-1 bg-transparent border-none outline-none px-3 py-1.5 text-xs text-[var(--text-highlight)] placeholder:text-[var(--text-muted)]"
           value={filterQuery}
           onChange={e => setFilterQuery(e.target.value)}
@@ -851,7 +851,7 @@ function ExecuteView({ state, setState, db, activeTcs, executions, setStatus, bu
             onClick={() => setShowAddForm(!showAddForm)}
             className="flex items-center gap-1 px-2 py-0.5 bg-[var(--surface2)] hover:bg-[var(--surface3)] border border-[var(--border)] text-[8px] font-bold uppercase text-[var(--text-highlight)] rounded transition-all"
           >
-            <Plus size={9} strokeWidth={2.5} /> {showAddForm ? 'Hide Builder' : 'Create Node'}
+            <Plus size={9} strokeWidth={2.5} /> {showAddForm ? 'Hide Builder' : 'Create Test Case'}
           </button>
         </div>
       </div>
@@ -863,19 +863,19 @@ function ExecuteView({ state, setState, db, activeTcs, executions, setStatus, bu
               📄
             </div>
             <div>
-              <h2 className="text-lg font-mono text-[var(--text-highlight)] uppercase tracking-wider mb-2">No Compliance Nodes Found</h2>
+              <h2 className="text-lg font-mono text-[var(--text-highlight)] uppercase tracking-wider mb-2">No Compliance Test Cases Found</h2>
               <p className="text-sm text-[var(--text-muted)] italic leading-relaxed">
-                The "{activeSectionId === 'all' ? 'All' : (activeGlObject?.title || activeSectionId)}" section does not have any active compliance check nodes recorded. 
+                The "{activeSectionId === 'all' ? 'All' : (activeGlObject?.title || activeSectionId)}" section does not have any active compliance check test cases recorded. 
               </p>
               <p className="text-xs text-[var(--text-muted)] mt-2">
-                Click "Build Nodes Manually" to open the interactive builder and specify your checklist rules directly in the app!
+                Click "Build Test Cases Manually" to open the interactive builder and specify your checklist rules directly in the app!
               </p>
             </div>
             <button 
               onClick={() => setShowAddForm(true)}
               className="px-4 py-2 bg-[var(--text-highlight)] text-[var(--bg)] text-xs font-bold rounded hover:opacity-90 transition-all shadow-md inline-flex items-center gap-1"
             >
-              <Plus size={12} strokeWidth={3} /> Build Nodes Manually
+              <Plus size={12} strokeWidth={3} /> Build Test Cases Manually
             </button>
           </div>
         ) : (
@@ -2636,7 +2636,7 @@ function RuntimePermissionsDemo() {
 
             <div className="text-xs text-[var(--text-muted)] space-y-2 leading-relaxed font-sans">
               <p>
-                This interactive state machine walks developers and auditors through the strict user authentication loops required by Android Play Store Guidelines.
+                This interactive state machine walks developers and reviewer teams through the strict user authentication loops required by Android Play Store Guidelines.
               </p>
               <div className="h-px bg-[var(--border)] my-1" />
               <div className="space-y-1.5 font-mono text-[10px]">
@@ -3151,7 +3151,7 @@ function SubscriptionComplianceDemo({ tcId }: { tcId: string }) {
           <div className="lg:col-span-6 space-y-4 text-left">
             <div className="bg-[var(--surface3)] p-4 rounded-xl border border-[var(--border)]">
               <span className="text-[10px] font-mono text-[var(--text-muted)] uppercase tracking-wider block">Rule Inspection Summary</span>
-              <h5 className="font-bold text-sm text-[var(--text-highlight)] mt-1 font-sans">Paywall Disclosures & Core Assets Audit</h5>
+              <h5 className="font-bold text-sm text-[var(--text-highlight)] mt-1 font-sans">Paywall Disclosures & Core Assets First Party Compliance Review</h5>
               
               <div className="mt-4 space-y-3 font-sans">
                 <div className="flex gap-2 text-xs">
@@ -3293,7 +3293,7 @@ function TestCaseRow({ tc, tcNumber, execution, setStatus, setState, showToast, 
                 }
               }}
               className="p-1.5 rounded bg-transparent border border-transparent hover:border-red-500/20 hover:bg-red-500/10 text-[var(--text-muted)] hover:text-red-500 transition-all ml-1"
-              title="Delete custom node"
+              title="Delete custom test case"
             >
               <Trash2 size={13} />
             </button>
@@ -3469,7 +3469,7 @@ function GuidelinesView({ state, setState, db, icons, showToast }: any) {
 
                {removedCount > 0 && (
                  <div className="mt-8 space-y-3">
-                    <p className="text-[10px] font-bold text-[var(--text-muted)] uppercase tracking-[0.2em]">Stashed Nodes</p>
+                    <p className="text-[10px] font-bold text-[var(--text-muted)] uppercase tracking-[0.2em]">Stashed Test Cases</p>
                     <div className="grid gap-2">
                       {state.deletedTcs.filter((id: string) => db.testCases.find(t => t.id === id)?.gl === gl.id).map((id: string) => {
                         const tc = db.testCases.find((t: TestCase) => t.id === id);
@@ -3477,7 +3477,7 @@ function GuidelinesView({ state, setState, db, icons, showToast }: any) {
                         return (
                           <div key={id} className="flex items-center justify-between py-3 px-4 bg-[var(--bg)]/20 border border-[var(--border)] rounded-lg text-xs group">
                             <span className="text-[var(--text-muted)] group-hover:text-[var(--text-highlight)] transition-colors font-mono">#{num} &middot; {tc?.title}</span>
-                            <button onClick={() => handleRestore(id)} className="text-[var(--text-highlight)] font-bold flex items-center gap-2 hover:underline tracking-tighter"><Undo2 size={12} /> RESTORE NODE</button>
+                            <button onClick={() => handleRestore(id)} className="text-[var(--text-highlight)] font-bold flex items-center gap-2 hover:underline tracking-tighter"><Undo2 size={12} /> RESTORE TEST CASE</button>
                           </div>
                         );
                       })}

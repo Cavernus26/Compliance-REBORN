@@ -369,7 +369,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         gl: "GL-001", 
         ref: "2.3.3", 
         title: "Screenshots should show the app in use, and not merely the title art, log-in page, or splash screen.", 
-        steps: "1. Audit App Store screenshots.\n2. Confirm at least 60% of images show inside-app gameplay/UI.", 
+        steps: "1. Review App Store screenshots.\n2. Confirm at least 60% of images show inside-app gameplay/UI.", 
         expected: "Screenshots represent actual app use.",
         originalRef: "Accurate Metadata"
       },
@@ -396,7 +396,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         gl: "GL-001", 
         ref: "2.3.6", 
         title: "Answer the age rating questions in App Store Connect honestly so that your app aligns properly with parental controls. If your app is mis-rated, customers might be surprised by what they get, or it could trigger an inquiry from government regulators. If your app includes media that requires the display of content ratings or warnings (e.g. films, music, games, etc.), you are responsible for complying with local requirements in each territory where your app is available.", 
-        steps: "1. Audit the age rating questionnaire answers.\n2. Verify against actual app content (violence, adult themes).", 
+        steps: "1. Review the age rating questionnaire answers.\n2. Verify against actual app content (violence, adult themes).", 
         expected: "Age rating is honest and accurate.",
         originalRef: "Accurate Metadata"
       },
@@ -844,7 +844,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         gl: "GL-001", 
         ref: "3.5.15", 
         title: "Unacceptable: Apps offering personal loans must clearly and conspicuously disclose all loan terms, including but not limited to equivalent maximum Annual Percentage Rate (APR) and payment due date. Apps may not charge a maximum APR higher than 36%, including costs and fees, and may not require repayment in full in 60 days or less.", 
-        steps: "1. Audit personal loan terms and disclosures.\n2. Calculate max APR including fees; confirm <= 36%.\n3. Verify repayment term is > 60 days.", 
+        steps: "1. Review personal loan terms and disclosures.\n2. Calculate max APR including fees; confirm <= 36%.\n3. Verify repayment term is > 60 days.", 
         expected: "Loan terms are clear, APR is <= 36%, and repayment > 60 days.",
         originalRef: "Other Business Model Issues"
       },
@@ -944,7 +944,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         gl: "GL-001", 
         ref: "4.2.7 (d)", 
         title: "The UI appearing on the client does not resemble an iOS or App Store view, does not provide a store-like interface, or include the ability to browse, select, or purchase software not already owned or licensed by the user.", 
-        steps: "1. Audit the client-side UI.\n2. Ensure no 'App Store' clones or browseable catalogs of unowned software.", 
+        steps: "1. Review the client-side UI.\n2. Ensure no 'App Store' clones or browseable catalogs of unowned software.", 
         expected: "Client UI is purely a streaming pipe, not a store.",
         originalRef: "Minimum Functionality"
       },
@@ -982,7 +982,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         gl: "GL-001", 
         ref: "4.4.1", 
         title: "Keyboard extensions must:\n- Provide keyboard input functionality (e.g. typed characters);\n- Follow Sticker guidelines if the keyboard includes images or emojis;\n- Provide a method for progressing to the next keyboard;\n- Remain functional without full network access and without requiring full access;\n- Collect user activity only to enhance the functionality of the user’s keyboard extension on the iOS device.\n\nThey must not:\n- Launch other apps besides Settings; or\n- Repurpose keyboard buttons for other behaviors (e.g. holding down the “return” key to launch the camera).", 
-        steps: "1. Test character input functionality.\n2. Check sticker guideline compliance.\n3. Verify the 'Next Keyboard' button exists.\n4. Test functionality in offline mode.\n5. Audit keyboard button behaviors for repurposing.", 
+        steps: "1. Test character input functionality.\n2. Check sticker guideline compliance.\n3. Verify the 'Next Keyboard' button exists.\n4. Test functionality in offline mode.\n5. Review keyboard button behaviors for repurposing.", 
         expected: "Keyboard extension follows all input, privacy, and behavior rules.",
         originalRef: "Extensions"
       },
@@ -991,7 +991,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         gl: "GL-001", 
         ref: "4.4.2", 
         title: "Safari extensions must run on the current version of Safari on OS X. They may not interfere with System or Safari UI elements and must never include malicious or misleading content or code. Safari extensions should not claim access to more websites than strictly necessary to function.", 
-        steps: "1. Test extension on current macOS Safari.\n2. Verify it doesn't overlap or break browser UI.\n3. Audit permissions for excessive website access.", 
+        steps: "1. Test extension on current macOS Safari.\n2. Verify it doesn't overlap or break browser UI.\n3. Review permissions for excessive website access.", 
         expected: "Safari extension is stable, honest, and uses minimal permissions.",
         originalRef: "Extensions"
       },
@@ -1019,7 +1019,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         gl: "GL-001", 
         ref: "5.1.3", 
         title: "Do not use Apple Services to spam, phish, or send unsolicited messages to customers, including Game Center, Push Notifications, etc. Do not attempt to reverse lookup, trace, relate, associate, mine, harvest, or otherwise exploit Player IDs, aliases, or other information obtained through Game Center, or you will be removed from the Apple Developer Program.", 
-        steps: "1. Audit usage of Game Center and Push Notifications.\n2. Confirm no phishing or spamming behaviors.\n3. Verify Player IDs are not exploited or reverse-traced.", 
+        steps: "1. Review usage of Game Center and Push Notifications.\n2. Confirm no phishing or spamming behaviors.\n3. Verify Player IDs are not exploited or reverse-traced.", 
         expected: "No abuse of Apple services for spam or exploitation.",
         originalRef: "Apple Sites and Services"
       },
@@ -1111,7 +1111,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         gl: "GL-001", 
         ref: "4.7.3", 
         title: "Only uses capabilities available in a standard WebKit view; your app must use WebKit and JavaScript Core to run third party software and should not attempt to extend or expose native platform APIs to third party software.", 
-        steps: "1. Audit third-party script containers.\n2. Ensure no non-standard APIs are appended to the WebKit host runtime.", 
+        steps: "1. Review third-party script containers.\n2. Ensure no non-standard APIs are appended to the WebKit host runtime.", 
         expected: "The app utilizes sandboxed default WebKit views to load third-party scripts securely.",
         originalRef: "HTML5 Games, Bots, etc."
       },
@@ -1120,7 +1120,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         gl: "GL-001", 
         ref: "4.7.4", 
         title: "The software/App is Offered by developers that have joined the Apple Developer Program and signed the Apple Developer Program License Agreement.", 
-        steps: "1. Audit identity and verification states of external suppliers.\n2. Ensure creators have accepted and signed Apple developer terms.", 
+        steps: "1. Review identity and verification states of external suppliers.\n2. Ensure creators have accepted and signed Apple developer terms.", 
         expected: "All mini-app authors are verified Apple Developer Program members.",
         originalRef: "HTML5 Games, Bots, etc."
       },
@@ -1156,7 +1156,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         gl: "GL-001", 
         ref: "4.7.8", 
         title: "Your app may not extend or expose native platform APIs to the software without prior permission from Apple.", 
-        steps: "1. Audit native hook methods for JavaScript interfaces.\n2. Confirm no undocumented API access is unlocked for third-party programs.", 
+        steps: "1. Review native hook methods for JavaScript interfaces.\n2. Confirm no undocumented API access is unlocked for third-party programs.", 
         expected: "Native APIs remain strictly unexposed.",
         originalRef: "HTML5 Games, Bots, etc."
       },
@@ -1202,7 +1202,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         gl: "GL-001", 
         ref: "4.8.2", 
         title: "The login service limits data collection to the user’s name and email address.", 
-        steps: "1. Audit data requested by the login scopes during authentication.\n2. Ensure the app does not request additional profiles, friends lists, or unneeded personal details.", 
+        steps: "1. Review data requested by the login scopes during authentication.\n2. Ensure the app does not request additional profiles, friends lists, or unneeded personal details.", 
         expected: "Requested login scopes are strictly limited to user name and email address.",
         originalRef: "Login Services"
       },
@@ -1449,7 +1449,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         gl: "GL-001",
         ref: "5.1.17",
         title: "Developers that use their apps to surreptitiously discover passwords or other private data will be removed from the Apple Developer Program.",
-        steps: "1. Audit password inputs to ensure standard text field security masking (isSecureTextEntry).\n2. Probe network calls to confirm no phishing or unauthorized data discovery occurs.",
+        steps: "1. Review password inputs to ensure standard text field security masking (isSecureTextEntry).\n2. Probe network calls to confirm no phishing or unauthorized data discovery occurs.",
         expected: "Passwords and private entries are protected and never surreptitiously scanned or harvested.",
         originalRef: "Privacy"
       },
@@ -1521,7 +1521,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         gl: "GL-001",
         ref: "5.1.25",
         title: "Do not use information from Contacts, Photos, or other APIs that access user data to build a contact database for your own use or for sale/distribution to third parties, and don’t collect information about which other apps are installed on a user’s device for the purposes of analytics or advertising/marketing.",
-        steps: "1. Audit Photos/Contacts utilization.\n2. Confirm no localized address list compilation or installed-app checks exist.",
+        steps: "1. Review Photos/Contacts utilization.\n2. Confirm no localized address list compilation or installed-app checks exist.",
         expected: "Device resources are never scraped to build unauthorized contact lists or competitor app lists.",
         originalRef: "Privacy"
       },
@@ -1557,7 +1557,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         gl: "GL-001",
         ref: "5.1.29",
         title: "Apps may not use or disclose to third parties data gathered in the health, fitness, and medical research context for advertising or other use-based data mining purposes other than improving health management, or for the purpose of health research, and then only with permission. Apps may, however, use a user’s health or fitness data to provide a benefit directly to that user (such as a reduced insurance premium), provided that the app is submitted by the entity providing the benefit, and the data is not be shared with a third party. You must disclose the specific health data that you are collecting from the device.",
-        steps: "1. Audit fitness/health metric routing.\n2. Ensure health data feeds directly into patient utilities rather than target advertisement clusters.",
+        steps: "1. Review fitness/health metric routing.\n2. Ensure health data feeds directly into patient utilities rather than target advertisement clusters.",
         expected: "Sensitive health tracking records are fully ring-fenced from data broker integrations.",
         originalRef: "Privacy"
       },
@@ -1611,7 +1611,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         gl: "GL-001",
         ref: "5.1.35",
         title: "Apps intended for kids may not include third-party advertising or analytics.",
-        steps: "1. Verify if the 'Kids Category' target is selected in metadata.\n2. Audit and confirm the complete removal of Google AdMob, Unity Ads, and commercial analytics SDKs.",
+        steps: "1. Verify if the 'Kids Category' target is selected in metadata.\n2. Review and confirm the complete removal of Google AdMob, Unity Ads, and commercial analytics SDKs.",
         expected: "Kids category apps remain completely clean of third-party ads and analytics engines.",
         originalRef: "Privacy"
       },
@@ -1675,7 +1675,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         gl: "GL-001",
         ref: "5.2.2",
         title: "If your app uses, accesses, monetizes access to, or displays content from a third party service, ensure that you are specifically permitted to do so under the service’s terms of use. Authorization must be provided upon request.",
-        steps: "1. Audit any integrated APIs or embeds from external services.\n2. Verify the terms of service of the third party permit the app's reuse and monetization.",
+        steps: "1. Review any integrated APIs or embeds from external services.\n2. Verify the terms of service of the third party permit the app's reuse and monetization.",
         expected: "Explicit authorization for third-party service content usage is documented and available.",
         originalRef: "Intellectual Property"
       },
@@ -1702,7 +1702,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         gl: "GL-001",
         ref: "5.2.5",
         title: "Don’t create an app that appears confusingly similar to an existing Apple product, interface (e.g. Finder), app (such as the App Store, iTunes Store, or Messages) or advertising theme, and don’t misspell Apple product names (i.e., GPS for Iphone, iTunz). iTunes music previews may not be used for their entertainment value (e.g. as the background music to a photo collage or the soundtrack to a game) or in any other unauthorized manner.",
-        steps: "1. Audit user interface layouts for similarities with system apps (e.g., Apple Messages).\n2. Verify spelling of Apple trademarks (e.g., iPhone keyword casing).\n3. Check for unauthorized iTunes music preview assets.",
+        steps: "1. Review user interface layouts for similarities with system apps (e.g., Apple Messages).\n2. Verify spelling of Apple trademarks (e.g., iPhone keyword casing).\n3. Check for unauthorized iTunes music preview assets.",
         expected: "Visual identity and naming schemes avoid mimicking native Apple applications or misspelling trademarks.",
         originalRef: "Intellectual Property"
       },
@@ -1730,7 +1730,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         gl: "GL-001",
         ref: "5.3.3",
         title: "Apps may not use IAP to purchase credit or currency for use in conjunction with real money gaming of any kind, and may not enable people to purchase lottery or raffle tickets or initiate fund transfers in the app.",
-        steps: "1. Audit In-App Purchases database.\n2. Verify no bought coins or consumable tokens are exchanged for actual fiat withdrawal/gambling or raffle entries.",
+        steps: "1. Review In-App Purchases database.\n2. Verify no bought coins or consumable tokens are exchanged for actual fiat withdrawal/gambling or raffle entries.",
         expected: "IAPs are never linked to real money casino credits or lottery tickets.",
         originalRef: "Gaming, Gambling and Lotteries"
       },
@@ -1805,7 +1805,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         gl: "GL-001",
         ref: "5.6.2",
         title: "Apps should never prey on users or attempt to rip-off customers, trick them into making unwanted purchases, force them to share unnecessary data, raise prices in a tricky manner, charge for features or content that are not delivered, or engage in any other manipulative practices within or outside of the app.",
-        steps: "1. Audit price sliders, checkout menus, and purchase confirmations.\n2. Verify the pricing is transparent, clearly detailed, and has zero dark patterns.",
+        steps: "1. Review price sliders, checkout menus, and purchase confirmations.\n2. Verify the pricing is transparent, clearly detailed, and has zero dark patterns.",
         expected: "Pricing mechanisms remain crystal-clear, transparent, and direct, without deceptive layouts.",
         originalRef: " Developer Code of Conduct "
       },
@@ -1841,7 +1841,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         gl: "GL-001",
         ref: "5.6.6",
         title: "Customers expect the highest quality from the App Store, and maintaining high quality content, services, and experiences promotes customer trust. Indications that this expectation is not being met include excessive customer reports about concerns with your app, such as negative customer reviews, and excessive refund requests. Inability to maintain high quality may be a factor in deciding whether a developer is abiding by the Developer Code of Conduct.",
-        steps: "1. Audit recent user crash rate profiles inside Xcode Organizer.\n2. Monitor ratings graphs and support request queues.\n3. Resolve high-frequent technical failures proactively.",
+        steps: "1. Review recent user crash rate profiles inside Xcode Organizer.\n2. Monitor ratings graphs and support request queues.\n3. Resolve high-frequent technical failures proactively.",
         expected: "Core crashes remain within bounds and software holds a high-quality baseline.",
         originalRef: " Developer Code of Conduct "
       },
@@ -3138,7 +3138,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         id: "iOS-SUB-5",
         gl: "GL-006",
         ref: "S.5",
-        title: "Auto-Renewal & Renewal Charges Disclosure. Audit the presence of legally required disclosures regarding automatic billing and charge timing.",
+        title: "Auto-Renewal & Renewal Charges Disclosure. Review the presence of legally required disclosures regarding automatic billing and charge timing.",
         steps: "1. Read the subscription text or policy on the paywall screen.\n2. Verify disclosure that it renews automatically unless turned off at least 24h prior to current period ending.\n3. Verify disclosure that account is charged within 24h before end of period.",
         expected: "Both auto-renewal mechanism and 24-hour billing disclosure are visible during purchasing.",
         originalRef: "Disclosures"
@@ -3167,7 +3167,8 @@ export const ALL_DATA: Record<string, PlatformData> = {
     guidelines: [
       { id: "AGL-002", title: "Core App Functionality", description: "Android Core App Quality: Core App Functionality", category: "Core App Functionality", impact: "high" },
       { id: "AGL-003", title: "GPG Design Guidelines", description: "Google Play Games Design Guidelines & PC Compatibility Checkpoints", category: "GPG Design Guidelines", impact: "high" },
-      { id: "AGL-004", title: "FTCs", description: "Federal Trade Commission guidelines and client disclosures", category: "FTCs", impact: "medium" }
+      { id: "AGL-004", title: "FTCs", description: "Basic Android Functionality&Best Practices guidelines", category: "FTCs", impact: "medium" },
+      { id: "AGL-005", title: "Play Games Services", description: "Google Play Games Services requirements", category: "Play Games Services", impact: "medium" }
     ],
     testCases: [
       // Section: Navigation
@@ -3350,7 +3351,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         gl: "AGL-002",
         ref: "4.2",
         title: "The app displays text and text blocks in an acceptable manner for each of the app’s supported languages.",
-        steps: "1. Open Android Settings and change the system language to Spanish, German, or any other supported language.\n2. Reopen the app and audit text containers.\n3. Confirm sentences terminate gracefully without overlaying nearby buttons.",
+        steps: "1. Open Android Settings and change the system language to Spanish, German, or any other supported language.\n2. Reopen the app and review text containers.\n3. Confirm sentences terminate gracefully without overlaying nearby buttons.",
         expected: "Text wraps naturally and is displayed correctly according to the typographical rules of each supported locale.",
         originalRef: "Visual quality"
       },
@@ -3368,7 +3369,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         gl: "AGL-002",
         ref: "4.4",
         title: "No improper word wraps within buttons or icons are visible.",
-        steps: "1. Audit call-to-action buttons and icon titles.\n2. Verify that short terms don't break awkwardly onto newline structures (for example, displaying \"OK\" over two lines with \"O\" and then \"K\").",
+        steps: "1. Review call-to-action buttons and icon titles.\n2. Verify that short terms don't break awkwardly onto newline structures (for example, displaying \"OK\" over two lines with \"O\" and then \"K\").",
         expected: "Label text wraps properly without structural breaks within buttons or adjacent icon indicators.",
         originalRef: "Visual quality"
       },
@@ -4174,7 +4175,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         gl: "AGL-004",
         ref: "1.3",
         title: "Apps that encourage excessive consumption of alcohol or illegal substances, or encourage minors to consume alcohol or smoke cigarettes, will be rejected.",
-        steps: "1. Audit in-game text content, images, scenarios, and microtransactions.\n2. Verify the application has no themes promoting underage smoking, substance use, or binging/consumption mechanics.",
+        steps: "1. Review in-game text content, images, scenarios, and microtransactions.\n2. Verify the application has no themes promoting underage smoking, substance use, or binging/consumption mechanics.",
         expected: "The application strictly adheres to high safety standards and does not encourage minors to engage with alcohol or harmful substances.",
         originalRef: "Game Content Guidelines"
       },
@@ -4577,6 +4578,60 @@ export const ALL_DATA: Record<string, PlatformData> = {
         steps: "1. Boot the application on devices with Freeform window mode enabled (e.g. tablet or desktop emulator profiles).\n2. Drag the corners of the app window or attempt to tile it.\n3. Confirm that the application handles freeform configuration natively, or safely forces standard display rules without any visual tearing.",
         expected: "Freeform scaling or split-screen bounds are respected and rendered correctly.",
         originalRef: "Multi Window Feature"
+      },
+      {
+        id: "And-FTC-6.1",
+        gl: "AGL-004",
+        ref: "6.1",
+        title: "When server is down/under maintenance, user must be notified appropriately with a warning message. This applies to always online games & multiplayer sessions - Test on WiFi , 4G & 5G",
+        steps: "1. Launch the always-online game or multiplayer session under evaluation.\n2. Simulate server downtime, connection timeout, or active service maintenance status.\n3. Test the app behavior on different network connection types (WiFi, 4G, and 5G).\n4. Verify that the user is notified appropriately with a clear, graceful warning/maintenance window message instead of showing unhandled errors or crashing.",
+        expected: "A clear maintenance or offline warning screen displays under server downtime states across all WiFi, 4G, and 5G connections.",
+        originalRef: "Online Connection Issue Tests"
+      },
+      {
+        id: "And-FTC-7.1",
+        gl: "AGL-004",
+        ref: "7.1",
+        title: "Apps offering “loot boxes” or other mechanisms that provide randomized virtual items for purchase must disclose the odds of receiving each type of item to customers prior to purchase. In General, every lootbox/gatcha bought by the players through direct IAP or with In-game currency must display its odds as per the rarity or items types. The display can be done through an in game pop-up, or a WebView. For e.g. In South Park: Phone Destroyer, the Card Packs offered by paying Hard Currency or IAP displays the odds of the number of cards/coins/items to be received by the player on the info icon.",
+        steps: "1. Identify loot boxes or randomized purchases made with in-game currency or standard IAPs.\n2. Confirm that the exact odds per rarity or item type are disclosed prior to purchase.\n3. Verify they are accessible via an in-game pop-up, info icon, or WebView.",
+        expected: "Loot box and randomized item probabilities are fully disclosed to the user before purchasing.",
+        originalRef: "Gacha/Loot Box Test"
+      },
+      {
+        id: "And-FTC-8.1",
+        gl: "AGL-004",
+        ref: "8.1",
+        title: "Manually put the device to 'Battery Saver' Mode & ensure that game's performance is not affected (there should not be any stability related issues)",
+        steps: "1. Turn on 'Battery Saver' Mode manually in the device's OS settings.\n2. Play the game or navigate the application.\n3. Make sure performance remains smooth and there are no stability-related issues.",
+        expected: "The application runs smoothly and with complete stability under active Battery Saver Mode.",
+        originalRef: "Battery saver test"
+      },
+      {
+        id: "And-FTC-9.1",
+        gl: "AGL-004",
+        ref: "9.1",
+        title: "When the server is down or undergoing maintenance, a clear, cause-specific notification must be shown to the user",
+        steps: "1. Simulate a server outage or maintenance state.\n2. Start the application or interact with online modules.\n3. Verify that a clear, cause-specific warning message or maintenance window is shown to the user.",
+        expected: "A user-facing notification specifies that the server is down or undergoing maintenance.",
+        originalRef: "Error Handling"
+      },
+      {
+        id: "And-FTC-9.2",
+        gl: "AGL-004",
+        ref: "9.2",
+        title: "When an account sign-in attempt fails using iOS or GPGS credentials, a pop-up must trigger detailing the exact problem and a potential fix",
+        steps: "1. Trigger an intentional sign-in error or credentials mismatch using iOS or GPGS sign-in flow.\n2. Verify that a pop-up modal is immediately triggered.\n3. Ensure it details the exact problem and highlights a potential fix for the user.",
+        expected: "A descriptive pop-up details sign-in errors and potential resolution paths.",
+        originalRef: "Error Handling"
+      },
+      {
+        id: "And-FTC-9.3",
+        gl: "AGL-004",
+        ref: "9.3",
+        title: "When user progression fails to save or load due to poor or extreme network conditions, the system must handle the failure gracefully",
+        steps: "1. Mock poor, degraded, or decoupled network connections during progress saves or loads.\n2. Confirm that progression storage handles the failure gracefully.\n3. Ensure it prompts simple retries or backs up data safely without crashing.",
+        expected: "Saves and loads fail gracefully under severe network degradation without crashing the client.",
+        originalRef: "Error Handling"
       }
     ]
   }
@@ -4597,5 +4652,6 @@ export const AND_ICONS: Record<string, string> = {
   'Test Procedures': '🧪',
   'APK Related Tests': '📦',
   'GPG Design Guidelines': '🎮',
-  'FTCs': '🛠️'
+  'FTCs': '🛠️',
+  'Play Games Services': '🕹️'
 };
