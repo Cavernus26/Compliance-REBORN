@@ -763,6 +763,7 @@ ${body}
   };
 
   const handleClear = () => {
+    localStorage.removeItem(`compliance-hub-analyzer-rawText-${activeTab}`);
     setRawText('');
     setAnalysisDone(false);
     setIosMandatory([]);
