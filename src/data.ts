@@ -3948,6 +3948,13 @@ export const ALL_DATA: Record<string, PlatformData> = {
         category: "GPG Policies",
         impact: "high",
       },
+      {
+        id: "AGL-007",
+        title: "Featuring tests",
+        description: "Google Play featured status tests and guidelines",
+        category: "Featuring tests",
+        impact: "high",
+      },
     ],
     testCases: [
       // Section: Navigation
@@ -7408,6 +7415,262 @@ export const ALL_DATA: Record<string, PlatformData> = {
           "Enforcement Process\nA) If our app violates any of Google policies, it will be removed from Google Play, and you will receive an email notification...\nB) Please note that removal or administrative notices may not indicate each and every policy violation present in your app or broader app catalog.\n\nRejection\nNote: Do not attempt to resubmit a rejected app until you’ve fixed all the policy violations.\n\nRemoval\nNote: Don't attempt to republish a removed app until you’ve fixed all policy violation.\n\nSuspension\nMultiple strikes can result in the termination of individual and related Google Play Developer accounts.\nNote: Don't attempt to republish a suspended app unless Google Play has explained that you may do so.",
         originalRef: "Enforcement",
       },
+      {
+        id: "And-FEAT-1.1",
+        gl: "AGL-007",
+        ref: "1.1",
+        title: "Localization",
+        steps:
+          "1. Check for missing, awkward, or incorrect translations in app or metadata.\n2. Look for line breaks, incorrect local currency, incorrect special characters.\n3. Check if font size is too large or small.\n4. Verify country flags are not used solely to select language.",
+        expected:
+          "No awkward translations, correct currency/chars, good text fitting, no country flags for language selection.",
+        policyText:
+          "You should not have: missing, awkward or incorrect translations (in app or metadata), line breaks, incorrect local currency, incorrect special characters, font too large or small, country flag used to select language",
+        originalRef: "Top 7 Google Featuring issues",
+      },
+      {
+        id: "And-FEAT-1.2",
+        gl: "AGL-007",
+        ref: "1.2",
+        title: "Touch Feedback",
+        steps:
+          "1. Interact with all interactive elements within the app.\n2. Verify that some form of touch feedback is provided.\n3. Verify all UI elements that provide touch-feedback invoke an action.",
+        expected:
+          "Interactive elements have standard touch feedback driving an action.",
+        policyText:
+          "It is important to provide some form of touch feedback on all interactive elements within the app; All UI elements that provide touch-feedback should invoke an action",
+        originalRef: "Top 7 Google Featuring issues",
+      },
+      {
+        id: "And-FEAT-1.3",
+        gl: "AGL-007",
+        ref: "1.3",
+        title: "Permissions",
+        steps:
+          "1. Review required app permissions.\n2. Remove any unnecessary permissions (e.g., Read/Write/Manage_external_storage, Camera) or explain how they are being used.",
+        expected:
+          "Only necessary permissions are present, and their usage is clearly explained to users.",
+        policyText:
+          "Remove any unnecessary permissions and/or explain how the permissions are being used (Read/Write/Manage_external_storage, Camera, etc)",
+        originalRef: "Top 7 Google Featuring issues",
+      },
+      {
+        id: "And-FEAT-1.4",
+        gl: "AGL-007",
+        ref: "1.4",
+        title: "Play Games Services",
+        steps:
+          "1. Sign out of Google Play Games Services via the 'Sign Out' option.\n2. Ensure that any GPGS buttons and entry points become functional entry points to log back in rather than being functionless.",
+        expected: "GPGS buttons act as login entry points after signing out.",
+        policyText:
+          "If the user chooses to sign out of Google Play Games Services via the 'Sign Out' option in the default UI, some GPGS buttons and entry points become functionless. If the user signs out of Play Games, these buttons must act as an entry point to log back in",
+        originalRef: "Top 7 Google Featuring issues",
+      },
+      {
+        id: "And-FEAT-1.5",
+        gl: "AGL-007",
+        ref: "1.5",
+        title: "Back Button",
+        steps:
+          "1. Press the Android system back button at the main menu or home screen.\n2. Verify it functions like an on-screen back or close button, allowing the user to exit or prompting them to confirm an exit.",
+        expected:
+          "Android back button naturally exits the app or prompts for exit confirmation on the root screen.",
+        policyText:
+          "Function as any on-screen back or close button, allow the user to exit or prompt the user to confirm an exit when the Android system back button is pressed at the main menu or home screen.",
+        originalRef: "Top 7 Google Featuring issues",
+      },
+      {
+        id: "And-FEAT-1.6",
+        gl: "AGL-007",
+        ref: "1.6",
+        title: "Game Icon",
+        steps:
+          "1. Review the high-res icons used for the app launcher and Google Play listing.\n2. Ensure they don't resemble non-Android styling (e.g., very rounded corners carried from iOS).\n3. Ensure Android app icons are distinctly shaped.",
+        expected:
+          "App icon shape adheres to Android standards without mimicking other platforms' distinctive styles.",
+        policyText:
+          "The high-res icons used for the app launcher and/or Google Play listing resembles non-Android styling, including very rounded corners. As you build your app for Android, don't carry over elements from other platforms. Android app icons should be distinctly shaped",
+        originalRef: "Top 7 Google Featuring issues",
+      },
+      {
+        id: "And-FEAT-1.7",
+        gl: "AGL-007",
+        ref: "1.7",
+        title: "Optional feedback",
+        steps:
+          "1. Check if the app targets the latest SDK (targetSdkVersion 33 or higher).\n2. Review ANR rate to ensure it's low.\n3. Check for a promo video and an option to skip the tutorial.",
+        expected:
+          "Target SDK is 33/latest (supporting Material You & hardware acceleration), ANR rate is low, and the user has options to skip tutorials. Promo video is added.",
+        policyText:
+          "Target latest SDK, keep low ANR rate, Add promo video, add option to skip tutorial\nThe app's targetSdkVersion must be set to the latest version (33) in order to ensure that newer platform behaviors such as hardware acceleration and the correct default visual theme (Material You) are applied.",
+        originalRef: "Top 7 Google Featuring issues",
+      },
+      {
+        id: "And-FEAT-1.8",
+        gl: "AGL-007",
+        ref: "1.8",
+        title: "Rating flow and 5 star manipulation",
+        steps:
+          "1. Trigger the Rate My App popup.\n2. Ensure it does not interrupt the user inappropriately.\n3. Verify there is no explicit demand or request specifically for a '5-star' rating in the popup.",
+        expected:
+          "App requests ratings passively and does not specifically manipulate or ask for 5 stars.",
+        policyText:
+          "Rating flow and 5 star manipulation :Rate My app Pop-up Should appear after some levels. The app displays a popup window that requests a 5 star rating. Apps should not interrupt the user, either through a popup window, notification or other means, to rate the app 5 stars. Please remove the 5 star reference from the popup or put the request in a more passive location.",
+        originalRef: "Optional Issues From Google Feedback",
+      },
+      {
+        id: "And-FEAT-1.9",
+        gl: "AGL-007",
+        ref: "1.9",
+        title: "Tagline",
+        steps:
+          "1. Review promotional content and taglines.\n2. Ensure the tagline is clear, concise, and helps users readily understand the nature of the promotional content.",
+        expected: "Taglines are clear, concise, and understandable.",
+        policyText:
+          "Tagline:Ensure that promotional content features taglines is clear and concise,tagline should enable users to readily understand the nature of the promotional content",
+        originalRef: "Optional Issues From Google Feedback",
+      },
+      {
+        id: "And-FEAT-1.10",
+        gl: "AGL-007",
+        ref: "1.10",
+        title: "New Feature",
+        steps:
+          "1. Test deep links for store offers.\n2. Verify the user can highlight and purchase store offers directly without needing to enter the game.",
+        expected:
+          "Users can highlight and purchase store offers directly via deep links.",
+        policyText:
+          "New Feature:Implement a new feature enabling direct highlighting and purchase of store offers, along with deep links, without the need to enter the game",
+        originalRef: "Optional Issues From Google Feedback",
+      },
+      {
+        id: "And-FEAT-1.11",
+        gl: "AGL-007",
+        ref: "1.11",
+        title: "Technical Side",
+        steps:
+          "1. Check the app's build.gradle or manifest.\n2. Verify the TargetSDKVersion is at least 35, and 36 if aiming for Google Featuring.",
+        expected:
+          "TargetSDKVersion is exactly as required (35 minimum, 36 for featuring).",
+        policyText:
+          "Technical Side:Any app updates must have a TargetSDKVersion of at least 35. Moreover, apps aiming for Google Featuring must target the latest SDK, which is currently TargetSDKVersion 36",
+        originalRef: "Optional Issues From Google Feedback",
+      },
+      {
+        id: "And-FEAT-1.12",
+        gl: "AGL-007",
+        ref: "1.12",
+        title: "Google Play Game Services Implementation",
+        steps:
+          "1. Verify Google Play Game Services is implemented.\n2. Sign out of Google Play, then relaunch the app. It should not auto-login.\n3. Check for GPGS achievements and verify they are localized for all supported languages.",
+        expected:
+          "GPGS is implemented correctly, does not auto-login after sign out, and achievements are properly localized.",
+        policyText:
+          "Google Play Game Services Implementation:Suggest implementing Google Play Game Services into the game.After signing out of Google Play, the game should not automatically login a user the next time the app is launched.The game is missing Achievements for Google Play Game Services. PGS achievement section is not localized for all supported languages. (Flagged for Japanese language)",
+        originalRef: "Optional Issues From Google Feedback",
+      },
+      {
+        id: "And-FEAT-1.13",
+        gl: "AGL-007",
+        ref: "1.13",
+        title: "Notifications",
+        steps:
+          "1. Check notification icons in the status bar to ensure they are completely white with no color.\n2. Trigger multiple notifications of the same type and ensure they are stacked, rather than creating new independent notifications.",
+        expected:
+          "Notification icons are all white and multiple notifications of the same type stack.",
+        policyText:
+          "Notifications:Your app’s notification icons in the status bar must be completely white with no color.If your app creates a notification while another of the same type is still pending, avoid creating a new notification object. Instead, stack the notification.",
+        originalRef: "Optional Issues From Google Feedback",
+      },
+      {
+        id: "And-FEAT-1.14",
+        gl: "AGL-007",
+        ref: "1.14",
+        title: "Device Resolution Support and Assets",
+        steps:
+          "1. Check if the app has a xxxhdpi Launcher icon(s) for high density screens.\n2. Verify the launcher icon is three-dimensional, front view, distinct silhouette, with a slight perspective.\n3. Ensure launcher icon is not pixelated on high density screens.",
+        expected:
+          "App provides high-quality non-pixelated xxxhdpi launcher icons adhering to 3D and perspective visual guidelines.",
+        policyText:
+          "Device Resolution Support and Assets:The app does not have a xxxhdpi Launcher icon(s) for display on devices with high density screens. It's important to keep in mind that your app may be installed on a variety of devices that offer a range of pixel densities.In order to improve your icon for the Android Platform we suggest the following: Launcher icons should be three-dimensional, front view, distinct silhouette, with a slight perspective as if viewed from above.The launcher icon is pixelated on high density screens.",
+        originalRef: "Optional Issues From Google Feedback",
+      },
+      {
+        id: "And-FEAT-1.15",
+        gl: "AGL-007",
+        ref: "1.15",
+        title: "Material Design",
+        steps:
+          "1. Inspect any square badges used in the launcher and/or high-res icons.\n2. Verify the rounded corners radius does not exceed 15% of the badge's width.",
+        expected:
+          "Square badge corner radiuses are within 15% of the badge width.",
+        policyText:
+          "Material Design:The square badge used in the launcher and/or high-res icon has rounded corners with radius in excess of 15% of the badge's width.",
+        originalRef: "Optional Issues From Google Feedback",
+      },
+      {
+        id: "And-FEAT-1.16",
+        gl: "AGL-007",
+        ref: "1.16",
+        title: "App Permissions",
+        steps:
+          "1. Verify the READ_LOGS permission is removed from the app.\n2. Ensure requests for any sensitive permissions (ACCESS_FINE_LOCATION, READ_CALENDAR, WRITE_CALENDAR, RECORD_AUDIO, SEND_SMS) are clearly explained to the user.",
+        expected:
+          "READ_LOGS is absent, and any sensitive permissions have clear in-app disclosures.",
+        policyText:
+          "App Permissions:Please remove the READ_LOGS permission from your app.The request for the following sensitive permissions may not be clear to some users.\n• ACCESS_FINE_LOCATION\n• READ_CALENDAR\n• WRITE_CALENDAR\n• RECORD_AUDIO\n• SEND_SMS",
+        originalRef: "Optional Issues From Google Feedback",
+      },
+      {
+        id: "And-FEAT-1.17",
+        gl: "AGL-007",
+        ref: "1.17",
+        title: "Pixel Compatibility",
+        steps:
+          "1. Run the app on supported Pixel devices.\n2. Ensure performance is within acceptable parameters without lag or crashes.",
+        expected: "App performs smoothly on Pixel devices.",
+        policyText:
+          "Pixel Compatibility:Please ensure the app runs within acceptable performance parameters on supported Pixel devices.",
+        originalRef: "Optional Issues From Google Feedback",
+      },
+      {
+        id: "And-FEAT-1.18",
+        gl: "AGL-007",
+        ref: "1.18",
+        title: "Screen Orientation",
+        steps:
+          "1. Rotate the device into landscape mode.\n2. Ensure the app supports both left and right landscape orientations (not fixed to one side only).",
+        expected: "App rotates freely between both landscape orientations.",
+        policyText:
+          "Screen Orientation:Landscape Mode is fixed for one side only. Suggest adding support for both sides.",
+        originalRef: "Optional Issues From Google Feedback",
+      },
+      {
+        id: "And-FEAT-1.19",
+        gl: "AGL-007",
+        ref: "1.19",
+        title: "Full screen",
+        steps:
+          "1. Enter full-screen mode in the app.\n2. Verify the status and navigation bars are hidden completely.",
+        expected:
+          "Status and navigation bars hide correctly in full-screen mode.",
+        policyText:
+          "Full screen:The app should hide the status and navigation bars when entering full-screen.",
+        originalRef: "Optional Issues From Google Feedback",
+      },
+      {
+        id: "And-FEAT-1.20",
+        gl: "AGL-007",
+        ref: "1.20",
+        title: "Language Selection",
+        steps:
+          "1. Open the language selection menu.\n2. Ensure flag images are not used to represent languages unless the content is strictly country-specific.",
+        expected:
+          "Language selection does not rely on country flags to represent shared languages.",
+        policyText:
+          "Language Selection:Unless content is specific to the countries, please avoid using flag images to represent languages. The flags may alienate users from other countries that use the same language.",
+        originalRef: "Optional Issues From Google Feedback",
+      },
     ],
   },
 };
@@ -7430,9 +7693,13 @@ export const AND_ICONS: Record<string, string> = {
   FTCs: "🛠️",
   "Play Games Services": "🕹️",
   "GPG Policies": "🛡️",
+  "Featuring tests": "🌟",
   "Store Listing and Promotion": "📢",
   "Monetization and Ads": "💸",
   "Spam and Minimum Functionality": "🚫",
   Malware: "🦠",
   Families: "👪",
+  Enforcement: "⚖️",
+  "Top 7 Google Featuring issues": "🏆",
+  "Optional Issues From Google Feedback": "💡",
 };
