@@ -466,7 +466,7 @@ export default function App() {
               Platform
             </span>
             <span className="text-sm text-[var(--text-highlight)]">
-              {state.platform === "ios" ? "ios-production" : "android-main"}
+              {state.platform === "ios" ? "ios-production" : "android-production"}
             </span>
           </div>
           <div className="flex items-center gap-4">
@@ -796,9 +796,9 @@ function DashboardView({
 
       <div className="grid grid-cols-4 gap-4">
         <StatCard label="Total Items" val={stats.total} />
-        <StatCard label="Clearance" val={stats.pass} color="#22c55e" />
+        <StatCard label="Passed Tests" val={stats.pass} color="#22c55e" />
         <StatCard label="Violations" val={stats.fail} color="#ef4444" />
-        <StatCard label="Pending" val={stats.nt} />
+        <StatCard label="Pending Tests" val={stats.nt} />
       </div>
 
       <div className="bg-[var(--surface)] rounded-xl border border-[var(--border)] shadow-xl p-8">
@@ -894,7 +894,7 @@ function SessionsView({
             Build Sessions
           </h1>
           <p className="text-[var(--text-muted)] text-sm italic">
-            Historical archive of compliance deployment phases
+            Previous first-party Compliance Passes
           </p>
         </div>
         <button
@@ -1139,8 +1139,7 @@ function ExecuteView({
             Workbench
           </h1>
           <p className="text-[var(--text-muted)] text-sm">
-            Interactive compliance verification engine &bull; Excel
-            workbook-style tabs
+            Interactive first-party Compliance test-case verification
           </p>
         </div>
         <div className="text-right">
@@ -5727,7 +5726,7 @@ function GuidelinesView({ state, setState, db, icons, showToast }: any) {
           System Configuration
         </h1>
         <p className="text-[var(--text-muted)] text-sm">
-          Manage impact weights and visibility per-platform
+          First-party submission impact per compliance section
         </p>
       </div>
 
