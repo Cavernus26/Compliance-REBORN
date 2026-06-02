@@ -1,0 +1,1 @@
+                         <div className="p-5 rounded-xl border border-[var(--border)] bg-[var(--surface2)] shadow-inner space-y-4 text-[13px] leading-[1.6] text-[var(--text-highlight)] font-medium max-h-96 overflow-y-auto">

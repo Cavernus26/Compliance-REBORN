@@ -3,7 +3,7 @@ export interface Guideline {
   title: string;
   description: string;
   category: string;
-  impact: 'high' | 'medium' | 'low';
+  impact: "high" | "medium" | "low";
 }
 
 export interface TestCase {
@@ -15,8 +15,9 @@ export interface TestCase {
   expected: string;
   displayNum?: number;
   originalRef?: string;
-  type?: 'required' | 'best_practice';
+  type?: "required" | "best_practice";
   policyText?: string;
+  imageUrl?: string;
 }
 
 export interface PlatformData {
@@ -35,7 +36,7 @@ export interface Session {
 }
 
 export interface ExecutionState {
-  status: 'pass' | 'fail' | 'not_applicable' | 'not_tested';
+  status: "pass" | "fail" | "not_applicable" | "not_tested";
   notes: string;
 }
 
@@ -45,11 +46,20 @@ export interface AppState {
   sessions: Session[];
   activeId: string | null;
   execsByPlatform: Record<string, ExecutionMap>;
-  impacts: Record<string, { ios?: 'high' | 'medium' | 'low'; android?: 'high' | 'medium' | 'low' }>;
+  impacts: Record<
+    string,
+    { ios?: "high" | "medium" | "low"; android?: "high" | "medium" | "low" }
+  >;
   customSteps: Record<string, { steps?: string; expected?: string }>;
   deletedTcs: string[];
   theme: string;
-  platform: 'ios' | 'android';
-  catOrder: Record<string, Array<{ type: 'tc' | 'header'; id: string; name?: string }>>;
-  catOrderAndroid: Record<string, Array<{ type: 'tc' | 'header'; id: string; name?: string }>>;
+  platform: "ios" | "android";
+  catOrder: Record<
+    string,
+    Array<{ type: "tc" | "header"; id: string; name?: string }>
+  >;
+  catOrderAndroid: Record<
+    string,
+    Array<{ type: "tc" | "header"; id: string; name?: string }>
+  >;
 }
