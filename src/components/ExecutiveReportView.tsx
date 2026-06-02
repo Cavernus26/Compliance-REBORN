@@ -173,14 +173,13 @@ export default function ExecutiveReportView({
 
     if (hasHighSeverityFailures) {
       return {
-        status: 'Non-Compliant - Immediate Rectification Required',
+        status: 'Non-Compliant - Action Required',
         badgeColor: 'border-red-500/30 bg-red-500/10 text-red-600 dark:text-red-400 shadow-glow-red animate-pulse',
         textColor: 'text-red-600 dark:text-red-400 font-bold',
         bullets: [
           'Critical vulnerabilities identified: High-severity violations will trigger immediate store review rejections.',
           `A total of ${stats.fail} failure points were registered during the first party compliance evaluations.`,
-          'Store launch authorization is strictly locked because of structural policies around core platform directives.',
-          'Identified codebase compliance failures must be resolved prior to store distribution.'
+          'Store submission should not proceed until critical compliance failures are resolved'
         ]
       };
     }
@@ -626,9 +625,6 @@ export default function ExecutiveReportView({
         <div className="pt-6 border-t border-[var(--border)] flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 text-[10px] font-mono text-[var(--text-muted)] print-no-split">
           <div>
             <span>Compliance Review density: {totalAssessed}/{stats.total} total criteria checked.</span>
-          </div>
-          <div>
-            <span>Aggregate risk ratio: {risk.score} / recommendation coefficient.</span>
           </div>
         </div>
       </div>

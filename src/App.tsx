@@ -488,6 +488,7 @@ export default function App() {
               activeSession={activeSession}
               onNewSess={() => setIsModalOpen(true)}
               onGoToTest={() => setActivePage("execute")}
+              onGoToSummary={() => setActivePage("summary")}
             />
           )}
           {activePage === "sessions" && (
@@ -738,6 +739,7 @@ function DashboardView({
   activeSession,
   onNewSess,
   onGoToTest,
+  onGoToSummary,
 }: any) {
   if (!activeSession) {
     return (
@@ -773,7 +775,7 @@ function DashboardView({
       <div className="flex justify-between items-end">
         <div>
           <h1 className="text-4xl font-light text-[var(--text-highlight)] mb-2 tracking-tight">
-            System Overview
+            Pass Overview
           </h1>
           <div className="flex items-center gap-2">
             <div
@@ -852,7 +854,10 @@ function DashboardView({
           >
             Open Workbench &rarr;
           </button>
-          <button className="px-5 py-2 bg-transparent text-[var(--text-muted)] border border-[var(--border)] text-sm font-medium rounded hover:bg-[var(--surface2)] hover:text-[var(--text-highlight)] transition-all">
+          <button
+            onClick={onGoToSummary}
+            className="px-5 py-2 bg-transparent text-[var(--text-muted)] border border-[var(--border)] text-sm font-medium rounded hover:bg-[var(--surface2)] hover:text-[var(--text-highlight)] transition-all"
+          >
             View Details
           </button>
         </div>
@@ -891,7 +896,7 @@ function SessionsView({
       <div className="flex justify-between items-end">
         <div>
           <h1 className="text-4xl font-light text-[var(--text-highlight)] mb-2 tracking-tight">
-            Build Sessions
+            Test Sessions
           </h1>
           <p className="text-[var(--text-muted)] text-sm italic">
             Previous first-party Compliance Passes
@@ -5723,7 +5728,7 @@ function GuidelinesView({ state, setState, db, icons, showToast }: any) {
     <div className="space-y-10 animate-in fade-in duration-500">
       <div>
         <h1 className="text-4xl font-light text-[var(--text-highlight)] mb-2 tracking-tight">
-          System Configuration
+          Guidelines impact
         </h1>
         <p className="text-[var(--text-muted)] text-sm">
           First-party submission impact per compliance section
