@@ -884,6 +884,8 @@ function SessionsView({
   onDelete,
   onNewSess,
 }: any) {
+  const [expandedNoteIds, setExpandedNoteIds] = useState<Record<string, boolean>>({});
+
   return (
     <div className="space-y-10 animate-in fade-in duration-500">
       <div className="flex justify-between items-end">
@@ -913,39 +915,97 @@ function SessionsView({
             <div
               key={s.id}
               onClick={() => onSelect(s.id)}
-              className={`group relative flex items-center justify-between p-6 rounded-xl border transition-all cursor-pointer ${s.id === activeId ? "bg-[var(--text-highlight)] border-[var(--text-highlight)] text-[var(--bg)]" : "bg-[var(--surface)] border-[var(--border)] hover:border-[var(--text-muted)] text-[var(--text-highlight)]"}`}
+              className={`group relative flex flex-col p-6 rounded-xl border transition-all cursor-pointer ${
+                s.id === activeId
+                  ? "bg-[var(--accent-dim)] border-[var(--accent)] shadow-md shadow-glow text-[var(--text-highlight)]"
+                  : "bg-[var(--surface)] border-[var(--border)] hover:border-[var(--text-muted)] text-[var(--text-highlight)]"
+              }`}
             >
-              <div className="flex items-center gap-6">
-                <div
-                  className={`w-12 h-12 rounded-lg flex items-center justify-center ${s.id === activeId ? "bg-[var(--bg)] text-[var(--text-highlight)]" : "bg-[var(--surface2)] text-[var(--text-muted)]"}`}
-                >
-                  <Package size={24} />
-                </div>
-                <div>
-                  <div className="flex items-center gap-3 mb-1">
-                    <h3 className="font-semibold text-lg tracking-tight">
-                      {s.version}
-                    </h3>
-                    {s.id === activeId && (
-                      <span className="text-[10px] font-bold bg-[var(--bg)] text-[var(--text-highlight)] px-2 py-0.5 rounded uppercase tracking-widest">
-                        Active
-                      </span>
-                    )}
-                  </div>
-                  <p
-                    className={`text-xs ${s.id === activeId ? "text-[var(--bg)]/60" : "text-[var(--text-muted)]"} font-mono`}
+              <div className="flex items-center justify-between flex-wrap gap-4">
+                <div className="flex items-center gap-6">
+                  <div
+                    className={`w-12 h-12 rounded-lg flex items-center justify-center transition-colors ${
+                      s.id === activeId
+                        ? "bg-[var(--accent)] text-[var(--bg)] shadow-sm"
+                        : "bg-[var(--surface2)] text-[var(--text-muted)]"
+                    }`}
                   >
-                    {s.tester} &middot; Build {s.build || "N/A"} &middot;{" "}
-                    {new Date(s.created).toLocaleDateString()}
-                  </p>
+                    <Package size={24} />
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-3 mb-1 flex-wrap">
+                      <h3 className="font-semibold text-lg tracking-tight">
+                        {s.version}
+                      </h3>
+                      {s.milestone && (
+                        <span className="text-[11px] font-medium bg-[var(--surface2)] text-[var(--text-muted)] border border-[var(--border)] px-2.5 py-0.5 rounded-full">
+                          {s.milestone}
+                        </span>
+                      )}
+                      {s.id === activeId && (
+                        <span className="text-[10px] font-bold bg-[var(--accent)] text-[var(--bg)] px-2 py-0.5 rounded uppercase tracking-widest">
+                          Active
+                        </span>
+                      )}
+                    </div>
+                    <p className="text-xs text-[var(--text-muted)] font-mono">
+                      {s.tester} &middot; Build {s.build || "N/A"} &middot;{" "}
+                      {new Date(s.created).toLocaleDateString()}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setExpandedNoteIds((prev) => ({
+                        ...prev,
+                        [s.id]: !prev[s.id],
+                      }));
+                    }}
+                    className={`p-2 rounded-full border transition-all ${
+                      expandedNoteIds[s.id]
+                        ? "bg-[var(--accent)] text-[var(--bg)] border-[var(--accent)] shadow-sm"
+                        : "bg-[var(--surface2)] text-[var(--text-muted)] hover:text-[var(--text-highlight)] border-[var(--border)] hover:bg-[var(--surface3)]"
+                    }`}
+                    title="View Internal Note"
+                  >
+                    <Info size={16} />
+                  </button>
+
+                  <button
+                    onClick={(e) => onDelete(e, s.id)}
+                    className="p-2 transition-all rounded-full hover:bg-red-500/10 text-[var(--text-muted)] hover:text-red-500"
+                    title="Delete Session"
+                  >
+                    <Trash2 size={18} />
+                  </button>
                 </div>
               </div>
-              <button
-                onClick={(e) => onDelete(e, s.id)}
-                className={`p-2 transition-all ${s.id === activeId ? "text-[var(--bg)]/40 hover:text-red-600" : "text-[var(--text-muted)] hover:text-red-400"}`}
-              >
-                <Trash2 size={18} />
-              </button>
+
+              {/* Collapsible notes with slide/fade animation */}
+              <AnimatePresence>
+                {expandedNoteIds[s.id] && (
+                  <motion.div
+                    initial={{ opacity: 0, height: 0, marginTop: 0 }}
+                    animate={{ opacity: 1, height: "auto", marginTop: 16 }}
+                    exit={{ opacity: 0, height: 0, marginTop: 0 }}
+                    transition={{ duration: 0.2 }}
+                    className="overflow-hidden"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <div className="p-4 rounded-lg bg-[var(--surface2)] border border-[var(--border)] text-sm">
+                      <div className="text-[10px] uppercase tracking-widest font-bold text-[var(--text-muted)] mb-1">
+                        Internal Note
+                      </div>
+                      <p className="text-[var(--text)] leading-relaxed">
+                        {s.desc ? s.desc : <span className="italic text-[var(--text-muted)]">No internal note specified.</span>}
+                      </p>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
           ))
         )}
