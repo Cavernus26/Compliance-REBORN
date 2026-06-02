@@ -59,7 +59,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Defamatory or mean-spirited content, including references or commentary about religion, race, sexual orientation, gender, or other targeted groups, particularly if the app is likely to place a targeted individual or group in harm’s way. Professional political satirists and humorists are generally exempt from this requirement",
         steps:
-          "1. Review all user-facing text and imagery for commentary about targeted groups.\n2. Confirm no content places individuals in harm's way.\n3. Verify humor/satire follows professional standards.",
+          "1. Open the app.\n2. Look at all user-facing text and imagery for commentary about targeted groups.\n3. Check that no content places individuals in harm's way.\n4. Check that humor/satire follows professional standards.",
         expected: "No defamatory or mean-spirited content found.",
         originalRef: "Objectionable content",
       },
@@ -70,7 +70,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Realistic portrayals of people or animals being killed, maimed, tortured, or abused, or content that encourages violence. “Enemies” within the context of a game cannot solely target a specific race, culture, real government, corporation, or any other real entity",
         steps:
-          "1. Inspect combat sequences and cinematic content for realistic maiming or torture.\n2. Verify enemy factions are fictional and do not target specific real-world groups or entities.",
+          "1. Open the app.\n2. Visually look at combat sequences and cinematic content for realistic maiming or torture.\n3. Check that enemy factions are fictional and do not target specific real-world groups or entities.",
         expected: "Violence is fictional; no targeting of real groups.",
         originalRef: "Objectionable content",
       },
@@ -81,7 +81,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Depictions that encourage illegal or reckless use of weapons and dangerous objects, or facilitate the purchase of firearms or ammunition",
         steps:
-          "1. Check if the app encourages reckless weapon handling.\n2. Confirm no links or functionality exist for purchasing real-world firearms/ammo.",
+          "1. Open the app.\n2. Check whether the app encourages reckless weapon handling.\n3. Check that no links or functionality exist for purchasing real-world firearms/ammo.",
         expected:
           "No facilitation of firearm sales; no encouragement of reckless weapon use.",
         originalRef: "Objectionable content",
@@ -93,7 +93,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Overtly sexual or pornographic material, defined by Webster's Dictionary as \"explicit descriptions or displays of sexual organs or activities intended to stimulate erotic rather than aesthetic or emotional feelings.” This includes “hookup” apps that may include pornography or be used to facilitate prostitution.",
         steps:
-          "1. Scan all app content for nudity or explicit descriptions of sexual activity.\n2. Confirm 'hookup' apps do not facilitate services like prostitution.",
+          "1. Open the app.\n2. Look through all app content for nudity or explicit descriptions of sexual activity.\n3. Check that 'hookup' apps do not facilitate services like prostitution.",
         expected: "No overtly sexual or pornographic material present.",
         originalRef: "Objectionable content",
       },
@@ -104,7 +104,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Inflammatory religious commentary or inaccurate or misleading quotations of religious texts",
         steps:
-          "1. Review scriptural quotations for accuracy.\n2. Ensure religious commentary is not inflammatory or misleading.",
+          "1. Open the app.\n2. Look at scriptural quotations for accuracy.\n3. Make sure that religious commentary is not inflammatory or misleading.",
         expected: "No inflammatory or misleading religious content.",
         originalRef: "Objectionable content",
       },
@@ -115,7 +115,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "False information and features, including inaccurate device data or trick/joke functionality, such as fake location trackers. Stating that the app is “for entertainment purposes” won’t overcome this guideline. Apps that enable anonymous or prank phone calls or SMS/MMS messaging will be rejected",
         steps:
-          "1. Verify device-related features (battery, storage, location) provide real data.\n2. Confirm no anonymous call/SMS prank functionality is present.",
+          "1. Open the app.\n2. Check that device-related features (battery, storage, location) provide real data.\n3. Check that no anonymous call/SMS prank functionality is present.",
         expected:
           "Features are transparent and accurate; no prank call/SMS logic.",
         originalRef: "Objectionable content",
@@ -127,7 +127,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Harmful concepts which capitalize or seek to profit on recent or current events, such as violent conflicts, terrorist attacks, and epidemics.",
         steps:
-          "1. Check for references to real-world tragedies or ongoing conflicts used for profit.\n2. Verify the app does not exploit sensitive current events.",
+          "1. Open the app.\n2. Check for references to real-world tragedies or ongoing conflicts used for profit.\n3. Check that the app does not exploit sensitive current events.",
         expected: "App does not capitalize on recent tragedies or epidemics.",
         originalRef: "Objectionable content",
       },
@@ -140,7 +140,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "A method for filtering objectionable material from being posted to the app",
         steps:
-          "1. Locate all UGC entry points (chat, profile name).\n2. Attempt to submit profanity or slurs to test filtering mechanism.",
+          "1. Open the app.\n2. Locate all UGC entry points (chat, profile name).\n3. Attempt to submit profanity or slurs to test filtering mechanism.",
         expected: "Filtering mechanism blocks or flags objectionable material.",
         originalRef: "User Generated Content",
       },
@@ -151,7 +151,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "A mechanism to report offensive content and timely responses to concerns",
         steps:
-          "1. Locate the 'Report' button on user-submitted content.\n2. Confirm the reporting flow works and leads to a developer response system.",
+          "1. Open the app.\n2. Locate the 'Report' button on user-submitted content.\n3. Check that the reporting flow works and leads to a developer response system.",
         expected: "Reporting mechanism is functional and reachable.",
         originalRef: "User Generated Content",
       },
@@ -161,7 +161,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         ref: "1.2.3",
         title: "The ability to block abusive users from the service",
         steps:
-          "1. Look for a 'Block' or 'Ignore' button on other user profiles/messages.\n2. Activate the block and confirm content from that user is no longer visible.",
+          "1. Open the app.\n2. Look for a 'Block' or 'Ignore' button on other user profiles/messages.\n3. Activate the block and confirm content from that user is no longer visible.",
         expected: "Blocking functionality is present and effective.",
         originalRef: "User Generated Content",
       },
@@ -171,7 +171,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         ref: "1.2.4",
         title: "Published contact information so users can easily reach you",
         steps:
-          "1. Search the app (Settings, About, Help) for developer contact information.\n2. Verify the information is accurate and easy to find.",
+          "1. Open the app.\n2. Search the app (Settings, About, Help) for developer contact information.\n3. Check that the information is accurate and easy to find.",
         expected: "Contact information is accessible within the app.",
         originalRef: "User Generated Content",
       },
@@ -182,7 +182,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "If your app includes user-generated content from a web-based service, it may display incidental mature “NSFW” content, provided that the content is hidden by default and only displayed when the user turns it on via your website",
         steps:
-          "1. If web-service UGC is present, check if NSFW content is shown immediately.\n2. Confirm NSFW content is hidden by default and requires user action to enable.",
+          "1. Open the app.\n2. If web-service UGC is present, check if NSFW content is shown immediately.\n3. Check that NSFW content is hidden by default and requires user action to enable.",
         expected: "NSFW content is hidden by default; user must toggle it.",
         originalRef: "User Generated Content",
       },
@@ -194,7 +194,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "The App Store supports apps offering such user-generated content so long as they follow all Guidelines, including Guideline 1.2 for moderating user-generated content and Guideline 3.1.1 for payments and in-app purchases.",
         steps:
-          "1. Verify creator content follows UGC moderation rules.\n2. Ensure payments for creator content use in-app purchases (IAP).",
+          "1. Open the app.\n2. Check that creator content follows UGC moderation rules.\n3. Make sure that payments for creator content use in-app purchases (IAP).",
         expected: "Creator content follows guidelines 1.2 and 3.1.1.",
         originalRef: "Creator Content",
       },
@@ -205,7 +205,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Creator apps should share the age rating of the highest age-rated creator content available in the app, and communicate to users which content requires additional purchases.",
         steps:
-          "1. Verify the app's age rating matches the most mature creator content.\n2. Check that paid content is clearly identified.",
+          "1. Open the app.\n2. Check that the app's age rating matches the most mature creator content.\n3. Check that paid content is clearly identified.",
         expected: "Age rating and purchase requirements are transparent.",
         originalRef: "Creator Content",
       },
@@ -217,7 +217,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Apps must not include links out of the app, purchasing opportunities, or other distractions to kids unless reserved for a designated area behind a parental gate",
         steps:
-          "1. Scan kid-accessible areas for external links or IAP buttons.\n2. Verify a parental gate (e.g., math problem, adult gesture) exists for restricted spots.",
+          "1. Open the app.\n2. Look through kid-accessible areas for external links or IAP buttons.\n3. Check that a parental gate (e.g., math problem, adult gesture) exists for restricted spots.",
         expected: "Links and purchases are locked behind a parental gate.",
         originalRef: "Kids Category",
       },
@@ -228,7 +228,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Apps in the Kids Category may not include third-party advertising or analytics.",
         steps:
-          "1. Check for any third-party ad networks (AdMob, etc.).\n2. Verify analytics SDKs do not collect third-party data for advertising profiling.",
+          "1. Open the app.\n2. Check for any third-party ad networks (AdMob, etc.).\n3. Check that analytics SDKs do not collect third-party data for advertising profiling.",
         expected: "No third-party ads or identifying analytics found.",
         originalRef: "Kids Category",
       },
@@ -240,7 +240,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Medical apps that could provide inaccurate data or information, or that could be used for diagnosing or treating patients may be reviewed with greater scrutiny. If your medical app has received regulatory clearance, please submit a link to that documentation with your app.",
         steps:
-          "1. Verify medical claims are supported by documentation.\n2. Ensure diagnostic tools are accurate and clear about their purpose.",
+          "1. Open the app.\n2. Check that medical claims are supported by documentation.\n3. Make sure that diagnostic tools are accurate and clear about their purpose.",
         expected: "Medical info is accurate and documentation is linked.",
         originalRef: "Physical Harm",
       },
@@ -251,7 +251,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Drug dosage calculators must come from the drug manufacturer, a hospital, university, health insurance company, or other approved entity, or receive approval by the FDA or one of its international counterparts. Given the potential harm to patients, we need to be sure that the app will be supported and updated over the long term",
         steps:
-          "1. Verify the source of any dosage calculation logic.\n2. Confirm the entity is approved (e.g., FDA, hospital).",
+          "1. Open the app.\n2. Check that the source of any dosage calculation logic.\n3. Check that the entity is approved (e.g., FDA, hospital).",
         expected: "Dosage calculator originates from an approved authority.",
         originalRef: "Physical Harm",
       },
@@ -262,7 +262,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Apps that encourage consumption of tobacco and vape products, illegal drugs, or excessive amounts of alcohol are not permitted on the App Store. Apps that encourage minors to consume any of these substances will be rejected. Facilitating the sale of controlled substances (except for licensed pharmacies and licensed or otherwise legal cannabis dispensaries), or tobacco is not allowed.",
         steps:
-          "1. Search for content promoting drug/tobacco use.\n2. Verify no facilitation of illegal or minor-focused substance sales.",
+          "1. Open the app.\n2. Search for content promoting drug/tobacco use.\n3. Check that no facilitation of illegal or minor-focused substance sales.",
         expected: "No promotion of reckless substance use or illegal sales.",
         originalRef: "Physical Harm",
       },
@@ -273,7 +273,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Apps may only display DUI checkpoints that are published by law enforcement agencies, and should never encourage drunk driving or other reckless behavior such as excessive speed",
         steps:
-          "1. Verify DUI checkpoint sources.\n2. Ensure no 'speeding' or 'drunk driving' gamification exists in real-world contexts.",
+          "1. Open the app.\n2. Check that DUI checkpoint sources.\n3. Make sure that no 'speeding' or 'drunk driving' gamification exists in real-world contexts.",
         expected:
           "Checkpoints are official; no encouragement of reckless driving.",
         originalRef: "Physical Harm",
@@ -285,7 +285,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Apps should not urge customers to participate in activities (like bets, challenges, etc.) or use their devices in a way that risks physical harm to themselves or others.",
         steps:
-          "1. Check for physical 'dares' or 'challenges'.\n2. Verify the UI doesn't distract drivers or cause other physical risks.",
+          "1. Open the app.\n2. Check for physical 'dares' or 'challenges'.\n3. Check that the UI doesn't distract drivers or cause other physical risks.",
         expected: "No dangerous physical challenges found.",
         originalRef: "Physical Harm",
       },
@@ -297,7 +297,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Make sure your app and its Support URL include an easy way to contact you; this is particularly important for apps that may be used in the classroom. Failure to include accurate and up-to-date contact information not only frustrates customers, but may violate the law in some countries.",
         steps:
-          "1. Test the 'Support URL' provided in App Store Connect.\n2. Find contact info within the app UI if applicable.",
+          "1. Open the app.\n2. Try using the 'Support URL' provided in App Store Connect.\n3. Find contact info within the app UI if applicable.",
         expected: "Developer is easily reachable via multiple channels.",
         originalRef: "Developer Information",
       },
@@ -308,7 +308,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Ensure that Wallet passes include valid contact information from the issuer and are signed with a dedicated certificate assigned to the brand or trademark owner of the pass",
         steps:
-          "1. Inspect Wallet passes for contact details.\n2. Verify certificate ownership.",
+          "1. Open the app.\n2. Visually look at Wallet passes for contact details.\n3. Check that certificate ownership.",
         expected: "Wallet passes have valid info and ownership signatures.",
         originalRef: "Developer Information",
       },
@@ -320,7 +320,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Apps for reporting alleged criminal activity must involve local law enforcement, and can only be offered in countries where such involvement is active.",
         steps:
-          "1. Check the target countries for the reporting feature.\n2. Verify integration with official law enforcement APIs or contact methods.",
+          "1. Open the app.\n2. Check the target countries for the reporting feature.\n3. Check that integration with official law enforcement APIs or contact methods.",
         expected:
           "Crime reporting involves active law enforcement involvement.",
         originalRef: "Reporting Criminal Activity",
@@ -333,7 +333,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Make sure that there are no placeholder text, empty websites or any temporary content present in app",
         steps:
-          "1. Search for 'Lorem Ipsum' or 'TBD' strings.\n2. Check for broken image icons or dead links.",
+          "1. Open the app.\n2. Search for 'Lorem Ipsum' or 'TBD' strings.\n3. Check for broken image icons or dead links.",
         expected: "No placeholder content found.",
         originalRef: "App Completeness",
       },
@@ -344,7 +344,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "App must not present any bugs, obvious technical problems & crashes otherwise app will be rejected",
         steps:
-          "1. Perform smoke tests on all major features.\n2. Review crash logs if any occur.",
+          "1. Open the app.\n2. Do smoke tests on all major features.\n3. Look at crash logs if any occur.",
         expected: "App is stable and free of technical defects.",
         originalRef: "App Completeness",
       },
@@ -355,7 +355,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "If your app contains login functionality make sure that backend services are up and running",
         steps:
-          "1. Test sign-in/sign-up flows.\n2. Verify server connectivity in production-like environment.",
+          "1. Open the app.\n2. Try using sign-in/sign-up flows.\n3. Check that server connectivity in production-like environment.",
         expected: "Backend authentication is active and reachable.",
         originalRef: "App Completeness",
       },
@@ -366,7 +366,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "If you offer in-app purchases make sure they are complete, pricing is up-to-date and visible",
         steps:
-          "1. Reconcile in-game prices with App Store Connect metadata.\n2. Verify purchase flow completes correctly.",
+          "1. Open the app.\n2. Reconcile in-game prices with App Store Connect metadata.\n3. Check that purchase flow completes correctly.",
         expected: "IAPs are complete and correctly priced.",
         originalRef: "App Completeness",
       },
@@ -378,7 +378,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Demos, betas and trial versions of the app must not be submitted to App Store- Test Flight should be used instead",
         steps:
-          "1. Ensure this submission is a full production version.\n2. Use TestFlight for feature testing.",
+          "1. Open the app.\n2. Make sure that this submission is a full production version.\n3. Use TestFlight for feature testing.",
         expected: "Submission is not a demo or beta version.",
         originalRef: "Beta Testing",
       },
@@ -389,7 +389,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Apps submitted for beta distribution via Test Flight should be intended for public distribution and should comply with App review guidelines",
         steps:
-          "1. Confirm Beta builds follow Safety and Performance rules.\n2. Verify the intent is eventual production.",
+          "1. Open the app.\n2. Check that Beta builds follow Safety and Performance rules.\n3. Check that the intent is eventual production.",
         expected: "Beta builds are compliant with core guidelines.",
         originalRef: "Beta Testing",
       },
@@ -400,7 +400,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Apps using Test Flight cannot be distributed to testers in exchange for compensation of any kind",
         steps:
-          "1. Confirm no 'paid beta' schemes.\n2. Review tester recruitment for mentions of rewards.",
+          "1. Open the app.\n2. Check that no 'paid beta' schemes.\n3. Look at tester recruitment for mentions of rewards.",
         expected: "No compensation offered to beta testers.",
         originalRef: "Beta Testing",
       },
@@ -411,7 +411,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Significant updates to the beta build should be submitted to Test Flight App Review before being distributed",
         steps:
-          "1. Submit new versions through the 'TestFlight' review tab in ASC.",
+          "1. Open the app.\n2. Submit new versions through the 'TestFlight' review tab in ASC.",
         expected: "Beta updates are reviewed by Apple.",
         originalRef: "Beta Testing",
       },
@@ -423,7 +423,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Don’t include any hidden, dormant, or undocumented features in your app; your app’s functionality should be clear to end-users and App Review. All new features, functionality, and product changes must be described with specificity in the Notes for Review section of App Store Connect (generic descriptions will be rejected) and accessible for review. Similarly, marketing your app in a misleading way, such as by promoting content or services that it does not actually offer (e.g. iOS-based virus and malware scanners) or promoting a false price, whether within or outside of the App Store, is grounds for removal of your app from the App Store and termination of your developer account. Egregious or repeated behavior is grounds for removal from the Developer Program. We work hard to make the App Store a trustworthy ecosystem and expect our app developers to follow suit; if you’re dishonest, we don’t want to do business with you.",
         steps:
-          "1. Review all app features against the description in App Store Connect.\n2. Ensure no hidden modules or diagnostic tools exist.\n3. Verify marketing claims match actual app capabilities.",
+          "1. Open the app.\n2. Look at all app features against the description in App Store Connect.\n3. Make sure that no hidden modules or diagnostic tools exist.\n4. Check that marketing claims match actual app capabilities.",
         expected: "Functionality is transparent; marketing is accurate.",
         originalRef: "Accurate Metadata",
       },
@@ -434,7 +434,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "If you decide to promote in-app purchases on the App Store, ensure that the IAP Display Name and Description are written for a public audience, that you follow the guidance found in Promoting Your In-App Purchases , and that your app properly handles the SKPaymentTransactionObserver method so that customers can seamlessly complete the purchase when your app launches.",
         steps:
-          "1. Verify IAP metadata is public-facing and clear.\n2. Ensure purchase flow is handled properly if initiated from the App Store.",
+          "1. Open the app.\n2. Check that IAP metadata is public-facing and clear.\n3. Make sure that purchase flow is handled properly if initiated from the App Store.",
         expected: "IAP promotion is compliant and functional.",
         originalRef: "Accurate Metadata",
       },
@@ -445,7 +445,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Screenshots should show the app in use, and not merely the title art, log-in page, or splash screen.",
         steps:
-          "1. Review App Store screenshots.\n2. Confirm at least 60% of images show inside-app gameplay/UI.",
+          "1. Open the app.\n2. Look at App Store screenshots.\n3. Check that at least 60% of images show inside-app gameplay/UI.",
         expected: "Screenshots represent actual app use.",
         originalRef: "Accurate Metadata",
       },
@@ -456,7 +456,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Previews are a great way for customers to see what your app looks like and what it does. To ensure people understand what they’ll be getting with your app, previews may only use video screen captures of the app itself. You can add narration and video or textual overlays to help explain anything that isn’t clear from the video alone",
         steps:
-          "1. Examine app previews for non-app footage.\n2. Ensure video content is primarily screen-captured UI/Gameplay.",
+          "1. Open the app.\n2. Carefully look at app previews for non-app footage.\n3. Make sure that video content is primarily screen-captured UI/Gameplay.",
         expected: "Previews are based on authentic screen capture.",
         originalRef: "Accurate Metadata",
       },
@@ -466,7 +466,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         ref: "2.3.5",
         title: "Select the most appropriate category for your app",
         steps:
-          "1. Verify app category in App Store Connect matches core functionality.",
+          "1. Open the app.\n2. Check that app category in App Store Connect matches core functionality.",
         expected: "Category selection is appropriate.",
         originalRef: "Accurate Metadata",
       },
@@ -477,7 +477,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Answer the age rating questions in App Store Connect honestly so that your app aligns properly with parental controls. If your app is mis-rated, customers might be surprised by what they get, or it could trigger an inquiry from government regulators. If your app includes media that requires the display of content ratings or warnings (e.g. films, music, games, etc.), you are responsible for complying with local requirements in each territory where your app is available.",
         steps:
-          "1. Review the age rating questionnaire answers.\n2. Verify against actual app content (violence, adult themes).",
+          "1. Open the app.\n2. Look at the age rating questionnaire answers.\n3. Check that against actual app content (violence, adult themes).",
         expected: "Age rating is honest and accurate.",
         originalRef: "Accurate Metadata",
       },
@@ -488,7 +488,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Choose a unique app name, assign keywords that accurately describe your app, and don’t try to pack any of your metadata with trademarked terms, popular app names, pricing information or other irrelevant phrases just to game the system. Apple may modify inappropriate keywords at any time or take other appropriate steps to prevent abuse. App names must be limited to 30 characters. Metadata such as app names, subtitles, screenshots, and previews should not include prices, terms, or descriptions that are not specific to the metadata type. App subtitles are a great way to provide additional context for your app; they must follow our standard metadata rules and should not include inappropriate content, reference other apps, or make unverifiable product claims.",
         steps:
-          "1. Check app name length (max 30 chars).\n2. Review keywords for trademark spam or competitor names.\n3. Verify subtitles don't contain pricing or unverifiable claims.",
+          "1. Open the app.\n2. Check app name length (max 30 chars).\n3. Look at keywords for trademark spam or competitor names.\n4. Check that subtitles don't contain pricing or unverifiable claims.",
         expected: "App name and keywords are unique and honest.",
         originalRef: "Accurate Metadata",
       },
@@ -499,7 +499,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Metadata should be appropriate for all audiences, so make sure your app and in-app purchase icons, screenshots, and previews adhere to a 4+ age rating even if your app is rated higher.",
         steps:
-          "1. Inspect icons and screenshots for mature content.\n2. Ensure overall presentation is 'safe' for a 4+ audience.",
+          "1. Open the app.\n2. Visually look at icons and screenshots for mature content.\n3. Make sure that overall presentation is 'safe' for a 4+ audience.",
         expected: "Store metadata is safe for children (4+).",
         originalRef: "Accurate Metadata",
       },
@@ -510,7 +510,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "You are responsible for securing the rights to use all materials in your app icons, screenshots, and previews, and you should display fictional account information instead of data from a real person",
         steps:
-          "1. Verify property rights for all marketing assets.\n2. Ensure 'John Doe' or fictional data is used in screenshots.",
+          "1. Open the app.\n2. Check that property rights for all marketing assets.\n3. Make sure that 'John Doe' or fictional data is used in screenshots.",
         expected: "Rights are secured; fictional data is displayed.",
         originalRef: "Accurate Metadata",
       },
@@ -521,7 +521,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Make sure your app is focused on the iOS, macOS, tvOS or watchOS experience, and don’t include names, icons, or imagery of other mobile platforms in your app or metadata, unless there is specific, approved interactive functionality. Make sure your app metadata is focused on the app itself and its experience. Don’t include irrelevant information.",
         steps:
-          "1. Search for 'Android', 'Google Play' or logos of other platforms in metadata/app imagery.\n2. Confirm focus is entirely on Apple OS experience.",
+          "1. Open the app.\n2. Search for 'Android', 'Google Play' or logos of other platforms in metadata/app imagery.\n3. Check that focus is entirely on Apple OS experience.",
         expected: "No branding or references to competing platforms.",
         originalRef: "Accurate Metadata",
       },
@@ -532,7 +532,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Apps you submit for pre-order on the App Store must be complete and deliverable as submitted. Ensure that the app you ultimately release is not materially different from what you advertise while the app is in a pre-order state. If you make material changes to the app (e.g. change business models), you should restart your pre-order sales.",
         steps:
-          "1. Compare pre-order promises with current build functionality.\n2. Verify business model hasn't shifted significantly.",
+          "1. Open the app.\n2. Compare pre-order promises with current build functionality.\n3. Check that business model hasn't shifted significantly.",
         expected: "Pre-order promises align with current deliverable.",
         originalRef: "Accurate Metadata",
       },
@@ -543,7 +543,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Apps must clearly describe new features and product changes in their “What’s New” text. Simple bug fixes, security updates, and performance improvements may rely on a generic description, but more significant changes must be listed in the notes.",
         steps:
-          "1. Review 'What's New' text for specificity.\n2. Ensure major updates aren't hidden under 'bug fixes'.",
+          "1. Open the app.\n2. Look at 'What's New' text for specificity.\n3. Make sure that major updates aren't hidden under 'bug fixes'.",
         expected: "Significant changes are explicitly described.",
         originalRef: "Accurate Metadata",
       },
@@ -554,7 +554,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         ref: "2.4.1",
         title: "iPhone apps should run on iPad whenever possible",
         steps:
-          "1. Install the iPhone-only binary on an iPad.\n2. Verify the 1x/2x compatibility mode works without crashes.",
+          "1. Open the app.\n2. Install the iPhone-only binary on an iPad.\n3. Check that the 1x/2x compatibility mode works without crashes.",
         expected: "App runs on iPad in compatibility mode.",
         originalRef: "Hardware Compatibility",
       },
@@ -565,7 +565,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Design your app to use power efficiently and be used in a way that does not risk damage to the device. Apps should not rapidly drain battery, generate excessive heat, or put unnecessary strain on device resources. Apps, including any third-party advertisements displayed within them, may not run unrelated background processes, such as cryptocurrency mining.",
         steps:
-          "1. Monitor battery usage during a 5-minute session.\n2. Check device temperature.\n3. Verify no hidden mining or heavy background tasks.",
+          "1. Open the app.\n2. Monitor battery usage during a 5-minute session.\n3. Check device temperature.\n4. Check that no hidden mining or heavy background tasks.",
         expected: "No excessive heat or battery drain; no mining.",
         originalRef: "Hardware Compatibility",
       },
@@ -576,7 +576,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "People should be able to use your Apple TV app without the need for hardware inputs beyond the Siri remote or third-party game controllers, but feel free to provide enhanced functionality when other peripherals are connected. If you require a game controller, make sure you clearly explain that in your metadata so customers know they need additional equipment to play.",
         steps:
-          "1. (tvOS only) Test functionality with Siri Remote only.\n2. Verify metadata mentions controller requirements if applicable.",
+          "1. Open the app.\n2. (tvOS only) Test functionality with Siri Remote only.\n3. Check that metadata mentions controller requirements if applicable.",
         expected: "Core features work with Siri remote.",
         originalRef: "Hardware Compatibility",
       },
@@ -587,7 +587,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Apps should never suggest or require a restart of the device or modifications to system settings unrelated to the core functionality of the app. For example, don’t encourage users to turn off Wi-Fi, disable security features, etc.",
         steps:
-          "1. Scan for prompts asking to reboot.\n2. Verify app doesn't ask to disable system security (VPN, Wi-Fi).",
+          "1. Open the app.\n2. Look through for prompts asking to reboot.\n3. Check that app doesn't ask to disable system security (VPN, Wi-Fi).",
         expected: "No unrequested system modifications or restarts.",
         originalRef: "Hardware Compatibility",
       },
@@ -599,7 +599,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Apps may only use public APIs and MUST run on latest shipping iOS. Keep your apps up-to-date and make sure you phase out any deprecated features, frameworks or technologies that will no longer be supported in future versions of an OS, for this take confirmation from DEV team. Apps should use APIs and frameworks for their intended purposes and indicate that integration in their app description.",
         steps:
-          "1. Run on the latest public iOS release.\n2. Confirm no private API usage (grep symbols if possible).\n3. Verify APIs are used as intended.",
+          "1. Open the app.\n2. Run on the latest public iOS release.\n3. Check that no private API usage (grep symbols if possible).\n4. Check that APIs are used as intended.",
         expected: "Runs on latest iOS using only public APIs.",
         originalRef: "Software Requirements",
       },
@@ -610,7 +610,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Apps should be self-contained in their bundles, and may not read or write data outside the designated container area, nor may they download, install, or execute code which introduces or changes features or functionality of the app, including other iOS, watchOS, Mac OS X, or tvOS apps.",
         steps:
-          "1. Verify app doesn't try to download zip/binary updates for features.\n2. Check that all logic is in the bundle.",
+          "1. Open the app.\n2. Check that app doesn't try to download zip/binary updates for features.\n3. Check that all logic is in the bundle.",
         expected: "Executable code is entirely self-contained.",
         originalRef: "Software Requirements",
       },
@@ -621,7 +621,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Multitasking apps may only use background services for their intended purposes: VoIP, audio playback, location, task completion, local notifications, etc. If your app uses location background mode, include a reminder that doing so may dramatically decrease battery life.",
         steps:
-          "1. Check plist for Background Modes.\n2. Verify usage matches intent.\n3. Look for 'battery life' warning if using BG Location.",
+          "1. Open the app.\n2. Check plist for Background Modes.\n3. Check that usage matches intent.\n4. Look for 'battery life' warning if using BG Location.",
         expected: "Background modes are justified and warned.",
         originalRef: "Software Requirements",
       },
@@ -631,7 +631,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         ref: "2.5.5",
         title: "Apps must be fully functional on IPv6-only networks",
         steps:
-          "1. Connect device to an IPv6-only hotspot.\n2. Launch app and test all network-dependent features.",
+          "1. Open the app.\n2. Connect device to an IPv6-only hotspot.\n3. Launch app and test all network-dependent features.",
         expected: "App functions fully on IPv6.",
         originalRef: "Software Requirements",
       },
@@ -642,7 +642,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "If your game is server dependent/has multiplayer, check the game functionality and loading process while being connected to IPv6 network",
         steps:
-          "1. Matchmake or join session on IPv6 network.\n2. Verify latency and stability.",
+          "1. Open the app.\n2. Matchmake or join session on IPv6 network.\n3. Check that latency and stability.",
         expected: "Multiplayer works on IPv6.",
         originalRef: "Software Requirements",
       },
@@ -653,7 +653,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Verify In-App purchases can be made successfully through IPv6 Network",
         steps:
-          "1. Trigger IAP purchase on IPv6 network.\n2. Complete sandbox transaction.",
+          "1. Open the app.\n2. Trigger IAP purchase on IPv6 network.\n3. Complete sandbox transaction.",
         expected: "IAP works on IPv6.",
         originalRef: "Software Requirements",
       },
@@ -664,7 +664,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Apps that browse the web must use the appropriate WebKit framework and WebKit JavaScript.",
         steps:
-          "1. Inspect internal browser modules.\n2. Confirm usage of WKWebView.",
+          "1. Open the app.\n2. Visually look at internal browser modules.\n3. Check that usage of WKWebView.",
         expected: "App uses WebKit for web browsing.",
         originalRef: "Software Requirements",
       },
@@ -675,7 +675,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Apps that alter or disable the functions of standard switches, such as the Volume Up/Down and Ring/Silent switches, or other native user interface elements or behaviors will be rejected. For example, apps should not block links out to other apps or other features that users would expect to work a certain way",
         steps:
-          "1. Test hardware buttons while app is active.\n2. Confirm volume/silent buttons still drive system changes.",
+          "1. Open the app.\n2. Try using hardware buttons while app is active.\n3. Check that volume/silent buttons still drive system changes.",
         expected: "Standard switches function normally.",
         originalRef: "Software Requirements",
       },
@@ -686,7 +686,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Apps integrating SiriKit and Shortcuts should only sign up for intents they can handle without the support of an additional app and that users would expect from the stated functionality.",
         steps:
-          "1. (If applicable) Test Siri intents.\n2. Verify they resolve directly.",
+          "1. Open the app.\n2. (If applicable) Test Siri intents.\n3. Check that they resolve directly.",
         expected: "Intents are handled directly and logically.",
         originalRef: "Software Requirements",
       },
@@ -697,7 +697,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Apps using facial recognition for account authentication must use LocalAuthentication (and not ARKit or other facial recognition technology) where possible, and must use an alternate authentication method for users under 13 years old.",
         steps:
-          "1. Check Auth implementation.\n2. Confirm alternate path for kids < 13.",
+          "1. Open the app.\n2. Check Auth implementation.\n3. Check that alternate path for kids < 13.",
         expected: "FaceID uses LocalAuth and supports under 13s.",
         originalRef: "Software Requirements",
       },
@@ -708,7 +708,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Apps must request explicit user consent and provide a clear visual and/or audible indication when recording, logging, or otherwise making a record of user activity. This includes any use of the device camera, microphone, screen recordings, or other user inputs.",
         steps:
-          "1. Trigger recording features.\n2. Verify system permission prompts AND clear in-app indicators (recording dot).",
+          "1. Open the app.\n2. Trigger recording features.\n3. Check that system permission prompts AND clear in-app indicators (recording dot).",
         expected: "Recording is transparent and consented.",
         originalRef: "Software Requirements",
       },
@@ -719,7 +719,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Apps that contain ads must also include the ability for users to report any inappropriate or age-inappropriate ads",
         steps:
-          "1. Locate 'Ad choice' or 'Report' icon on banners.\n2. Verify flow for reporting bad ads.",
+          "1. Open the app.\n2. Locate 'Ad choice' or 'Report' icon on banners.\n3. Check that flow for reporting bad ads.",
         expected: "Ad reporting mechanism is present.",
         originalRef: "Software Requirements",
       },
@@ -731,7 +731,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "To unlock features or functionality within your app, In-App purchase must be used. Apps may not use their own mechanisms to unlock content or functionality, such as license keys, augmented reality markers, QR codes, etc.",
         steps:
-          "1. Verify that 'Premium' features are unlocked via StoreKit.\n2. Ensure no 'Input Code' field for feature unlocks.",
+          "1. Open the app.\n2. Check that that 'Premium' features are unlocked via StoreKit.\n3. Make sure that no 'Input Code' field for feature unlocks.",
         expected: "IAP used for all digital unlocks.",
         originalRef: "Payments",
       },
@@ -742,7 +742,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "App may not include buttons, external links or other calls to action that direct customers to purchasing mechanism other than IAP",
         steps:
-          "1. Scan for 'Buy on Website' links.\n2. Check for hidden URLs in buttons.",
+          "1. Open the app.\n2. Look through for 'Buy on Website' links.\n3. Check for hidden URLs in buttons.",
         expected: "No external purchase redirects.",
         originalRef: "Payments",
       },
@@ -753,7 +753,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Apps offering “loot boxes” or other mechanisms that provide randomized virtual items for purchase must disclose the odds of receiving each type of item to customers prior to purchase.",
         steps:
-          "1. Locate Loot Crate/Gacha info.\n2. Verify drop rates (e.g. Rare 5%) are visible.",
+          "1. Open the app.\n2. Locate Loot Crate/Gacha info.\n3. Check that drop rates (e.g. Rare 5%) are visible.",
         expected: "Drop odds are disclosed clearly.",
         originalRef: "Payments",
       },
@@ -763,7 +763,8 @@ export const ALL_DATA: Record<string, PlatformData> = {
         ref: "3.1.8",
         title:
           "Digital gift cards, certificates, vouchers, and coupons which can be redeemed for digital goods or services can only be sold in your app using in-app purchase.",
-        steps: "1. Check for gift card sales.\n2. Confirm they use IAP tiers.",
+        steps:
+          "1. Open the app.\n2. Check for gift card sales.\n3. Check that they use IAP tiers.",
         expected: "Digital gift cards use IAP.",
         originalRef: "Payments",
       },
@@ -775,7 +776,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "When features are dependent upon specific hardware to function, app may unlock that functionality without using in-app purchase (e.g. an astronomy app that adds features when synced with a telescope)",
         steps:
-          "1. Connect external hardware.\n2. Verify features unlock automatically without IAP interaction.",
+          "1. Open the app.\n2. Connect external hardware.\n3. Check that features unlock automatically without IAP interaction.",
         expected: "Hardware-based unlocks are enabled without IAP.",
         originalRef: "Hardware-Specific Content",
       },
@@ -786,7 +787,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "App features that work in combination with an approved physical product (such as a toy) on an optional basis may unlock functionality without using in-app purchase, provided that an in-app purchase option is available as well.",
         steps:
-          "1. Verify both 'Physical Toy' unlock and 'Digital IAP' unlock paths exist for the same feature.",
+          "1. Open the app.\n2. Check that both 'Physical Toy' unlock and 'Digital IAP' unlock paths exist for the same feature.",
         expected: "Digital alternative to physical toy unlock is present.",
         originalRef: "Hardware-Specific Content",
       },
@@ -798,7 +799,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Wallets: Apps may facilitate virtual currency storage, provided they are offered by developers enrolled as an organization.",
         steps:
-          "1. (ASC check) Verify developer account type is 'Organization'.\n2. Check wallet functionality.",
+          "1. Open the app.\n2. (ASC check) Verify developer account type is 'Organization'.\n3. Check wallet functionality.",
         expected: "Wallet app is from an organizational account.",
         originalRef: "Cryptocurrencies",
       },
@@ -809,7 +810,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Mining: Apps may not mine for cryptocurrencies unless the processing is performed off device (e.g. cloud-based mining).",
         steps:
-          "1. Monitor CPU/GPU usage.\n2. Verify NO on-device hashing logic exists.",
+          "1. Open the app.\n2. Monitor CPU/GPU usage.\n3. Check that NO on-device hashing logic exists.",
         expected: "No on-device crypto mining.",
         originalRef: "Cryptocurrencies",
       },
@@ -819,7 +820,8 @@ export const ALL_DATA: Record<string, PlatformData> = {
         ref: "3.1.9",
         title:
           "Exchanges: Apps may facilitate transactions or transmissions of cryptocurrency on an approved exchange, provided they are offered by the exchange itself.",
-        steps: "1. Verify app ownership matches the exchange entity.",
+        steps:
+          "1. Open the app.\n2. Check that app ownership matches the exchange entity.",
         expected: "Exchange app is official.",
         originalRef: "Cryptocurrencies",
       },
@@ -831,7 +833,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Display advertising should be limited to your main app binary, and should not be included in extensions, App Clips, widgets, notifications, keyboards, watchOS apps, etc.",
         steps:
-          "1. Trigger notifications/widgets.\n2. Verify NO advertisements are displayed in these secondary interfaces.",
+          "1. Open the app.\n2. Trigger notifications/widgets.\n3. Check that NO advertisements are displayed in these secondary interfaces.",
         expected: "Ads only appear in the main app.",
         originalRef: "Advertising",
       },
@@ -842,7 +844,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Ads displayed in an app must be appropriate for the app’s age rating, allow the user to see all information used to target them for that ad (without requiring the user to leave the app), and may not engage in targeted or behavioral advertising based on sensitive user data",
         steps:
-          "1. Check ad content against app age rating.\n2. Verify 'Why this ad' info is accessible in-app.",
+          "1. Open the app.\n2. Check ad content against app age rating.\n3. Check that 'Why this ad' info is accessible in-app.",
         expected: "Ads are age-appropriate and transparent.",
         originalRef: "Advertising",
       },
@@ -853,7 +855,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Interstitial ads or ads that interrupt or block the user experience must clearly indicate that they are an ad, must not manipulate or trick users into tapping into them, and must provide easily accessible and visible close/skip buttons large enough for people to easily dismiss the ad.",
         steps:
-          "1. Trigger interstitial/video ads.\n2. Verify presence of clear 'Ad' label.\n3. Test the close button size and accessibility (no dark patterns).",
+          "1. Open the app.\n2. Trigger interstitial/video ads.\n3. Check that presence of clear 'Ad' label.\n4. Try using the close button size and accessibility (no dark patterns).",
         expected: "Ads have clear labels and accessible close buttons.",
         originalRef: "Advertising",
       },
@@ -865,7 +867,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Acceptable :Displaying your own apps for purchase or promotion within your app, provided the app is not merely a catalog of your apps",
         steps:
-          "1. Review app promotion sections.\n2. Confirm the app provides core utility beyond just listing other developer apps.",
+          "1. Open the app.\n2. Look at app promotion sections.\n3. Check that the app provides core utility beyond just listing other developer apps.",
         expected:
           "App is not a mere catalog; promotions are secondary to functionality.",
         originalRef: "Other Business Model Issues",
@@ -877,7 +879,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Acceptable :Displaying or recommending a collection of third party apps that are designed for a specific approved need (e.g. health management, aviation, accessibility). Your app should provide robust editorial content so that it doesn’t seem like a mere storefront.",
         steps:
-          "1. Inspect app recommendations.\n2. Verify the presence of robust editorial content/descriptions for each recommendation.",
+          "1. Open the app.\n2. Visually look at app recommendations.\n3. Check that the presence of robust editorial content/descriptions for each recommendation.",
         expected:
           "Recommendations include editorial value and serve a specific approved need.",
         originalRef: "Other Business Model Issues",
@@ -889,7 +891,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Acceptable :Disabling access to specific approved rental content (e.g. films, television programs, music, books) after the rental period has expired; all other items and services may not expire.",
         steps:
-          "1. Test rental period expiration logic.\n2. Verify that non-rental purchases do not have expiration dates.",
+          "1. Open the app.\n2. Try using rental period expiration logic.\n3. Check that that non-rental purchases do not have expiration dates.",
         expected:
           "Only approved rental content expires; all other digital goods are permanent.",
         originalRef: "Other Business Model Issues",
@@ -901,7 +903,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Acceptable :Wallet passes can be used to make or receive payments, transmit offers, or offer identification (such as movie tickets, coupons, and VIP credentials). Other uses may result in the rejection of the app and the revocation of Wallet credentials.",
         steps:
-          "1. Inspect usage of Wallet passes.\n2. Confirm they are used for payments, offers, or ID as per guidelines.",
+          "1. Open the app.\n2. Visually look at usage of Wallet passes.\n3. Check that they are used for payments, offers, or ID as per guidelines.",
         expected: "Wallet pass usage is restricted to approved categories.",
         originalRef: "Other Business Model Issues",
       },
@@ -912,7 +914,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Acceptable :Insurance apps must be free, in legal-compliance in the regions distributed, and cannot use IAP.",
         steps:
-          "1. Verify insurance app is free to download.\n2. Confirm NO in-app purchases are used for premiums or features.",
+          "1. Open the app.\n2. Check that insurance app is free to download.\n3. Check that NO in-app purchases are used for premiums or features.",
         expected: "Insurance app is free and does not utilize IAP.",
         originalRef: "Other Business Model Issues",
       },
@@ -923,7 +925,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Acceptable :Approved nonprofits may fundraise directly within their own apps or third-party apps, provided those fundraising campaigns adhere to all App Review Guidelines and offer Apple Pay support. These apps must disclose how the funds will be used, abide by all required local and federal laws, and ensure appropriate tax receipts are available to donors",
         steps:
-          "1. Verify non-profit status and campaign legality.\n2. Confirm Apple Pay support.\n3. Check for fund usage disclosures and tax receipt availability.",
+          "1. Open the app.\n2. Check that non-profit status and campaign legality.\n3. Check that Apple Pay support.\n4. Check for fund usage disclosures and tax receipt availability.",
         expected: "Fundraising is transparent, legal, and supports Apple Pay.",
         originalRef: "Other Business Model Issues",
       },
@@ -934,7 +936,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Acceptable :Apps may enable individual users to give a monetary gift to another individual without using in-app purchase, provided that (a) the gift is a completely optional choice by the giver, and (b) 100% of the funds go to the receiver of the gift",
         steps:
-          "1. Test person-to-person gifting flow.\n2. Verify 100% of funds reach the recipient (ignoring standard processor fees).\n3. Confirm gifting is purely optional.",
+          "1. Open the app.\n2. Try using person-to-person gifting flow.\n3. Check that 100% of funds reach the recipient (ignoring standard processor fees).\n4. Check that gifting is purely optional.",
         expected: "Gifting is optional and developer takes 0% commission.",
         originalRef: "Other Business Model Issues",
       },
@@ -945,7 +947,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Acceptable :Apps used for financial trading, investing, or money management should be submitted by the financial institution performing such services.",
         steps:
-          "1. Verify developer account ownership matches the financial institution.\n2. Review app for financial management features.",
+          "1. Open the app.\n2. Check that developer account ownership matches the financial institution.\n3. Look at app for financial management features.",
         expected: "App is submitted by the official financial institution.",
         originalRef: "Other Business Model Issues",
       },
@@ -956,7 +958,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Unacceptable: Creating an interface for displaying third party apps, extensions, or plug-ins similar to the App Store or as a general-interest collection.",
         steps:
-          "1. Analyze app interfaces that list other apps.\n2. Confirm it does not mimic the App Store's catalog or aggregation style.",
+          "1. Open the app.\n2. Analyze app interfaces that list other apps.\n3. Check that it does not mimic the App Store's catalog or aggregation style.",
         expected:
           "App does not behave as a third-party app store or general collection.",
         originalRef: "Other Business Model Issues",
@@ -968,7 +970,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Unacceptable: Artificially increasing the number of impressions or click-throughs of ads, as well as apps that are designed predominantly for the display of ads.",
         steps:
-          "1. Check for ad-farming logic (auto-refresh, fake clicks).\n2. Evaluate if the app has purpose beyond ad display.",
+          "1. Open the app.\n2. Check for ad-farming logic (auto-refresh, fake clicks).\n3. Evaluate if the app has purpose beyond ad display.",
         expected: "No ad manipulation; app has distinct utility.",
         originalRef: "Other Business Model Issues",
       },
@@ -979,7 +981,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Unacceptable: Collecting funds within the app for charities and fundraisers. Apps that seek to raise money for such causes must be free on the App Store and may only collect funds outside of the app, such as via Safari or SMS.",
         steps:
-          "1. Check for charity donation buttons.\n2. Verify they redirect to Safari or initiate SMS for payment rather than in-app processing.",
+          "1. Open the app.\n2. Check for charity donation buttons.\n3. Check that they redirect to Safari or initiate SMS for payment rather than in-app processing.",
         expected: "Charity fundraising occurs outside the app binary flow.",
         originalRef: "Other Business Model Issues",
       },
@@ -990,7 +992,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Unacceptable: Arbitrarily restricting who may use the app, such as by location or carrier.",
         steps:
-          "1. Check for geofences or carrier-specific blocks that aren't legally required.\n2. Verify app is available to all users within target regions.",
+          "1. Open the app.\n2. Check for geofences or carrier-specific blocks that aren't legally required.\n3. Check that app is available to all users within target regions.",
         expected: "No arbitrary usage restrictions found.",
         originalRef: "Other Business Model Issues",
       },
@@ -1001,7 +1003,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Unacceptable: Artificially manipulating a user’s visibility, status, or rank on other services unless permitted by that service’s Terms and Conditions",
         steps:
-          "1. Check for 'Follower growth' or 'Like manipulation' features.\n2. Verify no unofficial API usage for status boosting.",
+          "1. Open the app.\n2. Check for 'Follower growth' or 'Like manipulation' features.\n3. Check that no unofficial API usage for status boosting.",
         expected: "No unauthorized service rank manipulation.",
         originalRef: "Other Business Model Issues",
       },
@@ -1012,7 +1014,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Unacceptable: Apps that facilitate binary options trading are not permitted on the App Store. Consider a web app instead. Apps that facilitate trading in contracts for difference (“CFDs”) or other derivatives (e.g. FOREX) must be properly licensed in all jurisdictions where the service is available.",
         steps:
-          "1. Review trading features for binary options.\n2. If CFD/Forex is present, verify licenses for all active territories.",
+          "1. Open the app.\n2. Look at trading features for binary options.\n3. If CFD/Forex is present, verify licenses for all active territories.",
         expected: "No binary options; CFD/Forex is properly licensed.",
         originalRef: "Other Business Model Issues",
       },
@@ -1023,7 +1025,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Unacceptable: Apps offering personal loans must clearly and conspicuously disclose all loan terms, including but not limited to equivalent maximum Annual Percentage Rate (APR) and payment due date. Apps may not charge a maximum APR higher than 36%, including costs and fees, and may not require repayment in full in 60 days or less.",
         steps:
-          "1. Review personal loan terms and disclosures.\n2. Calculate max APR including fees; confirm <= 36%.\n3. Verify repayment term is > 60 days.",
+          "1. Open the app.\n2. Look at personal loan terms and disclosures.\n3. Calculate max APR including fees; confirm <= 36%.\n4. Check that repayment term is > 60 days.",
         expected:
           "Loan terms are clear, APR is <= 36%, and repayment > 60 days.",
         originalRef: "Other Business Model Issues",
@@ -1035,7 +1037,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Make sure that the app you are submitting is not a copy of other app. App is not simply a copy of other app with minor changes to app's name or UI and Passed it off as your own. Submitting an apps which impersonate other apps or services is considered a violation of the Developer Code of Conduct and may result in removal from the Apple Developer Program.",
         steps:
-          "1. Research similar apps in the same category.\n2. Verify the UI and name are distinct and unique.\n3. Confirm no impersonation of existing services.",
+          "1. Open the app.\n2. Research similar apps in the same category.\n3. Check that the UI and name are distinct and unique.\n4. Check that no impersonation of existing services.",
         expected: "App is unique and does not impersonate other services.",
         originalRef: "Copycats",
       },
@@ -1047,7 +1049,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Apps using ARKit should provide rich and integrated augmented reality experiences; merely dropping a model into an AR view or replaying animation is not enough.",
         steps:
-          "1. Test AR features for interactivity and environmental integration.\n2. Verify that AR adds significant functional value beyond simple viewing.",
+          "1. Open the app.\n2. Try using AR features for interactivity and environmental integration.\n3. Check that that AR adds significant functional value beyond simple viewing.",
         expected: "AR experience is rich and interactive.",
         originalRef: "Minimum Functionality",
       },
@@ -1058,7 +1060,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Other than catalogs, which have a dedicated category, apps shouldn’t primarily be marketing materials, advertisements, web clippings, content aggregators, or a collection of links",
         steps:
-          "1. Review app content for original utility.\n2. Confirm the app is not just a wrapper for a website or a list of external links.",
+          "1. Open the app.\n2. Look at app content for original utility.\n3. Check that the app is not just a wrapper for a website or a list of external links.",
         expected:
           "App provides unique utility beyond web content or marketing.",
         originalRef: "Minimum Functionality",
@@ -1070,7 +1072,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Your app should work on its own without requiring installation of another app to function.",
         steps:
-          "1. Run the app on a fresh device without any other third-party apps.\n2. Verify all core functions work without 'Please install App X' prompts.",
+          "1. Open the app.\n2. Run the app on a fresh device without any other third-party apps.\n3. Check that all core functions work without 'Please install App X' prompts.",
         expected: "App is fully functional standalone.",
         originalRef: "Minimum Functionality",
       },
@@ -1081,7 +1083,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Make sure you include sufficient content in the binary for the app to function at launch.",
         steps:
-          "1. Test the app without network connectivity if possible (for offline-capable features).\n2. Verify initial screens are populated with useful data.",
+          "1. Open the app.\n2. Try using the app without network connectivity if possible (for offline-capable features).\n3. Check that initial screens are populated with useful data.",
         expected: "App has enough built-in content to function immediately.",
         originalRef: "Minimum Functionality",
       },
@@ -1092,7 +1094,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "If your app needs to download additional resources in order to function on initial launch, disclose the size of the download and prompt users before doing so. Also ensure that the user has an option decline the download",
         steps:
-          "1. Trigger initial resource download.\n2. Check for size disclosure and user prompt.\n3. Verify decline option exists.",
+          "1. Open the app.\n2. Trigger initial resource download.\n3. Check for size disclosure and user prompt.\n4. Check that decline option exists.",
         expected: "Large downloads are transparent and optional.",
         originalRef: "Minimum Functionality",
       },
@@ -1103,7 +1105,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Apps created from a commercialized template or app generation service will be rejected. These services should not submit apps on behalf of their clients and should offer tools that let their clients create customized, innovative apps that provide unique customer experiences",
         steps:
-          "1. Review code and assets for 'generic template' patterns.\n2. Verify unique branding and custom feature sets.",
+          "1. Open the app.\n2. Look at code and assets for 'generic template' patterns.\n3. Check that unique branding and custom feature sets.",
         expected: "App is unique and not a generic template clone.",
         originalRef: "Minimum Functionality",
       },
@@ -1114,7 +1116,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "The app must only connect to a user-owned host device that is a personal computer or dedicated game console owned by the user, and both the host device and client must be connected on a local and LAN-based network.",
         steps:
-          "1. Check remote desktop connection logic.\n2. Verify it only targets local/LAN hosts owned by the user.",
+          "1. Open the app.\n2. Check remote desktop connection logic.\n3. Check that it only targets local/LAN hosts owned by the user.",
         expected: "Connections are limited to user-owned local devices.",
         originalRef: "Minimum Functionality",
       },
@@ -1125,7 +1127,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Any software or services appearing in the client are fully executed on the host device, rendered on the screen of the host device, and may not use APIs or platform features beyond what is required to stream the Remote Desktop.",
         steps:
-          "1. Verify no local execution of streamed apps.\n2. Confirm no usage of local system APIs beyond streaming.",
+          "1. Open the app.\n2. Check that no local execution of streamed apps.\n3. Check that no usage of local system APIs beyond streaming.",
         expected: "Execution happens entirely on the host.",
         originalRef: "Minimum Functionality",
       },
@@ -1136,7 +1138,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "All account creation and management must be initiated from the host device.",
         steps:
-          "1. Check for account sign-up buttons in the client.\n2. Verify they redirect to or occur on the host computer.",
+          "1. Open the app.\n2. Check for account sign-up buttons in the client.\n3. Check that they redirect to or occur on the host computer.",
         expected: "Account management is offloaded to the host.",
         originalRef: "Minimum Functionality",
       },
@@ -1147,7 +1149,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "The UI appearing on the client does not resemble an iOS or App Store view, does not provide a store-like interface, or include the ability to browse, select, or purchase software not already owned or licensed by the user.",
         steps:
-          "1. Review the client-side UI.\n2. Ensure no 'App Store' clones or browseable catalogs of unowned software.",
+          "1. Open the app.\n2. Look at the client-side UI.\n3. Make sure that no 'App Store' clones or browseable catalogs of unowned software.",
         expected: "Client UI is purely a streaming pipe, not a store.",
         originalRef: "Minimum Functionality",
       },
@@ -1158,7 +1160,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Thin clients for cloud-based apps are not appropriate for the App Store.",
         steps:
-          "1. Evaluate if the app is a mere front-end for a cloud service (e.g. game streaming without host ownership).",
+          "1. Open the app.\n2. Evaluate if the app is a mere front-end for a cloud service (e.g. game streaming without host ownership).",
         expected: "App is not a non-compliant thin client.",
         originalRef: "Minimum Functionality",
       },
@@ -1170,7 +1172,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Don't create multiple Bundle IDs of the same app. Consider submitting a single app and provide the variation using in-app purchase",
         steps:
-          "1. Check developer account for duplicate apps.\n2. Verify if functionality can be merged into a single multi-tier app.",
+          "1. Open the app.\n2. Check developer account for duplicate apps.\n3. Check that if functionality can be merged into a single multi-tier app.",
         expected: "No duplicate bundle IDs for the same core app.",
         originalRef: "Spam",
       },
@@ -1181,7 +1183,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Do not spam the category of app which is already saturated. App store has enough fart, burp, flashlight, fortune telling, dating, drinking games & Kama Sutra apps already.",
         steps:
-          "1. Check if the app falls into a 'cluttered' category.\n2. Verify the app provides unique value beyond existing flashlight/joke apps.",
+          "1. Open the app.\n2. Check whether the app falls into a 'cluttered' category.\n3. Check that the app provides unique value beyond existing flashlight/joke apps.",
         expected: "App is not part of a saturated spam category.",
         originalRef: "Spam",
       },
@@ -1193,7 +1195,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Keyboard extensions must:\n- Provide keyboard input functionality (e.g. typed characters);\n- Follow Sticker guidelines if the keyboard includes images or emojis;\n- Provide a method for progressing to the next keyboard;\n- Remain functional without full network access and without requiring full access;\n- Collect user activity only to enhance the functionality of the user’s keyboard extension on the iOS device.\n\nThey must not:\n- Launch other apps besides Settings; or\n- Repurpose keyboard buttons for other behaviors (e.g. holding down the “return” key to launch the camera).",
         steps:
-          "1. Test character input functionality.\n2. Check sticker guideline compliance.\n3. Verify the 'Next Keyboard' button exists.\n4. Test functionality in offline mode.\n5. Review keyboard button behaviors for repurposing.",
+          "1. Open the app.\n2. Try using character input functionality.\n3. Check sticker guideline compliance.\n4. Check that the 'Next Keyboard' button exists.\n5. Try using functionality in offline mode.\n6. Look at keyboard button behaviors for repurposing.",
         expected:
           "Keyboard extension follows all input, privacy, and behavior rules.",
         originalRef: "Extensions",
@@ -1205,7 +1207,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Safari extensions must run on the current version of Safari on OS X. They may not interfere with System or Safari UI elements and must never include malicious or misleading content or code. Safari extensions should not claim access to more websites than strictly necessary to function.",
         steps:
-          "1. Test extension on current macOS Safari.\n2. Verify it doesn't overlap or break browser UI.\n3. Review permissions for excessive website access.",
+          "1. Open the app.\n2. Try using extension on current macOS Safari.\n3. Check that it doesn't overlap or break browser UI.\n4. Look at permissions for excessive website access.",
         expected:
           "Safari extension is stable, honest, and uses minimal permissions.",
         originalRef: "Extensions",
@@ -1218,7 +1220,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Apps may use approved Apple RSS feeds such as the iTunes Store RSS feed, but may not scrape any information from Apple sites (e.g. apple.com, the iTunes Store, App Store, App Store Connect, developer portal, etc.) or create rankings using this information.",
         steps:
-          "1. Review app data sources.\n2. Confirm no scraping logic for Apple domains.\n3. Verify RSS feed usage is limited to approved sources.",
+          "1. Open the app.\n2. Look at app data sources.\n3. Check that no scraping logic for Apple domains.\n4. Check that RSS feed usage is limited to approved sources.",
         expected: "No unauthorized scraping of Apple sites found.",
         originalRef: "Apple Sites and Services",
       },
@@ -1229,7 +1231,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "MusicKit on iOS: Users must initiate the stream and be able to navigate playback using standard media controls such as “play,” “pause,” and “skip;” apps may not automate these actions. Moreover, your app may not require payment or indirectly monetize access to the Apple Music service (e.g. in-app purchase, advertising, requesting user info). Do not download, upload, or enable sharing of music files sourced from the MusicKit APIs, except as explicitly permitted in MusicKit documentation.",
         steps:
-          "1. Test MusicKit playback controls.\n2. Verify NO automation of play/pause/skip.\n3. Confirm access to Apple Music is not gated behind payments or ads.\n4. Verify no unauthorized sharing or downloading of MusicKit files.",
+          "1. Open the app.\n2. Try using MusicKit playback controls.\n3. Check that NO automation of play/pause/skip.\n4. Check that access to Apple Music is not gated behind payments or ads.\n5. Check that no unauthorized sharing or downloading of MusicKit files.",
         expected:
           "MusicKit implementation is manual, non-monetized, and secure.",
         originalRef: "Apple Sites and Services",
@@ -1241,7 +1243,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Do not use Apple Services to spam, phish, or send unsolicited messages to customers, including Game Center, Push Notifications, etc. Do not attempt to reverse lookup, trace, relate, associate, mine, harvest, or otherwise exploit Player IDs, aliases, or other information obtained through Game Center, or you will be removed from the Apple Developer Program.",
         steps:
-          "1. Review usage of Game Center and Push Notifications.\n2. Confirm no phishing or spamming behaviors.\n3. Verify Player IDs are not exploited or reverse-traced.",
+          "1. Open the app.\n2. Look at usage of Game Center and Push Notifications.\n3. Check that no phishing or spamming behaviors.\n4. Check that Player IDs are not exploited or reverse-traced.",
         expected: "No abuse of Apple services for spam or exploitation.",
         originalRef: "Apple Sites and Services",
       },
@@ -1252,7 +1254,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Push Notifications must not be required for the app to function, and should not be used for advertising, promotions, or direct marketing purposes or to send sensitive personal or confidential information. Abuse of these services may result in revocation of your privileges.",
         steps:
-          "1. Test app functionality with notifications disabled.\n2. Review notification content for marketing or sensitive data.\n3. Confirm app works without notification consent.",
+          "1. Open the app.\n2. Try using app functionality with notifications disabled.\n3. Look at notification content for marketing or sensitive data.\n4. Check that app works without notification consent.",
         expected: "Push notifications are optional and used appropriately.",
         originalRef: "Apple Sites and Services",
       },
@@ -1263,7 +1265,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Only use Game Center Player IDs in a manner approved by the Game Center terms and do not display them in the app or to any third party.",
         steps:
-          "1. Inspect UI for Game Center Player ID visibility.\n2. Confirm IDs are used only for approved internal logic.",
+          "1. Open the app.\n2. Visually look at UI for Game Center Player ID visibility.\n3. Check that IDs are used only for approved internal logic.",
         expected: "Game Center Player IDs are kept confidential.",
         originalRef: "Apple Sites and Services",
       },
@@ -1274,7 +1276,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Apps may use Unicode characters that render as Apple emojis in their app and app metadata. Apple emojis may not be used on other platforms or embedded directly in your app binary.",
         steps:
-          "1. Review emoji implementation.\n2. Confirm emojis are rendered via Unicode and NOT static assets (PNGs) embedded in the binary.",
+          "1. Open the app.\n2. Look at emoji implementation.\n3. Check that emojis are rendered via Unicode and NOT static assets (PNGs) embedded in the binary.",
         expected:
           "Emojis use Unicode rendering; no prohibited binary embedding.",
         originalRef: "Apple Sites and Services",
@@ -1287,7 +1289,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Apps may display customized icons, provided that each change is initiated by the user.",
         steps:
-          "1. Test icon change initiation inside the app.\n2. Verify each alternate icon variant change requires explicit user permission or action.",
+          "1. Open the app.\n2. Try using icon change initiation inside the app.\n3. Check that each alternate icon variant change requires explicit user permission or action.",
         expected:
           "Each icon change is user-initiated, not triggered automatically.",
         originalRef: "Alternate App Icons",
@@ -1298,7 +1300,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         ref: "4.5.2",
         title: "App must include the setting to revert to original icon.",
         steps:
-          "1. Review settings or profile areas for icon preferences.\n2. Verify a clear toggle or button exists to restore the original/default app icon.",
+          "1. Open the app.\n2. Look at settings or profile areas for icon preferences.\n3. Check that a clear toggle or button exists to restore the original/default app icon.",
         expected:
           "A visible setting allows users to revert back to the original app icon.",
         originalRef: "Alternate App Icons",
@@ -1310,7 +1312,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "All icon variants must relate to the content of the app and changes should be consistent across all system assets. E.g. icon in settings, notifications etc. must match the new springboard icon.",
         steps:
-          "1. Verify theme/alternate icon designs are relevant to the application.\n2. Ensure changed icons look consistent across settings, notifications, and the iOS springboard screen.",
+          "1. Open the app.\n2. Check that theme/alternate icon designs are relevant to the application.\n3. Make sure that changed icons look consistent across settings, notifications, and the iOS springboard screen.",
         expected:
           "Alternate icon variants are descriptive and fully synchronized across all system assets.",
         originalRef: "Alternate App Icons",
@@ -1322,7 +1324,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "This feature may not be used in order to dynamically, automatic changing the icon.",
         steps:
-          "1. Analyze icon change scripts and triggers.\n2. Check for dynamic or scheduled icon alterations without explicit user confirmation.",
+          "1. Open the app.\n2. Analyze icon change scripts and triggers.\n3. Check for dynamic or scheduled icon alterations without explicit user confirmation.",
         expected:
           "The application contains no logic for automated or dynamic background icon modifications.",
         originalRef: "Alternate App Icons",
@@ -1335,7 +1337,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Apps may offer certain software that is not embedded in the binary (HTML5 mini apps/games, streaming games, chatbots, plugins, retro emulators). You are responsible for all such software ensuring compliance with Guidelines & laws.",
         steps:
-          "1. Inspect any non-embedded software utilities inside the app.\n2. Identify external widgets/games and confirm total accountability.",
+          "1. Open the app.\n2. Visually look at any non-embedded software utilities inside the app.\n3. Identify external widgets/games and confirm total accountability.",
         expected:
           "Host-app has oversight and ensures external/mini software blocks are clean.",
         originalRef: "HTML5 Games, Bots, etc.",
@@ -1346,7 +1348,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         ref: "4.7.2",
         title: "The software is free or purchased using in-app purchase.",
         steps:
-          "1. Verify that non-embedded offerings cannot be bought through third-party credit processors.\n2. Ensure standard Apple In-App Purchase is used.",
+          "1. Open the app.\n2. Check that that non-embedded offerings cannot be bought through third-party credit processors.\n3. Make sure that standard Apple In-App Purchase is used.",
         expected:
           "Mini-app billing models use Apple IAPs or are completely free.",
         originalRef: "HTML5 Games, Bots, etc.",
@@ -1358,7 +1360,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Only uses capabilities available in a standard WebKit view; your app must use WebKit and JavaScript Core to run third party software and should not attempt to extend or expose native platform APIs to third party software.",
         steps:
-          "1. Review third-party script containers.\n2. Ensure no non-standard APIs are appended to the WebKit host runtime.",
+          "1. Open the app.\n2. Look at third-party script containers.\n3. Make sure that no non-standard APIs are appended to the WebKit host runtime.",
         expected:
           "The app utilizes sandboxed default WebKit views to load third-party scripts securely.",
         originalRef: "HTML5 Games, Bots, etc.",
@@ -1370,7 +1372,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "The software/App is Offered by developers that have joined the Apple Developer Program and signed the Apple Developer Program License Agreement.",
         steps:
-          "1. Review identity and verification states of external suppliers.\n2. Ensure creators have accepted and signed Apple developer terms.",
+          "1. Open the app.\n2. Look at identity and verification states of external suppliers.\n3. Make sure that creators have accepted and signed Apple developer terms.",
         expected:
           "All mini-app authors are verified Apple Developer Program members.",
         originalRef: "HTML5 Games, Bots, etc.",
@@ -1382,7 +1384,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Software/App does not provide access to real money gaming, lotteries, or charitable donations.",
         steps:
-          "1. Probe sub-menus of external software.\n2. Check for real money casinos, external sweepstakes, lotto ticket purchases, or non-compliant charity links.",
+          "1. Open the app.\n2. Probe sub-menus of external software.\n3. Check for real money casinos, external sweepstakes, lotto ticket purchases, or non-compliant charity links.",
         expected:
           "No casino, lotto, gambling, or standard donation systems are reachable.",
         originalRef: "HTML5 Games, Bots, etc.",
@@ -1394,7 +1396,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Software/App adheres to the terms of these App Review Guidelines (e.g. does not include objectionable content).",
         steps:
-          "1. Review list of mini-apps for any objectionable or adult content.\n2. Confirm standard offensive-material blocks are working.",
+          "1. Open the app.\n2. Look at list of mini-apps for any objectionable or adult content.\n3. Check that standard offensive-material blocks are working.",
         expected:
           "Hosted contents conform smoothly to main App Store standards.",
         originalRef: "HTML5 Games, Bots, etc.",
@@ -1405,7 +1407,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         ref: "4.7.7",
         title: "Software/App does not support digital commerce.",
         steps:
-          "1. Verify whether mini-apps facilitate retail shopping, physical goods purchases, or digital subscription bypasses.",
+          "1. Open the app.\n2. Check that whether mini-apps facilitate retail shopping, physical goods purchases, or digital subscription bypasses.",
         expected:
           "No e-commerce or digital stores are contained within hosted plugins.",
         originalRef: "HTML5 Games, Bots, etc.",
@@ -1417,7 +1419,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Your app may not extend or expose native platform APIs to the software without prior permission from Apple.",
         steps:
-          "1. Review native hook methods for JavaScript interfaces.\n2. Confirm no undocumented API access is unlocked for third-party programs.",
+          "1. Open the app.\n2. Look at native hook methods for JavaScript interfaces.\n3. Check that no undocumented API access is unlocked for third-party programs.",
         expected: "Native APIs remain strictly unexposed.",
         originalRef: "HTML5 Games, Bots, etc.",
       },
@@ -1428,7 +1430,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Your app may not share data or privacy permissions to any individual software offered in your app without explicit user consent in each instance.",
         steps:
-          "1. Trigger camera/location call inside a mini-app.\n2. Verify the host app presents a distinct user consent pop-up.",
+          "1. Open the app.\n2. Trigger camera/location call inside a mini-app.\n3. Check that the host app presents a distinct user consent pop-up.",
         expected:
           "Privacy permissions are not shared automatically; individual explicit consent is required.",
         originalRef: "HTML5 Games, Bots, etc.",
@@ -1440,7 +1442,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "You must provide an index of software and metadata available in your app. It must include universal links that lead to all of the software offered in your app.",
         steps:
-          "1. Check for directory page, search view, or grid of mini-apps.\n2. Confirm universal links are present for easy navigation.",
+          "1. Open the app.\n2. Check for directory page, search view, or grid of mini-apps.\n3. Check that universal links are present for easy navigation.",
         expected:
           "A fully linked, standardized directory of all hosted software is accessible.",
         originalRef: "HTML5 Games, Bots, etc.",
@@ -1452,7 +1454,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Your app must share the age rating of the highest age-rated content available in your app.",
         steps:
-          "1. Analyze content rating profiles of all embedded items.\n2. Ensure App Store store-front values match the maximum age constraint.",
+          "1. Open the app.\n2. Analyze content rating profiles of all embedded items.\n3. Make sure that App Store store-front values match the maximum age constraint.",
         expected:
           "The host app is rated correctly matching the highest tier content hosted.",
         originalRef: "HTML5 Games, Bots, etc.",
@@ -1465,7 +1467,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "If game/app allows user to login with any third party social accounts (e.g. Facebook, Gmail etc.) in order to authenticate themselves/to enter the game, then it is mandatory to offer sign in with Apple as well",
         steps:
-          "1. Test user authentication flows.\n2. Verify if third-party social account logins are implemented.\n3. Verify that an equivalent Sign in with Apple option is provided or that it is mandatory if other social logins are present.",
+          "1. Open the app.\n2. Try using user authentication flows.\n3. Check that if third-party social account logins are implemented.\n4. Check that that an equivalent Sign in with Apple option is provided or that it is mandatory if other social logins are present.",
         expected:
           "Sign in with Apple is offered alongside other social login authentication options.",
         originalRef: "Login Services",
@@ -1477,7 +1479,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "The login service limits data collection to the user’s name and email address.",
         steps:
-          "1. Review data requested by the login scopes during authentication.\n2. Ensure the app does not request additional profiles, friends lists, or unneeded personal details.",
+          "1. Open the app.\n2. Look at data requested by the login scopes during authentication.\n3. Make sure that the app does not request additional profiles, friends lists, or unneeded personal details.",
         expected:
           "Requested login scopes are strictly limited to user name and email address.",
         originalRef: "Login Services",
@@ -1489,7 +1491,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "The login service allows users to keep their email address private as part of setting up their account.",
         steps:
-          "1. Test the registration/login flow on a clean account.\n2. Verify that the login option offers a 'Hide My Email' or similar privacy feature (e.g. private relay address wrapper).",
+          "1. Open the app.\n2. Try using the registration/login flow on a clean account.\n3. Check that that the login option offers a 'Hide My Email' or similar privacy feature (e.g. private relay address wrapper).",
         expected:
           "Users have an option to hide their true email address using private email relays.",
         originalRef: "Login Services",
@@ -1501,7 +1503,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "The login service does not collect interactions with your app for advertising purposes without consent.",
         steps:
-          "1. Check background requests and tracking pixels on the login page.\n2. Confirm no tracking or behavioral advertising is triggered unless explicit user consent has been obtained.",
+          "1. Open the app.\n2. Check background requests and tracking pixels on the login page.\n3. Check that no tracking or behavioral advertising is triggered unless explicit user consent has been obtained.",
         expected:
           "No unsolicited third-party advertising tracking occurs during or after the login flow.",
         originalRef: "Login Services",
@@ -1514,7 +1516,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Your app exclusively uses your company’s own account setup and sign-in systems.",
         steps:
-          "1. Verify if the app only utilizes custom registration/login mechanisms owned by your company.\n2. Confirm no third-party identity providers require a conditional comparison if only proprietary accounts are used.",
+          "1. Open the app.\n2. Check that if the app only utilizes custom registration/login mechanisms owned by your company.\n3. Check that no third-party identity providers require a conditional comparison if only proprietary accounts are used.",
         expected:
           "Exclusive proprietary account sign-in requires no multi-party identity integrations.",
         originalRef: "Sign in with Apple",
@@ -1526,7 +1528,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Your app is an alternative app marketplace, or an app distributed from an alternative app marketplace, that uses a marketplace-specific login for account, download, and commerce features.",
         steps:
-          "1. Verify if the app acts as or is distributed by an alternative app marketplace.\n2. Check that the login methods coordinate correctly with marketplace-specific account and commerce portals.",
+          "1. Open the app.\n2. Check that if the app acts as or is distributed by an alternative app marketplace.\n3. Check that the login methods coordinate correctly with marketplace-specific account and commerce portals.",
         expected:
           "Marketplace login options are compliant, stable, and appropriately isolated.",
         originalRef: "Sign in with Apple",
@@ -1538,7 +1540,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Your app is a client for a specific third-party service and users are required to sign in to their mail, social media, or other third-party account directly to access their content.",
         steps:
-          "1. Inspect if the app serves as a dedicated wrapper or client for a third-party service.\n2. Confirm that users log directly and securely into that third-party service to retrieve their raw personal data.",
+          "1. Open the app.\n2. Visually look at if the app serves as a dedicated wrapper or client for a third-party service.\n3. Check that that users log directly and securely into that third-party service to retrieve their raw personal data.",
         expected:
           "Direct third-party auth allows the client wrapper to safely process the third-party service's materials.",
         originalRef: "Sign in with Apple",
@@ -1551,7 +1553,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Apps using Apple Pay for recurring payments must disclose the length of the renewal term and clearly state that the payment will continue until cancelled.",
         steps:
-          "1. Verify subscription screens using Apple Pay.\n2. Confirm that the length of the renewal term is clearly stated.\n3. Verify clear disclosure that billing continues until cancelled.",
+          "1. Open the app.\n2. Check that subscription screens using Apple Pay.\n3. Check that that the length of the renewal term is clearly stated.\n4. Check that clear disclosure that billing continues until cancelled.",
         expected:
           "Length of renewal term and continuation warning are clearly disclosed.",
         originalRef: "Apple Pay",
@@ -1563,7 +1565,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Apps using Apple Pay for recurring payments must disclose what goods, services, or content will be provided during each billing period.",
         steps:
-          "1. Review user interface for the recurring product.\n2. Ensure exactly what features/services/goods are delivered during the period are clearly defined.",
+          "1. Open the app.\n2. Look at user interface for the recurring product.\n3. Make sure that exactly what features/services/goods are delivered during the period are clearly defined.",
         expected:
           "Details of provided goods/services per billing period are clearly declared to the customer.",
         originalRef: "Apple Pay",
@@ -1575,7 +1577,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Apps using Apple Pay for recurring payments must disclose the actual charges that will be billed to the customer for each recurring payment period.",
         steps:
-          "1. Check the subscription price tags and disclosures.\n2. Confirm the precise currency amount billed recurringly is shown.",
+          "1. Open the app.\n2. Check the subscription price tags and disclosures.\n3. Check that the precise currency amount billed recurringly is shown.",
         expected:
           "Actual charges for each payment period are fully disclosed before confirmation.",
         originalRef: "Apple Pay",
@@ -1587,7 +1589,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Apps using Apple Pay for recurring payments must disclose clear instructions explaining how the customer can cancel the recurring payment or subscription.",
         steps:
-          "1. Inspect the billing information, help, or product display screen.\n2. Confirm the presence of precise steps explaining how the subscription can be cancelled.",
+          "1. Open the app.\n2. Visually look at the billing information, help, or product display screen.\n3. Check that the presence of precise steps explaining how the subscription can be cancelled.",
         expected: "Clear cancellation instructions are accessible to users.",
         originalRef: "Apple Pay",
       },
@@ -1599,7 +1601,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "You may not monetize built-in capabilities provided by the hardware or operating system, such as Push Notifications, the camera, or the gyroscope; or Apple services and technologies, such as Apple Music access, iCloud storage, or Screen Time APIs.",
         steps:
-          "1. Verify features like Push Notifications, Camera, and Gyroscope do not require paid access or subscriptions.\n2. Check that integrated Apple APIs (Apple Music, iCloud, Screen Time) are not gated behind monetization layers.",
+          "1. Open the app.\n2. Check that features like Push Notifications, Camera, and Gyroscope do not require paid access or subscriptions.\n3. Check that integrated Apple APIs (Apple Music, iCloud, Screen Time) are not gated behind monetization layers.",
         expected:
           "All built-in system capabilities and Apple services remain unmonetized.",
         originalRef: "Monetizing Built-In Capabilities",
@@ -1612,7 +1614,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Privacy Policies: All apps must include a link to their privacy policy in the App Store Connect metadata field and within the app in an easily accessible manner. The privacy policy must clearly and explicitly: Identify what data, if any, the app/service collects, how it collects that data, and all uses of that data.",
         steps:
-          "1. Locate the privacy policy link within the app.\n2. Confirm the policy clearly specifies collected data types, collection methods, and all data uses.",
+          "1. Open the app.\n2. Locate the privacy policy link within the app.\n3. Check that the policy clearly specifies collected data types, collection methods, and all data uses.",
         expected:
           "Privacy policy link is easily accessible and fully details data collection and usage.",
         originalRef: "Privacy",
@@ -1624,7 +1626,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Confirm that any third party with whom an app shares user data (in compliance with these Guidelines) — such as analytics tools, advertising networks and third party SDKs, as well as any parent, subsidiary or other related entities that will have access to user data — will provide the same or equal protection of user data as stated in the app’s privacy policy and required by these Guidelines.",
         steps:
-          "1. Review list of integrated third-party SDKs and service providers.\n2. Confirm the privacy policy states that all third parties provide same or equal data protection.",
+          "1. Open the app.\n2. Look at list of integrated third-party SDKs and service providers.\n3. Check that the privacy policy states that all third parties provide same or equal data protection.",
         expected:
           "Privacy policy explicitly guarantees equal data protection by all third parties.",
         originalRef: "Privacy",
@@ -1636,7 +1638,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Explain its data retention/deletion policies and describe how a user can revoke consent and/or request deletion of the user’s data.",
         steps:
-          "1. Check the privacy policy for explicit details on data retention and deletion.\n2. Verify the policy describes steps for users to revoke consent or request deletion.",
+          "1. Open the app.\n2. Check the privacy policy for explicit details on data retention and deletion.\n3. Check that the policy describes steps for users to revoke consent or request deletion.",
         expected:
           "Data retention, deletion, and consent revocation instructions are clearly explained.",
         originalRef: "Privacy",
@@ -1648,7 +1650,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Permissions: Apps that collect user or usage data must secure user consent for the collection, even if such data is considered to be anonymous at the time of or immediately following collection.",
         steps:
-          "1. Identify all telemetry or analytical tracking calls.\n2. Confirm that user consent is obtained before any data collection starts.",
+          "1. Open the app.\n2. Identify all telemetry or analytical tracking calls.\n3. Check that that user consent is obtained before any data collection starts.",
         expected:
           "User consent is secured for any collection of user or usage data.",
         originalRef: "Privacy",
@@ -1660,7 +1662,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Paid functionality must not be dependent on or require a user to grant access to this data.",
         steps:
-          "1. Attempt to access paid features while declining non-essential data permissions.\n2. Verify that declining permissions does not block access to paid functionality.",
+          "1. Open the app.\n2. Attempt to access paid features while declining non-essential data permissions.\n3. Check that that declining permissions does not block access to paid functionality.",
         expected:
           "Declining data tracking or access permissions does not restrict paid functionality.",
         originalRef: "Privacy",
@@ -1672,7 +1674,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Apps must also provide the customer with an easily accessible and understandable way to withdraw consent.",
         steps:
-          "1. Navigate to in-app settings or account options.\n2. Locate the consent withdrawal mechanism and verify it is easy to understand and use.",
+          "1. Open the app.\n2. Navigate to in-app settings or account options.\n3. Locate the consent withdrawal mechanism and verify it is easy to understand and use.",
         expected:
           "An understandable and accessible toggle or option allows users to withdraw consent.",
         originalRef: "Privacy",
@@ -1684,7 +1686,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Ensure your purpose strings clearly and completely describe your use of the data.",
         steps:
-          "1. Inspect the Info.plist permission description strings (e.g., Camera, Location, Contacts).\n2. Verify the strings describe exactly why the app needs the permission.",
+          "1. Open the app.\n2. Visually look at the Info.plist permission description strings (e.g., Camera, Location, Contacts).\n3. Check that the strings describe exactly why the app needs the permission.",
         expected:
           "Purpose strings clearly and completely describe the utility of the requested data.",
         originalRef: "Privacy",
@@ -1696,7 +1698,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Apps that collect data for a legitimate interest without consent by relying on the terms of the European Union’s General Data Protection Regulation (“GDPR”) or similar statute must comply with all terms of that law.",
         steps:
-          "1. Verify GDPR policy links and legal grounds stated for data processing without direct consent.\n2. Verify complete compliance with EU GDPR data inventory rules.",
+          "1. Open the app.\n2. Check that GDPR policy links and legal grounds stated for data processing without direct consent.\n3. Check that complete compliance with EU GDPR data inventory rules.",
         expected:
           "Legitimate-interest data processing satisfies all criteria under GDPR.",
         originalRef: "Privacy",
@@ -1708,7 +1710,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Data Minimization: Apps should only request access to data relevant to the core functionality of the app and should only collect and use data that is required to accomplish the relevant task. Where possible, use the out-of-process picker or a share sheet rather than requesting full access to protected resources like Photos or Contacts.",
         steps:
-          "1. Checklist of required scopes vs. core functionality.\n2. Verify if the out-of-process document picker or system share sheet is preferred over raw full-access permission requests.",
+          "1. Open the app.\n2. Checklist of required scopes vs. core functionality.\n3. Check that if the out-of-process document picker or system share sheet is preferred over raw full-access permission requests.",
         expected:
           "Data collection is minimal and utilizes native secure picker/share sheet delegates where possible.",
         originalRef: "Privacy",
@@ -1720,7 +1722,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Access Apps must respect the user’s permission settings and not attempt to manipulate, trick, or force people to consent to unnecessary data access. Where possible, provide alternative solutions for users who don’t grant consent. For example, if a user declines to share Location, offer the ability to manually enter an address.",
         steps:
-          "1. Ensure there are no coercive pop-ups forcing a permission grant.\n2. Verify that alternative solutions (such as manual input when Location is denied) are functional.",
+          "1. Open the app.\n2. Make sure that there are no coercive pop-ups forcing a permission grant.\n3. Check that that alternative solutions (such as manual input when Location is denied) are functional.",
         expected:
           "Permission settings are respected without coercive prompts, and fallback inputs are present.",
         originalRef: "Privacy",
@@ -1732,7 +1734,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Account Sign-In: If your app doesn’t include significant account-based features, let people use it without a login. If your app supports account creation, you must also offer account deletion within the app. Apps may not require users to enter personal information to function, except when directly relevant to the core functionality of the app or required by law.",
         steps:
-          "1. Confirm user can interact with core offline elements before or without registering support.\n2. Locate in-app account deletion controls.",
+          "1. Open the app.\n2. Check that user can interact with core offline elements before or without registering support.\n3. Locate in-app account deletion controls.",
         expected:
           "Login is optional for non-account features, and registration is minimal and deletable.",
         originalRef: "Privacy",
@@ -1744,7 +1746,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Ensure that the game offers an option to delete the game account [A dedicated BUTTON must be present in Settings].",
         steps:
-          "1. Open settings sub-menu inside the app/game.\n2. Confirm a dedicated, clearly visible account deletion button exists.",
+          "1. Open the app.\n2. Open settings sub-menu inside the app/game.\n3. Check that a dedicated, clearly visible account deletion button exists.",
         expected:
           "A dedicated delete account button exists in the Settings section.",
         originalRef: "Privacy",
@@ -1756,7 +1758,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "For Games Authenticated by Ubi-account, the DELETE button navigates the user to Ubi-connect 'Account management' where the account can be delete [https://account.ubisoft.com/en-GB].",
         steps:
-          "1. Log in with a Ubisoft/Ubi-account.\n2. Click the delete account button.\n3. Verify the browser/SafariViewController loads 'https://account.ubisoft.com/en-GB'.",
+          "1. Open the app.\n2. Log in with a Ubisoft/Ubi-account.\n3. Click the delete account button.\n4. Check that the browser/SafariViewController loads 'https://account.ubisoft.com/en-GB'.",
         expected:
           "Ubi-account deletion directs user to Ubisoft Connect account management URL.",
         originalRef: "Privacy",
@@ -1768,7 +1770,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "For Games Authenticated by Guest Account - The DELETE button triggers the account deletion flow [Starting with a warning pop-up that detailing it's effect - Refer to the screenshot beside].",
         steps:
-          "1. Check guest session active state.\n2. Tap delete and verify a warning dialog explaining immediate data loss effects is present.",
+          "1. Open the app.\n2. Check guest session active state.\n3. Tap delete and verify a warning dialog explaining immediate data loss effects is present.",
         expected:
           "Guest account deletion triggers warning screen of permanent progress deletion.",
         originalRef: "Privacy",
@@ -1780,7 +1782,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Upon confirming account deletion, ensure that the game reloads and starts afresh.",
         steps:
-          "1. Initiate and confirm guest/local account deletion.\n2. Verify the application automatically clears cache, resets internal identifiers, reloads state, and starts from initial screen.",
+          "1. Open the app.\n2. Initiate and confirm guest/local account deletion.\n3. Check that the application automatically clears cache, resets internal identifiers, reloads state, and starts from initial screen.",
         expected:
           "App clears all localized memory, triggers complete clean reload, and starts fresh.",
         originalRef: "Privacy",
@@ -1792,7 +1794,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "The app must also include a mechanism to revoke social network credentials and disable data access between the app and social network from within the app.",
         steps:
-          "1. Check settings for linked accounts.\n2. Verify an explicit button exists to disconnect or revoke social network permissions from within the app.",
+          "1. Open the app.\n2. Check settings for linked accounts.\n3. Check that an explicit button exists to disconnect or revoke social network permissions from within the app.",
         expected:
           "Credentials can be revoked directly inside settings to disable active social integrations.",
         originalRef: "Privacy",
@@ -1804,7 +1806,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Developers that use their apps to surreptitiously discover passwords or other private data will be removed from the Apple Developer Program.",
         steps:
-          "1. Review password inputs to ensure standard text field security masking (isSecureTextEntry).\n2. Probe network calls to confirm no phishing or unauthorized data discovery occurs.",
+          "1. Open the app.\n2. Look at password inputs to ensure standard text field security masking (isSecureTextEntry).\n3. Probe network calls to confirm no phishing or unauthorized data discovery occurs.",
         expected:
           "Passwords and private entries are protected and never surreptitiously scanned or harvested.",
         originalRef: "Privacy",
@@ -1816,7 +1818,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "SafariViewContoller must be used to visibly present information to users; the controller may not be hidden or obscured by other views or layers. Additionally, an app may not use SafariViewController to track users without their knowledge and consent.",
         steps:
-          "1. Trigger external documentation or oauth inside the app.\n2. Ensure SafariViewController is shown completely visible (unobscured).\n3. Confirm no tracking cookies/pixels are run over hidden views.",
+          "1. Open the app.\n2. Trigger external documentation or oauth inside the app.\n3. Make sure that SafariViewController is shown completely visible (unobscured).\n4. Check that no tracking cookies/pixels are run over hidden views.",
         expected:
           "SafariViewController is displayed cleanly and visibly, without covert tracking behaviors.",
         originalRef: "Privacy",
@@ -1828,7 +1830,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Apps that compile personal information from any source that is not directly from the user or without the user’s explicit consent, even public databases, are not permitted on the App Store.",
         steps:
-          "1. Check if the app pulls and compiles personal records or files from remote public/private directories.\n2. Confirm explicit user consent is secured for any aggregated details.",
+          "1. Open the app.\n2. Check whether the app pulls and compiles personal records or files from remote public/private directories.\n3. Check that explicit user consent is secured for any aggregated details.",
         expected:
           "No personal information is compiled or retrieved from non-consented collections or databases.",
         originalRef: "Privacy",
@@ -1840,7 +1842,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Apps that provide services in highly-regulated fields (such as banking and financial services, healthcare, gambling, legal cannabis use, and air travel) or that require sensitive user information should be submitted by a legal entity that provides the services, and not by an individual developer. Apps that facilitate the legal sale of cannabis must be geo-restricted to the corresponding legal jurisdiction.",
         steps:
-          "1. Confirm the submitter profile belongs to a vetted company/legal entity.\n2. Confirm geo-restrictions are active to enforce legal compliance bounds where required.",
+          "1. Open the app.\n2. Check that the submitter profile belongs to a vetted company/legal entity.\n3. Check that geo-restrictions are active to enforce legal compliance bounds where required.",
         expected:
           "The app represents a formal legal entity and regulates sensitive activities geographically.",
         originalRef: "Privacy",
@@ -1852,7 +1854,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Apps may request basic contact information (such as name and email address) so long as the request is optional for the user, features and services are not conditional on providing the information, and it complies with all other provisions of these guidelines, including limitations on collecting information from kids.",
         steps:
-          "1. Locate contact request panels.\n2. Confirm a clear 'Skip' or 'Not Now' toggle exists.\n3. Verify all features run properly regardless of contact entry.",
+          "1. Open the app.\n2. Locate contact request panels.\n3. Check that a clear 'Skip' or 'Not Now' toggle exists.\n4. Check that all features run properly regardless of contact entry.",
         expected:
           "Contact details requests are completely optional, non-conditional, and protect minors.",
         originalRef: "Privacy",
@@ -1864,7 +1866,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           'Unless otherwise permitted by law, you may not use, transmit, or share someone’s personal data without first obtaining their permission. You must provide access to information about how and where the data will be used. Data collected from apps may only be shared with third parties to improve the app or serve advertising (in compliance with the Apple Developer Program License Agreement.). You must receive explicit permission from users via the App Tracking Transparency APIs to track their activity. Learn more about tracking. Apps that share user data without user consent or otherwise complying with data privacy laws may be removed from sale and may result in your removal from the Apple Developer Program. English wording : "Your data will be used to deliver you personalized and relevant ads"',
         steps:
-          "1. Confirm App Tracking Transparency dialog triggers on startup.\n2. Verify the exact wording: 'Your data will be used to deliver you personalized and relevant ads'.",
+          "1. Open the app.\n2. Check that App Tracking Transparency dialog triggers on startup.\n3. Check that the exact wording: 'Your data will be used to deliver you personalized and relevant ads'.",
         expected:
           "App Tracking Transparency pop-up displays the required explicit tracking wording.",
         originalRef: "Privacy",
@@ -1876,7 +1878,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Data collected for one purpose may not be repurposed without further consent unless otherwise explicitly permitted by law.",
         steps:
-          "1. Review functional targets of collected datasets.\n2. Verify no data collected for one context is passed to a secondary, unrelated system without explicit re-consent.",
+          "1. Open the app.\n2. Look at functional targets of collected datasets.\n3. Check that no data collected for one context is passed to a secondary, unrelated system without explicit re-consent.",
         expected:
           "Purpose-bound data holds its strict parameters and never flows into secondary pipelines unconsented.",
         originalRef: "Privacy",
@@ -1888,7 +1890,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Apps should not attempt to surreptitiously build a user profile based on collected data and may not attempt, facilitate, or encourage others to identify anonymous users or reconstruct user profiles based on data collected from Apple-provided APIs or any data that you say has been collected in an “anonymized,” “aggregated,” or otherwise non-identifiable way.",
         steps:
-          "1. Analyze ID tracking protocols and background identifiers.\n2. Check for fingerprinting or profile-reconstruction scripts.",
+          "1. Open the app.\n2. Analyze ID tracking protocols and background identifiers.\n3. Check for fingerprinting or profile-reconstruction scripts.",
         expected:
           "The app forbids stealth profile building or matching of anonymized records.",
         originalRef: "Privacy",
@@ -1900,7 +1902,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Do not use information from Contacts, Photos, or other APIs that access user data to build a contact database for your own use or for sale/distribution to third parties, and don’t collect information about which other apps are installed on a user’s device for the purposes of analytics or advertising/marketing.",
         steps:
-          "1. Review Photos/Contacts utilization.\n2. Confirm no localized address list compilation or installed-app checks exist.",
+          "1. Open the app.\n2. Look at Photos/Contacts utilization.\n3. Check that no localized address list compilation or installed-app checks exist.",
         expected:
           "Device resources are never scraped to build unauthorized contact lists or competitor app lists.",
         originalRef: "Privacy",
@@ -1912,7 +1914,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Do not contact people using information collected via a user’s Contacts or Photos, except at the explicit initiative of that user on an individualized basis; do not include a Select All option or default the selection of all contacts. You must provide the user with a clear description of how the message will appear to the recipient before sending it",
         steps:
-          "1. Trigger invitations screen.\n2. Confirm there is no 'Select All' contacts checkbox.\n3. Check for a detailed template mockup preview of how the message will appear.",
+          "1. Open the app.\n2. Trigger invitations screen.\n3. Check that there is no 'Select All' contacts checkbox.\n4. Check for a detailed template mockup preview of how the message will appear.",
         expected:
           "Invitations are strictly individualized, lack default auto-selections, and display a message preview.",
         originalRef: "Privacy",
@@ -1924,7 +1926,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Data gathered from the HomeKit API, HealthKit, Clinical Health Records API, MovementDisorder APIs, ClassKit or from depth and/or facial mapping tools (e.g. ARKit, Camera APIs, or Photo APIs) may not be used for marketing, advertising or use-based data mining, including by third parties.",
         steps:
-          "1. Review utilization of specialized APIs like ARKit, HealthKit, and ClassKit.\n2. Ensure no gathered attributes are passed down to advertisement trackers or brokers.",
+          "1. Open the app.\n2. Look at utilization of specialized APIs like ARKit, HealthKit, and ClassKit.\n3. Make sure that no gathered attributes are passed down to advertisement trackers or brokers.",
         expected:
           "Framework metrics are fully isolated from marketing, ad networks, or data mining profiles.",
         originalRef: "Privacy",
@@ -1936,7 +1938,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Apps using Apple Pay may only share user data acquired via Apple Pay with third parties to facilitate or improve delivery of goods and services.",
         steps:
-          "1. Inspect outgoing payloads of custom checkout handlers.\n2. Verify the transactional information is only shared strictly for billing + logistics delivery fulfillment.",
+          "1. Open the app.\n2. Visually look at outgoing payloads of custom checkout handlers.\n3. Check that the transactional information is only shared strictly for billing + logistics delivery fulfillment.",
         expected:
           "Apple Pay details are strictly shared for purchase fulfillment with no advertising reuse.",
         originalRef: "Privacy",
@@ -1948,7 +1950,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Apps may not use or disclose to third parties data gathered in the health, fitness, and medical research context for advertising or other use-based data mining purposes other than improving health management, or for the purpose of health research, and then only with permission. Apps may, however, use a user’s health or fitness data to provide a benefit directly to that user (such as a reduced insurance premium), provided that the app is submitted by the entity providing the benefit, and the data is not be shared with a third party. You must disclose the specific health data that you are collecting from the device.",
         steps:
-          "1. Review fitness/health metric routing.\n2. Ensure health data feeds directly into patient utilities rather than target advertisement clusters.",
+          "1. Open the app.\n2. Look at fitness/health metric routing.\n3. Make sure that health data feeds directly into patient utilities rather than target advertisement clusters.",
         expected:
           "Sensitive health tracking records are fully ring-fenced from data broker integrations.",
         originalRef: "Privacy",
@@ -1960,7 +1962,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Apps must not write false or inaccurate data into HealthKit and may not store personal health information in iCloud",
         steps:
-          "1. Check HealthKit save and edit routines.\n2. Verify that no spoofed data profiles are created.\n3. Ensure health records are saved locally or in appropriate backends, NOT on iCloud.",
+          "1. Open the app.\n2. Check HealthKit save and edit routines.\n3. Check that that no spoofed data profiles are created.\n4. Make sure that health records are saved locally or in appropriate backends, NOT on iCloud.",
         expected:
           "Write commands into HealthKit are verified and personal health information avoids iCloud storages.",
         originalRef: "Privacy",
@@ -1972,7 +1974,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Apps conducting health-related human subject research must obtain consent from participants or, in the case of minors, their parent or guardian.",
         steps:
-          "1. Inspect clinical test consent dialogs.\n2. Confirm explicit adult signature pathways or parent/guardian verification triggers for children.",
+          "1. Open the app.\n2. Visually look at clinical test consent dialogs.\n3. Check that explicit adult signature pathways or parent/guardian verification triggers for children.",
         expected:
           "Formal research workflows receive pre-screening validation checkpoints.",
         originalRef: "Privacy",
@@ -1984,7 +1986,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Apps conducting health-related human subject research must secure approval from an independent ethics review board. Proof of such approval must be provided upon request.",
         steps:
-          "1. Locate certification, study registration records, and IRB labels.\n2. Confirm active ethics review board clearances accompany the metadata records.",
+          "1. Open the app.\n2. Locate certification, study registration records, and IRB labels.\n3. Check that active ethics review board clearances accompany the metadata records.",
         expected:
           "Comprehensive medical trials verify active independent review declarations.",
         originalRef: "Privacy",
@@ -1996,7 +1998,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "It is critical to use care when dealing with personal data from kids, and we encourage you to carefully review all the requirements for complying with laws like the Children’s Online Privacy Protection Act (“COPPA”), the European Union’s General Data Protection Regulation (“GDPR”), and any international or local equivalents.",
         steps:
-          "1. Review registration ages.\n2. Confirm presence of high privacy gating when treating child accounts.",
+          "1. Open the app.\n2. Look at registration ages.\n3. Check that presence of high privacy gating when treating child accounts.",
         expected:
           "Underage accounts are securely separated with maximum COPPA and GDPR compliant constraints.",
         originalRef: "Privacy",
@@ -2008,7 +2010,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Apps may ask for birthdate and parental contact information only for the purpose of complying with these statutes, but must include some useful functionality or entertainment value regardless of a person’s age.",
         steps:
-          "1. Check if the app locks behind age walls without providing reasonable default games or activities.\n2. Confirm collected birthdate values are used only to establish legal compliance.",
+          "1. Open the app.\n2. Check whether the app locks behind age walls without providing reasonable default games or activities.\n3. Check that collected birthdate values are used only to establish legal compliance.",
         expected:
           "Basic system loops remain open and playable without blocking younger segments.",
         originalRef: "Privacy",
@@ -2020,7 +2022,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Apps intended for kids may not include third-party advertising or analytics.",
         steps:
-          "1. Verify if the 'Kids Category' target is selected in metadata.\n2. Review and confirm the complete removal of Google AdMob, Unity Ads, and commercial analytics SDKs.",
+          "1. Open the app.\n2. Check that if the 'Kids Category' target is selected in metadata.\n3. Look at and confirm the complete removal of Google AdMob, Unity Ads, and commercial analytics SDKs.",
         expected:
           "Kids category apps remain completely clean of third-party ads and analytics engines.",
         originalRef: "Privacy",
@@ -2032,7 +2034,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Apps in Kids category or those that collect, transmit, or have the capability to share personal information from a minor must include a privacy policy. and must comply with all applicable children’s privacy statutes.",
         steps:
-          "1. Confirm the presence of children terms inside the primary privacy link.\n2. Verify that child-data handling matches localized global privacy laws.",
+          "1. Open the app.\n2. Check that the presence of children terms inside the primary privacy link.\n3. Check that that child-data handling matches localized global privacy laws.",
         expected:
           "Children's privacy clauses are fully articulated and compliant.",
         originalRef: "Privacy",
@@ -2044,7 +2046,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Collecting and transmitting data to third parties from apps in the Kids category is not allowed.",
         steps:
-          "1. Trap networks calling outside of host domains for Kids target category.\n2. Confirm absolutely zero telemetry is shipped to foreign commercial data receptors.",
+          "1. Open the app.\n2. Trap networks calling outside of host domains for Kids target category.\n3. Check that absolutely zero telemetry is shipped to foreign commercial data receptors.",
         expected:
           "Absolute local sandboxing blocks any external telemetry output.",
         originalRef: "Privacy",
@@ -2056,7 +2058,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Location services must be used only when it is directly relevant to the features and services provided by the app",
         steps:
-          "1. Check if background or foreground location tracking is active.\n2. Confirm the feature (e.g., store locator) directly maps to that location dependency.",
+          "1. Open the app.\n2. Check whether background or foreground location tracking is active.\n3. Check that the feature (e.g., store locator) directly maps to that location dependency.",
         expected:
           "Location tracking options align tightly with explicit app functions.",
         originalRef: "Privacy",
@@ -2068,7 +2070,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Ensure that you notify and obtain consent before collecting, transmitting, or using location data.",
         steps:
-          "1. Check for the native OS permission pop-up configuration.\n2. Ensure no coordinate transmission starts prior to user tap.",
+          "1. Open the app.\n2. Check for the native OS permission pop-up configuration.\n3. Make sure that no coordinate transmission starts prior to user tap.",
         expected:
           "Location coordinates stay uncollected until immediate consent is approved.",
         originalRef: "Privacy",
@@ -2080,7 +2082,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "If your app uses location services, be sure to explain the purpose in your app",
         steps:
-          "1. Review NSLocationWhenInUseUsageDescription inside Info.plist metadata.\n2. Verify the description clearly informs users of the exact benefit of sharing target coordinates.",
+          "1. Open the app.\n2. Look at NSLocationWhenInUseUsageDescription inside Info.plist metadata.\n3. Check that the description clearly informs users of the exact benefit of sharing target coordinates.",
         expected: "The purpose explanation shows absolute transparency.",
         originalRef: "Privacy",
       },
@@ -2092,7 +2094,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Don’t use protected third party material such as trademarks, copyrighted works, or patented ideas in your app without permission, and don’t include misleading, false, or copycat representations, names, or metadata in your app bundle",
         steps:
-          "1. Check app name, metadata, and assets for any unapproved third-party brand names or copyrighted assets.\n2. Confirm trademark permissions are in place.",
+          "1. Open the app.\n2. Check app name, metadata, and assets for any unapproved third-party brand names or copyrighted assets.\n3. Check that trademark permissions are in place.",
         expected:
           "All assets are original or properly licensed, and metadata is free of trademark infringements.",
         originalRef: "Intellectual Property",
@@ -2104,7 +2106,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "If your app uses, accesses, monetizes access to, or displays content from a third party service, ensure that you are specifically permitted to do so under the service’s terms of use. Authorization must be provided upon request.",
         steps:
-          "1. Review any integrated APIs or embeds from external services.\n2. Verify the terms of service of the third party permit the app's reuse and monetization.",
+          "1. Open the app.\n2. Look at any integrated APIs or embeds from external services.\n3. Check that the terms of service of the third party permit the app's reuse and monetization.",
         expected:
           "Explicit authorization for third-party service content usage is documented and available.",
         originalRef: "Intellectual Property",
@@ -2116,7 +2118,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Apps should not facilitate illegal file sharing or include the ability to save, convert, or download media from third party sources (e.g. Apple Music, YouTube, SoundCloud, Vimeo, etc.) without explicit authorization from those sources.",
         steps:
-          "1. Verify the app does not contain downloaders or file converters for third-party streaming sites.\n2. Verify file-sharing functions comply with media copyrights.",
+          "1. Open the app.\n2. Check that the app does not contain downloaders or file converters for third-party streaming sites.\n3. Check that file-sharing functions comply with media copyrights.",
         expected: "The app blocks unauthorized media downloads or conversions.",
         originalRef: "Intellectual Property",
       },
@@ -2127,7 +2129,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Don’t suggest or infer that Apple is a source or supplier of the App, or that Apple endorses any particular representation regarding quality or functionality. If your app is selected as an “Editor’s Choice,” Apple will apply the badge automatically.",
         steps:
-          "1. Review copywriting in app store description and in-app interfaces.\n2. Ensure zero claims that Apple is a sponsor or has endorsed the app's quality.",
+          "1. Open the app.\n2. Look at copywriting in app store description and in-app interfaces.\n3. Make sure that zero claims that Apple is a sponsor or has endorsed the app's quality.",
         expected:
           "No inappropriate claims or hints of Apple endorsement are present.",
         originalRef: "Intellectual Property",
@@ -2139,7 +2141,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Don’t create an app that appears confusingly similar to an existing Apple product, interface (e.g. Finder), app (such as the App Store, iTunes Store, or Messages) or advertising theme, and don’t misspell Apple product names (i.e., GPS for Iphone, iTunz). iTunes music previews may not be used for their entertainment value (e.g. as the background music to a photo collage or the soundtrack to a game) or in any other unauthorized manner.",
         steps:
-          "1. Review user interface layouts for similarities with system apps (e.g., Apple Messages).\n2. Verify spelling of Apple trademarks (e.g., iPhone keyword casing).\n3. Check for unauthorized iTunes music preview assets.",
+          "1. Open the app.\n2. Look at user interface layouts for similarities with system apps (e.g., Apple Messages).\n3. Check that spelling of Apple trademarks (e.g., iPhone keyword casing).\n4. Check for unauthorized iTunes music preview assets.",
         expected:
           "Visual identity and naming schemes avoid mimicking native Apple applications or misspelling trademarks.",
         originalRef: "Intellectual Property",
@@ -2152,7 +2154,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Sweepstakes and contests must be sponsored by the developer of the app.",
         steps:
-          "1. Review all reward campaigns, contests, or draw events inside the app.\n2. Confirm the app developer is named as the sole organizer and sponsor.",
+          "1. Open the app.\n2. Look at all reward campaigns, contests, or draw events inside the app.\n3. Check that the app developer is named as the sole organizer and sponsor.",
         expected:
           "The platform developer is the sole legal sponsor of contests.",
         originalRef: "Gaming, Gambling and Lotteries",
@@ -2164,7 +2166,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Official rules for sweepstakes, contests, and raffles must be presented in the app and make clear that Apple is not a sponsor or involved in the activity in any manner.",
         steps:
-          "1. Verify official rule documents are easily readable within the contested interface.\n2. Verify explicit disclaimer copy: 'Apple is not a sponsor, nor is it involved in any manner with this sweepstake'.",
+          "1. Open the app.\n2. Check that official rule documents are easily readable within the contested interface.\n3. Check that explicit disclaimer copy: 'Apple is not a sponsor, nor is it involved in any manner with this sweepstake'.",
         expected:
           "Official rules are declared clearly, showing absolute isolation from Apple sponsorship.",
         originalRef: "Gaming, Gambling and Lotteries",
@@ -2176,7 +2178,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Apps may not use IAP to purchase credit or currency for use in conjunction with real money gaming of any kind, and may not enable people to purchase lottery or raffle tickets or initiate fund transfers in the app.",
         steps:
-          "1. Review In-App Purchases database.\n2. Verify no bought coins or consumable tokens are exchanged for actual fiat withdrawal/gambling or raffle entries.",
+          "1. Open the app.\n2. Look at In-App Purchases database.\n3. Check that no bought coins or consumable tokens are exchanged for actual fiat withdrawal/gambling or raffle entries.",
         expected:
           "IAPs are never linked to real money casino credits or lottery tickets.",
         originalRef: "Gaming, Gambling and Lotteries",
@@ -2188,7 +2190,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Apps that offer real money gaming (e.g. sports betting, poker, casino games, horse racing) or lotteries must have necessary licensing and permissions in the locations where the App is used, must be geo-restricted to those locations, and must be free on the App Store. Illegal gambling aids, including card counters, are not permitted on the App Store. Lottery apps must have consideration, chance, and a prize.",
         steps:
-          "1. Confirm the app is distributed as a free download.\n2. Obtain licensing records matching jurisdictions.\n3. Verify geolocation APIs lock users out of illegal territories.\n4. Check for prohibited card counters.",
+          "1. Open the app.\n2. Check that the app is distributed as a free download.\n3. Obtain licensing records matching jurisdictions.\n4. Check that geolocation APIs lock users out of illegal territories.\n5. Check for prohibited card counters.",
         expected:
           "The app enforces geographic limitations, is free of charge, and has valid gambling licences.",
         originalRef: "Gaming, Gambling and Lotteries",
@@ -2201,7 +2203,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Apps offering VPN services must utilize the NEVPNManager API and must make a clear declaration of what user data will be collected and how it will be used on an app screen prior to any user action to purchase or otherwise use the service. Apps offering VPN services may not sell, use, or disclose to third parties any data for any purpose, and must commit to this in their privacy policy. VPN apps must not violate local laws, and if you choose to make your VPN app available in a territory that requires a VPN license, you must provide your license information in the App Review Notes field. Parental control, content blocking, and security apps, among others, from approved providers may also use the NEVPNManager API. Apps that do not comply with this guideline will be removed from the App Store and you may be removed from the Apple Developer Program.",
         steps:
-          "1. Verify network logic uses NEVPNManager system API.\n2. Confirm user is presented with data collection declarations prior to buying/enabling.\n3. Verify the privacy policy includes a binding commitment never to sell VPN telemetry to third parties.\n4. Ensure Chinese territory configurations or similar licensed areas hold valid local licensing notes.",
+          "1. Open the app.\n2. Check that network logic uses NEVPNManager system API.\n3. Check that user is presented with data collection declarations prior to buying/enabling.\n4. Check that the privacy policy includes a binding commitment never to sell VPN telemetry to third parties.\n5. Make sure that Chinese territory configurations or similar licensed areas hold valid local licensing notes.",
         expected:
           "The VPN service employs standard APIs, maintains absolute data separation, and includes required policy declarations.",
         originalRef: " VPN Apps ",
@@ -2214,7 +2216,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Mobile Device Management Apps that offer Mobile Device Management (MDM) services must request this capability from Apple. Such apps may only be offered by commercial enterprises (such as business organizations, educational institutions, or government agencies), and in limited cases, companies using MDM for parental control services.",
         steps:
-          "1. Verify presence of active MDM profile entitlement associated with the app.\n2. Confirm the publisher account represents a commercial enterprise, school, or authorized company.",
+          "1. Open the app.\n2. Check that presence of active MDM profile entitlement associated with the app.\n3. Check that the publisher account represents a commercial enterprise, school, or authorized company.",
         expected:
           "MDM services are fully verified and restricted to verified corporate or enterprise domains.",
         originalRef: " Mobile Device Management ",
@@ -2226,7 +2228,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "You must make a clear declaration of what user data will be collected and how it will be used on an app screen prior to any user action to purchase or otherwise use the service.",
         steps:
-          "1. Review registration and setup views on initial install.\n2. Verify clear content outlines precisely what telemetry, device actions, or profiles are surveyed.",
+          "1. Open the app.\n2. Look at registration and setup views on initial install.\n3. Check that clear content outlines precisely what telemetry, device actions, or profiles are surveyed.",
         expected:
           "Disclosures of data collection are prominent before the MDM setup completes.",
         originalRef: " Mobile Device Management ",
@@ -2237,7 +2239,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         ref: "5.5.3",
         title: "MDM apps must not violate local laws.",
         steps:
-          "1. Validate whether features (such as keylogging or surveillance tools) violate privacy frameworks in targeting countries.",
+          "1. Open the app.\n2. Check that whether features (such as keylogging or surveillance tools) violate privacy frameworks in targeting countries.",
         expected: "System controls satisfy geographic security policies.",
         originalRef: " Mobile Device Management ",
       },
@@ -2248,7 +2250,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Apps offering MDM services may not sell, use, or disclose to third parties any data for any purpose, and must commit to this in their privacy policy. Apps that do not comply with this guideline will be removed from the App Store and you may be removed from the Apple Developer Program.",
         steps:
-          "1. Verify that the enterprise privacy policy outlaws third-party data distribution.\n2. Confirm zero external tracking libraries are included inside target payloads.",
+          "1. Open the app.\n2. Check that that the enterprise privacy policy outlaws third-party data distribution.\n3. Check that zero external tracking libraries are included inside target payloads.",
         expected:
           "Privacy guidelines commit to maximum protection, barring any third-party disclosure.",
         originalRef: " Mobile Device Management ",
@@ -2261,7 +2263,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Please treat everyone with respect, whether in your responses to App Store reviews, customer support requests, or when communicating with Apple, including your responses in Resolution Center. Do not engage in harassment of any kind, discriminatory practices, intimidation, bullying, and don’t encourage others to engage in any of the above. Repeated manipulative or misleading behavior or other fraudulent conduct will lead to your removal from the Apple Developer Program.",
         steps:
-          "1. Monitor customer support logs and App Store review responses.\n2. Ensure team training blocks any hostile or offensive statements.",
+          "1. Open the app.\n2. Monitor customer support logs and App Store review responses.\n3. Make sure that team training blocks any hostile or offensive statements.",
         expected: "All responses maintain a polite, respectful tone.",
         originalRef: " Developer Code of Conduct ",
       },
@@ -2272,7 +2274,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Apps should never prey on users or attempt to rip-off customers, trick them into making unwanted purchases, force them to share unnecessary data, raise prices in a tricky manner, charge for features or content that are not delivered, or engage in any other manipulative practices within or outside of the app.",
         steps:
-          "1. Review price sliders, checkout menus, and purchase confirmations.\n2. Verify the pricing is transparent, clearly detailed, and has zero dark patterns.",
+          "1. Open the app.\n2. Look at price sliders, checkout menus, and purchase confirmations.\n3. Check that the pricing is transparent, clearly detailed, and has zero dark patterns.",
         expected:
           "Pricing mechanisms remain crystal-clear, transparent, and direct, without deceptive layouts.",
         originalRef: " Developer Code of Conduct ",
@@ -2284,7 +2286,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Use the provided API to prompt users to review your app; this functionality allows customers to provide an App Store rating and review without the inconvenience of leaving your app, and we will disallow custom review prompts.",
         steps:
-          "1. Identify the review command handler inside the app.\n2. Verify utilization of standard SKStoreReviewController.requestReview().\n3. Confirm there are no proprietary custom feedback blocks that request store-side 5-star inputs.",
+          "1. Open the app.\n2. Identify the review command handler inside the app.\n3. Check that utilization of standard SKStoreReviewController.requestReview().\n4. Check that there are no proprietary custom feedback blocks that request store-side 5-star inputs.",
         expected: "Review hooks use Apple's native review prompts exclusively.",
         originalRef: " Developer Code of Conduct ",
       },
@@ -2295,7 +2297,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Providing verifiable information to Apple and customers is critical to customer trust. Your representation of yourself, your business, and your offerings on the App Store must be accurate. The information you provide must be truthful, relevant, and up-to-date so that Apple and customers understand who they are engaging with and can contact you regarding any issues.",
         steps:
-          "1. Verify in-app about/support pages.\n2. Confirm support email address, phone numbers, and physical company coordinates are accurate and operational.",
+          "1. Open the app.\n2. Check that in-app about/support pages.\n3. Check that support email address, phone numbers, and physical company coordinates are accurate and operational.",
         expected:
           "Support addresses and publisher attributes are accurate and verifiable.",
         originalRef: " Developer Code of Conduct ",
@@ -2307,7 +2309,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Participating in the App Store requires integrity and a commitment to building and maintaining customer trust. Manipulating any element of the App Store customer experience such as charts, search reviews, or referrals to your app erodes customer trust and is not permitted",
         steps:
-          "1. Inspect referring loops and marketing campaigns.\n2. Ensure zero simulated referrers or inorganic review stimulation techniques are integrated.",
+          "1. Open the app.\n2. Visually look at referring loops and marketing campaigns.\n3. Make sure that zero simulated referrers or inorganic review stimulation techniques are integrated.",
         expected:
           "Campaign systems and conversion triggers remain secure and organic.",
         originalRef: " Developer Code of Conduct ",
@@ -2319,7 +2321,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Customers expect the highest quality from the App Store, and maintaining high quality content, services, and experiences promotes customer trust. Indications that this expectation is not being met include excessive customer reports about concerns with your app, such as negative customer reviews, and excessive refund requests. Inability to maintain high quality may be a factor in deciding whether a developer is abiding by the Developer Code of Conduct.",
         steps:
-          "1. Review recent user crash rate profiles inside Xcode Organizer.\n2. Monitor ratings graphs and support request queues.\n3. Resolve high-frequent technical failures proactively.",
+          "1. Open the app.\n2. Look at recent user crash rate profiles inside Xcode Organizer.\n3. Monitor ratings graphs and support request queues.\n4. Resolve high-frequent technical failures proactively.",
         expected:
           "Core crashes remain within bounds and software holds a high-quality baseline.",
         originalRef: " Developer Code of Conduct ",
@@ -2331,7 +2333,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         ref: "M.01",
         title: "CFBundleName",
         steps:
-          "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Ensure CFBundleName key is present.",
+          "1. Open the app.\n2. De-compile IPA file.\n3. Access Info.plist document.\n4. Make sure that CFBundleName key is present.",
         expected:
           "The mandatory CFBundleName key is successfully defined in the Info.plist bundle.",
         originalRef: "Mandatory Keys",
@@ -2342,7 +2344,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         ref: "M.02",
         title: "DTPlatformVersion",
         steps:
-          "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Ensure DTPlatformVersion key is present.",
+          "1. Open the app.\n2. De-compile IPA file.\n3. Access Info.plist document.\n4. Make sure that DTPlatformVersion key is present.",
         expected:
           "The mandatory DTPlatformVersion key is successfully defined in the Info.plist bundle.",
         originalRef: "Mandatory Keys",
@@ -2353,7 +2355,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         ref: "M.03",
         title: "CFBundleVersion",
         steps:
-          "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Ensure CFBundleVersion key is present.",
+          "1. Open the app.\n2. De-compile IPA file.\n3. Access Info.plist document.\n4. Make sure that CFBundleVersion key is present.",
         expected:
           "The mandatory CFBundleVersion key is successfully defined in the Info.plist bundle.",
         originalRef: "Mandatory Keys",
@@ -2364,7 +2366,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         ref: "M.04",
         title: "CFBundleShortVersionString",
         steps:
-          "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Ensure CFBundleShortVersionString key is present.",
+          "1. Open the app.\n2. De-compile IPA file.\n3. Access Info.plist document.\n4. Make sure that CFBundleShortVersionString key is present.",
         expected:
           "The mandatory CFBundleShortVersionString key is successfully defined in the Info.plist bundle.",
         originalRef: "Mandatory Keys",
@@ -2375,7 +2377,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         ref: "M.05",
         title: "CFBundleDevelopmentRegion",
         steps:
-          "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Ensure CFBundleDevelopmentRegion key is present.",
+          "1. Open the app.\n2. De-compile IPA file.\n3. Access Info.plist document.\n4. Make sure that CFBundleDevelopmentRegion key is present.",
         expected:
           "The mandatory CFBundleDevelopmentRegion key is successfully defined in the Info.plist bundle.",
         originalRef: "Mandatory Keys",
@@ -2386,7 +2388,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         ref: "M.06",
         title: "CFBundleInfoDictionaryVersion",
         steps:
-          "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Ensure CFBundleInfoDictionaryVersion key is present.",
+          "1. Open the app.\n2. De-compile IPA file.\n3. Access Info.plist document.\n4. Make sure that CFBundleInfoDictionaryVersion key is present.",
         expected:
           "The mandatory CFBundleInfoDictionaryVersion key is successfully defined in the Info.plist bundle.",
         originalRef: "Mandatory Keys",
@@ -2397,7 +2399,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         ref: "M.07",
         title: "CFBundleDisplayName",
         steps:
-          "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Ensure CFBundleDisplayName key is present.",
+          "1. Open the app.\n2. De-compile IPA file.\n3. Access Info.plist document.\n4. Make sure that CFBundleDisplayName key is present.",
         expected:
           "The mandatory CFBundleDisplayName key is successfully defined in the Info.plist bundle.",
         originalRef: "Mandatory Keys",
@@ -2408,7 +2410,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         ref: "M.08",
         title: "CFBundleIdentifier",
         steps:
-          "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Ensure CFBundleIdentifier key is present.",
+          "1. Open the app.\n2. De-compile IPA file.\n3. Access Info.plist document.\n4. Make sure that CFBundleIdentifier key is present.",
         expected:
           "The mandatory CFBundleIdentifier key is successfully defined in the Info.plist bundle.",
         originalRef: "Mandatory Keys",
@@ -2419,7 +2421,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         ref: "M.09",
         title: "DTXcode",
         steps:
-          "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Ensure DTXcode key is present.",
+          "1. Open the app.\n2. De-compile IPA file.\n3. Access Info.plist document.\n4. Make sure that DTXcode key is present.",
         expected:
           "The mandatory DTXcode key is successfully defined in the Info.plist bundle.",
         originalRef: "Mandatory Keys",
@@ -2430,7 +2432,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         ref: "M.10",
         title: "CFBundleExecutable",
         steps:
-          "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Ensure CFBundleExecutable key is present.",
+          "1. Open the app.\n2. De-compile IPA file.\n3. Access Info.plist document.\n4. Make sure that CFBundleExecutable key is present.",
         expected:
           "The mandatory CFBundleExecutable key is successfully defined in the Info.plist bundle.",
         originalRef: "Mandatory Keys",
@@ -2442,7 +2444,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         ref: "NM.01",
         title: "CFBundleAllowMixedLocalizations",
         steps:
-          "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if CFBundleAllowMixedLocalizations key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+          "1. Open the app.\n2. De-compile IPA file.\n3. Access Info.plist document.\n4. Check whether CFBundleAllowMixedLocalizations key is present.\n5. If key is present mark as PASS, if key is missing mark as N/A.",
         expected: "Marked as PASS if present in the bundle, or N/A if missing.",
         originalRef: "Non-Mandatory Keys",
       },
@@ -2452,7 +2454,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         ref: "NM.02",
         title: "CFBundleURLTypes",
         steps:
-          "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if CFBundleURLTypes key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+          "1. Open the app.\n2. De-compile IPA file.\n3. Access Info.plist document.\n4. Check whether CFBundleURLTypes key is present.\n5. If key is present mark as PASS, if key is missing mark as N/A.",
         expected: "Marked as PASS if present in the bundle, or N/A if missing.",
         originalRef: "Non-Mandatory Keys",
       },
@@ -2462,7 +2464,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         ref: "NM.03",
         title: "GKGameCenterBadgingDisabled",
         steps:
-          "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if GKGameCenterBadgingDisabled key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+          "1. Open the app.\n2. De-compile IPA file.\n3. Access Info.plist document.\n4. Check whether GKGameCenterBadgingDisabled key is present.\n5. If key is present mark as PASS, if key is missing mark as N/A.",
         expected: "Marked as PASS if present in the bundle, or N/A if missing.",
         originalRef: "Non-Mandatory Keys",
       },
@@ -2472,7 +2474,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         ref: "NM.04",
         title: "UTExportedTypeDeclarations",
         steps:
-          "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if UTExportedTypeDeclarations key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+          "1. Open the app.\n2. De-compile IPA file.\n3. Access Info.plist document.\n4. Check whether UTExportedTypeDeclarations key is present.\n5. If key is present mark as PASS, if key is missing mark as N/A.",
         expected: "Marked as PASS if present in the bundle, or N/A if missing.",
         originalRef: "Non-Mandatory Keys",
       },
@@ -2482,7 +2484,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         ref: "NM.05",
         title: "UISupportedInterfaceOrientations",
         steps:
-          "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if UISupportedInterfaceOrientations key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+          "1. Open the app.\n2. De-compile IPA file.\n3. Access Info.plist document.\n4. Check whether UISupportedInterfaceOrientations key is present.\n5. If key is present mark as PASS, if key is missing mark as N/A.",
         expected: "Marked as PASS if present in the bundle, or N/A if missing.",
         originalRef: "Non-Mandatory Keys",
       },
@@ -2492,7 +2494,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         ref: "NM.06",
         title: "NSLocationUsageDescription",
         steps:
-          "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if NSLocationUsageDescription key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+          "1. Open the app.\n2. De-compile IPA file.\n3. Access Info.plist document.\n4. Check whether NSLocationUsageDescription key is present.\n5. If key is present mark as PASS, if key is missing mark as N/A.",
         expected: "Marked as PASS if present in the bundle, or N/A if missing.",
         originalRef: "Non-Mandatory Keys",
       },
@@ -2502,7 +2504,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         ref: "NM.07",
         title: "GCSupportsMultipleMicroGamepads",
         steps:
-          "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if GCSupportsMultipleMicroGamepads key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+          "1. Open the app.\n2. De-compile IPA file.\n3. Access Info.plist document.\n4. Check whether GCSupportsMultipleMicroGamepads key is present.\n5. If key is present mark as PASS, if key is missing mark as N/A.",
         expected: "Marked as PASS if present in the bundle, or N/A if missing.",
         originalRef: "Non-Mandatory Keys",
       },
@@ -2512,7 +2514,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         ref: "NM.08",
         title: "UIRequiredDeviceCapabilities",
         steps:
-          "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if UIRequiredDeviceCapabilities key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+          "1. Open the app.\n2. De-compile IPA file.\n3. Access Info.plist document.\n4. Check whether UIRequiredDeviceCapabilities key is present.\n5. If key is present mark as PASS, if key is missing mark as N/A.",
         expected: "Marked as PASS if present in the bundle, or N/A if missing.",
         originalRef: "Non-Mandatory Keys",
       },
@@ -2522,7 +2524,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         ref: "NM.09",
         title: "DTSDKBuild",
         steps:
-          "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if DTSDKBuild key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+          "1. Open the app.\n2. De-compile IPA file.\n3. Access Info.plist document.\n4. Check whether DTSDKBuild key is present.\n5. If key is present mark as PASS, if key is missing mark as N/A.",
         expected: "Marked as PASS if present in the bundle, or N/A if missing.",
         originalRef: "Non-Mandatory Keys",
       },
@@ -2532,7 +2534,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         ref: "NM.10",
         title: "UIDeviceFamily",
         steps:
-          "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if UIDeviceFamily key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+          "1. Open the app.\n2. De-compile IPA file.\n3. Access Info.plist document.\n4. Check whether UIDeviceFamily key is present.\n5. If key is present mark as PASS, if key is missing mark as N/A.",
         expected: "Marked as PASS if present in the bundle, or N/A if missing.",
         originalRef: "Non-Mandatory Keys",
       },
@@ -2542,7 +2544,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         ref: "NM.11",
         title: "NSUbiquitousContainer",
         steps:
-          "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if NSUbiquitousContainer key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+          "1. Open the app.\n2. De-compile IPA file.\n3. Access Info.plist document.\n4. Check whether NSUbiquitousContainer key is present.\n5. If key is present mark as PASS, if key is missing mark as N/A.",
         expected: "Marked as PASS if present in the bundle, or N/A if missing.",
         originalRef: "Non-Mandatory Keys",
       },
@@ -2552,7 +2554,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         ref: "NM.12",
         title: "CFBundleIconFile",
         steps:
-          "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if CFBundleIconFile key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+          "1. Open the app.\n2. De-compile IPA file.\n3. Access Info.plist document.\n4. Check whether CFBundleIconFile key is present.\n5. If key is present mark as PASS, if key is missing mark as N/A.",
         expected: "Marked as PASS if present in the bundle, or N/A if missing.",
         originalRef: "Non-Mandatory Keys",
       },
@@ -2562,7 +2564,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         ref: "NM.13",
         title: "LSApplicationQueriesSchemes",
         steps:
-          "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if LSApplicationQueriesSchemes key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+          "1. Open the app.\n2. De-compile IPA file.\n3. Access Info.plist document.\n4. Check whether LSApplicationQueriesSchemes key is present.\n5. If key is present mark as PASS, if key is missing mark as N/A.",
         expected: "Marked as PASS if present in the bundle, or N/A if missing.",
         originalRef: "Non-Mandatory Keys",
       },
@@ -2572,7 +2574,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         ref: "NM.14",
         title: "GCSupportedGameControllers",
         steps:
-          "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if GCSupportedGameControllers key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+          "1. Open the app.\n2. De-compile IPA file.\n3. Access Info.plist document.\n4. Check whether GCSupportedGameControllers key is present.\n5. If key is present mark as PASS, if key is missing mark as N/A.",
         expected: "Marked as PASS if present in the bundle, or N/A if missing.",
         originalRef: "Non-Mandatory Keys",
       },
@@ -2582,7 +2584,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         ref: "NM.15",
         title: "UILaunchStoryboardName",
         steps:
-          "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if UILaunchStoryboardName key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+          "1. Open the app.\n2. De-compile IPA file.\n3. Access Info.plist document.\n4. Check whether UILaunchStoryboardName key is present.\n5. If key is present mark as PASS, if key is missing mark as N/A.",
         expected: "Marked as PASS if present in the bundle, or N/A if missing.",
         originalRef: "Non-Mandatory Keys",
       },
@@ -2592,7 +2594,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         ref: "NM.16",
         title: "CFBundleLocalizations",
         steps:
-          "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if CFBundleLocalizations key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+          "1. Open the app.\n2. De-compile IPA file.\n3. Access Info.plist document.\n4. Check whether CFBundleLocalizations key is present.\n5. If key is present mark as PASS, if key is missing mark as N/A.",
         expected: "Marked as PASS if present in the bundle, or N/A if missing.",
         originalRef: "Non-Mandatory Keys",
       },
@@ -2602,7 +2604,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         ref: "NM.17",
         title: "LSRequiresIPhoneOS",
         steps:
-          "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if LSRequiresIPhoneOS key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+          "1. Open the app.\n2. De-compile IPA file.\n3. Access Info.plist document.\n4. Check whether LSRequiresIPhoneOS key is present.\n5. If key is present mark as PASS, if key is missing mark as N/A.",
         expected: "Marked as PASS if present in the bundle, or N/A if missing.",
         originalRef: "Non-Mandatory Keys",
       },
@@ -2612,7 +2614,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         ref: "NM.18",
         title: "UIWhitePointAdaptivityStyle",
         steps:
-          "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if UIWhitePointAdaptivityStyle key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+          "1. Open the app.\n2. De-compile IPA file.\n3. Access Info.plist document.\n4. Check whether UIWhitePointAdaptivityStyle key is present.\n5. If key is present mark as PASS, if key is missing mark as N/A.",
         expected: "Marked as PASS if present in the bundle, or N/A if missing.",
         originalRef: "Non-Mandatory Keys",
       },
@@ -2622,7 +2624,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         ref: "NM.19",
         title: "DTPlatformName",
         steps:
-          "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if DTPlatformName key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+          "1. Open the app.\n2. De-compile IPA file.\n3. Access Info.plist document.\n4. Check whether DTPlatformName key is present.\n5. If key is present mark as PASS, if key is missing mark as N/A.",
         expected: "Marked as PASS if present in the bundle, or N/A if missing.",
         originalRef: "Non-Mandatory Keys",
       },
@@ -2632,7 +2634,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         ref: "NM.20",
         title: "UIStatusBarStyle",
         steps:
-          "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if UIStatusBarStyle key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+          "1. Open the app.\n2. De-compile IPA file.\n3. Access Info.plist document.\n4. Check whether UIStatusBarStyle key is present.\n5. If key is present mark as PASS, if key is missing mark as N/A.",
         expected: "Marked as PASS if present in the bundle, or N/A if missing.",
         originalRef: "Non-Mandatory Keys",
       },
@@ -2642,7 +2644,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         ref: "NM.21",
         title: "DTPlatformBuild",
         steps:
-          "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if DTPlatformBuild key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+          "1. Open the app.\n2. De-compile IPA file.\n3. Access Info.plist document.\n4. Check whether DTPlatformBuild key is present.\n5. If key is present mark as PASS, if key is missing mark as N/A.",
         expected: "Marked as PASS if present in the bundle, or N/A if missing.",
         originalRef: "Non-Mandatory Keys",
       },
@@ -2652,7 +2654,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         ref: "NM.22",
         title: "UILaunchImages",
         steps:
-          "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if UILaunchImages key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+          "1. Open the app.\n2. De-compile IPA file.\n3. Access Info.plist document.\n4. Check whether UILaunchImages key is present.\n5. If key is present mark as PASS, if key is missing mark as N/A.",
         expected: "Marked as PASS if present in the bundle, or N/A if missing.",
         originalRef: "Non-Mandatory Keys",
       },
@@ -2662,7 +2664,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         ref: "NM.23",
         title: "UILaunchImageFile",
         steps:
-          "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if UILaunchImageFile key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+          "1. Open the app.\n2. De-compile IPA file.\n3. Access Info.plist document.\n4. Check whether UILaunchImageFile key is present.\n5. If key is present mark as PASS, if key is missing mark as N/A.",
         expected: "Marked as PASS if present in the bundle, or N/A if missing.",
         originalRef: "Non-Mandatory Keys",
       },
@@ -2672,7 +2674,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         ref: "NM.24",
         title: "UIPrerenderedIcon",
         steps:
-          "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if UIPrerenderedIcon key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+          "1. Open the app.\n2. De-compile IPA file.\n3. Access Info.plist document.\n4. Check whether UIPrerenderedIcon key is present.\n5. If key is present mark as PASS, if key is missing mark as N/A.",
         expected: "Marked as PASS if present in the bundle, or N/A if missing.",
         originalRef: "Non-Mandatory Keys",
       },
@@ -2682,7 +2684,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         ref: "NM.25",
         title: "MKDirectionsApplicationSupportedModes",
         steps:
-          "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if MKDirectionsApplicationSupportedModes key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+          "1. Open the app.\n2. De-compile IPA file.\n3. Access Info.plist document.\n4. Check whether MKDirectionsApplicationSupportedModes key is present.\n5. If key is present mark as PASS, if key is missing mark as N/A.",
         expected: "Marked as PASS if present in the bundle, or N/A if missing.",
         originalRef: "Non-Mandatory Keys",
       },
@@ -2692,7 +2694,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         ref: "NM.26",
         title: "DTXcodeBuild",
         steps:
-          "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if DTXcodeBuild key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+          "1. Open the app.\n2. De-compile IPA file.\n3. Access Info.plist document.\n4. Check whether DTXcodeBuild key is present.\n5. If key is present mark as PASS, if key is missing mark as N/A.",
         expected: "Marked as PASS if present in the bundle, or N/A if missing.",
         originalRef: "Non-Mandatory Keys",
       },
@@ -2702,7 +2704,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         ref: "NM.27",
         title: "DTSDKName",
         steps:
-          "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if DTSDKName key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+          "1. Open the app.\n2. De-compile IPA file.\n3. Access Info.plist document.\n4. Check whether DTSDKName key is present.\n5. If key is present mark as PASS, if key is missing mark as N/A.",
         expected: "Marked as PASS if present in the bundle, or N/A if missing.",
         originalRef: "Non-Mandatory Keys",
       },
@@ -2712,7 +2714,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         ref: "NM.28",
         title: "UIViewEdgeAntialiasing",
         steps:
-          "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if UIViewEdgeAntialiasing key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+          "1. Open the app.\n2. De-compile IPA file.\n3. Access Info.plist document.\n4. Check whether UIViewEdgeAntialiasing key is present.\n5. If key is present mark as PASS, if key is missing mark as N/A.",
         expected: "Marked as PASS if present in the bundle, or N/A if missing.",
         originalRef: "Non-Mandatory Keys",
       },
@@ -2722,7 +2724,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         ref: "NM.29",
         title: "CFBundleIcons",
         steps:
-          "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if CFBundleIcons key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+          "1. Open the app.\n2. De-compile IPA file.\n3. Access Info.plist document.\n4. Check whether CFBundleIcons key is present.\n5. If key is present mark as PASS, if key is missing mark as N/A.",
         expected: "Marked as PASS if present in the bundle, or N/A if missing.",
         originalRef: "Non-Mandatory Keys",
       },
@@ -2732,7 +2734,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         ref: "NM.30",
         title: "NSAppTransportSecurity",
         steps:
-          "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if NSAppTransportSecurity key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+          "1. Open the app.\n2. De-compile IPA file.\n3. Access Info.plist document.\n4. Check whether NSAppTransportSecurity key is present.\n5. If key is present mark as PASS, if key is missing mark as N/A.",
         expected: "Marked as PASS if present in the bundle, or N/A if missing.",
         originalRef: "Non-Mandatory Keys",
       },
@@ -2742,7 +2744,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         ref: "NM.31",
         title: "UISupportedExternalAccessoryProtocols",
         steps:
-          "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if UISupportedExternalAccessoryProtocols key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+          "1. Open the app.\n2. De-compile IPA file.\n3. Access Info.plist document.\n4. Check whether UISupportedExternalAccessoryProtocols key is present.\n5. If key is present mark as PASS, if key is missing mark as N/A.",
         expected: "Marked as PASS if present in the bundle, or N/A if missing.",
         originalRef: "Non-Mandatory Keys",
       },
@@ -2752,7 +2754,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         ref: "NM.32",
         title: "UIFileSharingEnabled",
         steps:
-          "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if UIFileSharingEnabled key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+          "1. Open the app.\n2. De-compile IPA file.\n3. Access Info.plist document.\n4. Check whether UIFileSharingEnabled key is present.\n5. If key is present mark as PASS, if key is missing mark as N/A.",
         expected: "Marked as PASS if present in the bundle, or N/A if missing.",
         originalRef: "Non-Mandatory Keys",
       },
@@ -2762,7 +2764,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         ref: "NM.33",
         title: "CFBundleIconName",
         steps:
-          "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if CFBundleIconName key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+          "1. Open the app.\n2. De-compile IPA file.\n3. Access Info.plist document.\n4. Check whether CFBundleIconName key is present.\n5. If key is present mark as PASS, if key is missing mark as N/A.",
         expected: "Marked as PASS if present in the bundle, or N/A if missing.",
         originalRef: "Non-Mandatory Keys",
       },
@@ -2772,7 +2774,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         ref: "NM.34",
         title: "UINewsstandApp",
         steps:
-          "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if UINewsstandApp key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+          "1. Open the app.\n2. De-compile IPA file.\n3. Access Info.plist document.\n4. Check whether UINewsstandApp key is present.\n5. If key is present mark as PASS, if key is missing mark as N/A.",
         expected: "Marked as PASS if present in the bundle, or N/A if missing.",
         originalRef: "Non-Mandatory Keys",
       },
@@ -2782,7 +2784,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         ref: "NM.35",
         title: "UIInterfaceOrientation",
         steps:
-          "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if UIInterfaceOrientation key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+          "1. Open the app.\n2. De-compile IPA file.\n3. Access Info.plist document.\n4. Check whether UIInterfaceOrientation key is present.\n5. If key is present mark as PASS, if key is missing mark as N/A.",
         expected: "Marked as PASS if present in the bundle, or N/A if missing.",
         originalRef: "Non-Mandatory Keys",
       },
@@ -2792,7 +2794,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         ref: "NM.36",
         title: "coreSpotlightContinuation",
         steps:
-          "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if coreSpotlightContinuation key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+          "1. Open the app.\n2. De-compile IPA file.\n3. Access Info.plist document.\n4. Check whether coreSpotlightContinuation key is present.\n5. If key is present mark as PASS, if key is missing mark as N/A.",
         expected: "Marked as PASS if present in the bundle, or N/A if missing.",
         originalRef: "Non-Mandatory Keys",
       },
@@ -2802,7 +2804,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         ref: "NM.37",
         title: "UIApplicationExitsOnSuspend",
         steps:
-          "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if UIApplicationExitsOnSuspend key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+          "1. Open the app.\n2. De-compile IPA file.\n3. Access Info.plist document.\n4. Check whether UIApplicationExitsOnSuspend key is present.\n5. If key is present mark as PASS, if key is missing mark as N/A.",
         expected: "Marked as PASS if present in the bundle, or N/A if missing.",
         originalRef: "Non-Mandatory Keys",
       },
@@ -2812,7 +2814,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         ref: "NM.38",
         title: "NSUbiquitousContainerIsDocumentScopePublic",
         steps:
-          "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if NSUbiquitousContainerIsDocumentScopePublic key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+          "1. Open the app.\n2. De-compile IPA file.\n3. Access Info.plist document.\n4. Check whether NSUbiquitousContainerIsDocumentScopePublic key is present.\n5. If key is present mark as PASS, if key is missing mark as N/A.",
         expected: "Marked as PASS if present in the bundle, or N/A if missing.",
         originalRef: "Non-Mandatory Keys",
       },
@@ -2822,7 +2824,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         ref: "NM.39",
         title: "UIAppSupportsHDR",
         steps:
-          "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if UIAppSupportsHDR key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+          "1. Open the app.\n2. De-compile IPA file.\n3. Access Info.plist document.\n4. Check whether UIAppSupportsHDR key is present.\n5. If key is present mark as PASS, if key is missing mark as N/A.",
         expected: "Marked as PASS if present in the bundle, or N/A if missing.",
         originalRef: "Non-Mandatory Keys",
       },
@@ -2832,7 +2834,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         ref: "NM.40",
         title: "NSMainNibFile",
         steps:
-          "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if NSMainNibFile key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+          "1. Open the app.\n2. De-compile IPA file.\n3. Access Info.plist document.\n4. Check whether NSMainNibFile key is present.\n5. If key is present mark as PASS, if key is missing mark as N/A.",
         expected: "Marked as PASS if present in the bundle, or N/A if missing.",
         originalRef: "Non-Mandatory Keys",
       },
@@ -2842,7 +2844,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         ref: "NM.41",
         title: "CFBundleDocumentTypes",
         steps:
-          "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if CFBundleDocumentTypes key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+          "1. Open the app.\n2. De-compile IPA file.\n3. Access Info.plist document.\n4. Check whether CFBundleDocumentTypes key is present.\n5. If key is present mark as PASS, if key is missing mark as N/A.",
         expected: "Marked as PASS if present in the bundle, or N/A if missing.",
         originalRef: "Non-Mandatory Keys",
       },
@@ -2852,7 +2854,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         ref: "NM.42",
         title: "NSSupportsPurgeableLocalStorage",
         steps:
-          "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if NSSupportsPurgeableLocalStorage key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+          "1. Open the app.\n2. De-compile IPA file.\n3. Access Info.plist document.\n4. Check whether NSSupportsPurgeableLocalStorage key is present.\n5. If key is present mark as PASS, if key is missing mark as N/A.",
         expected: "Marked as PASS if present in the bundle, or N/A if missing.",
         originalRef: "Non-Mandatory Keys",
       },
@@ -2862,7 +2864,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         ref: "NM.43",
         title: "DTCompiler",
         steps:
-          "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if DTCompiler key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+          "1. Open the app.\n2. De-compile IPA file.\n3. Access Info.plist document.\n4. Check whether DTCompiler key is present.\n5. If key is present mark as PASS, if key is missing mark as N/A.",
         expected: "Marked as PASS if present in the bundle, or N/A if missing.",
         originalRef: "Non-Mandatory Keys",
       },
@@ -2872,7 +2874,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         ref: "NM.44",
         title: "CoreSpotlightContinuation",
         steps:
-          "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if CoreSpotlightContinuation key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+          "1. Open the app.\n2. De-compile IPA file.\n3. Access Info.plist document.\n4. Check whether CoreSpotlightContinuation key is present.\n5. If key is present mark as PASS, if key is missing mark as N/A.",
         expected: "Marked as PASS if present in the bundle, or N/A if missing.",
         originalRef: "Non-Mandatory Keys",
       },
@@ -2882,7 +2884,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         ref: "NM.45",
         title: "NSUbiquitousContainerSupportedFolderLevels",
         steps:
-          "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if NSUbiquitousContainerSupportedFolderLevels key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+          "1. Open the app.\n2. De-compile IPA file.\n3. Access Info.plist document.\n4. Check whether NSUbiquitousContainerSupportedFolderLevels key is present.\n5. If key is present mark as PASS, if key is missing mark as N/A.",
         expected: "Marked as PASS if present in the bundle, or N/A if missing.",
         originalRef: "Non-Mandatory Keys",
       },
@@ -2892,7 +2894,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         ref: "NM.46",
         title: "UIRequiresPersistentWiFi",
         steps:
-          "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if UIRequiresPersistentWiFi key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+          "1. Open the app.\n2. De-compile IPA file.\n3. Access Info.plist document.\n4. Check whether UIRequiresPersistentWiFi key is present.\n5. If key is present mark as PASS, if key is missing mark as N/A.",
         expected: "Marked as PASS if present in the bundle, or N/A if missing.",
         originalRef: "Non-Mandatory Keys",
       },
@@ -2902,7 +2904,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         ref: "NM.47",
         title: "NSUbiquitousContainerName",
         steps:
-          "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if NSUbiquitousContainerName key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+          "1. Open the app.\n2. De-compile IPA file.\n3. Access Info.plist document.\n4. Check whether NSUbiquitousContainerName key is present.\n5. If key is present mark as PASS, if key is missing mark as N/A.",
         expected: "Marked as PASS if present in the bundle, or N/A if missing.",
         originalRef: "Non-Mandatory Keys",
       },
@@ -2912,7 +2914,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         ref: "NM.48",
         title: "UIBackgroundModes",
         steps:
-          "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if UIBackgroundModes key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+          "1. Open the app.\n2. De-compile IPA file.\n3. Access Info.plist document.\n4. Check whether UIBackgroundModes key is present.\n5. If key is present mark as PASS, if key is missing mark as N/A.",
         expected: "Marked as PASS if present in the bundle, or N/A if missing.",
         originalRef: "Non-Mandatory Keys",
       },
@@ -2922,7 +2924,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         ref: "NM.49",
         title: "NSUbiquitousDisplaySet",
         steps:
-          "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if NSUbiquitousDisplaySet key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+          "1. Open the app.\n2. De-compile IPA file.\n3. Access Info.plist document.\n4. Check whether NSUbiquitousDisplaySet key is present.\n5. If key is present mark as PASS, if key is missing mark as N/A.",
         expected: "Marked as PASS if present in the bundle, or N/A if missing.",
         originalRef: "Non-Mandatory Keys",
       },
@@ -2932,7 +2934,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         ref: "NM.50",
         title: "CFBundleSpokenName",
         steps:
-          "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if CFBundleSpokenName key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+          "1. Open the app.\n2. De-compile IPA file.\n3. Access Info.plist document.\n4. Check whether CFBundleSpokenName key is present.\n5. If key is present mark as PASS, if key is missing mark as N/A.",
         expected: "Marked as PASS if present in the bundle, or N/A if missing.",
         originalRef: "Non-Mandatory Keys",
       },
@@ -2942,7 +2944,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         ref: "NM.51",
         title: "UIViewGroupOpacity",
         steps:
-          "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if UIViewGroupOpacity key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+          "1. Open the app.\n2. De-compile IPA file.\n3. Access Info.plist document.\n4. Check whether UIViewGroupOpacity key is present.\n5. If key is present mark as PASS, if key is missing mark as N/A.",
         expected: "Marked as PASS if present in the bundle, or N/A if missing.",
         originalRef: "Non-Mandatory Keys",
       },
@@ -2952,7 +2954,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         ref: "NM.52",
         title: "UIApplicationShortcutWidget",
         steps:
-          "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if UIApplicationShortcutWidget key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+          "1. Open the app.\n2. De-compile IPA file.\n3. Access Info.plist document.\n4. Check whether UIApplicationShortcutWidget key is present.\n5. If key is present mark as PASS, if key is missing mark as N/A.",
         expected: "Marked as PASS if present in the bundle, or N/A if missing.",
         originalRef: "Non-Mandatory Keys",
       },
@@ -2962,7 +2964,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         ref: "NM.53",
         title: "UIApplicationShortcutItems",
         steps:
-          "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if UIApplicationShortcutItems key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+          "1. Open the app.\n2. De-compile IPA file.\n3. Access Info.plist document.\n4. Check whether UIApplicationShortcutItems key is present.\n5. If key is present mark as PASS, if key is missing mark as N/A.",
         expected: "Marked as PASS if present in the bundle, or N/A if missing.",
         originalRef: "Non-Mandatory Keys",
       },
@@ -2972,7 +2974,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         ref: "NM.54",
         title: "CFBundleIconFiles",
         steps:
-          "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if CFBundleIconFiles key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+          "1. Open the app.\n2. De-compile IPA file.\n3. Access Info.plist document.\n4. Check whether CFBundleIconFiles key is present.\n5. If key is present mark as PASS, if key is missing mark as N/A.",
         expected: "Marked as PASS if present in the bundle, or N/A if missing.",
         originalRef: "Non-Mandatory Keys",
       },
@@ -2982,7 +2984,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         ref: "NM.55",
         title: "UIRequiresFullScreen",
         steps:
-          "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if UIRequiresFullScreen key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+          "1. Open the app.\n2. De-compile IPA file.\n3. Access Info.plist document.\n4. Check whether UIRequiresFullScreen key is present.\n5. If key is present mark as PASS, if key is missing mark as N/A.",
         expected: "Marked as PASS if present in the bundle, or N/A if missing.",
         originalRef: "Non-Mandatory Keys",
       },
@@ -2992,7 +2994,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         ref: "NM.56",
         title: "UIAppFonts",
         steps:
-          "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if UIAppFonts key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+          "1. Open the app.\n2. De-compile IPA file.\n3. Access Info.plist document.\n4. Check whether UIAppFonts key is present.\n5. If key is present mark as PASS, if key is missing mark as N/A.",
         expected: "Marked as PASS if present in the bundle, or N/A if missing.",
         originalRef: "Non-Mandatory Keys",
       },
@@ -3002,7 +3004,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         ref: "NM.57",
         title: "UTImportedTypeDeclarations",
         steps:
-          "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if UTImportedTypeDeclarations key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+          "1. Open the app.\n2. De-compile IPA file.\n3. Access Info.plist document.\n4. Check whether UTImportedTypeDeclarations key is present.\n5. If key is present mark as PASS, if key is missing mark as N/A.",
         expected: "Marked as PASS if present in the bundle, or N/A if missing.",
         originalRef: "Non-Mandatory Keys",
       },
@@ -3012,7 +3014,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         ref: "NM.58",
         title: "MinimumOSVersion",
         steps:
-          "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if MinimumOSVersion key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+          "1. Open the app.\n2. De-compile IPA file.\n3. Access Info.plist document.\n4. Check whether MinimumOSVersion key is present.\n5. If key is present mark as PASS, if key is missing mark as N/A.",
         expected: "Marked as PASS if present in the bundle, or N/A if missing.",
         originalRef: "Non-Mandatory Keys",
       },
@@ -3022,7 +3024,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         ref: "NM.59",
         title: "UIStatusBarHidden",
         steps:
-          "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if UIStatusBarHidden key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+          "1. Open the app.\n2. De-compile IPA file.\n3. Access Info.plist document.\n4. Check whether UIStatusBarHidden key is present.\n5. If key is present mark as PASS, if key is missing mark as N/A.",
         expected: "Marked as PASS if present in the bundle, or N/A if missing.",
         originalRef: "Non-Mandatory Keys",
       },
@@ -3032,7 +3034,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         ref: "PC.01",
         title: "NSUserTrackingUsageDescription",
         steps:
-          "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if NSUserTrackingUsageDescription key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+          "1. Open the app.\n2. De-compile IPA file.\n3. Access Info.plist document.\n4. Check whether NSUserTrackingUsageDescription key is present.\n5. If key is present mark as PASS, if key is missing mark as N/A.",
         expected: "Marked as PASS if present in the bundle, or N/A if missing.",
         originalRef: "Privacy check",
       },
@@ -3042,7 +3044,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         ref: "PC.02",
         title: "NSBluetoothPeripheralUsageDescription",
         steps:
-          "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if NSBluetoothPeripheralUsageDescription key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+          "1. Open the app.\n2. De-compile IPA file.\n3. Access Info.plist document.\n4. Check whether NSBluetoothPeripheralUsageDescription key is present.\n5. If key is present mark as PASS, if key is missing mark as N/A.",
         expected: "Marked as PASS if present in the bundle, or N/A if missing.",
         originalRef: "Privacy check",
       },
@@ -3052,7 +3054,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         ref: "PC.03",
         title: "NSCalendarsUsageDescription",
         steps:
-          "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if NSCalendarsUsageDescription key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+          "1. Open the app.\n2. De-compile IPA file.\n3. Access Info.plist document.\n4. Check whether NSCalendarsUsageDescription key is present.\n5. If key is present mark as PASS, if key is missing mark as N/A.",
         expected: "Marked as PASS if present in the bundle, or N/A if missing.",
         originalRef: "Privacy check",
       },
@@ -3062,7 +3064,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         ref: "PC.04",
         title: "NSCameraUsageDescription",
         steps:
-          "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if NSCameraUsageDescription key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+          "1. Open the app.\n2. De-compile IPA file.\n3. Access Info.plist document.\n4. Check whether NSCameraUsageDescription key is present.\n5. If key is present mark as PASS, if key is missing mark as N/A.",
         expected: "Marked as PASS if present in the bundle, or N/A if missing.",
         originalRef: "Privacy check",
       },
@@ -3072,7 +3074,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         ref: "PC.05",
         title: "NSContactsUsageDescription",
         steps:
-          "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if NSContactsUsageDescription key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+          "1. Open the app.\n2. De-compile IPA file.\n3. Access Info.plist document.\n4. Check whether NSContactsUsageDescription key is present.\n5. If key is present mark as PASS, if key is missing mark as N/A.",
         expected: "Marked as PASS if present in the bundle, or N/A if missing.",
         originalRef: "Privacy check",
       },
@@ -3082,7 +3084,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         ref: "PC.06",
         title: "NSFaceIDUsageDescription",
         steps:
-          "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if NSFaceIDUsageDescription key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+          "1. Open the app.\n2. De-compile IPA file.\n3. Access Info.plist document.\n4. Check whether NSFaceIDUsageDescription key is present.\n5. If key is present mark as PASS, if key is missing mark as N/A.",
         expected: "Marked as PASS if present in the bundle, or N/A if missing.",
         originalRef: "Privacy check",
       },
@@ -3092,7 +3094,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         ref: "PC.07",
         title: "NSHealthShareUsageDescription",
         steps:
-          "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if NSHealthShareUsageDescription key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+          "1. Open the app.\n2. De-compile IPA file.\n3. Access Info.plist document.\n4. Check whether NSHealthShareUsageDescription key is present.\n5. If key is present mark as PASS, if key is missing mark as N/A.",
         expected: "Marked as PASS if present in the bundle, or N/A if missing.",
         originalRef: "Privacy check",
       },
@@ -3102,7 +3104,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         ref: "PC.08",
         title: "NSHealthUpdateUsageDescription",
         steps:
-          "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if NSHealthUpdateUsageDescription key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+          "1. Open the app.\n2. De-compile IPA file.\n3. Access Info.plist document.\n4. Check whether NSHealthUpdateUsageDescription key is present.\n5. If key is present mark as PASS, if key is missing mark as N/A.",
         expected: "Marked as PASS if present in the bundle, or N/A if missing.",
         originalRef: "Privacy check",
       },
@@ -3112,7 +3114,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         ref: "PC.09",
         title: "NSHomeKitUsageDescription",
         steps:
-          "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if NSHomeKitUsageDescription key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+          "1. Open the app.\n2. De-compile IPA file.\n3. Access Info.plist document.\n4. Check whether NSHomeKitUsageDescription key is present.\n5. If key is present mark as PASS, if key is missing mark as N/A.",
         expected: "Marked as PASS if present in the bundle, or N/A if missing.",
         originalRef: "Privacy check",
       },
@@ -3122,7 +3124,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         ref: "PC.10",
         title: "NSLocationAlwaysUsageDescription",
         steps:
-          "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if NSLocationAlwaysUsageDescription key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+          "1. Open the app.\n2. De-compile IPA file.\n3. Access Info.plist document.\n4. Check whether NSLocationAlwaysUsageDescription key is present.\n5. If key is present mark as PASS, if key is missing mark as N/A.",
         expected: "Marked as PASS if present in the bundle, or N/A if missing.",
         originalRef: "Privacy check",
       },
@@ -3132,7 +3134,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         ref: "PC.11",
         title: "NSLocationWhenInUseUsageDescription",
         steps:
-          "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if NSLocationWhenInUseUsageDescription key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+          "1. Open the app.\n2. De-compile IPA file.\n3. Access Info.plist document.\n4. Check whether NSLocationWhenInUseUsageDescription key is present.\n5. If key is present mark as PASS, if key is missing mark as N/A.",
         expected: "Marked as PASS if present in the bundle, or N/A if missing.",
         originalRef: "Privacy check",
       },
@@ -3142,7 +3144,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         ref: "PC.12",
         title: "NSMicrophoneUsageDescription",
         steps:
-          "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if NSMicrophoneUsageDescription key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+          "1. Open the app.\n2. De-compile IPA file.\n3. Access Info.plist document.\n4. Check whether NSMicrophoneUsageDescription key is present.\n5. If key is present mark as PASS, if key is missing mark as N/A.",
         expected: "Marked as PASS if present in the bundle, or N/A if missing.",
         originalRef: "Privacy check",
       },
@@ -3152,7 +3154,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         ref: "PC.13",
         title: "NSMotionUsageDescription",
         steps:
-          "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if NSMotionUsageDescription key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+          "1. Open the app.\n2. De-compile IPA file.\n3. Access Info.plist document.\n4. Check whether NSMotionUsageDescription key is present.\n5. If key is present mark as PASS, if key is missing mark as N/A.",
         expected: "Marked as PASS if present in the bundle, or N/A if missing.",
         originalRef: "Privacy check",
       },
@@ -3162,7 +3164,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         ref: "PC.14",
         title: "NSAppleMusicUsageDescription",
         steps:
-          "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if NSAppleMusicUsageDescription key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+          "1. Open the app.\n2. De-compile IPA file.\n3. Access Info.plist document.\n4. Check whether NSAppleMusicUsageDescription key is present.\n5. If key is present mark as PASS, if key is missing mark as N/A.",
         expected: "Marked as PASS if present in the bundle, or N/A if missing.",
         originalRef: "Privacy check",
       },
@@ -3172,7 +3174,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         ref: "PC.15",
         title: "NFCReaderUsageDescription",
         steps:
-          "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if NFCReaderUsageDescription key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+          "1. Open the app.\n2. De-compile IPA file.\n3. Access Info.plist document.\n4. Check whether NFCReaderUsageDescription key is present.\n5. If key is present mark as PASS, if key is missing mark as N/A.",
         expected: "Marked as PASS if present in the bundle, or N/A if missing.",
         originalRef: "Privacy check",
       },
@@ -3182,7 +3184,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         ref: "PC.16",
         title: "NSPhotoLibraryAddUsageDescription",
         steps:
-          "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if NSPhotoLibraryAddUsageDescription key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+          "1. Open the app.\n2. De-compile IPA file.\n3. Access Info.plist document.\n4. Check whether NSPhotoLibraryAddUsageDescription key is present.\n5. If key is present mark as PASS, if key is missing mark as N/A.",
         expected: "Marked as PASS if present in the bundle, or N/A if missing.",
         originalRef: "Privacy check",
       },
@@ -3192,7 +3194,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         ref: "PC.17",
         title: "NSPhotoLibraryUsageDescription",
         steps:
-          "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if NSPhotoLibraryUsageDescription key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+          "1. Open the app.\n2. De-compile IPA file.\n3. Access Info.plist document.\n4. Check whether NSPhotoLibraryUsageDescription key is present.\n5. If key is present mark as PASS, if key is missing mark as N/A.",
         expected: "Marked as PASS if present in the bundle, or N/A if missing.",
         originalRef: "Privacy check",
       },
@@ -3202,7 +3204,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         ref: "PC.18",
         title: "NSRemindersUsageDescription",
         steps:
-          "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if NSRemindersUsageDescription key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+          "1. Open the app.\n2. De-compile IPA file.\n3. Access Info.plist document.\n4. Check whether NSRemindersUsageDescription key is present.\n5. If key is present mark as PASS, if key is missing mark as N/A.",
         expected: "Marked as PASS if present in the bundle, or N/A if missing.",
         originalRef: "Privacy check",
       },
@@ -3212,7 +3214,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         ref: "PC.19",
         title: "NSSiriUsageDescription",
         steps:
-          "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if NSSiriUsageDescription key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+          "1. Open the app.\n2. De-compile IPA file.\n3. Access Info.plist document.\n4. Check whether NSSiriUsageDescription key is present.\n5. If key is present mark as PASS, if key is missing mark as N/A.",
         expected: "Marked as PASS if present in the bundle, or N/A if missing.",
         originalRef: "Privacy check",
       },
@@ -3222,7 +3224,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         ref: "PC.20",
         title: "NSSpeechRecognitionUsageDescription",
         steps:
-          "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if NSSpeechRecognitionUsageDescription key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+          "1. Open the app.\n2. De-compile IPA file.\n3. Access Info.plist document.\n4. Check whether NSSpeechRecognitionUsageDescription key is present.\n5. If key is present mark as PASS, if key is missing mark as N/A.",
         expected: "Marked as PASS if present in the bundle, or N/A if missing.",
         originalRef: "Privacy check",
       },
@@ -3232,7 +3234,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         ref: "PC.21",
         title: "NSVideoSubscriberAccountUsageDescription",
         steps:
-          "1. De-compile IPA file.\n2. Access Info.plist document.\n3. Check if NSVideoSubscriberAccountUsageDescription key is present.\n4. If key is present mark as PASS, if key is missing mark as N/A.",
+          "1. Open the app.\n2. De-compile IPA file.\n3. Access Info.plist document.\n4. Check whether NSVideoSubscriberAccountUsageDescription key is present.\n5. If key is present mark as PASS, if key is missing mark as N/A.",
         expected: "Marked as PASS if present in the bundle, or N/A if missing.",
         originalRef: "Privacy check",
       },
@@ -3243,7 +3245,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Ensure that app's layout fills the screen and isn't obscured by the device's rounded corners, its sensor housing, or the indicator for accessing the Home screen.",
         steps:
-          "1. Launch the app on a device with rounded corners or sensor housing.\n2. Verify that layout and controls are not obscured or cut off.\n3. Inspect the Home indicator area to ensure readability and accessibility.",
+          "1. Launch the app on a device with rounded corners or sensor housing.\n2. Check that that layout and controls are not obscured or cut off.\n3. Visually look at the Home indicator area to ensure readability and accessibility.",
         expected:
           "All layout content and controls are fully visible and not cut off by device hardware features.",
         originalRef: "Layout",
@@ -3255,7 +3257,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Ensure that the app's background materials extend to the edges of the display, and UI elements are appropriately inset and positioned.",
         steps:
-          "1. Open different views in the app.\n2. Observe if background materials or colors bleed out to the screen edges.\n3. Verify interactive components are inset safely.",
+          "1. Open the app.\n2. Open different views in the app.\n3. Observe if background materials or colors bleed out to the screen edges.\n4. Check that interactive components are inset safely.",
         expected:
           "App backgrounds extend full-screen, while interactive UI remains inside readable boundaries.",
         originalRef: "Layout",
@@ -3267,7 +3269,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Ensure that your app adheres to safe area and margin layout guides in Portrait as well as landscape mode.",
         steps:
-          "1. Rotate the device between Portrait and Landscape modes.\n2. Examine visual alignments against safe areas on both modes.",
+          "1. Open the app.\n2. Rotate the device between Portrait and Landscape modes.\n3. Carefully look at visual alignments against safe areas on both modes.",
         expected:
           "Safe area layouts are correctly respected in both device orientations.",
         originalRef: "Layout",
@@ -3279,7 +3281,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Ensure that app's content is centered and symmetrically inset and isn't affected in any orientation.",
         steps:
-          "1. Check content distribution in different orientations.\n2. Verify the layout remains centered or symmetrically aligned.",
+          "1. Open the app.\n2. Check content distribution in different orientations.\n3. Check that the layout remains centered or symmetrically aligned.",
         expected:
           "Content maintains symmetry and balance across screen rotation events.",
         originalRef: "Layout",
@@ -3291,7 +3293,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Apps should adhere to the safe area and layout margins defined by UIKit, which ensure appropriate insetting based on the device and context.",
         steps:
-          "1. Analyze UIKit/SwiftUI auto-layout constraints.\n2. Verify default margins are preserved without custom forcing into forbidden zones.",
+          "1. Open the app.\n2. Analyze UIKit/SwiftUI auto-layout constraints.\n3. Check that default margins are preserved without custom forcing into forbidden zones.",
         expected:
           "Default UIKit/SwiftUI safe area constraints are correctly leveraged.",
         originalRef: "Layout",
@@ -3303,7 +3305,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "If possible, support both portrait and landscape orientations. People prefer to use apps in different orientations, so it’s best when you can fulfill that expectation.",
         steps:
-          "1. Test if the app rotates smoothly under auto-rotate triggers.\n2. Verify that there's no layout crashes or UI overlapping upon orientation shifts.",
+          "1. Open the app.\n2. Try using if the app rotates smoothly under auto-rotate triggers.\n3. Check that that there's no layout crashes or UI overlapping upon orientation shifts.",
         expected:
           "Both portrait and landscape modes are properly supported or handled.",
         originalRef: "Layout",
@@ -3315,7 +3317,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Provide ample touch targets for interactive elements. Try to maintain a minimum tappable area of 44pt x 44pt for all controls.",
         steps:
-          "1. Measure interactive buttons and options in points.\n2. Ensure the active hit target is at least 44pt by 44pt.",
+          "1. Open the app.\n2. Measure interactive buttons and options in points.\n3. Make sure that the active hit target is at least 44pt by 44pt.",
         expected:
           "All interactive elements have a minimum touch target size of 44x44 points.",
         originalRef: "Layout",
@@ -3339,7 +3341,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "If the app is designed to be used only in landscape orientation, ensure that it works equally well in both left and right orientations. This ensures that users can comfortably use the app regardless of how they prefer to hold their device.",
         steps:
-          "1. Turn the landscape-only app to Landscape Left and then Landscape Right.\n2. Make sure controls and rendering flip appropriately for both choices.",
+          "1. Open the app.\n2. Turn the landscape-only app to Landscape Left and then Landscape Right.\n3. Make sure controls and rendering flip appropriately for both choices.",
         expected:
           "Landscape modes adapt symmetrically to both physical orientations.",
         originalRef: "Layout",
@@ -3351,7 +3353,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Customize your app’s response to rotation according to context. A game that lets people move a character by rotating the device, for example, probably shouldn’t switch orientations during gameplay. It could, however, display menus and intro sequences based on the current orientation.",
         steps:
-          "1. Test context-aware rotation behavior during active states/gameplay vs menus.\n2. Verify rotation is inhibited or configured gracefully depending on gameplay context.",
+          "1. Open the app.\n2. Try using context-aware rotation behavior during active states/gameplay vs menus.\n3. Check that rotation is inhibited or configured gracefully depending on gameplay context.",
         expected:
           "Rotation overrides are implemented elegantly according to user activity.",
         originalRef: "Layout",
@@ -3363,7 +3365,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Make sure your app works on iPad, not just on iPhone. Users appreciate having the flexibility to run your app on either type of iOS device. Even if you expect most people to use your app on iPhone, interface elements should remain visible and functional on iPad.",
         steps:
-          "1. Run the app on an iPad simulator.\n2. Verify that screen ratios, button scales, and margins adapt cleanly without awkward stretching.",
+          "1. Open the app.\n2. Run the app on an iPad simulator.\n3. Check that that screen ratios, button scales, and margins adapt cleanly without awkward stretching.",
         expected:
           "Universal apps function seamlessly on iPad and present standard iPad layout styles.",
         originalRef: "Layout",
@@ -3375,7 +3377,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "When the device is in landscape orientation, it may be appropriate for some apps—like games—to place tappable controls in the lower portion of the screen (extending below the safe area) to allow more room for content.",
         steps:
-          "1. For relevant applications (e.g. games), verify if lower control buttons are laid out neatly.\n2. Check for balance in content room.",
+          "1. Open the app.\n2. For relevant applications (e.g. games), verify if lower control buttons are laid out neatly.\n3. Check for balance in content room.",
         expected:
           "Lower landscape buttons are appropriately positioned for thumb-reach ergonomics.",
         originalRef: "Layout",
@@ -3387,7 +3389,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Ensure that matching insets are used for controls at the top and bottom of the screen, and leave ample space around the Home indicator so people don't accidentally target it when trying to interact with a control.",
         steps:
-          "1. Measure margins around top and bottom controls.\n2. Ensure safe distance margins are present around the Home indicator.",
+          "1. Open the app.\n2. Measure margins around top and bottom controls.\n3. Make sure that safe distance margins are present around the Home indicator.",
         expected:
           "Equal insets are shared at the top and bottom with adequate clearance around the Home indicator.",
         originalRef: "Layout",
@@ -3399,7 +3401,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Avoid explicitly placing interactive controls at the very bottom of the screen and in corners.",
         steps:
-          "1. Scan screen corners and extreme bottom coordinates.\n2. Verify that no buttons or tap targets are sitting directly in corner touch-dead zones.",
+          "1. Open the app.\n2. Look through screen corners and extreme bottom coordinates.\n3. Check that that no buttons or tap targets are sitting directly in corner touch-dead zones.",
         expected:
           "Interactive options are elevated away from screen edges and corners to prevent accidental mistaps.",
         originalRef: "Layout",
@@ -3411,7 +3413,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Ensure that full-width button at the bottom of the screen has rounded corners and is aligned with the bottom of the safe area—which also ensures that it doesn't conflict with the Home indicator.",
         steps:
-          "1. Inspect full-width bottom buttons.\n2. Confirm the presence of rounded corners.\n3. Verify clear separation space matches safe-area layout boundaries near the Home Indicator.",
+          "1. Open the app.\n2. Visually look at full-width bottom buttons.\n3. Check that the presence of rounded corners.\n4. Check that clear separation space matches safe-area layout boundaries near the Home Indicator.",
         expected:
           "Bottom buttons have rounded corners and remain fully clear of the Home Indicator zone.",
         originalRef: "Layout",
@@ -3423,7 +3425,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Don't attempt to hide the device's rounded corners, sensor housing, or indicator for accessing the Home screen by placing black bars at the top and bottom of the screen. Don't use visual adornments like brackets, bezels, shapes, or instructional text to call special attention to these areas, either.",
         steps:
-          "1. Review application header and footer styling.\n2. Confirm there are no artificial black letterboxes, borders, or decorations designed to mask hardware sensors/bezels.",
+          "1. Open the app.\n2. Look at application header and footer styling.\n3. Check that there are no artificial black letterboxes, borders, or decorations designed to mask hardware sensors/bezels.",
         expected:
           "App operates dynamically inside the natural physical frame without masking hardware features.",
         originalRef: "Layout",
@@ -3435,7 +3437,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Ensure that auto-hiding of the indicator for accessing the Home screen is enabled only for passive viewing experiences like playing videos or photo slideshows.",
         steps:
-          "1. Verify interactive portions do not auto-hide the Home indicator.\n2. Confirm indicator fades away only during passive full-screen media modes.",
+          "1. Open the app.\n2. Check that interactive portions do not auto-hide the Home indicator.\n3. Check that indicator fades away only during passive full-screen media modes.",
         expected:
           "Indicator remains visible during user interaction and auto-hides strictly inside immersive playback screens.",
         originalRef: "Layout",
@@ -3447,7 +3449,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Immersive apps like games might require custom screen-edge gestures that take priority over the system's gestures—the first swipe should invoke app-specific gesture and the second swipe should invoke the system's gesture. This behavior (known as edge protect) should be implemented sparingly, as it makes it harder for people to access the system-level actions.",
         steps:
-          "1. Test gestures on screen edges inside immersive modes.\n2. Verify the initial gesture triggers the intended app response.\n3. Verify system gestures are still discoverable on a second swipe.",
+          "1. Open the app.\n2. Try using gestures on screen edges inside immersive modes.\n3. Check that the initial gesture triggers the intended app response.\n4. Check that system gestures are still discoverable on a second swipe.",
         expected:
           "Edge protect is implemented properly and ONLY in designated fully-immersive experiences.",
         originalRef: "Layout",
@@ -3459,7 +3461,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Ask people to sign in only in exchange for value.For example, people might need to create an account to personalize their experience with the app, access additional features, or synchronize data.",
         steps:
-          "1. Navigate through the initial application launch flow.\n2. Identify areas requiring sign-in.\n3. Verify if sign-in is gating core functionality unnecessarily or if there is proportional value (e.g., personalization, syncing, or feature access) returned to the user.",
+          "1. Open the app.\n2. Navigate through the initial application launch flow.\n3. Identify areas requiring sign-in.\n4. Check that if sign-in is gating core functionality unnecessarily or if there is proportional value (e.g., personalization, syncing, or feature access) returned to the user.",
         expected:
           "The app only requests account sign-in when offering a direct, demonstrable value exchange.",
         originalRef: "Introduction",
@@ -3471,7 +3473,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Consider Sign in with Apple for every version of your app and website.To create a consistent sign-in experience, you can offer Sign in with Apple for your app and website across all platforms, including non-Apple platforms and the web.",
         steps:
-          "1. Check the app’s sign-in page to see if Sign in with Apple button is present.\n2. Review available platform services (web, other devices) to ensure consistent Sign in with Apple provision.",
+          "1. Open the app.\n2. Check the app’s sign-in page to see if Sign in with Apple button is present.\n3. Look at available platform services (web, other devices) to ensure consistent Sign in with Apple provision.",
         expected:
           "Sign in with Apple is consistently offered across all versions and platform deployments.",
         originalRef: "Introduction",
@@ -3483,7 +3485,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Delay sign-in as long as possible.People often abandon apps when they're forced to sign in before doing anything useful. Give them a chance to familiarize themselves with your app before making a commitment. For example, a live-streaming app could let people explore available content before signing in to stream something.",
         steps:
-          "1. Launch the app fresh (simulate guest/new user state).\n2. Explore screens, content, or features without logging in.\n3. Verify if user is allowed to navigate and preview app capability before encountering a high-friction sign-in request.",
+          "1. Launch the app fresh (simulate guest/new user state).\n2. Explore screens, content, or features without logging in.\n3. Check that if user is allowed to navigate and preview app capability before encountering a high-friction sign-in request.",
         expected:
           "Users are permitted to familiarize themselves with app features and explore content prior to sign-in.",
         originalRef: "Introduction",
@@ -3495,7 +3497,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "In a commerce app, wait until after people make a purchase before asking them to create an account.If you support a guest checkout system, give people a quick way to create an account after the transaction completes. For example, if you support Apple Pay, let people create an account on the order confirmation page. In cases where people have already provided their name and email address during the Apple Pay transaction, you don't need to ask for this information.",
         steps:
-          "1. For commerce/transactional features, execute a mock checkout/purchase sequence.\n2. Check if a guest checkout option is enabled. Check if account creation page appears strictly on/after order completion.\n3. Verify that name and email captured during Apple Pay transaction are reused without manual typing.",
+          "1. Open the app.\n2. For commerce/transactional features, execute a mock checkout/purchase sequence.\n3. Check whether a guest checkout option is enabled. Check if account creation page appears strictly on/after order completion.\n4. Check that that name and email captured during Apple Pay transaction are reused without manual typing.",
         expected:
           "Account creation requests are deferred until after purchase completes, using existing transaction data to pre-populate details.",
         originalRef: "Introduction",
@@ -3507,7 +3509,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Explain the benefits of signing in.If your app requires signing into an account, display a brief, friendly explanation on the login screen that describes the reasons for the requirement and its benefits. Also, remember that not everyone using your app has an account from the start.",
         steps:
-          "1. Open the login/sign-up page.\n2. Inspect for the presence of a clear, friendly caption explaining why an account is required and what benefits it unlocks.\n3. Ensure non-account holders are guided clearly.",
+          "1. Open the app.\n2. Open the login/sign-up page.\n3. Visually look at for the presence of a clear, friendly caption explaining why an account is required and what benefits it unlocks.\n4. Make sure that non-account holders are guided clearly.",
         expected:
           "Clear, professional onboarding copy explains sign-in requirements and benefits to the user.",
         originalRef: "Introduction",
@@ -3519,7 +3521,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Consider letting people link an existing account to Sign in with Apple.When you support this type of linking, people can get the convenience of using Sign in with Apple while maintaining access to the information in an account they've already set up. You can offer account linking before or after people sign into their existing account. For example:\n - If people share an email address through Sign in with Apple and it matches the address in an existing account, you can suggest that they link Sign in with Apple to that account.\n - If people used an existing username and password to sign in, you can display an account-linking suggestion in their account's settings view or another logical place",
         steps:
-          "1. Try signing in with an existing traditional email/password account.\n2. Navigate to account settings or link suggestions dashboard.\n3. Verify if an option to link with Apple ID is presented. Check if app suggests linking if the Apple ID email matches an existing account.",
+          "1. Open the app.\n2. Try signing in with an existing traditional email/password account.\n3. Navigate to account settings or link suggestions dashboard.\n4. Check that if an option to link with Apple ID is presented. Check if app suggests linking if the Apple ID email matches an existing account.",
         expected:
           "Users can link traditional credentials to Sign in with Apple cleanly for subsequent secure entries.",
         originalRef: "Introduction",
@@ -3531,7 +3533,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "As soon as Sign in with Apple completes, welcome people to their new account.Help people use their new account right away; don't delay the experience by asking for information that isn't required.",
         steps:
-          "1. Complete the Sign in with Apple flow within the app.\n2. Verify that the user is immediately welcomed and redirected to standard app features without unnecessary post-registration fields or screens.",
+          "1. Open the app.\n2. Complete the Sign in with Apple flow within the app.\n3. Check that that the user is immediately welcomed and redirected to standard app features without unnecessary post-registration fields or screens.",
         expected:
           "The app welcomes the user immediately after sign-in without forcing them through extra non-essential configuration workflows.",
         originalRef: "Data Management",
@@ -3543,7 +3545,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Clarify whether additional data is required or just recommended.If the data is legally or contractually required — such as an agreement to terms of service, country of residence, birth date, or information required by a country's real-identity laws — make sure people understand that they must supply the additional information to complete the setup of their account. If additional data isn't required, but can improve the user experience, make sure people know the request is optional and help them understand the benefits of providing the information.",
         steps:
-          "1. Trigger any user profile expansion or data collection screen.\n2. Verify that legally or contractually required inputs are clearly labeled as mandatory.\n3. Verify optional inputs are explicitly identified as optional with clear descriptions of their premium benefits.",
+          "1. Open the app.\n2. Trigger any user profile expansion or data collection screen.\n3. Check that that legally or contractually required inputs are clearly labeled as mandatory.\n4. Check that optional inputs are explicitly identified as optional with clear descriptions of their premium benefits.",
         expected:
           "Optional versus mandatory user data entry requirements are clearly and explicitly distinguished.",
         originalRef: "Data Management",
@@ -3555,7 +3557,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Don't ask people to supply a password. A key benefit of Sign in with Apple is that people don't have to create and memorize additional passwords. Unless people have stopped using Sign in with Apple, don't ask for a password.",
         steps:
-          "1. Review the account settings page and profile setup workflow for Apple Sign-in users.\n2. Confirm that they are not prompted or coerced to define a password unless explicitly decoupling or deleting their Apple link.",
+          "1. Open the app.\n2. Look at the account settings page and profile setup workflow for Apple Sign-in users.\n3. Check that that they are not prompted or coerced to define a password unless explicitly decoupling or deleting their Apple link.",
         expected:
           "Password entry or creation fields are omitted entirely for active Apple Sign-in active sessions.",
         originalRef: "Data Management",
@@ -3567,7 +3569,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Avoid asking for a personal email address when people supply a private relay address.Using Sign in with Apple, people can choose to share a private relay address that automatically forwards messages to their verified personal email account. It's essential to respect this choice and avoid overriding it by asking for a personal email address. If you present customer service, retail, or other experiences that request identification via email address, you can:\n - Make sure that people can view their private relay address in your app or website\n - Direct people to Settings > Apple ID > Password & Security > Apps using Apple ID to retrieve their private relay address\n - Use other identifying values, like an order number or phone number collected as part of a purchase",
         steps:
-          "1. Register/sign in using Apple Sign-In with private email relay active.\n2. Check for form requests that insist on entering a personal/unlocked email address.\n3. Verify that the app displays the relay address natively or guides users to Apple Settings if they need to copy it.",
+          "1. Open the app.\n2. Register/sign in using Apple Sign-In with private email relay active.\n3. Check for form requests that insist on entering a personal/unlocked email address.\n4. Check that that the app displays the relay address natively or guides users to Apple Settings if they need to copy it.",
         expected:
           "Private relay email preferences are fully respected without coercive prompts to reveal real/personal email addresses.",
         originalRef: "Data Management",
@@ -3579,7 +3581,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Give people a chance to engage with your app before asking for optional data.As people use your app, you can help them discover places where they can benefit from sharing more information with you. For example, you might suggest that they provide a contact phone number if they want real-time text updates or social network information if they want to play games with friends. If people choose not to provide optional information, don't prevent them from accessing their account or using all the features of your app.",
         steps:
-          "1. Navigate the primary app features without filling optional details.\n2. Verify that refusal to provide optional inputs (e.g. phone number, social sync) does not terminate user sessions or restrict access to core screens.",
+          "1. Open the app.\n2. Navigate the primary app features without filling optional details.\n3. Check that that refusal to provide optional inputs (e.g. phone number, social sync) does not terminate user sessions or restrict access to core screens.",
         expected:
           "Optional details are requested progressively over time, and refusal does not restrict standard functionality.",
         originalRef: "Data Management",
@@ -3591,7 +3593,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Be transparent about the data you collect.People value knowing how you use the data that they share with you. One way you can be transparent is to welcome people by using the name or email address they shared. Doing this helps establish how you use this information and, for a relay address, shows people where to find it in the future. If you don't display all the data that people provide, they are likely to wonder why you asked for it.",
         steps:
-          "1. Inspect the profile dashboard, welcome screens, and account settings for Apple-provided data.\n2. Confirm that user's shared name/email is used directly, or clearly accounted for, ensuring full transparency.",
+          "1. Open the app.\n2. Visually look at the profile dashboard, welcome screens, and account settings for Apple-provided data.\n3. Check that that user's shared name/email is used directly, or clearly accounted for, ensuring full transparency.",
         expected:
           "All requested/provided user data is displayed transparently to make purposes clear.",
         originalRef: "Data Management",
@@ -3603,7 +3605,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Prominently display a Sign in with Apple button/indicator. Make a Sign in with Apple button no smaller than other sign-in buttons, and avoid making people scroll to see the button.",
         steps:
-          "1. Inspect the login/onboarding view of the app.\n2. Compare the Sign in with Apple button size and visual weight with other third-party login buttons (Google, Facebook, etc.).\n3. Verify that the button is immediately visible without needing the user to scroll down.",
+          "1. Open the app.\n2. Visually look at the login/onboarding view of the app.\n3. Compare the Sign in with Apple button size and visual weight with other third-party login buttons (Google, Facebook, etc.).\n4. Check that that the button is immediately visible without needing the user to scroll down.",
         expected:
           "The button is prominent, matches or exceeds other login alternatives in size, and is visible above the fold.",
         originalRef: "Buttons",
@@ -3615,7 +3617,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "The following approved button titles must be used: 'Sign in with Apple', 'Sign up with Apple', and 'Continue with Apple'. (Available for iOS, macOS, tvOS, and web)",
         steps:
-          "1. Examine the labels on all Sign in with Apple buttons in the app.\n2. Verify that they match official approved layouts: 'Sign in with Apple', 'Sign up with Apple', or 'Continue with Apple' exactly.",
+          "1. Open the app.\n2. Carefully look at the labels on all Sign in with Apple buttons in the app.\n3. Check that that they match official approved layouts: 'Sign in with Apple', 'Sign up with Apple', or 'Continue with Apple' exactly.",
         expected:
           "Buttons exclusively use Apple-approved titles with no custom branding or altered text.",
         originalRef: "Buttons",
@@ -3627,7 +3629,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "For watchOS, ensure that the system-provided single title is used: 'Sign in'.",
         steps:
-          "1. For watchOS builds, check the Apple ID authentication screens.\n2. Confirm the label is strictly 'Sign in' with the Apple logo.",
+          "1. Open the app.\n2. For watchOS builds, check the Apple ID authentication screens.\n3. Check that the label is strictly 'Sign in' with the Apple logo.",
         expected:
           "watchOS implementation correctly uses only the single 'Sign in' title variation.",
         originalRef: "Buttons",
@@ -3639,7 +3641,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "White Style compliance. Set white buttons only on dark or colored backgrounds that provide sufficient, high-contrast separation.",
         steps:
-          "1. Retrieve all screens featuring the White button variation.\n2. Verify they are situated over dark or highly colored backgrounds.\n3. Verify there is sufficient contrast so that the white body of the button stands out clearly.",
+          "1. Open the app.\n2. Retrieve all screens featuring the White button variation.\n3. Check that they are situated over dark or highly colored backgrounds.\n4. Check that there is sufficient contrast so that the white body of the button stands out clearly.",
         expected:
           "White buttons are correctly contrasted against dark/colored backdrops to prevent boundary melting.",
         originalRef: "Buttons",
@@ -3651,7 +3653,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "White with Outline Style compliance. Use this style on white or light-colored backgrounds that don't provide sufficient contrast with a solid white fill. Avoid using on dark/saturated backgrounds.",
         steps:
-          "1. Find all screens featuring the White with Outline button.\n2. Confirm they are resting on top of full-white or extremely light backgrounds.\n3. Make sure they are not placed on dark or deep-saturated colored backgrounds to prevent messy double outlines or excessive visual clutter.",
+          "1. Open the app.\n2. Find all screens featuring the White with Outline button.\n3. Check that they are resting on top of full-white or extremely light backgrounds.\n4. Make sure they are not placed on dark or deep-saturated colored backgrounds to prevent messy double outlines or excessive visual clutter.",
         expected:
           "White Outlined style is correctly locked to pale or white backgrounds, keeping borders clear and elegant.",
         originalRef: "Buttons",
@@ -3663,7 +3665,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Black Style compliance. Use this style on white or light-colored backgrounds that provide sufficient contrast; never use on black or matching dark backdrops.",
         steps:
-          "1. Locate screens using the solid Black style button.\n2. Confirm that the background is white or high-light colored, ensuring clear, crisp boundaries.\n3. Ensure this solid black button is never placed on black or dark slate backgrounds where it would blend in.",
+          "1. Open the app.\n2. Locate screens using the solid Black style button.\n3. Check that that the background is white or high-light colored, ensuring clear, crisp boundaries.\n4. Make sure that this solid black button is never placed on black or dark slate backgrounds where it would blend in.",
         expected:
           "Black button style is correctly displayed on high-contrast light backgrounds.",
         originalRef: "Buttons",
@@ -3675,7 +3677,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "watchOS button fill color compliance. Unlike the black Sign in with Apple button for other platforms, the watchOS button uses a system-defined dark gray appearance to contrast with the pure black background of Apple Watch.",
         steps:
-          "1. Check the button background color on Apple Watch.\n2. Verify that it uses system-defined solid dark charcoal/gray (not pure #000000 black or absolute white).\n3. Ensure there is visible contrast against the watch face’s default black OLED environment.",
+          "1. Open the app.\n2. Check the button background color on Apple Watch.\n3. Check that that it uses system-defined solid dark charcoal/gray (not pure #000000 black or absolute white).\n4. Make sure that there is visible contrast against the watch face’s default black OLED environment.",
         expected:
           "The watchOS button utilizes standard dark gray fill to retain separation over black watch backdrops.",
         originalRef: "Buttons",
@@ -3687,7 +3689,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Button Size and Corner Radius adjustment. By default, the button has rounded corners. In iOS, macOS, and the web, you can change the corner radius to produce square corners, rounded rectangles, or a pill-shaped button to match your app icon or overall UI styling.",
         steps:
-          "1. Match the corner radius of the Sign in with Apple button with other main actions in the app layout.\n2. Test changing the style from custom sharp square edges (0px) up to full capsule pill (22px or automatic rounded values).\n3. Verify the layout maintains clean button interior centering and padding throughout styling scale adjustments.",
+          "1. Open the app.\n2. Match the corner radius of the Sign in with Apple button with other main actions in the app layout.\n3. Try using changing the style from custom sharp square edges (0px) up to full capsule pill (22px or automatic rounded values).\n4. Check that the layout maintains clean button interior centering and padding throughout styling scale adjustments.",
         expected:
           "Button corner radius values match app styling guidelines safely (square, slightly rounded, or pill format).",
         originalRef: "Buttons",
@@ -3699,7 +3701,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Minimum button size and margin guidelines. Maintain standard sizing in iOS, macOS, and the web: a minimum width of 140pt (280px @2x), minimum height of 30pt (60px @2x), and a minimum margin around the button equal to 1/10 of the button's height.",
         steps:
-          "1. Query dimensions of the rendering Sign in with Apple button elements.\n2. Verify width does not drop below 140pt. Verify height does not drop below 30pt.\n3. Measure external margin/spacing, ensuring it is at least 1/10 of the button height (e.g., 4.4pt margin for 44pt height) to prevent text overlap.",
+          "1. Open the app.\n2. Query dimensions of the rendering Sign in with Apple button elements.\n3. Check that width does not drop below 140pt. Verify height does not drop below 30pt.\n4. Measure external margin/spacing, ensuring it is at least 1/10 of the button height (e.g., 4.4pt margin for 44pt height) to prevent text overlap.",
         expected:
           "The button respects the required 140pt width, 30pt height, and 1/10 height safety margin.",
         originalRef: "Buttons",
@@ -3711,7 +3713,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Logo Artwork custom design compliance. Use only official downloadable logo files, never use logo by itself as button, match height of logo to parent height, do not crop, do not add vertical padding, and do not recolor logo.",
         steps:
-          "1. Inspect custom buttons using independent logo vectors.\n2. Check that the Apple logo is always paired with appropriate standard CTA text (never standalone).\n3. Confirm the logo file matches button height, is never cropped/scaled unevenly, has no vertical padding, and maintains approved colors (black or white only).",
+          "1. Open the app.\n2. Visually look at custom buttons using independent logo vectors.\n3. Check that the Apple logo is always paired with appropriate standard CTA text (never standalone).\n4. Check that the logo file matches button height, is never cropped/scaled unevenly, has no vertical padding, and maintains approved colors (black or white only).",
         expected:
           "Apple logo branding rules are followed perfectly: no coloring, no lone logo buttons, and no vertical padding/cropping.",
         originalRef: "Buttons",
@@ -3723,7 +3725,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Left-Aligned Logo Button Proportions. For customized layout buttons, use the system font for the title. To look correct, the title's font size should be 43% of the button's height, or the button's height should be 233% of the title's font size, rounded to the nearest integer (e.g. 44pt height with 19pt font, 56pt height with 24pt font).",
         steps:
-          "1. Inspect custom left-aligned logo layouts.\n2. Measure font size against button height (should be ~43% of height or height is ~233% of font size).\n3. Verify proportions when height scales (e.g. 44px height operates with 19px font; 56px height operates with 24px font).",
+          "1. Open the app.\n2. Visually look at custom left-aligned logo layouts.\n3. Measure font size against button height (should be ~43% of height or height is ~233% of font size).\n4. Check that proportions when height scales (e.g. 44px height operates with 19px font; 56px height operates with 24px font).",
         expected:
           "The left-aligned button correctly pairs its height with a text size that matches the exact system 43% / 233% proportional standards.",
         originalRef: "Buttons",
@@ -3735,7 +3737,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Title Capitalization Style. All variants of the button title must preserve the capitalization style of the title: capitalize the first word—that is, Sign or Continue—and Apple; all other letters are lowercase. Do not capitalize every letter in the title.",
         steps:
-          "1. Inspect all Sign in with Apple buttons in the application.\n2. Confirm that capitalization is sentence-case or title-case matching: 'Sign in with Apple', 'Sign up with Apple', or 'Continue with Apple'.\n3. Verify that all-caps strings like 'SIGN IN WITH APPLE' are NOT used.",
+          "1. Open the app.\n2. Visually look at all Sign in with Apple buttons in the application.\n3. Check that that capitalization is sentence-case or title-case matching: 'Sign in with Apple', 'Sign up with Apple', or 'Continue with Apple'.\n4. Check that that all-caps strings like 'SIGN IN WITH APPLE' are NOT used.",
         expected:
           "Button capitalization follows approved Apple HIG casing (no ALL-CAPS styling permitted).",
         originalRef: "Buttons",
@@ -3747,7 +3749,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Vertical Alignment of Title and Logo inside Button. Keep the title and logo vertically aligned within the button. Vertically align the title to the middle of the button, then add the logo image, making sure its height matches the height of the button.",
         steps:
-          "1. Examine the visual alignment of the Apple logo and text label within the button body.\n2. Verify both elements share a precise vertical center line.\n3. Make sure neither element is offset or floating too high or low.",
+          "1. Open the app.\n2. Carefully look at the visual alignment of the Apple logo and text label within the button body.\n3. Check that both elements share a precise vertical center line.\n4. Make sure neither element is offset or floating too high or low.",
         expected:
           "Logo and title are perfectly vertically centered and aligned with the button middles.",
         originalRef: "Buttons",
@@ -3759,7 +3761,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Logo Insets for Horizontal Alignments. If you need to horizontally align the Apple logo with other authentication logos, you can inset the left side of the logo.",
         steps:
-          "1. Inspect multi-identity alignments (Google, Apple, Facebook).\n2. Verify the Apple logo can use subtle left padding/insets to ensure proportional alignment against competitor icons.\n3. Verify logo does not look unbalanced.",
+          "1. Open the app.\n2. Visually look at multi-identity alignments (Google, Apple, Facebook).\n3. Check that the Apple logo can use subtle left padding/insets to ensure proportional alignment against competitor icons.\n4. Check that logo does not look unbalanced.",
         expected:
           "Subtle logo left insets are used properly and maintain neat alignment structures with other login buttons.",
         originalRef: "Buttons",
@@ -3771,7 +3773,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Title to Right Edge Spacing. Maintain a minimum margin between the title and the right edge of the button. The margin should measure at least 8% of the button's width.",
         steps:
-          "1. Measure the padding space between the end of the text 'Apple' and the rightmost boundary of the button shape.\n2. Ensure this space is at least 8% of the button's total width (e.g., 16px for a 200px wide button).\n3. Confirm that the text is never clipped or too close to the boundary.",
+          "1. Open the app.\n2. Measure the padding space between the end of the text 'Apple' and the rightmost boundary of the button shape.\n3. Make sure that this space is at least 8% of the button's total width (e.g., 16px for a 200px wide button).\n4. Check that that the text is never clipped or too close to the boundary.",
         expected:
           "Title-to-right margin is at least 8% of the button's total width to protect the layout.",
         originalRef: "Buttons",
@@ -3783,7 +3785,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Locale-Specific Sizing and Safe Margins. Maintain the minimum button size and margin around the button. Be mindful that the button title may vary in length depending on the locale. Use standard values for guidance (140pt min width, 30pt height, 1/10 margin).",
         steps:
-          "1. Switch the system locale to a lang/region where translations have longer labels.\n2. Verify the button width scales appropriately without causing ellipsis or line breaks.\n3. Verify minimum 140pt width and 30pt height stay respected.",
+          "1. Open the app.\n2. Switch the system locale to a lang/region where translations have longer labels.\n3. Check that the button width scales appropriately without causing ellipsis or line breaks.\n4. Check that minimum 140pt width and 30pt height stay respected.",
         expected:
           "The button scales beautifully in all locales, respecting minimum dimensions and margins.",
         originalRef: "Buttons",
@@ -3795,7 +3797,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Logo-Only Buttons Padding & Aspect Ratio. Don't add horizontal padding to a logo-only image. A logo-only Sign in with Apple button always has a 1:1 aspect ratio, and the artwork already includes the correct padding on all sides.",
         steps:
-          "1. Locate any logo-only authentication icons/buttons.\n2. Verify the aspect ratio is exactly 1:1 (square, circle, or rounded square mask).\n3. Ensure no extra custom horizontal padding is added to the Apple-provided asset.",
+          "1. Open the app.\n2. Locate any logo-only authentication icons/buttons.\n3. Check that the aspect ratio is exactly 1:1 (square, circle, or rounded square mask).\n4. Make sure that no extra custom horizontal padding is added to the Apple-provided asset.",
         expected:
           "Logo-only button renders with exact 1:1 aspect ratio and standard default built-in padding.",
         originalRef: "Buttons",
@@ -3807,7 +3809,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Logo-Only Mask Shape Customization. Use a mask to change the default square shape of the logo-only image (e.g. rounded rect mask, no mask, or circular mask). Never crop the Apple-provided artwork to decrease its built-in padding or use the logo by itself, and avoid including additional padding.",
         steps:
-          "1. Inspect circular or custom logo-only buttons.\n2. Ensure the shape change is created using a mask (e.g. border-radius or clip-path) and not by cropping the core logo artwork.\n3. Verify the logo is never cropped to reduce its standard safety margin padding or used without its default container padding background.",
+          "1. Open the app.\n2. Visually look at circular or custom logo-only buttons.\n3. Make sure that the shape change is created using a mask (e.g. border-radius or clip-path) and not by cropping the core logo artwork.\n4. Check that the logo is never cropped to reduce its standard safety margin padding or used without its default container padding background.",
         expected:
           "Masking is applied correctly to adjust the outer shape of logo-only buttons without cropping the artwork.",
         originalRef: "Buttons",
@@ -3819,7 +3821,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Logo-Only Safe Outer Margins. Maintain a minimum margin around the button. The margin should measure at least 1/10 of the button's height.",
         steps:
-          "1. Review spacing surrounding any logo-only sign-in icons in the layout.\n2. Confirm the margin is at least 1/10th of the button's height to prevent overlapping adjacent assets.",
+          "1. Open the app.\n2. Look at spacing surrounding any logo-only sign-in icons in the layout.\n3. Check that the margin is at least 1/10th of the button's height to prevent overlapping adjacent assets.",
         expected:
           "Logo-only buttons maintain a reliable outer border margin equal to at least 1/10th of their height.",
         originalRef: "Buttons",
@@ -3831,7 +3833,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Subscriptions Visibility in Shop. Check that subscriptions are visible in the shop, and verify that the backend/server connection is verified if they fail to load.",
         steps:
-          "1. Navigate to the shop screen.\n2. Confirm subscription tiers and products are displayed.\n3. Verify backend communication state.",
+          "1. Open the app.\n2. Navigate to the shop screen.\n3. Check that subscription tiers and products are displayed.\n4. Check that backend communication state.",
         expected:
           "Subscriptions load and display properly with valid names and prices.",
         originalRef: "Display & Visibility",
@@ -3843,7 +3845,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Purchasable Subscriptions. Confirm that the subscription purchase can be successfully completed and the user-facing entitlement/time/products are immediately delivered.",
         steps:
-          "1. Select a subscription package and tap Purchase.\n2. Complete the Sandbox or StoreKit transaction.\n3. Verify subscription status changes to Active and premium features are unlocked.",
+          "1. Open the app.\n2. Select a subscription package and tap Purchase.\n3. Complete the Sandbox or StoreKit transaction.\n4. Check that subscription status changes to Active and premium features are unlocked.",
         expected:
           "Premium entitlement and subscription expiration date / time are successfully delivered.",
         originalRef: "Purchase Flow",
@@ -3855,7 +3857,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Purchase Restoration. Validate that previously purchased subscriptions can be restored, especially within 30 minutes, or when re-installing or running on another device.",
         steps:
-          "1. Under a fresh installation or secondary device, navigate to the checkout or shop screen.\n2. Tap the 'Restore Purchases' button using the same Apple ID.\n3. Confirm existing subscriptions are restored.",
+          "1. Open the app.\n2. Under a fresh installation or secondary device, navigate to the checkout or shop screen.\n3. Tap the 'Restore Purchases' button using the same Apple ID.\n4. Check that existing subscriptions are restored.",
         expected:
           "Purchases are seamlessly restored without requiring re-payment.",
         originalRef: "Purchase Flow",
@@ -3867,7 +3869,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Required Subscription Information & Price Transparency. Check that all critical specification details are prominently displayed in the purchase view without extra steps.",
         steps:
-          "1. Examine the checkout / paywall screen. Verify that the Subscription Name, Duration, and full Subscription Price are clearly legible without clicking additional buttons.",
+          "1. Open the app.\n2. Carefully look at the checkout / paywall screen. Verify that the Subscription Name, Duration, and full Subscription Price are clearly legible without clicking additional buttons.",
         expected:
           "Plan details, pricing frequency, and duration are clearly shown before initiating IAP.",
         originalRef: "Disclosures",
@@ -3879,7 +3881,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Auto-Renewal & Renewal Charges Disclosure. Review the presence of legally required disclosures regarding automatic billing and charge timing.",
         steps:
-          "1. Read the subscription text or policy on the paywall screen.\n2. Verify disclosure that it renews automatically unless turned off at least 24h prior to current period ending.\n3. Verify disclosure that account is charged within 24h before end of period.",
+          "1. Open the app.\n2. Read the subscription text or policy on the paywall screen.\n3. Check that disclosure that it renews automatically unless turned off at least 24h prior to current period ending.\n4. Check that disclosure that account is charged within 24h before end of period.",
         expected:
           "Both auto-renewal mechanism and 24-hour billing disclosure are visible during purchasing.",
         originalRef: "Disclosures",
@@ -3891,7 +3893,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Subscription Management & Disclaimers (Free Trial/Links). Verify management instructions, terms of use, privacy policy, and free trial forfeiture warnings are present.",
         steps:
-          "1. Confirm the paywall states users can manage subscriptions in Apple Account Settings.\n2. Look for explicit terms of use (EULA) and privacy policy links.\n3. Verify statement that unused free trial portions are forfeited upon subscription purchase.",
+          "1. Open the app.\n2. Check that the paywall states users can manage subscriptions in Apple Account Settings.\n3. Look for explicit terms of use (EULA) and privacy policy links.\n4. Check that statement that unused free trial portions are forfeited upon subscription purchase.",
         expected:
           "Links and management guidelines are easily readable directly on the paywall layout.",
         originalRef: "Disclosures",
@@ -3903,7 +3905,7 @@ export const ALL_DATA: Record<string, PlatformData> = {
         title:
           "Promoted In-App Purchases (IAP) & Policy Visibility. Confirm the subscription policy displays before initiating the App Store purchase flow.",
         steps:
-          "1. Trigger an in-app purchase scenario directly or simulate a promoted App Store launch.\n2. Verify that the subscription policy pop-up or screen is displayed first.",
+          "1. Open the app.\n2. Trigger an in-app purchase scenario directly or simulate a promoted App Store launch.\n3. Check that that the subscription policy pop-up or screen is displayed first.",
         expected:
           "Policy details are shown immediately before launching native checkout.",
         originalRef: "Promo & Flow",
