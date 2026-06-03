@@ -24,6 +24,7 @@ interface AnalyzerViewProps {
     mandatoryResults: iOSKeyResult[],
     nonMandatoryResults: iOSKeyResult[]
   ) => void;
+  showToast?: (msg: string) => void;
 }
 
 interface iOSKeyResult {
@@ -402,12 +403,13 @@ function jsToXmlPlist(val: any, indent = ''): string {
   return `${indent}<string>${val}</string>`;
 }
 
-export default function AnalyzerView({ platform, activeSession, onSyncPlistResults }: AnalyzerViewProps) {
+export default function AnalyzerView({ platform, activeSession, onSyncPlistResults, showToast }: AnalyzerViewProps) {
   const [activeTab, setActiveTab] = useState<'ios' | 'android'>(platform);
   const [rawText, setRawText] = useState<string>('');
   const [dragActive, setDragActive] = useState<boolean>(false);
   const [analysisDone, setAnalysisDone] = useState<boolean>(false);
   const [copiedSample, setCopiedSample] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   // Analysis result states
   const [iosMandatory, setIosMandatory] = useState<iOSKeyResult[]>([]);
@@ -423,6 +425,7 @@ export default function AnalyzerView({ platform, activeSession, onSyncPlistResul
 
   // Handle loading and analysis when activeTab changes
   useEffect(() => {
+    setErrorMessage(null);
     const saved = localStorage.getItem(`compliance-hub-analyzer-rawText-${activeTab}`);
     if (saved) {
       setRawText(saved);
@@ -466,6 +469,29 @@ export default function AnalyzerView({ platform, activeSession, onSyncPlistResul
   };
 
   const handleFile = (file: File) => {
+    setErrorMessage(null);
+    const fileName = file.name.toLowerCase();
+
+    if (activeTab === 'ios') {
+      if (!fileName.endsWith('.plist')) {
+        const errorMsg = 'Invalid file format. iOS Diagnostics only accepts files with a .plist extension.';
+        setErrorMessage(errorMsg);
+        if (showToast) {
+          showToast(errorMsg);
+        }
+        return;
+      }
+    } else if (activeTab === 'android') {
+      if (!fileName.endsWith('.xml')) {
+        const errorMsg = 'Invalid file format. Android Diagnostics only accepts XML configuration files (AndroidManifest.xml).';
+        setErrorMessage(errorMsg);
+        if (showToast) {
+          showToast(errorMsg);
+        }
+        return;
+      }
+    }
+
     const reader = new FileReader();
     reader.onload = (e) => {
       const buffer = e.target?.result as ArrayBuffer;
@@ -765,6 +791,7 @@ ${body}
   const handleClear = () => {
     localStorage.removeItem(`compliance-hub-analyzer-rawText-${activeTab}`);
     setRawText('');
+    setErrorMessage(null);
     setAnalysisDone(false);
     setIosMandatory([]);
     setIosNonMandatory([]);
@@ -835,7 +862,7 @@ ${body}
               <input
                 type="file"
                 id="file-upload"
-                accept={activeTab === 'ios' ? '.plist,text/xml' : '.xml,text/xml'}
+                accept={activeTab === 'ios' ? '.plist' : '.xml'}
                 onChange={handleFileInput}
                 className="hidden"
               />
@@ -852,6 +879,14 @@ ${body}
               </label>
             </div>
 
+            {/* ERROR DISPLAY */}
+            {errorMessage && (
+              <div className="p-3.5 bg-red-500/10 border border-red-500/20 text-red-500 dark:text-red-400 rounded-xl flex items-start gap-2.5 text-xs font-medium font-sans animate-in fade-in zoom-in-95 duration-200">
+                <XCircle size={16} className="shrink-0 mt-0.5" />
+                <span className="leading-normal">{errorMessage}</span>
+              </div>
+            )}
+
             {/* WORKSPACE ACTIONS */}
             <div className="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-[var(--border)]/45">
               <div>
@@ -863,46 +898,6 @@ ${body}
                     Clear Workspace
                   </button>
                 )}
-              </div>
-
-              {/* Instant Load Templates (Fulfills sandbox-friendly testability) */}
-              <div className="space-y-1.5">
-                <span className="block text-[8px] font-mono font-bold text-indigo-400 tracking-wider uppercase text-right">
-                  ⚡ Load Test Templates
-                </span>
-                <div className="flex flex-wrap gap-1.5 justify-end">
-                  {activeTab === 'ios' ? (
-                    <>
-                      <button
-                        onClick={loadValidIossample}
-                        className="px-2 py-1 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-500 dark:text-emerald-400 border border-emerald-500/20 rounded text-[9px] font-mono transition cursor-pointer"
-                      >
-                        Valid Plist
-                      </button>
-                      <button
-                        onClick={loadMissingIossample}
-                        className="px-2 py-1 bg-rose-500/10 hover:bg-rose-500/20 text-rose-500 dark:text-rose-400 border border-rose-500/20 rounded text-[9px] font-mono transition cursor-pointer"
-                      >
-                        Missing Keys
-                      </button>
-                    </>
-                  ) : (
-                    <>
-                      <button
-                        onClick={loadDangerousAndroidSample}
-                        className="px-2 py-1 bg-amber-500/10 hover:bg-amber-500/20 text-amber-550 dark:text-amber-400 border border-amber-500/20 rounded text-[9px] font-mono transition cursor-pointer"
-                      >
-                        With Warnings
-                      </button>
-                      <button
-                        onClick={loadCleanAndroidSample}
-                        className="px-2 py-1 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-500 dark:text-emerald-400 border border-emerald-500/20 rounded text-[9px] font-mono transition cursor-pointer"
-                      >
-                        Clean Manifest
-                      </button>
-                    </>
-                  )}
-                </div>
               </div>
             </div>
 

@@ -536,6 +536,7 @@ export default function App() {
               platform={state.platform}
               activeSession={activeSession}
               onSyncPlistResults={handleSyncPlistResults}
+              showToast={showToast}
             />
           )}
           {activePage === "guidelines" && (
