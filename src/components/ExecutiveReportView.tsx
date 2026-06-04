@@ -389,7 +389,7 @@ export default function ExecutiveReportView({
           </div>
           
           <div className="space-y-6">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 rounded-xl border border-[var(--border)] bg-white dark:bg-black/20 shadow-sm print-no-split">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 rounded-xl border border-[var(--border)] bg-[var(--surface2)] shadow-sm print-no-split">
               <div>
                 <p className="text-[10px] font-mono text-[var(--text-muted)] uppercase tracking-wider">Assessed Posture</p>
                 <h4 className="text-lg font-bold text-[var(--text-highlight)] mt-0.5 leading-tight">{posture.status}</h4>
