@@ -1330,16 +1330,18 @@ ${body}
                     <button
                       key={tab}
                       onClick={() => setCompareDiffTab(tab)}
-                      className={`flex-1 text-[10px] font-bold uppercase py-2 rounded-lg transition-all cursor-pointer ${
+                      className={`flex-1 flex items-center justify-center px-1.5 py-2 rounded-lg text-[10.5px] font-bold uppercase transition-all duration-200 cursor-pointer whitespace-nowrap min-w-0 ${
                         compareDiffTab === tab
                           ? 'bg-indigo-600 text-white shadow'
                           : 'text-[var(--text-muted)] hover:text-[var(--text-highlight)]'
                       }`}
                     >
-                      {tab === 'all' && 'All differences'}
-                      {tab === 'added' && `Added (+${addedPermissions.length})`}
-                      {tab === 'removed' && `Removed (-${removedPermissions.length})`}
-                      {tab === 'common' && `Common (${commonPermissions.length})`}
+                      <span>
+                        {tab === 'all' && 'All differences'}
+                        {tab === 'added' && `Added (+${addedPermissions.length})`}
+                        {tab === 'removed' && `Removed (-${removedPermissions.length})`}
+                        {tab === 'common' && `Common (${commonPermissions.length})`}
+                      </span>
                     </button>
                   ))}
                 </div>

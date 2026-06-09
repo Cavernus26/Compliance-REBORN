@@ -21,7 +21,6 @@ import {
   Sun,
   ShieldCheck,
 } from "lucide-react";
-import { Analytics } from '@vercel/analytics/react';
 import { motion, AnimatePresence } from "motion/react";
 import { ALL_DATA, IOS_ICONS, AND_ICONS } from "./data";
 import { AppState, Session, TestCase, ExecutionMap, Guideline } from "./types";
@@ -467,16 +466,10 @@ export default function App() {
               Platform
             </span>
             <span className="text-sm text-[var(--text-highlight)]">
-              {state.platform === "ios" ? "ios-production" : "android-production"}
+              {state.platform === "ios" ? "ios" : "android"}
             </span>
           </div>
           <div className="flex items-center gap-4">
-            <div className="flex items-center gap-2 px-3 py-1.5 bg-green-500/10 border border-green-500/20 rounded-full">
-              <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-              <span className="text-[11px] font-bold text-green-500 uppercase tracking-wider">
-                Live Preview
-              </span>
-            </div>
           </div>
         </nav>
 
@@ -1151,7 +1144,7 @@ function ExecuteView({
         </div>
         <div className="text-right">
           <p className="text-[10px] font-bold text-[var(--text-muted)] uppercase tracking-widest mb-1">
-            Complexity
+            Test suite size
           </p>
           <p className="text-xs text-[var(--text-highlight)] font-mono">
             {filtered.length} active test cases
@@ -5829,7 +5822,6 @@ function GuidelinesView({ state, setState, db, icons, showToast }: any) {
           );
         })}
       </div>
-      <Analytics />
     </div>
   );
 }
