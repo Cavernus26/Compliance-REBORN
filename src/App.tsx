@@ -21,6 +21,7 @@ import {
   Sun,
   ShieldCheck,
 } from "lucide-react";
+import { Analytics } from '@vercel/analytics/react';
 import { motion, AnimatePresence } from "motion/react";
 import { ALL_DATA, IOS_ICONS, AND_ICONS } from "./data";
 import { AppState, Session, TestCase, ExecutionMap, Guideline } from "./types";
@@ -5828,6 +5829,7 @@ function GuidelinesView({ state, setState, db, icons, showToast }: any) {
           );
         })}
       </div>
+      <Analytics />
     </div>
   );
 }
