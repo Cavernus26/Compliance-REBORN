@@ -14,7 +14,10 @@ import {
   ShieldCheck,
   Check,
   Copy,
-  FolderOpen
+  FolderOpen,
+  GitCompare,
+  Plus,
+  Minus
 } from 'lucide-react';
 
 interface AnalyzerViewProps {
@@ -404,7 +407,7 @@ function jsToXmlPlist(val: any, indent = ''): string {
 }
 
 export default function AnalyzerView({ platform, activeSession, onSyncPlistResults, showToast }: AnalyzerViewProps) {
-  const [activeTab, setActiveTab] = useState<'ios' | 'android'>(platform);
+  const [activeTab, setActiveTab] = useState<'ios' | 'android' | 'compare'>(platform);
   const [rawText, setRawText] = useState<string>('');
   const [dragActive, setDragActive] = useState<boolean>(false);
   const [analysisDone, setAnalysisDone] = useState<boolean>(false);
@@ -418,18 +421,35 @@ export default function AnalyzerView({ platform, activeSession, onSyncPlistResul
   const [androidDangerous, setAndroidDangerous] = useState<Array<{ permission: string; desc: string; isPresent: boolean }>>([]);
   const [manifestPermissions, setManifestPermissions] = useState<string[]>([]);
 
+  // Comparison system states (Android permissions comparison)
+  const [compareManifestAPermissions, setCompareManifestAPermissions] = useState<string[] | null>(null);
+  const [compareAFileName, setCompareAFileName] = useState<string | null>(null);
+  const [compareRawTextA, setCompareRawTextA] = useState<string>('');
+  const [compareDragActiveA, setCompareDragActiveA] = useState<boolean>(false);
+
+  const [compareManifestPermissions, setCompareManifestPermissions] = useState<string[] | null>(null);
+  const [compareFileName, setCompareFileName] = useState<string | null>(null);
+  const [compareRawText, setCompareRawText] = useState<string>('');
+  const [compareDragActive, setCompareDragActive] = useState<boolean>(false);
+  const [compareDiffTab, setCompareDiffTab] = useState<'all' | 'added' | 'removed' | 'common'>('all');
+
   // Automatically sync with platform selection changes
   useEffect(() => {
-    setActiveTab(platform);
+    if (platform === 'ios' || platform === 'android') {
+      setActiveTab(platform);
+    }
   }, [platform]);
 
   // Handle loading and analysis when activeTab changes
   useEffect(() => {
     setErrorMessage(null);
+    if (activeTab === 'compare') {
+      return; // Do not reset or load normal files when opening comparison
+    }
     const saved = localStorage.getItem(`compliance-hub-analyzer-rawText-${activeTab}`);
     if (saved) {
       setRawText(saved);
-      analyzeContent(saved, activeTab);
+      analyzeContent(saved, activeTab as 'ios' | 'android');
     } else {
       setRawText('');
       setAnalysisDone(false);
@@ -798,7 +818,236 @@ ${body}
     setIosPermissions([]);
     setAndroidDangerous([]);
     setManifestPermissions([]);
+    setCompareManifestPermissions(null);
+    setCompareFileName(null);
+    setCompareRawText('');
   };
+
+  const handleCompareADrag = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (e.type === "dragenter" || e.type === "dragover") {
+      setCompareDragActiveA(true);
+    } else if (e.type === "dragleave") {
+      setCompareDragActiveA(false);
+    }
+  };
+
+  const handleCompareADrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setCompareDragActiveA(false);
+
+    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+      handleCompareAFile(e.dataTransfer.files[0]);
+    }
+  };
+
+  const handleCompareAFileInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      handleCompareAFile(e.target.files[0]);
+    }
+  };
+
+  const handleCompareAFile = (file: File) => {
+    const fileName = file.name.toLowerCase();
+    if (!fileName.endsWith('.xml')) {
+      const errorMsg = 'Invalid configuration file. Manifest A must be an AndroidManifest.xml file.';
+      if (showToast) {
+        showToast(errorMsg);
+      }
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const text = e.target?.result as string;
+      if (!text) return;
+
+      const scannedPerms: string[] = [];
+      const usesPermRegex = /<uses-permission[^>]*android:name=["']([^"']+)["']/g;
+      let match;
+      while ((match = usesPermRegex.exec(text)) !== null) {
+        scannedPerms.push(match[1]);
+      }
+
+      if (scannedPerms.length === 0) {
+        const rawMatches = text.match(/android\.permission\.[A-Z_]+/g);
+        if (rawMatches) {
+          scannedPerms.push(...Array.from(new Set(rawMatches)));
+        }
+      }
+
+      setCompareManifestAPermissions(scannedPerms);
+      setCompareAFileName(file.name);
+      setCompareRawTextA(text);
+
+      if (showToast) {
+        showToast(`Loaded Manifest A: ${file.name}`);
+      }
+    };
+    reader.readAsText(file);
+  };
+
+  const handleCompareDrag = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (e.type === "dragenter" || e.type === "dragover") {
+      setCompareDragActive(true);
+    } else if (e.type === "dragleave") {
+      setCompareDragActive(false);
+    }
+  };
+
+  const handleCompareDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setCompareDragActive(false);
+
+    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+      handleCompareFile(e.dataTransfer.files[0]);
+    }
+  };
+
+  const handleCompareFileInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      handleCompareFile(e.target.files[0]);
+    }
+  };
+
+  const handleCompareFile = (file: File) => {
+    const fileName = file.name.toLowerCase();
+    if (!fileName.endsWith('.xml')) {
+      const errorMsg = 'Invalid comparison file format. Manifest B must be an AndroidManifest.xml file.';
+      if (showToast) {
+        showToast(errorMsg);
+      }
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const text = e.target?.result as string;
+      if (!text) return;
+
+      const scannedPerms: string[] = [];
+      const usesPermRegex = /<uses-permission[^>]*android:name=["']([^"']+)["']/g;
+      let match;
+      while ((match = usesPermRegex.exec(text)) !== null) {
+        scannedPerms.push(match[1]);
+      }
+
+      if (scannedPerms.length === 0) {
+        const rawMatches = text.match(/android\.permission\.[A-Z_]+/g);
+        if (rawMatches) {
+          scannedPerms.push(...Array.from(new Set(rawMatches)));
+        }
+      }
+
+      setCompareManifestPermissions(scannedPerms);
+      setCompareFileName(file.name);
+      setCompareRawText(text);
+
+      if (showToast) {
+        showToast(`Loaded Manifest B: ${file.name}`);
+      }
+    };
+    reader.readAsText(file);
+  };
+
+  const loadComparisonDemo = () => {
+    const v1ManifestXml = `<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.cleancompliance">
+
+    <!-- Only minimal non-dangerous permissions specified -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+
+    <application
+        android:allowBackup="true"
+        android:label="StrictSecure">
+        <activity android:name=".MainActivity" android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
+    </application>
+</manifest>`;
+
+    const v5ManifestXml = `<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.cleancompliance.v5">
+
+    <!-- Benign permissions preserved -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    
+    <!-- ADDED PERMISSIONS (Version 5 specific security checks) -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+
+    <!-- REMOVED PERMISSIONS (VIBRATE was removed in this track) -->
+
+    <application
+        android:allowBackup="true"
+        android:label="StrictSecure v5">
+        <activity android:name=".MainActivity" android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
+    </application>
+</manifest>`;
+
+    const demoAPerms = [
+      "android.permission.INTERNET",
+      "android.permission.ACCESS_NETWORK_STATE",
+      "android.permission.VIBRATE"
+    ];
+
+    const demoBPerms = [
+      "android.permission.INTERNET",
+      "android.permission.ACCESS_NETWORK_STATE",
+      "android.permission.ACCESS_FINE_LOCATION",
+      "android.permission.RECORD_AUDIO",
+      "android.permission.BLUETOOTH_CONNECT"
+    ];
+
+    setCompareManifestAPermissions(demoAPerms);
+    setCompareAFileName("AndroidManifest_v1_clean.xml");
+    setCompareRawTextA(v1ManifestXml);
+
+    setCompareManifestPermissions(demoBPerms);
+    setCompareFileName("AndroidManifest_v5_demo.xml");
+    setCompareRawText(v5ManifestXml);
+
+    if (showToast) {
+      showToast("Loaded Game V1 vs V5 Comparison Demo!");
+    }
+  };
+
+  const effectiveManifestAPermissions = compareManifestAPermissions !== null 
+    ? compareManifestAPermissions 
+    : (manifestPermissions.length > 0 ? manifestPermissions : null);
+
+  const effectiveAFileName = compareAFileName !== null 
+    ? compareAFileName 
+    : (manifestPermissions.length > 0 ? "Active Manifest (A)" : null);
+
+  const addedPermissions = compareManifestPermissions && effectiveManifestAPermissions
+    ? compareManifestPermissions.filter(p => !effectiveManifestAPermissions.includes(p)) 
+    : [];
+
+  const removedPermissions = compareManifestPermissions && effectiveManifestAPermissions
+    ? effectiveManifestAPermissions.filter(p => !compareManifestPermissions.includes(p)) 
+    : [];
+
+  const commonPermissions = compareManifestPermissions && effectiveManifestAPermissions
+    ? effectiveManifestAPermissions.filter(p => compareManifestPermissions.includes(p)) 
+    : [];
 
   return (
     <div className="space-y-8 animate-in fade-in duration-300">
@@ -818,12 +1067,12 @@ ${body}
       </div>
 
       {/* Tabs Switcher */}
-      <div className="flex bg-[var(--surface2)]/50 p-1 rounded-xl border border-[var(--border)] max-w-md">
+      <div className="flex bg-[var(--surface2)]/50 p-1 rounded-xl border border-[var(--border)] max-w-xl gap-1">
         <button
           onClick={() => {
             setActiveTab('ios');
           }}
-          className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg text-xs font-semibold tracking-wider uppercase transition-all duration-200 ${activeTab === 'ios' ? 'bg-indigo-600 text-white shadow' : 'text-[var(--text-muted)] hover:text-[var(--text-highlight)]'}`}
+          className={`flex-1 flex items-center justify-center gap-2 py-2.5 px-3 rounded-lg text-[11px] font-bold tracking-wider uppercase transition-all duration-200 cursor-pointer ${activeTab === 'ios' ? 'bg-indigo-600 text-white shadow' : 'text-[var(--text-muted)] hover:text-[var(--text-highlight)]'}`}
         >
           🍎 iOS Info.plist
         </button>
@@ -831,14 +1080,394 @@ ${body}
           onClick={() => {
             setActiveTab('android');
           }}
-          className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg text-xs font-semibold tracking-wider uppercase transition-all duration-200 ${activeTab === 'android' ? 'bg-indigo-600 text-white shadow' : 'text-[var(--text-muted)] hover:text-[var(--text-highlight)]'}`}
+          className={`flex-1 flex items-center justify-center gap-2 py-2.5 px-3 rounded-lg text-[11px] font-bold tracking-wider uppercase transition-all duration-200 cursor-pointer ${activeTab === 'android' ? 'bg-indigo-600 text-white shadow' : 'text-[var(--text-muted)] hover:text-[var(--text-highlight)]'}`}
         >
           🤖 Android Manifest
         </button>
+        <button
+          onClick={() => {
+            setActiveTab('compare');
+          }}
+          className={`flex-1 flex items-center justify-center gap-2 py-2.5 px-3 rounded-lg text-[11px] font-bold tracking-wider uppercase transition-all duration-200 cursor-pointer ${activeTab === 'compare' ? 'bg-indigo-600 text-white shadow' : 'text-[var(--text-muted)] hover:text-[var(--text-highlight)]'}`}
+        >
+          <GitCompare size={13} className={activeTab === 'compare' ? 'text-white' : 'text-indigo-450 dark:text-indigo-400'} />
+          <span>Compare Manifests</span>
+        </button>
       </div>
 
-      {/* MAIN LAYOUT */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+      {/* MAIN COMPARISON WORKSPACE */}
+      {activeTab === 'compare' ? (
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start animate-in fade-in duration-300">
+          {/* COMPARISON WORKSPACE (Left Side) */}
+          <div className="lg:col-span-12 xl:col-span-5 space-y-6">
+            <div className="bg-[var(--surface)] border border-[var(--border)] rounded-2xl p-6 space-y-6 shadow-sm">
+              <div>
+                <h3 className="text-sm font-bold uppercase tracking-wider text-[var(--text-highlight)] flex items-center gap-2">
+                  <GitCompare className="text-indigo-400" size={16} />
+                  <span>Version Comparison Workspace</span>
+                </h3>
+                <p className="text-[11.5px] text-[var(--text-muted)] mt-1.5 leading-relaxed">
+                  Compare permissions profiles of two different XML android manifests
+                </p>
+              </div>
+
+              {/* DUAL WORKSPACE BOXES */}
+              <div className="grid grid-cols-1 gap-5">
+                {/* SOURCE MANIFEST A */}
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[10px] uppercase tracking-wider font-bold text-gray-400 flex items-center gap-1.5">
+                      <span className="w-1.5 h-1.5 bg-indigo-500 rounded-full" />
+                      Manifest A (Base State)
+                    </span>
+                    {effectiveManifestAPermissions && (
+                      <button
+                        onClick={() => {
+                          setCompareManifestAPermissions(null);
+                          setCompareAFileName(null);
+                          setCompareRawTextA('');
+                        }}
+                        className="text-[9px] text-rose-500 hover:text-rose-600 font-bold transition cursor-pointer"
+                      >
+                        Reset Manifest A
+                      </button>
+                    )}
+                  </div>
+
+                  {!effectiveManifestAPermissions ? (
+                    <div
+                      onDragEnter={handleCompareADrag}
+                      onDragOver={handleCompareADrag}
+                      onDragLeave={handleCompareADrag}
+                      onDrop={handleCompareADrop}
+                      className={`border-2 border-dashed rounded-xl p-6 flex flex-col items-center justify-center text-center transition-all min-h-[110px] relative cursor-pointer ${
+                        compareDragActiveA 
+                          ? 'border-indigo-400 bg-indigo-500/10 shadow-lg' 
+                          : 'border-[var(--border)] hover:border-indigo-500/30 bg-[var(--bg)]/10'
+                      }`}
+                    >
+                      <input
+                        type="file"
+                        id="compare-file-upload-a"
+                        accept=".xml"
+                        onChange={handleCompareAFileInput}
+                        className="hidden"
+                      />
+                      <label htmlFor="compare-file-upload-a" className="w-full h-full flex flex-col items-center justify-center cursor-pointer">
+                        <Upload size={16} className="text-indigo-400 mb-1" />
+                        <p className="text-[11px] font-semibold text-[var(--text-highlight)]">
+                          Upload Base Manifest
+                        </p>
+                        <p className="text-[9px] text-[var(--text-muted)] mt-0.5 font-mono">
+                          Accepts .xml Manifest A
+                        </p>
+                      </label>
+                    </div>
+                  ) : (
+                    <div className="p-3.5 bg-indigo-550/5 border border-indigo-500/20 rounded-xl space-y-1.5">
+                      <div className="flex items-center gap-2 text-indigo-400">
+                        <FileCode size={14} />
+                        <span className="text-xs font-mono font-bold select-all truncate max-w-[240px]">
+                          {effectiveAFileName}
+                        </span>
+                      </div>
+                      <div className="flex items-center gap-1.5 text-[9.5px] text-[var(--text-muted)] font-sans">
+                        <span>💳 Scanned:</span>
+                        <span className="font-mono font-bold text-[var(--text-highlight)]">{effectiveManifestAPermissions.length} permissions</span>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Lock currently open Android Manifest if loaded on tab android */}
+                  {manifestPermissions.length > 0 && !compareManifestAPermissions && (
+                    <div className="p-2.5 bg-emerald-500/10 border border-emerald-500/20 rounded-xl flex items-center justify-between gap-3">
+                      <p className="text-[10px] text-[var(--text-muted)] leading-tight">
+                        📋 Active analyzed manifest is available.
+                      </p>
+                      <button
+                        onClick={() => {
+                          setCompareManifestAPermissions(manifestPermissions);
+                          setCompareAFileName("Active Scanned Manifest");
+                        }}
+                        className="text-[9px] bg-indigo-650 hover:bg-indigo-700 text-white px-2 py-1 rounded font-bold uppercase transition cursor-pointer"
+                      >
+                        Load as A
+                      </button>
+                    </div>
+                  )}
+                </div>
+
+                {/* TARGET MANIFEST B */}
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[10px] uppercase tracking-wider font-bold text-gray-400 flex items-center gap-1.5">
+                      <span className="w-1.5 h-1.5 bg-indigo-500 rounded-full" />
+                      Manifest B (Comparison State)
+                    </span>
+                    {compareManifestPermissions && (
+                      <button
+                        onClick={() => {
+                          setCompareManifestPermissions(null);
+                          setCompareFileName(null);
+                          setCompareRawText('');
+                        }}
+                        className="text-[9px] text-rose-500 hover:text-rose-600 font-bold transition cursor-pointer"
+                      >
+                        Reset Manifest B
+                      </button>
+                    )}
+                  </div>
+
+                  {!compareManifestPermissions ? (
+                    <div
+                      onDragEnter={handleCompareDrag}
+                      onDragOver={handleCompareDrag}
+                      onDragLeave={handleCompareDrag}
+                      onDrop={handleCompareDrop}
+                      className={`border-2 border-dashed rounded-xl p-6 flex flex-col items-center justify-center text-center transition-all min-h-[110px] relative cursor-pointer ${
+                        compareDragActive 
+                          ? 'border-indigo-400 bg-indigo-500/10 shadow-lg' 
+                          : 'border-[var(--border)] hover:border-indigo-500/30 bg-[var(--bg)]/10'
+                      }`}
+                    >
+                      <input
+                        type="file"
+                        id="compare-file-upload-b"
+                        accept=".xml"
+                        onChange={handleCompareFileInput}
+                        className="hidden"
+                      />
+                      <label htmlFor="compare-file-upload-b" className="w-full h-full flex flex-col items-center justify-center cursor-pointer">
+                        <Upload size={16} className="text-indigo-400 mb-1" />
+                        <p className="text-[11px] font-semibold text-[var(--text-highlight)]">
+                          Upload Comparison Manifest
+                        </p>
+                        <p className="text-[9px] text-[var(--text-muted)] mt-0.5 font-mono">
+                          Accepts .xml Manifest B
+                        </p>
+                      </label>
+                    </div>
+                  ) : (
+                    <div className="p-3.5 bg-indigo-550/5 border border-indigo-500/20 rounded-xl space-y-1.5">
+                      <div className="flex items-center gap-2 text-indigo-400">
+                        <FileCode size={14} />
+                        <span className="text-xs font-mono font-bold select-all truncate max-w-[240px]">
+                          {compareFileName}
+                        </span>
+                      </div>
+                      <div className="flex items-center gap-1.5 text-[9.5px] text-[var(--text-muted)] font-sans">
+                        <span>💳 Scanned:</span>
+                        <span className="font-mono font-bold text-[var(--text-highlight)]">{compareManifestPermissions.length} permissions</span>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* COMPARISON RESULTS OUTCOME (Right Side) */}
+          <div className="lg:col-span-12 xl:col-span-7">
+            {!effectiveManifestAPermissions || !compareManifestPermissions ? (
+              <div className="bg-[var(--surface)] border border-[var(--border)] rounded-2xl p-10 flex flex-col items-center justify-center text-center space-y-4 shadow-sm min-h-[350px]">
+                <div className="w-16 h-16 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400 shadow">
+                  <GitCompare size={28} className="animate-pulse" />
+                </div>
+                <div className="space-y-1.5">
+                  <h4 className="text-sm font-bold text-[var(--text-highlight)] font-sans uppercase tracking-wide">
+                    Comparative Manifest Workspace
+                  </h4>
+                  <p className="text-xs text-[var(--text-muted)] max-w-sm leading-relaxed mx-auto">
+                    Compare Android configurations side by side to quickly detect differences between versions
+                  </p>
+                </div>
+              </div>
+            ) : (
+              <div className="bg-[var(--surface)] border border-[var(--border)] rounded-2xl p-6 space-y-5 shadow-sm">
+                <div>
+                  <h2 className="text-lg font-bold text-[var(--text-highlight)] tracking-tight uppercase font-sans">
+                    Manifest Comparisson result
+                  </h2>
+                  <p className="text-[11px] text-[var(--text-muted)] mt-1">
+                    Analyzing permission changes from <span className="font-mono text-[var(--text)] font-semibold">{effectiveAFileName}</span> (A) → <span className="font-mono text-[var(--text)] font-semibold">{compareFileName}</span> (B).
+                  </p>
+                </div>
+
+                {/* COMPARATIVE METRICS GRID */}
+                <div className="grid grid-cols-3 gap-3">
+                  {/* Added */}
+                  <div className="p-3 bg-emerald-500/5 border border-emerald-500/15 rounded-xl text-center shadow-sm">
+                    <span className="text-lg font-black text-emerald-500 block leading-none font-mono">
+                      +{addedPermissions.length}
+                    </span>
+                    <span className="text-[9.5px] text-[var(--text-muted)] font-bold uppercase mt-1.5 block font-sans tracking-wide">
+                      Added
+                    </span>
+                  </div>
+                  {/* Removed */}
+                  <div className="p-3 bg-rose-500/5 border border-rose-500/15 rounded-xl text-center shadow-sm">
+                    <span className="text-lg font-black text-rose-500 block leading-none font-mono">
+                      -{removedPermissions.length}
+                    </span>
+                    <span className="text-[9.5px] text-[var(--text-muted)] font-bold uppercase mt-1.5 block font-sans tracking-wide">
+                      Removed
+                    </span>
+                  </div>
+                  {/* Unchanged / Common */}
+                  <div className="p-3 bg-[var(--surface2)]/60 border border-[var(--border)] rounded-xl text-center shadow-sm">
+                    <span className="text-lg font-black text-[var(--text-highlight)] block leading-none font-mono">
+                      {commonPermissions.length}
+                    </span>
+                    <span className="text-[9.5px] text-[var(--text-muted)] font-bold uppercase mt-1.5 block font-sans tracking-wide">
+                      Unchanged
+                    </span>
+                  </div>
+                </div>
+
+                {/* Tab Selectors */}
+                <div className="flex bg-[var(--surface2)]/50 p-1 rounded-xl border border-[var(--border)] w-full gap-1">
+                  {(['all', 'added', 'removed', 'common'] as const).map((tab) => (
+                    <button
+                      key={tab}
+                      onClick={() => setCompareDiffTab(tab)}
+                      className={`flex-1 text-[10px] font-bold uppercase py-2 rounded-lg transition-all cursor-pointer ${
+                        compareDiffTab === tab
+                          ? 'bg-indigo-600 text-white shadow'
+                          : 'text-[var(--text-muted)] hover:text-[var(--text-highlight)]'
+                      }`}
+                    >
+                      {tab === 'all' && 'All differences'}
+                      {tab === 'added' && `Added (+${addedPermissions.length})`}
+                      {tab === 'removed' && `Removed (-${removedPermissions.length})`}
+                      {tab === 'common' && `Common (${commonPermissions.length})`}
+                    </button>
+                  ))}
+                </div>
+
+                {/* Diff List items container */}
+                <div className="max-h-[385px] overflow-y-auto space-y-2.5 pr-1 scrollbar-thin">
+                  {compareDiffTab === 'all' && (
+                    <>
+                      {addedPermissions.length === 0 && removedPermissions.length === 0 && (
+                        <div className="p-6 text-center text-xs text-[var(--text-muted)] bg-[var(--surface2)]/30 rounded-xl border border-[var(--border)]/70">
+                          ✨ No structural differences found overall. State A and State B use the exact same permissions list.
+                        </div>
+                      )}
+
+                      {/* Render Added Entries */}
+                      {addedPermissions.map((perm) => {
+                        const isDangerous = ANDROID_DANGEROUS_PERMISSIONS.some(dp => dp.permission === perm);
+                        return (
+                          <div key={perm} className="p-3 bg-emerald-500/10 border border-emerald-500/25 rounded-xl flex items-center justify-between gap-2.5 text-xs animate-in fade-in slide-in-from-top-1 duration-200">
+                            <span className="font-mono font-bold text-emerald-800 dark:text-emerald-300 break-all select-all flex items-center gap-1.5 font-semibold">
+                              <Plus size={12} className="stroke-[3] text-emerald-500 shrink-0" />
+                              {perm}
+                            </span>
+                            {isDangerous && (
+                              <span className="text-[8px] font-bold bg-amber-500/15 text-amber-600 dark:text-amber-400 border border-amber-500/20 px-2 py-0.5 rounded font-mono uppercase shrink-0 select-none">
+                                ⚠️ Dangerous
+                              </span>
+                            )}
+                          </div>
+                        );
+                      })}
+
+                      {/* Render Removed Entries */}
+                      {removedPermissions.map((perm) => (
+                        <div key={perm} className="p-3 bg-rose-500/15 border border-rose-500/25 rounded-xl flex items-center justify-between gap-2.5 text-xs animate-in fade-in slide-in-from-top-1 duration-200">
+                          <span className="font-mono font-bold text-rose-800 dark:text-rose-450 break-all select-all flex items-center gap-1.5 line-through opacity-75">
+                            <Minus size={12} className="stroke-[3] text-rose-500 shrink-0" />
+                            {perm}
+                          </span>
+                          <span className="text-[8px] font-bold bg-rose-500/15 text-rose-600 dark:text-rose-450 border border-rose-550/20 px-2 py-0.5 rounded font-mono uppercase shrink-0 select-none">
+                            Removed
+                          </span>
+                        </div>
+                      ))}
+                    </>
+                  )}
+
+                  {compareDiffTab === 'added' && (
+                    <div className="space-y-2.5">
+                      {addedPermissions.length === 0 ? (
+                        <div className="p-6 text-center text-xs text-[var(--text-muted)] bg-[var(--surface2)]/30 rounded-xl border border-[var(--border)] font-sans">
+                          No added permissions detected in comparison state.
+                        </div>
+                      ) : (
+                        addedPermissions.map((perm) => {
+                          const isDangerous = ANDROID_DANGEROUS_PERMISSIONS.some(dp => dp.permission === perm);
+                          return (
+                            <div key={perm} className="p-3 bg-emerald-500/10 border border-emerald-500/25 rounded-xl flex items-center justify-between gap-2.5 text-xs">
+                              <span className="font-mono font-bold text-emerald-800 dark:text-emerald-300 break-all select-all flex items-center gap-1.5 font-semibold">
+                                <Plus size={12} className="stroke-[3] text-emerald-500 shrink-0" />
+                                {perm}
+                              </span>
+                              {isDangerous && (
+                                <span className="text-[8px] font-bold bg-amber-500/15 text-amber-600 dark:text-amber-400 border border-amber-500/20 px-2 py-0.5 rounded font-mono uppercase shrink-0 tracking-wide select-none">
+                                  ⚠️ Dangerous
+                                </span>
+                              )}
+                            </div>
+                          );
+                        })
+                      )}
+                    </div>
+                  )}
+
+                  {compareDiffTab === 'removed' && (
+                    <div className="space-y-2.5">
+                      {removedPermissions.length === 0 ? (
+                        <div className="p-6 text-center text-xs text-[var(--text-muted)] bg-[var(--surface2)]/30 rounded-xl border border-[var(--border)] font-sans">
+                          No permissions were removed from configuration.
+                        </div>
+                      ) : (
+                        removedPermissions.map((perm) => (
+                          <div key={perm} className="p-3 bg-rose-500/15 border border-rose-500/25 rounded-xl flex items-center justify-between gap-2.5 text-xs">
+                            <span className="font-mono font-bold text-rose-800 dark:text-rose-450 break-all select-all flex items-center gap-1.5 line-through opacity-75">
+                              <Minus size={12} className="stroke-[3] text-rose-500 shrink-0" />
+                              {perm}
+                            </span>
+                            <span className="text-[8px] font-bold bg-rose-500/15 text-rose-600 dark:text-rose-450 border border-rose-550/20 px-2 py-0.5 rounded font-mono uppercase shrink-0 select-none">
+                              Removed
+                            </span>
+                          </div>
+                        ))
+                      )}
+                    </div>
+                  )}
+
+                  {compareDiffTab === 'common' && (
+                    <div className="space-y-2">
+                      {commonPermissions.length === 0 ? (
+                        <div className="p-6 text-center text-xs text-[var(--text-muted)] bg-[var(--surface2)]/30 rounded-xl border border-[var(--border)] font-sans">
+                          Both tracks do not share common permissions.
+                        </div>
+                      ) : (
+                        commonPermissions.map((perm) => {
+                          const isDangerous = ANDROID_DANGEROUS_PERMISSIONS.some(dp => dp.permission === perm);
+                          return (
+                            <div key={perm} className="p-2.5 px-3.5 bg-[var(--surface2)]/60 border border-[var(--border)]/70 rounded-xl flex items-center justify-between gap-4 text-xs">
+                              <span className="font-mono text-[var(--text-muted)] truncate select-all">
+                                {perm}
+                              </span>
+                              {isDangerous && (
+                                <span className="text-[8px] bg-amber-500/10 border border-amber-500/20 text-amber-600 px-2 py-0.5 rounded font-mono shrink-0 font-bold uppercase select-none">
+                                  Dangerous
+                                </span>
+                              )}
+                            </div>
+                          );
+                        })
+                      )}
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         {/* INPUT WORKSPACE (Left Side) */}
         <div className="lg:col-span-5 space-y-6">
           <div className="bg-[var(--surface)] border border-[var(--border)] rounded-2xl p-6 space-y-5">
@@ -1282,6 +1911,7 @@ ${body}
                           </div>
                         )}
                       </div>
+
                     </div>
                   )}
 
@@ -1291,6 +1921,7 @@ ${body}
           </AnimatePresence>
         </div>
       </div>
+    )}
 
     </div>
   );
