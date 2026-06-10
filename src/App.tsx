@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo, useCallback } from "react";
+import { Analytics } from "@vercel/analytics/react";
 import {
   LayoutDashboard,
   Package,
@@ -337,6 +338,7 @@ export default function App() {
       className="flex min-h-screen transition-colors duration-300"
       style={{ color: "var(--text)", backgroundColor: "var(--bg)" }}
     >
+      <Analytics />
       <div className="bg-mesh opacity-10 dark:opacity-15 print:hidden">
         <div className="bg-orb orb1 opacity-20 dark:opacity-100" />
         <div className="bg-orb orb2 opacity-20 dark:opacity-100" />
