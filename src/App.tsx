@@ -90,6 +90,15 @@ export default function App() {
     confirmText?: string;
   } | null>(null);
 
+  const [showPrivacyBanner, setShowPrivacyBanner] = useState(() => {
+    return localStorage.getItem("compliance-hub-privacy-consent") !== "true";
+  });
+
+  const acceptPrivacy = () => {
+    localStorage.setItem("compliance-hub-privacy-consent", "true");
+    setShowPrivacyBanner(false);
+  };
+
   // Persistence
   useEffect(() => {
     localStorage.setItem("compliance-hub-state", JSON.stringify(state));
@@ -339,6 +348,45 @@ export default function App() {
       style={{ color: "var(--text)", backgroundColor: "var(--bg)" }}
     >
       <Analytics />
+      <AnimatePresence>
+        {showPrivacyBanner && (
+          <motion.div
+            initial={{ opacity: 0, y: 50, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 20, scale: 0.95 }}
+            transition={{ duration: 0.3, ease: "easeOut" }}
+            id="privacy-consent-banner"
+            className="fixed bottom-6 right-6 max-w-md w-[calc(100%-2rem)] sm:w-[400px] bg-[var(--surface)] border border-[var(--border)] rounded-2xl p-5 shadow-2xl z-[9999] flex flex-col gap-4 overflow-hidden animate-in fade-in slide-in-from-bottom-5 duration-300 pointer-events-auto print:hidden"
+          >
+            <div className="absolute top-0 left-0 w-1.5 h-full bg-indigo-600"></div>
+            <div className="flex gap-4">
+              <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-indigo-50 dark:bg-indigo-950/50 flex items-center justify-center border border-indigo-100/50 dark:border-indigo-900/50 text-indigo-600 dark:text-indigo-400">
+                <ShieldCheck size={20} />
+              </div>
+              <div className="flex-1 min-w-0">
+                <h4 className="text-sm font-semibold text-[var(--text-highlight)] tracking-tight">
+                  Your Privacy & Data Ownership
+                </h4>
+                <p className="text-[12px] text-[var(--text-muted)] leading-relaxed mt-1.5">
+                  We are deeply committed to protecting your privacy. This suite runs and parses all compliance reports (including uploaded plists or manifests) **entirely inside your browser sandbox**. Absolutely no files, configuration metrics, or session states ever leave your machine.
+                </p>
+              </div>
+            </div>
+            <div className="flex items-center justify-between pt-2 border-t border-[var(--border)]">
+              <span className="text-[10px] font-mono text-[var(--text-muted)] uppercase tracking-wider">
+                Offline-First Architecture
+              </span>
+              <button
+                id="accept-privacy-btn"
+                onClick={acceptPrivacy}
+                className="px-4 py-2 bg-indigo-600 hover:bg-indigo-505 text-white bg-indigo-600 hover:bg-indigo-500 rounded-lg text-xs font-bold font-sans transition-all cursor-pointer shadow-sm hover:shadow active:scale-[0.98]"
+              >
+                I Understand
+              </button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
       <div className="bg-mesh opacity-10 dark:opacity-15 print:hidden">
         <div className="bg-orb orb1 opacity-20 dark:opacity-100" />
         <div className="bg-orb orb2 opacity-20 dark:opacity-100" />
@@ -5769,7 +5817,7 @@ function GuidelinesView({ state, setState, db, icons, showToast }: any) {
 
               <div className="space-y-4 pt-6 border-t border-[var(--border)]">
                 <p className="text-[10px] font-bold text-[var(--text-muted)] uppercase tracking-[0.2em]">
-                  Violation Criticality
+                  Submission Impact Level
                 </p>
                 <div className="flex gap-2 bg-[var(--bg)]/20 p-1.5 rounded-lg w-fit border border-[var(--border)]">
                   {["high", "medium", "low"].map((lvl) => (

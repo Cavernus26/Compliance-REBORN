@@ -171,28 +171,47 @@ export default function ExecutiveReportView({
       return imp === 'high';
     });
 
+    const hasMediumSeverityFailures = activeTcs.some(tc => {
+      if (executions[tc.id]?.status !== 'fail') return false;
+      const gl = db.guidelines.find(g => g.id === tc.gl);
+      const imp = state.impacts[gl?.id || '']?.[state.platform] || gl?.impact || 'medium';
+      return imp === 'medium';
+    });
+
     if (hasHighSeverityFailures) {
       return {
-        status: 'Non-Compliant - Action Required',
+        status: 'Not Compliant with Critical Issues',
         badgeColor: 'border-red-500/30 bg-red-500/10 text-red-600 dark:text-red-400 shadow-glow-red animate-pulse',
         textColor: 'text-red-600 dark:text-red-400 font-bold',
         bullets: [
           'Critical vulnerabilities identified: High-severity violations will trigger immediate store review rejections.',
-          `A total of ${stats.fail} failure points were registered during the first party compliance evaluations.`,
-          'Store submission should not proceed until critical compliance failures are resolved'
+          `A total of ${stats.fail} failure points were identified during the first party compliance review.`,
+          'Store submission should not proceed until critical compliance failures are resolved.'
+        ]
+      };
+    }
+
+    if (hasMediumSeverityFailures) {
+      return {
+        status: 'Not Compliant with Major Issues',
+        badgeColor: 'border-amber-500/30 bg-amber-500/10 text-amber-600 dark:text-amber-400 shadow-glow-amber animate-pulse',
+        textColor: 'text-amber-600 dark:text-amber-400 font-bold',
+        bullets: [
+          'Major vulnerabilities identified: Medium-risk violations will likely trigger store review warnings or rejections.',
+          `A total of ${stats.fail} failure points were identified during the first party compliance review.`,
+          'Remediation adjustments are highly recommended to secure standard platform approval.'
         ]
       };
     }
 
     return {
-      status: 'Mostly Compliant with Critical Issues',
+      status: 'Mostly Compliant with Notable Issues',
       badgeColor: 'border-amber-500/20 bg-amber-500/10 text-amber-600 dark:text-amber-400',
       textColor: 'text-amber-600 dark:text-amber-400',
       bullets: [
-        'Moderate submission threat: Evaluated build meets basic framework policies, but holds outstanding active violations.',
-        `Registered ${stats.fail} active failure test cases of medium/low risk score.`,
-        'Approval probability is reduced to ~40% due to non-standard UX disclosures and warning flags.',
-        'Apply remediation adjustments to secure standard platform approval.'
+        'Moderate submission concern: While the build meets the basic compliance requirements, some low-risk issues remain unresolved.',
+        `Identified ${stats.fail} active failure test cases of low risk score.`,
+        'Resolve the remaining concerns to meet the platform\'s approval standards'
       ]
     };
   }, [stats, isInsufficientData, executions, activeTcs, db.guidelines, state.impacts, state.platform]);
@@ -267,7 +286,7 @@ export default function ExecutiveReportView({
       text += `----------------------------------------------------\n`;
       riskAreas.forEach((r, i) => {
         text += ` [${i + 1}] Guideline Area: ${r.guideline.title}\n`;
-        text += `     * Total Registered Failures: ${r.count} point(s)\n`;
+        text += `     * Total Identified Failures: ${r.count} point(s)\n`;
         text += `     * Severity Level: ${state.impacts[r.guideline.id]?.[state.platform] || r.guideline.impact || 'medium'}\n\n`;
       });
     }
@@ -391,15 +410,25 @@ export default function ExecutiveReportView({
           <div className="space-y-6">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 rounded-xl border border-[var(--border)] bg-[var(--surface2)] shadow-sm print-no-split">
               <div>
-                <p className="text-[10px] font-mono text-[var(--text-muted)] uppercase tracking-wider">Assessed Posture</p>
+                <p className="text-[10px] font-mono text-[var(--text-muted)] uppercase tracking-wider">Compliance tester assessment</p>
                 <h4 className="text-lg font-bold text-[var(--text-highlight)] mt-0.5 leading-tight">{posture.status}</h4>
               </div>
               <span className={`text-[10px] font-mono font-extrabold uppercase px-3 py-1 rounded-full border tracking-widest ${
-                stats.fail === 0 && !isInsufficientData 
-                  ? 'border-emerald-500/30 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 shadow-glow-green' 
-                  : 'border-red-500/30 bg-red-500/10 text-red-600 dark:text-red-400 shadow-glow-red'
+                isInsufficientData
+                  ? 'border-[var(--border)] bg-[var(--surface2)] text-[var(--text-muted)]'
+                  : stats.fail === 0
+                    ? 'border-emerald-500/30 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 shadow-glow-green'
+                    : posture.status === 'Mostly Compliant with Notable Issues'
+                      ? 'border-amber-500/30 bg-amber-500/10 text-amber-600 dark:text-amber-400'
+                      : 'border-red-500/30 bg-red-500/10 text-red-600 dark:text-red-400 shadow-glow-red'
               }`}>
-                {stats.fail === 0 && !isInsufficientData ? 'Compliant' : 'Not Compliant'}
+                {isInsufficientData
+                  ? 'N/A'
+                  : stats.fail === 0
+                    ? 'Compliant'
+                    : posture.status === 'Mostly Compliant with Notable Issues'
+                      ? 'Partially Compliant'
+                      : 'Not Compliant'}
               </span>
             </div>
 
