@@ -97,15 +97,20 @@ export default function App() {
 
   // Supabase & Admin states
   const [isAdminMode, setIsAdminMode] = useState(() => {
-    return localStorage.getItem("compliance-hub-admin-mode") === "true";
+    const isMode = localStorage.getItem("compliance-hub-admin-mode") === "true";
+    const key = localStorage.getItem("compliance-hub-admin-passkey") || "";
+    return isMode && key === "Admin1994@";
   });
   const [adminPasskey, setAdminPasskey] = useState(() => {
-    return localStorage.getItem("compliance-hub-admin-passkey") || "";
+    const key = localStorage.getItem("compliance-hub-admin-passkey") || "";
+    return key === "Admin1994@" ? key : "";
   });
   const [supabaseStatus, setSupabaseStatus] = useState<"synced" | "syncing" | "error" | "unconfigured">("syncing");
   const [supabaseError, setSupabaseError] = useState<string | null>(null);
   const [showSqlSetupModal, setShowSqlSetupModal] = useState(false);
   const [showAdminLoginModal, setShowAdminLoginModal] = useState(false);
+  const [adminLoginError, setAdminLoginError] = useState<string | null>(null);
+  const [shakeTrigger, setShakeTrigger] = useState(false);
   const [isPushingToSupabase, setIsPushingToSupabase] = useState(false);
 
   const [showPrivacyBanner, setShowPrivacyBanner] = useState(() => {
@@ -551,7 +556,7 @@ export default function App() {
           </div>
         </div>
 
-        <div className="p-6 border-b border-[var(--border)] flex-1 overflow-hidden flex flex-col">
+        <div className="p-6 border-b border-[var(--border)] flex-1 overflow-y-auto flex flex-col scrollbar-none">
           <h3 className="text-[11px] font-bold text-[var(--text-muted)] uppercase tracking-widest mb-4">
             Testing
           </h3>
@@ -772,6 +777,7 @@ export default function App() {
               showToast={showToast}
               icons={icons}
               setDeleteConf={setDeleteConf}
+              isAdminMode={isAdminMode}
             />
           )}
           {activePage === "summary" && (
@@ -800,6 +806,7 @@ export default function App() {
               db={db}
               icons={icons}
               showToast={showToast}
+              isAdminMode={isAdminMode}
             />
           )}
         </main>
@@ -1027,7 +1034,12 @@ export default function App() {
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[2000] flex items-center justify-center p-4">
           <motion.div
             initial={{ scale: 0.95, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
+            animate={{ 
+              scale: 1, 
+              opacity: 1,
+              x: shakeTrigger ? [0, -10, 10, -10, 10, -5, 5, 0] : 0
+            }}
+            transition={{ duration: 0.4 }}
             className="bg-[var(--surface)] border border-[var(--border2)] rounded-[18px] p-6 w-full max-w-sm shadow-2xl relative overflow-hidden text-left"
           >
             <h3 className="text-base font-bold text-[var(--text-highlight)] flex items-center gap-2">
@@ -1036,22 +1048,36 @@ export default function App() {
             </h3>
             
             <p className="text-xs text-[var(--text2)] mt-2 leading-relaxed">
-              Enter any admin passkey to assume curators' editing rights. Your edits/deletions will sync directly to Supabase and be broadcasted to all viewers!
+              Enter the secure admin passkey to assume curators' editing rights. Your edits/deletions will sync directly to Supabase and be broadcasted to all viewers!
             </p>
+
+            {adminLoginError && (
+              <motion.div 
+                initial={{ opacity: 0, y: -6 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="mt-3 flex items-start gap-2 bg-red-500/10 border border-red-500/20 text-red-400 p-3 rounded-lg text-[11px] font-medium leading-relaxed"
+              >
+                <span className="text-red-500 select-none">⚠️</span>
+                <div>{adminLoginError}</div>
+              </motion.div>
+            )}
 
             <form
               onSubmit={(e) => {
                 e.preventDefault();
                 const formData = new FormData(e.currentTarget);
                 const key = formData.get("passkey") as string;
-                if (!key.trim()) {
-                  showToast("Passkey cannot be empty");
+                if (key !== "Admin1994@") {
+                  setAdminLoginError("Incorrect admin passkey. Please try again.");
+                  setShakeTrigger(true);
+                  setTimeout(() => setShakeTrigger(false), 500);
                   return;
                 }
                 localStorage.setItem("compliance-hub-admin-mode", "true");
                 localStorage.setItem("compliance-hub-admin-passkey", key);
                 setIsAdminMode(true);
                 setAdminPasskey(key);
+                setAdminLoginError(null);
                 setShowAdminLoginModal(false);
                 showToast("Admin Curation rights unlocked!");
               }}
@@ -1066,19 +1092,28 @@ export default function App() {
                   type="password"
                   required
                   autoFocus
-                  placeholder="e.g. admin123"
-                  defaultValue="admin123"
-                  className="w-full bg-[var(--surface2)] border border-[var(--border)] rounded-lg px-3 py-2 text-sm outline-none focus:border-[var(--accent)] transition-colors"
+                  placeholder="Enter admin passcode"
+                  onChange={() => {
+                    if (adminLoginError) setAdminLoginError(null);
+                  }}
+                  className={`w-full bg-[var(--surface2)] border rounded-lg px-3 py-2 text-sm outline-none transition-all ${
+                    adminLoginError 
+                      ? "border-red-500/60 focus:border-red-500 focus:ring-1 focus:ring-red-500/50 bg-red-500/5 shadow-[0_0_8px_rgba(239,68,68,0.15)]" 
+                      : "border-[var(--border)] focus:border-[var(--accent)]"
+                  }`}
                 />
                 <span className="text-[9px] text-[var(--text-muted)] mt-1 block leading-normal italic">
-                  Note: Default password is 'admin123' for standard configuration.
+                  Note: Curation access is restricted to authorized contributors.
                 </span>
               </div>
 
               <div className="flex justify-end gap-3 pt-2">
                 <button
                   type="button"
-                  onClick={() => setShowAdminLoginModal(false)}
+                  onClick={() => {
+                    setAdminLoginError(null);
+                    setShowAdminLoginModal(false);
+                  }}
                   className="px-4 py-2 rounded-lg text-xs font-medium text-[var(--text-muted)] hover:bg-[var(--surface2)] transition-colors"
                 >
                   Cancel
@@ -1425,6 +1460,7 @@ function ExecuteView({
   showToast,
   icons,
   setDeleteConf,
+  isAdminMode,
 }: any) {
   const [filterQuery, setFilterQuery] = useState("");
   const [activeSectionId, setActiveSectionId] = useState("all");
@@ -1709,13 +1745,15 @@ function ExecuteView({
         />
         <div className="px-3 border-l border-[var(--border)] text-[9px] font-bold text-[var(--text-muted)] uppercase tracking-widest flex items-center gap-3">
           <span>{filtered.length} total</span>
-          <button
-            onClick={() => setShowAddForm(!showAddForm)}
-            className="flex items-center gap-1 px-2 py-0.5 bg-[var(--surface2)] hover:bg-[var(--surface3)] border border-[var(--border)] text-[8px] font-bold uppercase text-[var(--text-highlight)] rounded transition-all"
-          >
-            <Plus size={9} strokeWidth={2.5} />{" "}
-            {showAddForm ? "Hide Builder" : "Create Test Case"}
-          </button>
+          {isAdminMode && (
+            <button
+              onClick={() => setShowAddForm(!showAddForm)}
+              className="flex items-center gap-1 px-2 py-0.5 bg-[var(--surface2)] hover:bg-[var(--surface3)] border border-[var(--border)] text-[8px] font-bold uppercase text-[var(--text-highlight)] rounded transition-all"
+            >
+              <Plus size={9} strokeWidth={2.5} />{" "}
+              {showAddForm ? "Hide Builder" : "Create Test Case"}
+            </button>
+          )}
         </div>
       </div>
 
@@ -1779,6 +1817,7 @@ function ExecuteView({
                       setDeleteConf={setDeleteConf}
                       db={db}
                       state={state}
+                      isAdminMode={isAdminMode}
                     />
                   </div>
                 </div>
@@ -1858,6 +1897,7 @@ function ExecuteView({
                               setDeleteConf={setDeleteConf}
                               db={db}
                               state={state}
+                              isAdminMode={isAdminMode}
                             />
                           );
                         })}
@@ -5184,6 +5224,7 @@ function PlayGamesItemRow({
   executions,
   db,
   state,
+  isAdminMode,
 }: any) {
   const [isEditing, setIsEditing] = useState(false);
   const [editTitle, setEditTitle] = useState(tc?.title || item.title);
@@ -5278,48 +5319,52 @@ function PlayGamesItemRow({
               activeCls="bg-[var(--text-highlight)] text-[var(--bg)] border-[var(--text-highlight)] shadow-glow"
             />
 
-            {/* Edit Button */}
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                setIsEditing(true);
-              }}
-              className="p-1.5 rounded-lg border border-[var(--border)] bg-[var(--surface2)] hover:border-[var(--text-highlight)] hover:bg-[var(--surface3)] text-[var(--text-muted)] hover:text-[var(--text-highlight)] transition-all ml-1"
-              title="Edit guideline text"
-            >
-              <Pencil size={13} />
-            </button>
+            {isAdminMode && (
+              <>
+                {/* Edit Button */}
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setIsEditing(true);
+                  }}
+                  className="p-1.5 rounded-lg border border-[var(--border)] bg-[var(--surface2)] hover:border-[var(--text-highlight)] hover:bg-[var(--surface3)] text-[var(--text-muted)] hover:text-[var(--text-highlight)] transition-all ml-1"
+                  title="Edit guideline text"
+                >
+                  <Pencil size={13} />
+                </button>
 
-            {/* Delete Button */}
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                if (setDeleteConf) {
-                  setDeleteConf({
-                    title: "Delete Guideline Checkpoint",
-                    message: `Are you sure you want to permanently delete compliance guideline / checkpoint "${item.title}"? This action cannot be undone.`,
-                    confirmText: "Delete Checkpoint",
-                    onConfirm: () => {
+                {/* Delete Button */}
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    if (setDeleteConf) {
+                      setDeleteConf({
+                        title: "Delete Guideline Checkpoint",
+                        message: `Are you sure you want to permanently delete compliance guideline / checkpoint "${item.title}"? This action cannot be undone.`,
+                        confirmText: "Delete Checkpoint",
+                        onConfirm: () => {
+                          setState((prev: any) => ({
+                            ...prev,
+                            deletedTcs: [...(prev.deletedTcs || []), item.id],
+                          }));
+                          showToast("Guideline deleted successfully");
+                        },
+                      });
+                    } else {
                       setState((prev: any) => ({
                         ...prev,
                         deletedTcs: [...(prev.deletedTcs || []), item.id],
                       }));
                       showToast("Guideline deleted successfully");
-                    },
-                  });
-                } else {
-                  setState((prev: any) => ({
-                    ...prev,
-                    deletedTcs: [...(prev.deletedTcs || []), item.id],
-                  }));
-                  showToast("Guideline deleted successfully");
-                }
-              }}
-              className="p-1.5 rounded-lg border border-[var(--border)] bg-[var(--surface2)] hover:border-red-500/30 hover:bg-red-500/10 text-[var(--text-muted)] hover:text-red-500 transition-all"
-              title="Delete guideline"
-            >
-              <Trash2 size={13} />
-            </button>
+                    }
+                  }}
+                  className="p-1.5 rounded-lg border border-[var(--border)] bg-[var(--surface2)] hover:border-red-500/30 hover:bg-red-500/10 text-[var(--text-muted)] hover:text-red-500 transition-all"
+                  title="Delete guideline"
+                >
+                  <Trash2 size={13} />
+                </button>
+              </>
+            )}
           </div>
 
           <motion.div
@@ -5680,6 +5725,7 @@ function PlayGamesServicesChecklist({
   setDeleteConf,
   db,
   state,
+  isAdminMode,
 }: any) {
   const GUIDELINE_DETAILS_MAP: Record<string, string[]> = {
     "And-GPGS-1.1": [
@@ -6022,6 +6068,7 @@ function PlayGamesServicesChecklist({
                   executions={executions}
                   db={db}
                   state={state}
+                  isAdminMode={isAdminMode}
                 />
               );
             })}
@@ -6044,6 +6091,7 @@ function TestCaseRow({
   setDeleteConf,
   db,
   state,
+  isAdminMode,
 }: any) {
   const status = execution?.status || "not_tested";
 
@@ -6129,26 +6177,45 @@ function TestCaseRow({
             activeCls="bg-[var(--text-highlight)] text-[var(--bg)] border-[var(--text-highlight)] shadow-glow"
           />
 
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              setIsEditing(true);
-            }}
-            className="p-1.5 rounded-lg border border-[var(--border)] bg-[var(--surface2)] hover:border-[var(--text-highlight)] hover:bg-[var(--surface3)] text-[var(--text-muted)] hover:text-[var(--text-highlight)] transition-all ml-1"
-            title="Edit guideline text"
-          >
-            <Pencil size={13} />
-          </button>
+          {isAdminMode && (
+            <>
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setIsEditing(true);
+                }}
+                className="p-1.5 rounded-lg border border-[var(--border)] bg-[var(--surface2)] hover:border-[var(--text-highlight)] hover:bg-[var(--surface3)] text-[var(--text-muted)] hover:text-[var(--text-highlight)] transition-all ml-1"
+                title="Edit guideline text"
+              >
+                <Pencil size={13} />
+              </button>
 
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              if (setDeleteConf) {
-                setDeleteConf({
-                  title: tc.id.startsWith("custom-") ? "Delete Custom Checkpoint" : "Delete Guideline Checkpoint",
-                  message: `Are you sure you want to permanently delete compliance guideline / checkpoint "${tc.title}"? This action cannot be undone.`,
-                  confirmText: "Delete Checkpoint",
-                  onConfirm: () => {
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  if (setDeleteConf) {
+                    setDeleteConf({
+                      title: tc.id.startsWith("custom-") ? "Delete Custom Checkpoint" : "Delete Guideline Checkpoint",
+                      message: `Are you sure you want to permanently delete compliance guideline / checkpoint "${tc.title}"? This action cannot be undone.`,
+                      confirmText: "Delete Checkpoint",
+                      onConfirm: () => {
+                        if (tc.id.startsWith("custom-")) {
+                          setState((prev: any) => ({
+                            ...prev,
+                            customTcs: (prev.customTcs || []).filter(
+                              (t: any) => t.id !== tc.id,
+                            ),
+                          }));
+                        } else {
+                          setState((prev: any) => ({
+                            ...prev,
+                            deletedTcs: [...(prev.deletedTcs || []), tc.id],
+                          }));
+                        }
+                        showToast("Guideline deleted successfully");
+                      },
+                    });
+                  } else {
                     if (tc.id.startsWith("custom-")) {
                       setState((prev: any) => ({
                         ...prev,
@@ -6163,30 +6230,15 @@ function TestCaseRow({
                       }));
                     }
                     showToast("Guideline deleted successfully");
-                  },
-                });
-              } else {
-                if (tc.id.startsWith("custom-")) {
-                  setState((prev: any) => ({
-                    ...prev,
-                    customTcs: (prev.customTcs || []).filter(
-                      (t: any) => t.id !== tc.id,
-                    ),
-                  }));
-                } else {
-                  setState((prev: any) => ({
-                    ...prev,
-                    deletedTcs: [...(prev.deletedTcs || []), tc.id],
-                  }));
-                }
-                showToast("Guideline deleted successfully");
-              }
-            }}
-            className="p-1.5 rounded-lg border border-[var(--border)] bg-[var(--surface2)] hover:border-red-500/30 hover:bg-red-500/10 text-[var(--text-muted)] hover:text-red-500 transition-all ml-1"
-            title="Delete guideline"
-          >
-            <Trash2 size={13} />
-          </button>
+                  }
+                }}
+                className="p-1.5 rounded-lg border border-[var(--border)] bg-[var(--surface2)] hover:border-red-500/30 hover:bg-red-500/10 text-[var(--text-muted)] hover:text-red-500 transition-all ml-1"
+                title="Delete guideline"
+              >
+                <Trash2 size={13} />
+              </button>
+            </>
+          )}
         </div>
         <motion.div
           animate={{ rotate: isExpanded ? 90 : 0 }}
@@ -6494,8 +6546,12 @@ function SummaryView({
   );
 }
 
-function GuidelinesView({ state, setState, db, icons, showToast }: any) {
+function GuidelinesView({ state, setState, db, icons, showToast, isAdminMode }: any) {
   const setImpact = (glId: string, val: string) => {
+    if (!isAdminMode) {
+      showToast("Unauthorized: Please log in to Admin Mode to edit impacts");
+      return;
+    }
     setState((prev: AppState) => ({
       ...prev,
       impacts: {
@@ -6507,6 +6563,10 @@ function GuidelinesView({ state, setState, db, icons, showToast }: any) {
   };
 
   const handleRestore = (tcId: string) => {
+    if (!isAdminMode) {
+      showToast("Unauthorized: Please log in to Admin Mode to restore checkpoints");
+      return;
+    }
     setState((prev: AppState) => ({
       ...prev,
       deletedTcs: prev.deletedTcs.filter((id) => id !== tcId),
@@ -6517,12 +6577,21 @@ function GuidelinesView({ state, setState, db, icons, showToast }: any) {
   return (
     <div className="space-y-10 animate-in fade-in duration-500">
       <div>
-        <h1 className="text-4xl font-light text-[var(--text-highlight)] mb-2 tracking-tight">
-          Guidelines impact
-        </h1>
-        <p className="text-[var(--text-muted)] text-sm">
-          First-party submission impact per compliance section
-        </p>
+        <div className="flex justify-between items-start">
+          <div>
+            <h1 className="text-4xl font-light text-[var(--text-highlight)] mb-2 tracking-tight">
+              Guidelines impact
+            </h1>
+            <p className="text-[var(--text-muted)] text-sm">
+              First-party submission impact per compliance section
+            </p>
+          </div>
+          {!isAdminMode && (
+            <span className="text-[9px] px-2.5 py-1 rounded bg-orange-500/10 text-orange-400 border border-orange-500/20 font-mono font-bold uppercase">
+              Viewer Mode: Read-Only
+            </span>
+          )}
+        </div>
       </div>
 
       <div className="grid gap-4">
@@ -6568,8 +6637,9 @@ function GuidelinesView({ state, setState, db, icons, showToast }: any) {
                   {["high", "medium", "low"].map((lvl) => (
                     <button
                       key={lvl}
+                      disabled={!isAdminMode}
                       onClick={() => setImpact(gl.id, lvl)}
-                      className={`px-6 py-2 rounded text-[10px] font-bold transition-all uppercase tracking-widest ${imp === lvl ? (lvl === "high" ? "bg-red-500 text-white shadow-glow-red" : lvl === "medium" ? "bg-orange-500 text-black shadow-glow-orange" : "bg-green-500 text-black shadow-glow-green") : "text-[var(--text-muted)] hover:text-[var(--text-highlight)]"}`}
+                      className={`px-6 py-2 rounded text-[10px] font-bold transition-all uppercase tracking-widest ${imp === lvl ? (lvl === "high" ? "bg-red-500 text-white shadow-glow-red" : lvl === "medium" ? "bg-orange-500 text-black shadow-glow-orange" : "bg-green-500 text-black shadow-glow-green") : "text-[var(--text-muted)] hover:text-[var(--text-highlight)]"} ${!isAdminMode ? "opacity-60 cursor-not-allowed" : ""}`}
                     >
                       {lvl}
                     </button>
@@ -6601,12 +6671,18 @@ function GuidelinesView({ state, setState, db, icons, showToast }: any) {
                             <span className="text-[var(--text-muted)] group-hover:text-[var(--text-highlight)] transition-colors font-mono">
                               #{num} &middot; {tc?.title}
                             </span>
-                            <button
-                              onClick={() => handleRestore(id)}
-                              className="text-[var(--text-highlight)] font-bold flex items-center gap-2 hover:underline tracking-tighter"
-                            >
-                              <Undo2 size={12} /> RESTORE TEST CASE
-                            </button>
+                            {isAdminMode ? (
+                              <button
+                                onClick={() => handleRestore(id)}
+                                className="text-[var(--text-highlight)] font-bold flex items-center gap-2 hover:underline tracking-tighter"
+                              >
+                                <Undo2 size={12} /> RESTORE TEST CASE
+                              </button>
+                            ) : (
+                              <span className="text-[9px] text-[var(--text-muted)] uppercase tracking-wider bg-[var(--surface2)] px-2 py-1 rounded">
+                                Admin Mode Required to Restore
+                              </span>
+                            )}
                           </div>
                         );
                       })}
