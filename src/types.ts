@@ -62,4 +62,6 @@ export interface AppState {
     string,
     Array<{ type: "tc" | "header"; id: string; name?: string }>
   >;
+  customTcs?: TestCase[];
+  editedTcs?: Record<string, Partial<TestCase>>;
 }

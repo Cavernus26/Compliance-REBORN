@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useMemo, useCallback } from "react";
 import { Analytics } from "@vercel/analytics/react";
+import { fetchSyncedCuration, saveSyncedCuration, SQL_SETUP_SCRIPT } from "./supabase";
+import { Cloud, CloudOff, KeyRound, RefreshCw, Server } from "lucide-react";
 import {
   LayoutDashboard,
   Package,
@@ -21,6 +23,7 @@ import {
   Moon,
   Sun,
   ShieldCheck,
+  Pencil,
 } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { ALL_DATA, IOS_ICONS, AND_ICONS } from "./data";
@@ -43,6 +46,8 @@ const INITIAL_STATE: AppState = {
   platform: "ios",
   catOrder: {},
   catOrderAndroid: {},
+  customTcs: [],
+  editedTcs: {},
 };
 
 const getTestCaseNumber = (
@@ -90,14 +95,110 @@ export default function App() {
     confirmText?: string;
   } | null>(null);
 
+  // Supabase & Admin states
+  const [isAdminMode, setIsAdminMode] = useState(() => {
+    return localStorage.getItem("compliance-hub-admin-mode") === "true";
+  });
+  const [adminPasskey, setAdminPasskey] = useState(() => {
+    return localStorage.getItem("compliance-hub-admin-passkey") || "";
+  });
+  const [supabaseStatus, setSupabaseStatus] = useState<"synced" | "syncing" | "error" | "unconfigured">("syncing");
+  const [supabaseError, setSupabaseError] = useState<string | null>(null);
+  const [showSqlSetupModal, setShowSqlSetupModal] = useState(false);
+  const [showAdminLoginModal, setShowAdminLoginModal] = useState(false);
+  const [isPushingToSupabase, setIsPushingToSupabase] = useState(false);
+
   const [showPrivacyBanner, setShowPrivacyBanner] = useState(() => {
     return localStorage.getItem("compliance-hub-privacy-consent") !== "true";
   });
+
+  const showToast = useCallback((msg: string) => {
+    setToast({ msg, show: true });
+    setTimeout(() => setToast((prev) => ({ ...prev, show: false })), 2200);
+  }, []);
 
   const acceptPrivacy = () => {
     localStorage.setItem("compliance-hub-privacy-consent", "true");
     setShowPrivacyBanner(false);
   };
+
+  // Synchronize curation config with Supabase on mount
+  useEffect(() => {
+    const loadCuration = async () => {
+      setSupabaseStatus("syncing");
+      try {
+        const curation = await fetchSyncedCuration();
+        if (curation) {
+          setState((prev) => ({
+            ...prev,
+            customTcs: curation.customTcs || [],
+            editedTcs: (curation.editedTcs || {}) as Record<string, TestCase>,
+            deletedTcs: curation.deletedTcs || [],
+          }));
+          setSupabaseStatus("synced");
+          setSupabaseError(null);
+        } else {
+          // No row found or table doesn't exist
+          setSupabaseStatus("unconfigured");
+          setSupabaseError("Supabase connection is active, but the curation record was not found or the 'compliance_curator' table needs to be created.");
+        }
+      } catch (err: any) {
+        setSupabaseStatus("error");
+        setSupabaseError(err?.message || "Failed to fetch from Supabase");
+      }
+    };
+    loadCuration();
+  }, []);
+
+  const publishCurationToCloud = async (stateToPublish = state) => {
+    setIsPushingToSupabase(true);
+    setSupabaseStatus("syncing");
+    try {
+      const res = await saveSyncedCuration({
+        customTcs: stateToPublish.customTcs || [],
+        editedTcs: stateToPublish.editedTcs || {},
+        deletedTcs: stateToPublish.deletedTcs || [],
+      });
+      if (res.success) {
+        setSupabaseStatus("synced");
+        setSupabaseError(null);
+        showToast("Checklist curation successfully published to Supabase!");
+      } else {
+        setSupabaseStatus("error");
+        setSupabaseError(res.error || "Failed to publish checklist");
+        showToast("Publish failed. Check your database setup.");
+      }
+    } catch (err: any) {
+      setSupabaseStatus("error");
+      setSupabaseError(err?.message || "Network transport failure");
+      showToast("Sync failure occurred.");
+    } finally {
+      setIsPushingToSupabase(false);
+    }
+  };
+
+  const updateStateAndSync = useCallback((updater: (prev: AppState) => AppState) => {
+    setState((prev) => {
+      const next = updater(prev);
+      if (localStorage.getItem("compliance-hub-admin-mode") === "true") {
+        setSupabaseStatus("syncing");
+        saveSyncedCuration({
+          customTcs: next.customTcs || [],
+          editedTcs: (next.editedTcs || {}) as Record<string, TestCase>,
+          deletedTcs: next.deletedTcs || [],
+        }).then((res) => {
+          if (res.success) {
+            setSupabaseStatus("synced");
+            setSupabaseError(null);
+          } else {
+            setSupabaseStatus("error");
+            setSupabaseError(res.error || "Failed to auto-sync");
+          }
+        });
+      }
+      return next;
+    });
+  }, [showToast]);
 
   // Persistence
   useEffect(() => {
@@ -107,11 +208,6 @@ export default function App() {
       state.platform === "android" ? "android-mode" : "";
     document.body.setAttribute("data-theme", state.theme);
   }, [state]);
-
-  const showToast = useCallback((msg: string) => {
-    setToast({ msg, show: true });
-    setTimeout(() => setToast((prev) => ({ ...prev, show: false })), 2200);
-  }, []);
 
   // Derived Data
   const currentPlatform = state.platform;
@@ -123,8 +219,15 @@ export default function App() {
 
   const activeTcs = useMemo(() => {
     const combined = [...db.testCases, ...(state.customTcs || [])];
-    return combined.filter((tc) => !state.deletedTcs.includes(tc.id));
-  }, [db.testCases, state.customTcs, state.deletedTcs]);
+    const filtered = combined.filter((tc) => !state.deletedTcs.includes(tc.id));
+    return filtered.map((tc) => {
+      const edited = state.editedTcs?.[tc.id];
+      if (edited) {
+        return { ...tc, ...edited };
+      }
+      return tc;
+    });
+  }, [db.testCases, state.customTcs, state.deletedTcs, state.editedTcs]);
 
   const stats = useMemo(() => {
     let p = 0,
@@ -505,6 +608,113 @@ export default function App() {
             </p>
           </div>
         </div>
+
+        {/* Supabase status indicator inside sidebar bottom */}
+        <div className="p-6 bg-[var(--bg)]/10 border-t border-[var(--border)] space-y-4 shrink-0">
+          <div>
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-[10px] font-bold text-[var(--text-muted)] uppercase tracking-widest">
+                Supabase Sync
+              </span>
+              <button
+                onClick={() => {
+                  setShowSqlSetupModal(true);
+                }}
+                className="text-[9px] font-mono hover:underline text-indigo-400"
+              >
+                Setup SQL
+              </button>
+            </div>
+            
+            <div className="flex items-center justify-between">
+              <div 
+                className="flex items-center gap-2 cursor-pointer" 
+                onClick={() => {
+                  setShowSqlSetupModal(true);
+                }}
+              >
+                <div
+                  className={`w-2 h-2 rounded-full ${
+                    supabaseStatus === "synced" 
+                      ? "bg-green-500 animate-pulse" 
+                      : supabaseStatus === "syncing"
+                      ? "bg-yellow-500"
+                      : "bg-red-500"
+                  }`}
+                />
+                <span className="text-xs text-[var(--text-highlight)] truncate max-w-[130px]">
+                  {supabaseStatus === "synced" && "Cloud Synced"}
+                  {supabaseStatus === "syncing" && "Synchronizing..."}
+                  {supabaseStatus === "error" && "Sync Error"}
+                  {supabaseStatus === "unconfigured" && "Unseeded Database"}
+                </span>
+              </div>
+
+              <div>
+                {supabaseStatus === "synced" ? (
+                  <Cloud size={14} className="text-green-500 animate-pulse" />
+                ) : (
+                  <CloudOff 
+                    size={14} 
+                    className="text-red-400 cursor-pointer hover:scale-110 transition-all font-bold" 
+                    onClick={() => setShowSqlSetupModal(true)}
+                  />
+                )}
+              </div>
+            </div>
+
+            {supabaseError && (
+              <p className="text-[9px] text-red-400 mt-1.5 leading-normal wrap hover:text-red-300 cursor-help" title={supabaseError}>
+                Status: {supabaseError}
+              </p>
+            )}
+          </div>
+
+          <div className="pt-3 border-t border-[var(--border)]">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-[10px] font-bold text-[var(--text-muted)] uppercase tracking-widest">
+                Checklist access
+              </span>
+              <span className={`text-[9px] px-1.5 py-0.5 rounded font-mono font-bold uppercase ${isAdminMode ? 'bg-indigo-500/15 text-indigo-400 border border-indigo-500/20' : 'bg-gray-500/15 text-gray-400 border border-gray-500/20'}`}>
+                {isAdminMode ? "Admin Mode" : "Viewer Mode"}
+              </span>
+            </div>
+
+            {isAdminMode ? (
+              <div className="space-y-2">
+                <button
+                  type="button"
+                  onClick={() => {
+                    localStorage.removeItem("compliance-hub-admin-mode");
+                    setIsAdminMode(false);
+                    showToast("Exited Admin Curation mode.");
+                  }}
+                  className="w-full text-center py-1 text-red-400 hover:text-red-300 text-xs font-medium transition-all"
+                >
+                  &larr; Exit Admin Mode
+                </button>
+                <button
+                  type="button"
+                  disabled={isPushingToSupabase}
+                  onClick={() => publishCurationToCloud()}
+                  className="w-full py-2 px-3 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs active:scale-[0.98] transition-all flex items-center justify-center gap-1.5"
+                >
+                  <RefreshCw size={11} className={`${isPushingToSupabase ? 'animate-spin' : ''}`} />
+                  {isPushingToSupabase ? "Publishing..." : "Publish Checklist"}
+                </button>
+              </div>
+            ) : (
+              <button
+                type="button"
+                onClick={() => setShowAdminLoginModal(true)}
+                className="w-full py-1.5 px-3 rounded-lg border border-[var(--border)] bg-[var(--surface2)] hover:bg-[var(--surface3)] text-[var(--text-highlight)] font-medium text-xs transition-colors flex items-center justify-center gap-1.5 active:scale-[0.98]"
+              >
+                <KeyRound size={12} />
+                Unlock Admin Mode
+              </button>
+            )}
+          </div>
+        </div>
       </nav>
 
       {/* Main Content Area */}
@@ -586,7 +796,7 @@ export default function App() {
           {activePage === "guidelines" && (
             <GuidelinesView
               state={state}
-              setState={setState}
+              setState={updateStateAndSync}
               db={db}
               icons={icons}
               showToast={showToast}
@@ -743,6 +953,144 @@ export default function App() {
                 {deleteConf.confirmText || "Delete"}
               </button>
             </div>
+          </motion.div>
+        </div>
+      )}
+
+      {/* Supabase SQL Setup Script Modal */}
+      {showSqlSetupModal && (
+        <div className="fixed inset-0 bg-black/75 backdrop-blur-md z-[2000] flex items-center justify-center p-4">
+          <motion.div
+            initial={{ scale: 0.95, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            className="bg-[var(--surface)] border border-[var(--border2)] rounded-[20px] p-6 w-full max-w-2xl shadow-2xl relative overflow-hidden text-left"
+          >
+            <div className="flex items-center justify-between border-b border-[var(--border)] pb-3 mb-4">
+              <h2 className="text-lg font-bold text-[var(--text-highlight)] flex items-center gap-2">
+                <Server size={20} className="text-indigo-400" />
+                <span>Configure Supabase Database Table</span>
+              </h2>
+              <button
+                type="button"
+                onClick={() => setShowSqlSetupModal(false)}
+                className="text-xs px-2.5 py-1 rounded bg-[var(--surface2)] text-[var(--text-muted)] hover:text-[var(--text-highlight)] transition-colors"
+              >
+                Close
+              </button>
+            </div>
+
+            <p className="text-xs text-[var(--text2)] leading-relaxed mb-4 font-sans">
+              To host the unified checklist content (including custom guidelines, edits, and deletions) so that they are instantly shared with all visitors, please execute this setup script inside your <strong>Supabase SQL Editor</strong>:
+            </p>
+
+            <div className="relative mb-6">
+              <div className="absolute top-2 right-2 flex gap-1.5">
+                <button
+                  type="button"
+                  onClick={() => {
+                    navigator.clipboard.writeText(SQL_SETUP_SCRIPT);
+                    showToast("SQL script copied to clipboard!");
+                  }}
+                  className="px-2.5 py-1 rounded bg-indigo-600 hover:bg-indigo-500 text-white text-[10px] font-bold tracking-tight shadow transition-all cursor-pointer"
+                >
+                  Copy SQL Script
+                </button>
+              </div>
+              <pre className="bg-[var(--surface3)] text-[var(--text)] text-[10px] font-mono leading-relaxed p-4 rounded-xl border border-[var(--border)] h-64 overflow-y-auto overflow-x-hidden whitespace-pre-wrap select-all">
+                {SQL_SETUP_SCRIPT}
+              </pre>
+            </div>
+
+            <div className="p-4 bg-indigo-505/10 bg-indigo-500/10 border border-indigo-500/20 rounded-xl flex items-start gap-3">
+              <div className="text-indigo-400 font-bold shrink-0 mt-0.5">ℹ️</div>
+              <div className="text-xs text-[var(--text2)] leading-relaxed">
+                <p className="font-semibold text-[var(--text-highlight)]">Why this setups the DB:</p>
+                <p className="mt-0.5">The curation checklist (custom testcases, text overrides, deletions) resides dynamically in Supabase, keeping everyone's guidelines perfectly in sync. Individual tester results (check status and observations) are securely kept locally in their browser so they don't overwrite each other's test runs.</p>
+              </div>
+            </div>
+
+            <div className="flex justify-end gap-3 mt-6 pt-3 border-t border-[var(--border)]">
+              <button
+                type="button"
+                onClick={() => setShowSqlSetupModal(false)}
+                className="px-5 py-2 rounded-lg text-xs bg-indigo-600 hover:bg-indigo-500 text-white font-semibold shadow transition-all"
+              >
+                Done Setup
+              </button>
+            </div>
+          </motion.div>
+        </div>
+      )}
+
+      {/* Admin Mode Unlock Modal */}
+      {showAdminLoginModal && (
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[2000] flex items-center justify-center p-4">
+          <motion.div
+            initial={{ scale: 0.95, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            className="bg-[var(--surface)] border border-[var(--border2)] rounded-[18px] p-6 w-full max-w-sm shadow-2xl relative overflow-hidden text-left"
+          >
+            <h3 className="text-base font-bold text-[var(--text-highlight)] flex items-center gap-2">
+              <KeyRound className="text-indigo-400" size={18} />
+              Unlock Admin Curation Mode
+            </h3>
+            
+            <p className="text-xs text-[var(--text2)] mt-2 leading-relaxed">
+              Enter any admin passkey to assume curators' editing rights. Your edits/deletions will sync directly to Supabase and be broadcasted to all viewers!
+            </p>
+
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                const formData = new FormData(e.currentTarget);
+                const key = formData.get("passkey") as string;
+                if (!key.trim()) {
+                  showToast("Passkey cannot be empty");
+                  return;
+                }
+                localStorage.setItem("compliance-hub-admin-mode", "true");
+                localStorage.setItem("compliance-hub-admin-passkey", key);
+                setIsAdminMode(true);
+                setAdminPasskey(key);
+                setShowAdminLoginModal(false);
+                showToast("Admin Curation rights unlocked!");
+              }}
+              className="mt-4 space-y-4"
+            >
+              <div className="space-y-1">
+                <label className="text-[10px] font-bold text-[var(--text-muted)] uppercase tracking-wider">
+                  Admin Passkey
+                </label>
+                <input
+                  name="passkey"
+                  type="password"
+                  required
+                  autoFocus
+                  placeholder="e.g. admin123"
+                  defaultValue="admin123"
+                  className="w-full bg-[var(--surface2)] border border-[var(--border)] rounded-lg px-3 py-2 text-sm outline-none focus:border-[var(--accent)] transition-colors"
+                />
+                <span className="text-[9px] text-[var(--text-muted)] mt-1 block leading-normal italic">
+                  Note: Default password is 'admin123' for standard configuration.
+                </span>
+              </div>
+
+              <div className="flex justify-end gap-3 pt-2">
+                <button
+                  type="button"
+                  onClick={() => setShowAdminLoginModal(false)}
+                  className="px-4 py-2 rounded-lg text-xs font-medium text-[var(--text-muted)] hover:bg-[var(--surface2)] transition-colors"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="bg-indigo-600 text-white px-4 py-2 rounded-lg text-xs font-semibold hover:bg-indigo-500 transition-all shadow-md"
+                >
+                  Authorize Curation
+                </button>
+              </div>
+            </form>
           </motion.div>
         </div>
       )}
@@ -1428,6 +1776,9 @@ function ExecuteView({
                       showToast={showToast}
                       expandedTc={expandedTc}
                       setExpandedTc={setExpandedTc}
+                      setDeleteConf={setDeleteConf}
+                      db={db}
+                      state={state}
                     />
                   </div>
                 </div>
@@ -1505,6 +1856,8 @@ function ExecuteView({
                                 )
                               }
                               setDeleteConf={setDeleteConf}
+                              db={db}
+                              state={state}
                             />
                           );
                         })}
@@ -4817,6 +5170,505 @@ function SubscriptionComplianceDemo({ tcId }: { tcId: string }) {
   );
 }
 
+function PlayGamesItemRow({
+  item,
+  itemIdx,
+  tc,
+  status,
+  isExpanded,
+  onToggle,
+  setStatus,
+  showToast,
+  setState,
+  setDeleteConf,
+  executions,
+  db,
+  state,
+}: any) {
+  const [isEditing, setIsEditing] = useState(false);
+  const [editTitle, setEditTitle] = useState(tc?.title || item.title);
+  const [editSteps, setEditSteps] = useState(tc?.steps || item.steps);
+  const [editExpected, setEditExpected] = useState(tc?.expected || item.expected);
+
+  useEffect(() => {
+    setEditTitle(tc?.title || item.title);
+    setEditSteps(tc?.steps || item.steps);
+    setEditExpected(tc?.expected || item.expected);
+  }, [tc, item]);
+
+  return (
+    <div className="transition-all duration-300 hover:bg-[var(--surface2)]/20">
+      <div
+        className="grid grid-cols-12 gap-5 p-5 md:p-6 cursor-pointer select-none items-center"
+        onClick={onToggle}
+      >
+        {/* Index column */}
+        <div className="col-span-12 md:col-span-1 flex items-center gap-3">
+          <span className="text-[10px] font-mono text-[var(--text-muted)] bg-[var(--surface2)] w-6 h-6 rounded-md flex items-center justify-center border border-[var(--border)] font-bold">
+            {itemIdx + 1}
+          </span>
+        </div>
+
+        {/* Left column: Type Tag */}
+        <div className="col-span-12 md:col-span-2">
+          {item.isBestPractice ? (
+            <span className="text-[9px] font-mono font-bold uppercase tracking-widest bg-amber-500/10 text-amber-500 border border-amber-500/30 py-1 px-3 rounded-md inline-block">
+              Best Practice
+            </span>
+          ) : (
+            <span className="text-[9px] font-mono font-bold uppercase tracking-widest bg-red-500/10 text-red-500 border border-red-500/30 py-1 px-3 rounded-md inline-block">
+              Required
+            </span>
+          )}
+        </div>
+
+        {/* Main Content Column */}
+        <div className="col-span-12 md:col-span-9 lg:col-span-5 space-y-1.5 pr-4">
+          {/* Guideline Title */}
+          <h4 className="text-xs font-bold text-[var(--text-highlight)] leading-snug">
+            {item.title}
+          </h4>
+          {/* Short snippet of description */}
+          <p className="text-[11px] text-[var(--text-muted)] leading-relaxed italic truncate">
+            {item.snippet}
+          </p>
+        </div>
+
+        {/* Right Column: Status & Expand controls */}
+        <div
+          className="col-span-12 lg:col-span-4 flex items-center justify-end gap-3"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <div className="flex gap-1.5 flex-wrap justify-end">
+            <StatusBtn
+              active={status === "pass"}
+              onClick={() => {
+                setStatus(item.id, "pass");
+                showToast(`${item.id} Pass registered`);
+              }}
+              label="Pass"
+              color="bg-green-500/10 text-green-500 border border-green-500/20"
+              activeCls="bg-green-500 text-black border-green-500 shadow-glow-green"
+            />
+            <StatusBtn
+              active={status === "fail"}
+              onClick={() => {
+                setStatus(item.id, "fail");
+                showToast(`${item.id} Fail registered`);
+              }}
+              label="Fail"
+              color="bg-red-500/10 text-red-500 border border-red-500/20"
+              activeCls="bg-red-500 text-white border-red-500 shadow-glow-red"
+            />
+            <StatusBtn
+              active={status === "not_applicable"}
+              onClick={() => {
+                setStatus(item.id, "not_applicable");
+                showToast(`${item.id} N/A registered`);
+              }}
+              label="N/A"
+              color="bg-orange-500/10 text-orange-500 border border-orange-500/20"
+              activeCls="bg-orange-500 text-black border-orange-500 shadow-glow-orange"
+            />
+            <StatusBtn
+              active={status === "not_tested"}
+              onClick={() => setStatus(item.id, "not_tested")}
+              label="Not Tested"
+              color="bg-[var(--bg)]/40 text-[var(--text-muted)] border border-transparent"
+              activeCls="bg-[var(--text-highlight)] text-[var(--bg)] border-[var(--text-highlight)] shadow-glow"
+            />
+
+            {/* Edit Button */}
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                setIsEditing(true);
+              }}
+              className="p-1.5 rounded-lg border border-[var(--border)] bg-[var(--surface2)] hover:border-[var(--text-highlight)] hover:bg-[var(--surface3)] text-[var(--text-muted)] hover:text-[var(--text-highlight)] transition-all ml-1"
+              title="Edit guideline text"
+            >
+              <Pencil size={13} />
+            </button>
+
+            {/* Delete Button */}
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                if (setDeleteConf) {
+                  setDeleteConf({
+                    title: "Delete Guideline Checkpoint",
+                    message: `Are you sure you want to permanently delete compliance guideline / checkpoint "${item.title}"? This action cannot be undone.`,
+                    confirmText: "Delete Checkpoint",
+                    onConfirm: () => {
+                      setState((prev: any) => ({
+                        ...prev,
+                        deletedTcs: [...(prev.deletedTcs || []), item.id],
+                      }));
+                      showToast("Guideline deleted successfully");
+                    },
+                  });
+                } else {
+                  setState((prev: any) => ({
+                    ...prev,
+                    deletedTcs: [...(prev.deletedTcs || []), item.id],
+                  }));
+                  showToast("Guideline deleted successfully");
+                }
+              }}
+              className="p-1.5 rounded-lg border border-[var(--border)] bg-[var(--surface2)] hover:border-red-500/30 hover:bg-red-500/10 text-[var(--text-muted)] hover:text-red-500 transition-all"
+              title="Delete guideline"
+            >
+              <Trash2 size={13} />
+            </button>
+          </div>
+
+          <motion.div
+            animate={{ rotate: isExpanded ? 90 : 0 }}
+            className="text-[var(--text-muted)] hover:text-[var(--text-highlight)] transition-colors cursor-pointer p-1"
+            onClick={onToggle}
+          >
+            <ChevronRight size={14} />
+          </motion.div>
+        </div>
+      </div>
+
+      {/* Expandable test details */}
+      <AnimatePresence>
+        {isExpanded && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            className="border-t border-[var(--border)] bg-[var(--surface2)]/50 overflow-hidden"
+          >
+            <div className="p-5 md:p-6 space-y-6 max-w-4xl mx-auto">
+              <div className="grid grid-cols-1 md:grid-cols-5 gap-8">
+                <div className="md:col-span-3 space-y-6">
+                  {/* Test specification list */}
+                  <div className="space-y-3">
+                    <p className="text-[9px] font-bold text-[var(--text-muted)] uppercase tracking-widest flex items-center gap-2 underline decoration-[var(--border)] underline-offset-4 font-mono">
+                      01 Play Games Guidelines Details
+                    </p>
+                    <div className="text-xs text-[var(--text)] leading-relaxed space-y-3 font-normal">
+                      {(item.details || []).map((p: any, pIdx: number) => (
+                        <p key={pIdx}>
+                          {item.link && p.includes("branding guidelines") ? (
+                            <>
+                              To provide players with an end-to-end experience
+                              that is attractive and consistent, implement the{" "}
+                              <a
+                                href={item.link}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="text-indigo-400 hover:underline hover:text-indigo-300 font-semibold cursor-pointer text-xs"
+                                onClick={(e) => e.stopPropagation()}
+                              >
+                                Google Play Games Services branding guidelines
+                              </a>
+                              .
+                            </>
+                          ) : (
+                            p
+                          )}
+                        </p>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Test steps block with Split lines */}
+                  {item.steps && (
+                    <div className="space-y-3">
+                      <p className="text-[9px] font-bold text-[var(--text-muted)] uppercase tracking-widest flex items-center gap-2 underline decoration-[var(--border)] underline-offset-4 font-mono">
+                        02 Test steps
+                      </p>
+                      <ul className="space-y-2.5">
+                        {item.steps
+                          .split("\n")
+                          .map((l: string, i: number) => (
+                            <li key={i} className="flex gap-4 group/step">
+                              <span className="text-[10px] font-mono text-[var(--text)] font-bold bg-[var(--bg)] w-5 h-5 rounded flex items-center justify-center shrink-0 border border-[var(--border)] shadow-sm">
+                                {i + 1}
+                              </span>
+                              <span className="text-sm text-[var(--text)] group-hover/step:text-[var(--text-highlight)] transition-colors leading-relaxed">
+                                {l}
+                              </span>
+                            </li>
+                          ))}
+                      </ul>
+                    </div>
+                  )}
+
+                  {/* Expected criteria block */}
+                  <div className="p-4 rounded-xl border border-emerald-500/20 dark:border-emerald-800/20 bg-emerald-500/5 shadow-sm">
+                    <p className="text-[9px] font-bold text-emerald-500 dark:text-emerald-400 uppercase tracking-widest mb-1.5 flex items-center gap-2 font-mono">
+                      03 Expected result
+                    </p>
+                    <p className="text-xs text-[var(--text)] leading-relaxed font-semibold italic">
+                      {item.expected}
+                    </p>
+                  </div>
+
+                  {item.id === "And-GPGS-ACH-6" && (
+                    <div className="space-y-3">
+                      <p className="text-[9px] font-bold text-[var(--text-muted)] uppercase tracking-widest flex items-center gap-2 underline decoration-[var(--border)] underline-offset-4 font-mono">
+                        05 Incremental Progress UI Example
+                      </p>
+                      <div className="rounded-2xl overflow-hidden border border-[var(--border)] bg-[var(--surface3)] max-w-sm shadow-md mt-2">
+                        <img
+                          src={gpgIncrementalImg}
+                          alt="Google Play Games Incremental Achievement UI Example Representation"
+                          className="w-full h-auto object-cover"
+                          referrerPolicy="no-referrer"
+                        />
+                        <div className="p-3 bg-[var(--surface2)]/50 border-t border-[var(--border)]">
+                          <p className="text-[11px] text-[var(--text-muted)] leading-relaxed font-medium">
+                            An elegant visual layout of an active incremental
+                            achievement showing high-contrast progress
+                            checkpoints, descriptive rewards, and live
+                            completion counts.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {item.id === "And-GPGS-ACH-11" && (
+                    <div className="space-y-3">
+                      <p className="text-[9px] font-bold text-[var(--text-muted)] uppercase tracking-widest flex items-center gap-2 underline decoration-[var(--border)] underline-offset-4 font-mono">
+                        05 High-Difficulty Achievement UI Example
+                      </p>
+                      <div className="rounded-2xl overflow-hidden border border-[var(--border)] bg-[var(--surface3)] max-w-sm shadow-md mt-2">
+                        <img
+                          src={gpgDifficultyImg}
+                          alt="Google Play Games High-Difficulty Achievement Milestone Example Representation"
+                          className="w-full h-auto object-cover"
+                          referrerPolicy="no-referrer"
+                        />
+                        <div className="p-3 bg-[var(--surface2)]/50 border-t border-[var(--border)]">
+                          <p className="text-[11px] text-[var(--text-muted)] leading-relaxed font-medium">
+                            For example, the following screenshot shows a
+                            hard-to-earn achievement that helps to motivate and
+                            retain fans of the title.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {item.id === "And-GPGS-FRND-4" && (
+                    <div className="space-y-3">
+                      <p className="text-[9px] font-bold text-[var(--text-muted)] uppercase tracking-widest flex items-center gap-2 underline decoration-[var(--border)] underline-offset-4 font-mono">
+                        05 Friends vs Non-Friends Icon Status Example
+                      </p>
+                      <div className="rounded-2xl overflow-hidden border border-[var(--border)] bg-[var(--surface3)] max-w-sm shadow-md mt-2">
+                        <img
+                          src={gpgFriendsIconsImg}
+                          alt="Google Play Games Services Friends vs Non-Friends Social Icon Status Indicators"
+                          className="w-full h-auto object-cover"
+                          referrerPolicy="no-referrer"
+                        />
+                        <div className="p-3 bg-[var(--surface2)]/50 border-t border-[var(--border)]">
+                          <p className="text-[11px] text-[var(--text-muted)] leading-relaxed font-medium">
+                            Use distinct icon badge variations next to users to
+                            represent confirmed reciprocity vs un-linked or
+                            unknown friend statuses.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                {/* Notes block */}
+                <div className="md:col-span-2 space-y-4">
+                  <div className="space-y-2">
+                    <label className="text-[9px] font-bold text-[var(--text-muted)] uppercase tracking-widest flex items-center gap-2 underline decoration-[var(--border)] underline-offset-4 font-mono">
+                      04 Observations & Notes
+                    </label>
+                    <textarea
+                      placeholder="Log runtime anomalies, device specifics or play credentials..."
+                      className="w-full bg-[var(--bg)]/40 border border-[var(--border)] rounded-xl p-3 text-xs text-[var(--text-highlight)] outline-none focus:border-[var(--text-muted)] transition-all resize-none min-h-[110px] font-mono leading-relaxed shadow-inner"
+                      value={executions[item.id]?.notes || ""}
+                      onChange={(e) => {
+                        setState((prev: any) => {
+                          const key = `${prev.platform}_${prev.activeId}`;
+                          const platExecs = prev.execsByPlatform[key] || {};
+                          return {
+                            ...prev,
+                            execsByPlatform: {
+                              ...prev.execsByPlatform,
+                              [key]: {
+                                ...platExecs,
+                                [item.id]: {
+                                  ...(platExecs[item.id] || {
+                                    status: "not_tested",
+                                  }),
+                                  notes: e.target.value,
+                                },
+                              },
+                            },
+                          };
+                        });
+                      }}
+                    />
+                  </div>
+                  <button
+                    onClick={() =>
+                      showToast("Observations committed to session")
+                    }
+                    className="w-full bg-[var(--text-highlight)] text-[var(--bg)] text-[10px] font-bold py-2 rounded-lg hover:opacity-90 transition-all shadow-md flex items-center justify-center gap-2 active:scale-[0.98]"
+                  >
+                    <Save size={12} /> Commit Notes
+                  </button>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Center Modal Dialogue for editing compliance guideline checkpoint */}
+      <AnimatePresence>
+        {isEditing && (
+          <div
+            className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-md"
+            onClick={() => setIsEditing(false)}
+          >
+            <motion.div
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.95, opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="bg-[var(--surface3)] border border-[var(--border)] rounded-2xl w-full max-w-2xl overflow-hidden shadow-2xl text-left"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Header */}
+              <div className="px-6 py-4 bg-[var(--surface)] border-b border-[var(--border)] flex items-center justify-between">
+                <div>
+                  <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-[var(--text-muted)]">
+                    Checkpoint Editor
+                  </span>
+                  <h3 className="text-sm font-bold text-[var(--text-highlight)] uppercase tracking-wider">
+                    Edit Play Games Checkpoint Rule
+                  </h3>
+                </div>
+                <button
+                  onClick={() => setIsEditing(false)}
+                  className="p-1 px-2.5 rounded bg-[var(--surface2)] hover:bg-[var(--surface)] border border-[var(--border)] text-xs text-[var(--text-muted)] hover:text-[var(--text-highlight)] transition-all"
+                >
+                  Close
+                </button>
+              </div>
+
+              {/* Body */}
+              <div className="p-6 space-y-4">
+                {/* Title */}
+                <div className="space-y-1.5">
+                  <label className="text-[10px] font-bold text-[var(--text-muted)] uppercase tracking-widest font-mono">
+                    Guideline Text (Main Rule Title)
+                  </label>
+                  <textarea
+                    value={editTitle}
+                    onChange={(e) => setEditTitle(e.target.value)}
+                    className="w-full bg-[var(--bg)] border border-[var(--border)] rounded-lg p-3 text-sm text-[var(--text-highlight)] outline-none focus:border-[var(--text-muted)] transition-all resize-none h-24 font-medium"
+                    placeholder="Introduce the guideline rule description..."
+                  />
+                </div>
+
+                {/* Test Steps */}
+                <div className="space-y-1.5">
+                  <label className="text-[10px] font-bold text-[var(--text-muted)] uppercase tracking-widest font-mono">
+                    Verification Steps (Each line represents a step)
+                  </label>
+                  <textarea
+                    value={editSteps}
+                    onChange={(e) => setEditSteps(e.target.value)}
+                    className="w-full bg-[var(--bg)] border border-[var(--border)] rounded-lg p-3 text-xs text-[var(--text)] outline-none focus:border-[var(--text-muted)] transition-all h-28 font-mono leading-relaxed"
+                    placeholder="1. Step one&#10;2. Step two..."
+                  />
+                </div>
+
+                {/* Expected Result */}
+                <div className="space-y-1.5">
+                  <label className="text-[10px] font-bold text-[var(--text-muted)] uppercase tracking-widest font-mono">
+                    Expected Success Criteria
+                  </label>
+                  <textarea
+                    value={editExpected}
+                    onChange={(e) => setEditExpected(e.target.value)}
+                    className="w-full bg-[var(--bg)] border border-[var(--border)] rounded-lg p-3 text-xs text-[var(--text)] outline-none focus:border-[var(--text-muted)] transition-all h-20 font-mono leading-relaxed"
+                    placeholder="What indicates a passing result..."
+                  />
+                </div>
+              </div>
+
+              {/* Footer */}
+              <div className="px-6 py-4 bg-[var(--surface)] border-t border-[var(--border)] flex items-center justify-between">
+                <div>
+                  {state?.editedTcs?.[item.id] && (
+                    <button
+                      onClick={() => {
+                        setState((prev: any) => {
+                          const copy = { ...(prev.editedTcs || {}) };
+                          delete copy[item.id];
+                          return { ...prev, editedTcs: copy };
+                        });
+                        const original = (db?.testCases || []).find((t: any) => t.id === item.id) || tc;
+                        setEditTitle(original.title);
+                        setEditSteps(original.steps);
+                        setEditExpected(original.expected);
+                        setIsEditing(false);
+                        showToast("Reset to default successfully");
+                      }}
+                      className="text-xs text-red-400 hover:text-red-300 underline font-medium transition-all"
+                    >
+                      Reset to Original Default
+                    </button>
+                  )}
+                </div>
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => setIsEditing(false)}
+                    className="px-4 py-2 rounded bg-[var(--surface2)] hover:bg-[var(--surface3)] border border-[var(--border)] text-xs font-bold uppercase text-[var(--text-highlight)] transition-all"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={() => {
+                      if (!editTitle.trim()) {
+                        showToast("Guideline text cannot be empty");
+                        return;
+                      }
+                      setState((prev: any) => ({
+                        ...prev,
+                        editedTcs: {
+                          ...(prev.editedTcs || {}),
+                          [item.id]: {
+                            ...tc,
+                            id: item.id,
+                            title: editTitle,
+                            steps: editSteps,
+                            expected: editExpected,
+                          },
+                        },
+                      }));
+                      setIsEditing(false);
+                      showToast("Guideline saved successfully");
+                    }}
+                    className="px-4 py-2 rounded bg-[var(--text-highlight)] text-[var(--bg)] hover:opacity-90 text-xs font-bold uppercase transition-all shadow-md"
+                  >
+                    Save Changes
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
+
 function PlayGamesServicesChecklist({
   tcs,
   executions,
@@ -4825,6 +5677,9 @@ function PlayGamesServicesChecklist({
   showToast,
   expandedTc,
   setExpandedTc,
+  setDeleteConf,
+  db,
+  state,
 }: any) {
   const GUIDELINE_DETAILS_MAP: Record<string, string[]> = {
     "And-GPGS-1.1": [
@@ -5152,307 +6007,22 @@ function PlayGamesServicesChecklist({
               const isExpanded = expandedTc === item.id;
 
               return (
-                <div
+                <PlayGamesItemRow
                   key={item.id}
-                  className="transition-all duration-300 hover:bg-[var(--surface2)]/20"
-                >
-                  <div
-                    className="grid grid-cols-12 gap-5 p-5 md:p-6 cursor-pointer select-none items-center"
-                    onClick={() => setExpandedTc(isExpanded ? null : item.id)}
-                  >
-                    {/* Index column */}
-                    <div className="col-span-12 md:col-span-1 flex items-center gap-3">
-                      <span className="text-[10px] font-mono text-[var(--text-muted)] bg-[var(--surface2)] w-6 h-6 rounded-md flex items-center justify-center border border-[var(--border)] font-bold">
-                        {itemIdx + 1}
-                      </span>
-                    </div>
-
-                    {/* Left column: Type Tag */}
-                    <div className="col-span-12 md:col-span-2">
-                      {item.isBestPractice ? (
-                        <span className="text-[9px] font-mono font-bold uppercase tracking-widest bg-amber-500/10 text-amber-500 border border-amber-500/30 py-1 px-3 rounded-md inline-block">
-                          Best Practice
-                        </span>
-                      ) : (
-                        <span className="text-[9px] font-mono font-bold uppercase tracking-widest bg-red-500/10 text-red-500 border border-red-500/30 py-1 px-3 rounded-md inline-block">
-                          Required
-                        </span>
-                      )}
-                    </div>
-
-                    {/* Main Content Column */}
-                    <div className="col-span-12 md:col-span-9 lg:col-span-5 space-y-1.5 pr-4">
-                      {/* Guideline Title */}
-                      <h4 className="text-xs font-bold text-[var(--text-highlight)] leading-snug">
-                        {item.title}
-                      </h4>
-                      {/* Short snippet of description */}
-                      <p className="text-[11px] text-[var(--text-muted)] leading-relaxed italic truncate">
-                        {item.snippet}
-                      </p>
-                    </div>
-
-                    {/* Right Column: Status & Expand controls */}
-                    <div
-                      className="col-span-12 lg:col-span-4 flex items-center justify-end gap-3"
-                      onClick={(e) => e.stopPropagation()}
-                    >
-                      <div className="flex gap-1.5 flex-wrap justify-end">
-                        <StatusBtn
-                          active={status === "pass"}
-                          onClick={() => {
-                            setStatus(item.id, "pass");
-                            showToast(`${item.id} Pass registered`);
-                          }}
-                          label="Pass"
-                          color="bg-green-500/10 text-green-500 border border-green-500/20"
-                          activeCls="bg-green-500 text-black border-green-500 shadow-glow-green"
-                        />
-                        <StatusBtn
-                          active={status === "fail"}
-                          onClick={() => {
-                            setStatus(item.id, "fail");
-                            showToast(`${item.id} Fail registered`);
-                          }}
-                          label="Fail"
-                          color="bg-red-500/10 text-red-500 border border-red-500/20"
-                          activeCls="bg-red-500 text-white border-red-500 shadow-glow-red"
-                        />
-                        <StatusBtn
-                          active={status === "not_applicable"}
-                          onClick={() => {
-                            setStatus(item.id, "not_applicable");
-                            showToast(`${item.id} N/A registered`);
-                          }}
-                          label="N/A"
-                          color="bg-orange-500/10 text-orange-500 border border-orange-500/20"
-                          activeCls="bg-orange-500 text-black border-orange-500 shadow-glow-orange"
-                        />
-                        <StatusBtn
-                          active={status === "not_tested"}
-                          onClick={() => setStatus(item.id, "not_tested")}
-                          label="Not Tested"
-                          color="bg-[var(--bg)]/40 text-[var(--text-muted)] border border-transparent"
-                          activeCls="bg-[var(--text-highlight)] text-[var(--bg)] border-[var(--text-highlight)] shadow-glow"
-                        />
-                      </div>
-
-                      <motion.div
-                        animate={{ rotate: isExpanded ? 90 : 0 }}
-                        className="text-[var(--text-muted)] hover:text-[var(--text-highlight)] transition-colors cursor-pointer p-1"
-                        onClick={() =>
-                          setExpandedTc(isExpanded ? null : item.id)
-                        }
-                      >
-                        <ChevronRight size={14} />
-                      </motion.div>
-                    </div>
-                  </div>
-
-                  {/* Expandable test details */}
-                  <AnimatePresence>
-                    {isExpanded && (
-                      <motion.div
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: "auto", opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        className="border-t border-[var(--border)] bg-[var(--surface2)]/50 overflow-hidden"
-                      >
-                        <div className="p-5 md:p-6 space-y-6 max-w-4xl mx-auto">
-                          <div className="grid grid-cols-1 md:grid-cols-5 gap-8">
-                            <div className="md:col-span-3 space-y-6">
-                              {/* Test specification list */}
-                              <div className="space-y-3">
-                                <p className="text-[9px] font-bold text-[var(--text-muted)] uppercase tracking-widest flex items-center gap-2 underline decoration-[var(--border)] underline-offset-4 font-mono">
-                                  01 Play Games Guidelines Details
-                                </p>
-                                <div className="text-xs text-[var(--text)] leading-relaxed space-y-3 font-normal">
-                                  {item.details.map((p, pIdx) => (
-                                    <p key={pIdx}>
-                                      {item.link &&
-                                      p.includes("branding guidelines") ? (
-                                        <>
-                                          To provide players with an end-to-end
-                                          experience that is attractive and
-                                          consistent, implement the{" "}
-                                          <a
-                                            href={item.link}
-                                            target="_blank"
-                                            rel="noreferrer"
-                                            className="text-indigo-400 hover:underline hover:text-indigo-300 font-semibold cursor-pointer text-xs"
-                                            onClick={(e) => e.stopPropagation()}
-                                          >
-                                            Google Play Games Services branding
-                                            guidelines
-                                          </a>
-                                          .
-                                        </>
-                                      ) : (
-                                        p
-                                      )}
-                                    </p>
-                                  ))}
-                                </div>
-                              </div>
-
-                              {/* Test steps block with Split lines */}
-                              <div className="space-y-3">
-                                <p className="text-[9px] font-bold text-[var(--text-muted)] uppercase tracking-widest flex items-center gap-2 underline decoration-[var(--border)] underline-offset-4 font-mono">
-                                  02 Test steps
-                                </p>
-                                <ul className="space-y-2.5">
-                                  {item.steps
-                                    .split("\n")
-                                    .map((l: string, i: number) => (
-                                      <li
-                                        key={i}
-                                        className="flex gap-4 group/step"
-                                      >
-                                        <span className="text-[10px] font-mono text-[var(--text)] font-bold bg-[var(--bg)] w-5 h-5 rounded flex items-center justify-center shrink-0 border border-[var(--border)] shadow-sm">
-                                          {i + 1}
-                                        </span>
-                                        <span className="text-sm text-[var(--text)] group-hover/step:text-[var(--text-highlight)] transition-colors leading-relaxed">
-                                          {l}
-                                        </span>
-                                      </li>
-                                    ))}
-                                </ul>
-                              </div>
-
-                              {/* Expected criteria block */}
-                              <div className="p-4 rounded-xl border border-emerald-500/20 dark:border-emerald-800/20 bg-emerald-500/5 shadow-sm">
-                                <p className="text-[9px] font-bold text-emerald-500 dark:text-emerald-400 uppercase tracking-widest mb-1.5 flex items-center gap-2 font-mono">
-                                  03 Expected result
-                                </p>
-                                <p className="text-xs text-[var(--text)] leading-relaxed font-semibold italic">
-                                  {item.expected}
-                                </p>
-                              </div>
-
-                              {item.id === "And-GPGS-ACH-6" && (
-                                <div className="space-y-3">
-                                  <p className="text-[9px] font-bold text-[var(--text-muted)] uppercase tracking-widest flex items-center gap-2 underline decoration-[var(--border)] underline-offset-4 font-mono">
-                                    05 Incremental Progress UI Example
-                                  </p>
-                                  <div className="rounded-2xl overflow-hidden border border-[var(--border)] bg-[var(--surface3)] max-w-sm shadow-md mt-2">
-                                    <img
-                                      src={gpgIncrementalImg}
-                                      alt="Google Play Games Incremental Achievement UI Example Representation"
-                                      className="w-full h-auto object-cover"
-                                      referrerPolicy="no-referrer"
-                                    />
-                                    <div className="p-3 bg-[var(--surface2)]/50 border-t border-[var(--border)]">
-                                      <p className="text-[11px] text-[var(--text-muted)] leading-relaxed font-medium">
-                                        An elegant visual layout of an active
-                                        incremental achievement showing
-                                        high-contrast progress checkpoints,
-                                        descriptive rewards, and live completion
-                                        counts.
-                                      </p>
-                                    </div>
-                                  </div>
-                                </div>
-                              )}
-
-                              {item.id === "And-GPGS-ACH-11" && (
-                                <div className="space-y-3">
-                                  <p className="text-[9px] font-bold text-[var(--text-muted)] uppercase tracking-widest flex items-center gap-2 underline decoration-[var(--border)] underline-offset-4 font-mono">
-                                    05 High-Difficulty Achievement UI Example
-                                  </p>
-                                  <div className="rounded-2xl overflow-hidden border border-[var(--border)] bg-[var(--surface3)] max-w-sm shadow-md mt-2">
-                                    <img
-                                      src={gpgDifficultyImg}
-                                      alt="Google Play Games High-Difficulty Achievement Milestone Example Representation"
-                                      className="w-full h-auto object-cover"
-                                      referrerPolicy="no-referrer"
-                                    />
-                                    <div className="p-3 bg-[var(--surface2)]/50 border-t border-[var(--border)]">
-                                      <p className="text-[11px] text-[var(--text-muted)] leading-relaxed font-medium">
-                                        For example, the following screenshot
-                                        shows a hard-to-earn achievement that
-                                        helps to motivate and retain fans of the
-                                        title.
-                                      </p>
-                                    </div>
-                                  </div>
-                                </div>
-                              )}
-
-                              {item.id === "And-GPGS-FRND-4" && (
-                                <div className="space-y-3">
-                                  <p className="text-[9px] font-bold text-[var(--text-muted)] uppercase tracking-widest flex items-center gap-2 underline decoration-[var(--border)] underline-offset-4 font-mono">
-                                    05 Friends vs Non-Friends Icon Status
-                                    Example
-                                  </p>
-                                  <div className="rounded-2xl overflow-hidden border border-[var(--border)] bg-[var(--surface3)] max-w-sm shadow-md mt-2">
-                                    <img
-                                      src={gpgFriendsIconsImg}
-                                      alt="Google Play Games Services Friends vs Non-Friends Social Icon Status Indicators"
-                                      className="w-full h-auto object-cover"
-                                      referrerPolicy="no-referrer"
-                                    />
-                                    <div className="p-3 bg-[var(--surface2)]/50 border-t border-[var(--border)]">
-                                      <p className="text-[11px] text-[var(--text-muted)] leading-relaxed font-medium">
-                                        Use distinct icon badge variations next
-                                        to users to represent confirmed
-                                        reciprocity vs un-linked or unknown
-                                        friend statuses.
-                                      </p>
-                                    </div>
-                                  </div>
-                                </div>
-                              )}
-                            </div>
-
-                            {/* Notes block */}
-                            <div className="md:col-span-2 space-y-4">
-                              <div className="space-y-2">
-                                <label className="text-[9px] font-bold text-[var(--text-muted)] uppercase tracking-widest flex items-center gap-2 underline decoration-[var(--border)] underline-offset-4 font-mono">
-                                  04 Observations & Notes
-                                </label>
-                                <textarea
-                                  placeholder="Log runtime anomalies, device specifics or play credentials..."
-                                  className="w-full bg-[var(--bg)]/40 border border-[var(--border)] rounded-xl p-3 text-xs text-[var(--text-highlight)] outline-none focus:border-[var(--text-muted)] transition-all resize-none min-h-[110px] font-mono leading-relaxed shadow-inner"
-                                  value={executions[item.id]?.notes || ""}
-                                  onChange={(e) => {
-                                    setState((prev: any) => {
-                                      const key = `${prev.platform}_${prev.activeId}`;
-                                      const platExecs =
-                                        prev.execsByPlatform[key] || {};
-                                      return {
-                                        ...prev,
-                                        execsByPlatform: {
-                                          ...prev.execsByPlatform,
-                                          [key]: {
-                                            ...platExecs,
-                                            [item.id]: {
-                                              ...(platExecs[item.id] || {
-                                                status: "not_tested",
-                                              }),
-                                              notes: e.target.value,
-                                            },
-                                          },
-                                        },
-                                      };
-                                    });
-                                  }}
-                                />
-                              </div>
-                              <button
-                                onClick={() =>
-                                  showToast("Observations committed to session")
-                                }
-                                className="w-full bg-[var(--text-highlight)] text-[var(--bg)] text-[10px] font-bold py-2 rounded-lg hover:opacity-90 transition-all shadow-md flex items-center justify-center gap-2 active:scale-[0.98]"
-                              >
-                                <Save size={12} /> Commit Notes
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </div>
+                  item={item}
+                  itemIdx={itemIdx}
+                  tc={tc}
+                  status={status}
+                  isExpanded={isExpanded}
+                  onToggle={() => setExpandedTc(isExpanded ? null : item.id)}
+                  setStatus={setStatus}
+                  showToast={showToast}
+                  setState={setState}
+                  setDeleteConf={setDeleteConf}
+                  executions={executions}
+                  db={db}
+                  state={state}
+                />
               );
             })}
           </div>
@@ -5472,8 +6042,21 @@ function TestCaseRow({
   isExpanded,
   onToggle,
   setDeleteConf,
+  db,
+  state,
 }: any) {
   const status = execution?.status || "not_tested";
+
+  const [isEditing, setIsEditing] = useState(false);
+  const [editTitle, setEditTitle] = useState(tc.title);
+  const [editSteps, setEditSteps] = useState(tc.steps);
+  const [editExpected, setEditExpected] = useState(tc.expected);
+
+  useEffect(() => {
+    setEditTitle(tc.title);
+    setEditSteps(tc.steps);
+    setEditExpected(tc.expected);
+  }, [tc]);
 
   return (
     <div
@@ -5546,40 +6129,64 @@ function TestCaseRow({
             activeCls="bg-[var(--text-highlight)] text-[var(--bg)] border-[var(--text-highlight)] shadow-glow"
           />
 
-          {tc.id.startsWith("custom-") && (
-            <button
-              onClick={() => {
-                if (setDeleteConf) {
-                  setDeleteConf({
-                    title: "Delete Custom Checkpoint",
-                    message: `Are you sure you want to permanently delete custom checkpoint "${tc.title}"? This action cannot be undone.`,
-                    confirmText: "Delete Checkpoint",
-                    onConfirm: () => {
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              setIsEditing(true);
+            }}
+            className="p-1.5 rounded-lg border border-[var(--border)] bg-[var(--surface2)] hover:border-[var(--text-highlight)] hover:bg-[var(--surface3)] text-[var(--text-muted)] hover:text-[var(--text-highlight)] transition-all ml-1"
+            title="Edit guideline text"
+          >
+            <Pencil size={13} />
+          </button>
+
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              if (setDeleteConf) {
+                setDeleteConf({
+                  title: tc.id.startsWith("custom-") ? "Delete Custom Checkpoint" : "Delete Guideline Checkpoint",
+                  message: `Are you sure you want to permanently delete compliance guideline / checkpoint "${tc.title}"? This action cannot be undone.`,
+                  confirmText: "Delete Checkpoint",
+                  onConfirm: () => {
+                    if (tc.id.startsWith("custom-")) {
                       setState((prev: any) => ({
                         ...prev,
                         customTcs: (prev.customTcs || []).filter(
                           (t: any) => t.id !== tc.id,
                         ),
                       }));
-                      showToast("Custom checkpoint deleted");
-                    },
-                  });
-                } else {
+                    } else {
+                      setState((prev: any) => ({
+                        ...prev,
+                        deletedTcs: [...(prev.deletedTcs || []), tc.id],
+                      }));
+                    }
+                    showToast("Guideline deleted successfully");
+                  },
+                });
+              } else {
+                if (tc.id.startsWith("custom-")) {
                   setState((prev: any) => ({
                     ...prev,
                     customTcs: (prev.customTcs || []).filter(
                       (t: any) => t.id !== tc.id,
                     ),
                   }));
-                  showToast("Custom checkpoint deleted");
+                } else {
+                  setState((prev: any) => ({
+                    ...prev,
+                    deletedTcs: [...(prev.deletedTcs || []), tc.id],
+                  }));
                 }
-              }}
-              className="p-1.5 rounded bg-transparent border border-transparent hover:border-red-500/20 hover:bg-red-500/10 text-[var(--text-muted)] hover:text-red-500 transition-all ml-1"
-              title="Delete custom test case"
-            >
-              <Trash2 size={13} />
-            </button>
-          )}
+                showToast("Guideline deleted successfully");
+              }
+            }}
+            className="p-1.5 rounded-lg border border-[var(--border)] bg-[var(--surface2)] hover:border-red-500/30 hover:bg-red-500/10 text-[var(--text-muted)] hover:text-red-500 transition-all ml-1"
+            title="Delete guideline"
+          >
+            <Trash2 size={13} />
+          </button>
         </div>
         <motion.div
           animate={{ rotate: isExpanded ? 90 : 0 }}
@@ -5701,6 +6308,144 @@ function TestCaseRow({
               </div>
             </div>
           </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Center Modal Dialogue for editing compliance guideline checkpoint */}
+      <AnimatePresence>
+        {isEditing && (
+          <div 
+            className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-md"
+            onClick={() => setIsEditing(false)}
+          >
+            <motion.div 
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.95, opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="bg-[var(--surface3)] border border-[var(--border)] rounded-2xl w-full max-w-2xl overflow-hidden shadow-2xl text-left"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Header */}
+              <div className="px-6 py-4 bg-[var(--surface)] border-b border-[var(--border)] flex items-center justify-between">
+                <div>
+                  <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-[var(--text-muted)]">
+                    Checkpoint Editor
+                  </span>
+                  <h3 className="text-sm font-bold text-[var(--text-highlight)] uppercase tracking-wider">
+                    Edit Guideline Checklist Rule
+                  </h3>
+                </div>
+                <button 
+                  onClick={() => setIsEditing(false)}
+                  className="p-1 px-2.5 rounded bg-[var(--surface2)] hover:bg-[var(--surface)] border border-[var(--border)] text-xs text-[var(--text-muted)] hover:text-[var(--text-highlight)] transition-all"
+                >
+                  Close
+                </button>
+              </div>
+
+              {/* Body */}
+              <div className="p-6 space-y-4">
+                {/* Title */}
+                <div className="space-y-1.5">
+                  <label className="text-[10px] font-bold text-[var(--text-muted)] uppercase tracking-widest font-mono">
+                    Guideline Text (Main Rule Title)
+                  </label>
+                  <textarea
+                    value={editTitle}
+                    onChange={(e) => setEditTitle(e.target.value)}
+                    className="w-full bg-[var(--bg)] border border-[var(--border)] rounded-lg p-3 text-sm text-[var(--text-highlight)] outline-none focus:border-[var(--text-muted)] transition-all resize-none h-24 font-medium"
+                    placeholder="Introduce the guideline rule description..."
+                  />
+                </div>
+
+                {/* Test Steps */}
+                <div className="space-y-1.5">
+                  <label className="text-[10px] font-bold text-[var(--text-muted)] uppercase tracking-widest font-mono">
+                    Verification Steps (Each line represents a step)
+                  </label>
+                  <textarea
+                    value={editSteps}
+                    onChange={(e) => setEditSteps(e.target.value)}
+                    className="w-full bg-[var(--bg)] border border-[var(--border)] rounded-lg p-3 text-xs text-[var(--text)] outline-none focus:border-[var(--text-muted)] transition-all h-28 font-mono leading-relaxed"
+                    placeholder="1. Step one&#10;2. Step two..."
+                  />
+                </div>
+
+                {/* Expected Result */}
+                <div className="space-y-1.5">
+                  <label className="text-[10px] font-bold text-[var(--text-muted)] uppercase tracking-widest font-mono">
+                    Expected Success Criteria
+                  </label>
+                  <textarea
+                    value={editExpected}
+                    onChange={(e) => setEditExpected(e.target.value)}
+                    className="w-full bg-[var(--bg)] border border-[var(--border)] rounded-lg p-3 text-xs text-[var(--text)] outline-none focus:border-[var(--text-muted)] transition-all h-20 font-mono leading-relaxed"
+                    placeholder="What indicates a passing result..."
+                  />
+                </div>
+              </div>
+
+              {/* Footer */}
+              <div className="px-6 py-4 bg-[var(--surface)] border-t border-[var(--border)] flex items-center justify-between">
+                <div>
+                  {state?.editedTcs?.[tc.id] && (
+                    <button
+                      onClick={() => {
+                        setState((prev: any) => {
+                          const copy = { ...(prev.editedTcs || {}) };
+                          delete copy[tc.id];
+                          return { ...prev, editedTcs: copy };
+                        });
+                        const original = (db?.testCases || []).find((t: any) => t.id === tc.id) || tc;
+                        setEditTitle(original.title);
+                        setEditSteps(original.steps);
+                        setEditExpected(original.expected);
+                        setIsEditing(false);
+                        showToast("Reset to default successfully");
+                      }}
+                      className="text-xs text-red-400 hover:text-red-300 underline font-medium transition-all"
+                    >
+                      Reset to Original Default
+                    </button>
+                  )}
+                </div>
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => setIsEditing(false)}
+                    className="px-4 py-2 rounded bg-[var(--surface2)] hover:bg-[var(--surface3)] border border-[var(--border)] text-xs font-bold uppercase text-[var(--text-highlight)] transition-all"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={() => {
+                      if (!editTitle.trim()) {
+                        showToast("Guideline text cannot be empty");
+                        return;
+                      }
+                      setState((prev: any) => ({
+                        ...prev,
+                        editedTcs: {
+                          ...(prev.editedTcs || {}),
+                          [tc.id]: {
+                            ...tc,
+                            title: editTitle,
+                            steps: editSteps,
+                            expected: editExpected,
+                          },
+                        },
+                      }));
+                      setIsEditing(false);
+                      showToast("Guideline saved successfully");
+                    }}
+                    className="px-4 py-2 rounded bg-[var(--text-highlight)] text-[var(--bg)] hover:opacity-90 text-xs font-bold uppercase transition-all shadow-md"
+                  >
+                    Save Changes
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          </div>
         )}
       </AnimatePresence>
     </div>
