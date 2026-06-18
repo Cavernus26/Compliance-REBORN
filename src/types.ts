@@ -64,4 +64,14 @@ export interface AppState {
   >;
   customTcs?: TestCase[];
   editedTcs?: Record<string, Partial<TestCase>>;
+  jiraIssuesBySession?: Record<string, JiraIssue[]>;
+}
+
+export interface JiraIssue {
+  id: string;
+  key: string;
+  title: string;
+  url: string;
+  tcId?: string; // linked to a failing test case ID (optional)
+  created: string;
 }

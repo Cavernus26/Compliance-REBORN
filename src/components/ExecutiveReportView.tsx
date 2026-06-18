@@ -5,10 +5,13 @@ import {
   AlertTriangle, 
   ExternalLink, 
   Info,
-  Printer
+  Printer,
+  Plus,
+  Trash2,
+  Link
 } from 'lucide-react';
 import { motion } from 'motion/react';
-import { TestCase, Guideline, AppState, ExecutionMap, Session } from '../types';
+import { TestCase, Guideline, AppState, ExecutionMap, Session, JiraIssue } from '../types';
 
 const getTestCaseNumber = (tc: TestCase | undefined, dbTestCases: TestCase[]) => {
   if (!tc) return 1;
@@ -99,6 +102,8 @@ interface ExecutiveReportViewProps {
     testCases: TestCase[];
   };
   state: AppState;
+  onAddJiraIssue: (issue: JiraIssue) => void;
+  onDeleteJiraIssue: (issueId: string) => void;
 }
 
 export default function ExecutiveReportView({ 
@@ -108,7 +113,9 @@ export default function ExecutiveReportView({
   executions, 
   activeTcs, 
   db, 
-  state 
+  state,
+  onAddJiraIssue,
+  onDeleteJiraIssue
 }: ExecutiveReportViewProps) {
   const [copySuccess, setCopySuccess] = useState(false);
 
@@ -122,6 +129,11 @@ export default function ExecutiveReportView({
   const failedTestCases = useMemo(() => {
     return activeTcs.filter(tc => executions[tc.id]?.status === 'fail');
   }, [activeTcs, executions]);
+
+  // Derive linked Jira issues
+  const jiraIssues = useMemo(() => {
+    return state.jiraIssuesBySession?.[activeSession?.id || ''] || [];
+  }, [state.jiraIssuesBySession, activeSession?.id]);
 
   // Determine overall posture label & detail points
   const posture = useMemo(() => {
@@ -308,12 +320,31 @@ export default function ExecutiveReportView({
         if (notes) {
           text += `     * Findings/Evidence: ${notes}\n`;
         }
+        const caseJiras = jiraIssues.filter(j => j.tcId === tc.id);
+        if (caseJiras.length > 0) {
+          text += `     * Linked Jira Issues:\n`;
+          caseJiras.forEach(issue => {
+            text += `       - [${issue.key}] ${issue.title} (${issue.url})\n`;
+          });
+        }
         text += `\n`;
       });
     }
 
+    if (jiraIssues.length > 0) {
+      text += `----------------------------------------------------\n`;
+      text += `5. LINKED JIRA ISSUES\n`;
+      text += `----------------------------------------------------\n`;
+      jiraIssues.forEach((issue, i) => {
+        const associatedTc = activeTcs.find(t => t.id === issue.tcId);
+        const tcNumStr = associatedTc ? ` (Linked to TC #${getTestCaseNumber(associatedTc, db.testCases)}: ${associatedTc.title})` : ' (General)';
+        text += ` [${issue.key}] ${issue.title}${tcNumStr}\n`;
+        text += `     * Link: ${issue.url}\n\n`;
+      });
+    }
+
     text += `----------------------------------------------------\n`;
-    text += `5. APPENDIX (METRICS SUMMARY)\n`;
+    text += `6. APPENDIX (METRICS SUMMARY)\n`;
     text += `----------------------------------------------------\n`;
     text += `Session Verification Density: ${totalAssessed}/${stats.total} guidelines evaluated.\n`;
     text += `Risk Multiplier Score: ${risk.score}\n`;
@@ -642,6 +673,28 @@ export default function ExecutiveReportView({
                           <p className="italic text-[var(--text)] pl-1 whitespace-pre-line leading-relaxed">“{notes}”</p>
                         </div>
                       )}
+
+                      {/* Display linked Jira Issues for this specific testcase */}
+                      {jiraIssues.filter(j => j.tcId === tc.id).length > 0 && (
+                        <div className="mt-3 border-t border-[var(--border)]/60 pt-3">
+                          <span className="font-bold text-[var(--text-highlight)] block mb-1.5 uppercase tracking-wider font-mono text-[10px]">Linked Jira Tickets:</span>
+                          <div className="flex flex-wrap gap-2">
+                            {jiraIssues.filter(j => j.tcId === tc.id).map(issue => (
+                              <a
+                                key={issue.id}
+                                href={issue.url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center gap-1.5 px-3 py-1 bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-400 border border-indigo-500/30 rounded-lg text-xs font-mono transition-all group/jira"
+                              >
+                                <span className="text-xs">🔗</span>
+                                <span className="font-bold tracking-tight">{issue.key}</span>
+                                <span className="text-[10px] text-[var(--text-muted)] font-sans border-l border-[var(--border)] pl-1.5 ml-0.5 max-w-[200px] truncate group-hover/jira:text-indigo-300">{issue.title}</span>
+                              </a>
+                            ))}
+                          </div>
+                        </div>
+                      )}
                     </div>
                   </div>
                 );
@@ -650,7 +703,157 @@ export default function ExecutiveReportView({
           )}
         </section>
 
-        {/* SECTION 5: APPENDIX (SHORT STATS ONLY) */}
+        {/* SECTION 5: LINKED JIRA ISSUES */}
+        <section className="space-y-4">
+          <div className="flex items-center gap-2.5">
+            <span className="w-1.5 h-3 bg-indigo-500 rounded-sm" />
+            <h3 className="text-xs font-mono font-extrabold tracking-widest text-[var(--text-highlight)] uppercase font-bold">5. Linked Jira Issues</h3>
+          </div>
+
+          {jiraIssues.length === 0 ? (
+            <div className="p-5 bg-[var(--surface2)] border border-dashed border-[var(--border)] text-xs text-[var(--text-muted)] rounded-xl text-center italic">
+              No Jira issues have been linked to this review session. Use the form below to link ticket references for active violations or general compliance tasks.
+            </div>
+          ) : (
+            <div className="space-y-3">
+              {jiraIssues.map(issue => {
+                const associatedTc = activeTcs.find(t => t.id === issue.tcId);
+                return (
+                  <div key={issue.id} className="p-4 rounded-xl border border-[var(--border)] bg-[var(--surface2)]/80 hover:bg-[var(--surface2)] hover:border-[var(--text-muted)] transition-all flex items-center justify-between gap-4 print-no-split">
+                    <div className="flex items-center gap-3">
+                      <span className="text-sm select-none shrink-0 text-indigo-400">🎫</span>
+                      <div>
+                        <div className="flex flex-wrap items-center gap-2">
+                          <a 
+                            href={issue.url} 
+                            target="_blank" 
+                            rel="noopener noreferrer" 
+                            className="font-mono text-xs font-bold text-indigo-400 hover:underline flex items-center gap-0.5"
+                          >
+                            {issue.key} <ExternalLink size={10} className="inline opacity-60" />
+                          </a>
+                          <span className="font-semibold text-xs text-[var(--text-highlight)]">- {issue.title}</span>
+                        </div>
+                        <div className="text-[10px] text-[var(--text-muted)] flex flex-wrap items-center gap-2 mt-0.5 font-medium leading-relaxed">
+                          <span>Logged on {new Date(issue.created).toLocaleDateString()}</span>
+                          {associatedTc && (
+                            <>
+                              <span className="text-zinc-600 select-none">&bull;</span>
+                              <span className="text-indigo-400 font-semibold px-1.5 py-0.5 bg-indigo-500/5 rounded border border-indigo-500/10">
+                                Linked to Checkpoint #{getTestCaseNumber(associatedTc, db.testCases)}: {associatedTc.title}
+                              </span>
+                            </>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                    {/* Delete action unlinking the issue (hidden during printing) */}
+                    <button
+                      type="button"
+                      onClick={() => onDeleteJiraIssue(issue.id)}
+                      className="p-1 text-[var(--text-muted)] hover:text-red-400 hover:bg-red-500/10 rounded-lg transition-all print:hidden"
+                      title="Unlink Jira issue"
+                    >
+                      <Trash2 size={13} />
+                    </button>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+
+          {/* Form to link Jira Issues (Hidden in Print Mode) */}
+          <div className="p-5 border border-[var(--border)] bg-[var(--surface)] rounded-xl mt-4 print:hidden space-y-4">
+            <h4 className="text-xs font-bold text-[var(--text-highlight)] flex items-center gap-1.5 uppercase tracking-wider font-mono">
+              <Plus size={13} className="text-indigo-400" /> Link a new Jira Ticket Reference
+            </h4>
+            <form 
+              onSubmit={(e) => {
+                e.preventDefault();
+                const formData = new FormData(e.currentTarget);
+                const key = (formData.get("key") as string || "").trim().toUpperCase();
+                const title = (formData.get("title") as string || "").trim();
+                const url = (formData.get("url") as string || "").trim();
+                const tcId = formData.get("tcId") as string || undefined;
+
+                if (!key || !title) return;
+
+                const defaultUrl = url || `https://jira.company.com/browse/${key}`;
+
+                onAddJiraIssue({
+                  id: typeof crypto !== "undefined" && typeof crypto.randomUUID === "function" 
+                    ? crypto.randomUUID() 
+                    : Math.random().toString(36).substring(2, 10),
+                  key,
+                  title,
+                  url: defaultUrl,
+                  tcId: tcId || undefined,
+                  created: new Date().toISOString()
+                });
+                
+                (e.target as HTMLFormElement).reset();
+              }} 
+              className="space-y-4"
+            >
+              <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
+                <div className="md:col-span-3 space-y-1">
+                  <label className="text-[10px] font-bold text-[var(--text-muted)] uppercase tracking-wider font-mono">Issue Key *</label>
+                  <input
+                    name="key"
+                    required
+                    placeholder="e.g. COMP-101"
+                    className="w-full bg-[var(--surface2)] border border-[var(--border)] rounded-lg px-3 py-2 text-xs text-[var(--text-highlight)] outline-none focus:border-[var(--accent)] transition-colors uppercase font-mono"
+                  />
+                </div>
+                <div className="md:col-span-5 space-y-1">
+                  <label className="text-[10px] font-bold text-[var(--text-muted)] uppercase tracking-wider font-mono">Issue Title / Summary *</label>
+                  <input
+                    name="title"
+                    required
+                    placeholder="e.g. Update cookie consent banner design"
+                    className="w-full bg-[var(--surface2)] border border-[var(--border)] rounded-lg px-3 py-2 text-xs text-[var(--text-highlight)] outline-none focus:border-[var(--accent)] transition-colors"
+                  />
+                </div>
+                <div className="md:col-span-4 space-y-1">
+                  <label className="text-[10px] font-bold text-[var(--text-muted)] uppercase tracking-wider font-mono">Reference URL (e.g., Jira Link)</label>
+                  <input
+                    name="url"
+                    type="url"
+                    placeholder="https://company.atlassian.net/browse/COMP-101"
+                    className="w-full bg-[var(--surface2)] border border-[var(--border)] rounded-lg px-3 py-2 text-xs text-[var(--text-highlight)] outline-none focus:border-[var(--accent)] transition-colors"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-center">
+                <div className="md:col-span-8 space-y-1">
+                  <label className="text-[10px] font-bold text-[var(--text-muted)] uppercase tracking-wider font-mono">Associate with Failed Compliance Checkpoint (Optional)</label>
+                  <select
+                    name="tcId"
+                    className="w-full bg-[var(--surface2)] border border-[var(--border)] rounded-lg px-3 py-2 text-xs text-[var(--text-highlight)] outline-none focus:border-[var(--accent)] transition-colors cursor-pointer"
+                  >
+                    <option value="">General (No specific failing checkpoints)</option>
+                    {failedTestCases.map((tc) => (
+                      <option key={tc.id} value={tc.id}>
+                        [TC #{getTestCaseNumber(tc, db.testCases)}] {tc.title}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div className="md:col-span-4 flex justify-end h-full items-end pt-5">
+                  <button
+                    type="submit"
+                    className="w-full md:w-auto px-5 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs rounded-lg transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
+                  >
+                    <Plus size={13} /> Link Jira Issue
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </section>
+
+        {/* SECTION 6: APPENDIX (SHORT STATS ONLY) */}
         <div className="pt-6 border-t border-[var(--border)] flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 text-[10px] font-mono text-[var(--text-muted)] print-no-split">
           <div>
             <span>Compliance Review density: {totalAssessed}/{stats.total} total criteria checked.</span>

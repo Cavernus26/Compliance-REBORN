@@ -27,7 +27,7 @@ import {
 } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { ALL_DATA, IOS_ICONS, AND_ICONS } from "./data";
-import { AppState, Session, TestCase, ExecutionMap, Guideline } from "./types";
+import { AppState, Session, TestCase, ExecutionMap, Guideline, JiraIssue } from "./types";
 import ExecutiveReportView from "./components/ExecutiveReportView";
 import AnalyzerView from "./components/AnalyzerView";
 import androidShareSheetImg from "./assets/images/android_share_sheet_1779710019591.png";
@@ -48,6 +48,7 @@ const INITIAL_STATE: AppState = {
   catOrderAndroid: {},
   customTcs: [],
   editedTcs: {},
+  jiraIssuesBySession: {},
 };
 
 const getTestCaseNumber = (
@@ -441,6 +442,38 @@ export default function App() {
     });
   };
 
+  const addJiraIssue = (issue: JiraIssue) => {
+    if (!state.activeId) return;
+    setState((prev) => {
+      const bySession = prev.jiraIssuesBySession || {};
+      const currentList = bySession[prev.activeId || ""] || [];
+      return {
+        ...prev,
+        jiraIssuesBySession: {
+          ...bySession,
+          [prev.activeId || ""]: [...currentList, issue],
+        }
+      };
+    });
+    showToast(`Linked Jira issue ${issue.key}`);
+  };
+
+  const deleteJiraIssue = (issueId: string) => {
+    if (!state.activeId) return;
+    setState((prev) => {
+      const bySession = prev.jiraIssuesBySession || {};
+      const currentList = bySession[prev.activeId || ""] || [];
+      return {
+        ...prev,
+        jiraIssuesBySession: {
+          ...bySession,
+          [prev.activeId || ""]: currentList.filter(item => item.id !== issueId),
+        }
+      };
+    });
+    showToast("Jira issue unlinked");
+  };
+
   const toggleTheme = () => {
     setState((prev) => ({
       ...prev,
@@ -781,6 +814,8 @@ export default function App() {
               activeTcs={activeTcs}
               db={db}
               state={state}
+              onAddJiraIssue={addJiraIssue}
+              onDeleteJiraIssue={deleteJiraIssue}
             />
           )}
           {activePage === "analyzer" && (
@@ -6515,6 +6550,8 @@ function SummaryView({
   activeTcs,
   db,
   state,
+  onAddJiraIssue,
+  onDeleteJiraIssue,
 }: any) {
   if (!activeSession)
     return (
@@ -6533,6 +6570,8 @@ function SummaryView({
         activeTcs={activeTcs}
         db={db}
         state={state}
+        onAddJiraIssue={onAddJiraIssue}
+        onDeleteJiraIssue={onDeleteJiraIssue}
       />
     </div>
   );
