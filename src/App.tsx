@@ -619,16 +619,8 @@ export default function App() {
           <div>
             <div className="flex items-center justify-between mb-2">
               <span className="text-[10px] font-bold text-[var(--text-muted)] uppercase tracking-widest">
-                Supabase Sync
+                Database Sync
               </span>
-              <button
-                onClick={() => {
-                  setShowSqlSetupModal(true);
-                }}
-                className="text-[9px] font-mono hover:underline text-indigo-400"
-              >
-                Setup SQL
-              </button>
             </div>
             
             <div className="flex items-center justify-between">
@@ -705,7 +697,7 @@ export default function App() {
                   className="w-full py-2 px-3 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs active:scale-[0.98] transition-all flex items-center justify-center gap-1.5"
                 >
                   <RefreshCw size={11} className={`${isPushingToSupabase ? 'animate-spin' : ''}`} />
-                  {isPushingToSupabase ? "Publishing..." : "Publish Checklist"}
+                  {isPushingToSupabase ? "Publishing..." : "Publish Changes"}
                 </button>
               </div>
             ) : (
