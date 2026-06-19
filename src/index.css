@@ -159,10 +159,52 @@ body {
   @page {
     margin: 0 !important;
   }
+
+  /* Force light theme variables and color scheme across all elements for clean white-theme prints */
+  :root,
+  body,
+  #root,
+  main,
+  #executive-compliance-report,
+  #executive-compliance-report * {
+    --bg: #ffffff !important;
+    --surface: #fafafb !important;
+    --surface2: #f1f2f4 !important;
+    --surface3: #e2e4e8 !important;
+    --border: rgba(0, 0, 0, 0.15) !important;
+    --border2: #bfc2c7 !important;
+    --text: #0f172a !important;
+    --text-highlight: #020617 !important;
+    --text-muted: #334155 !important;
+    --accent: #0f172a !important;
+    --accent-dim: rgba(15, 23, 42, 0.06) !important;
+
+    --shadow-glow: 0 0 10px rgba(0, 0, 0, 0.05) !important;
+    --shadow-glow-green: 0 0 15px rgba(34, 197, 94, 0.15) !important;
+    --shadow-glow-red: 0 0 15px rgba(239, 68, 68, 0.15) !important;
+    --shadow-glow-orange: 0 0 15px rgba(245, 158, 11, 0.15) !important;
+
+    color-scheme: light !important;
+    color: #0f172a !important;
+  }
+
+  /* Overwrite any custom dark utility background colors when printing */
+  .dark\:bg-zinc-900,
+  .dark\:bg-black\/40 {
+    background-color: #fafafb !important;
+  }
+  .dark\:border-zinc-800 {
+    border-color: rgba(0, 0, 0, 0.15) !important;
+  }
+  .dark\:text-zinc-250,
+  .dark\:text-zinc-400 {
+    color: #334155 !important;
+  }
+
   body {
     padding: 1.8cm 1.5cm !important;
     background-color: white !important;
-    color: black !important;
+    color: #0f172a !important;
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
   }
@@ -171,6 +213,7 @@ body {
   #executive-compliance-report {
     padding: 0 !important;
     margin: 0 !important;
+    background-color: white !important;
   }
 
   /* Provide buffer boundaries for nested sections during natural breaks */
