@@ -712,7 +712,7 @@ export default function ExecutiveReportView({
 
           {jiraIssues.length === 0 ? (
             <div className="p-5 bg-[var(--surface2)] border border-dashed border-[var(--border)] text-xs text-[var(--text-muted)] rounded-xl text-center italic">
-              No Jira issues have been linked to this review session. Use the form below to link ticket references for active violations or general compliance tasks.
+              No Jira issues have been linked to this review session. <span className="print:hidden">Use the form below to link ticket references for active violations or general compliance tasks.</span>
             </div>
           ) : (
             <div className="space-y-3">
