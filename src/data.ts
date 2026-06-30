@@ -3957,6 +3957,13 @@ export const ALL_DATA: Record<string, PlatformData> = {
         category: "Featuring tests",
         impact: "high",
       },
+      {
+        id: "AGL-008",
+        title: "Google Play Level up",
+        description: "Google Play Games Revamped Level Up guidelines",
+        category: "Google Play Level up",
+        impact: "high",
+      },
     ],
     testCases: [
       // Section: Navigation
@@ -7673,6 +7680,123 @@ export const ALL_DATA: Record<string, PlatformData> = {
           "Language Selection:Unless content is specific to the countries, please avoid using flag images to represent languages. The flags may alienate users from other countries that use the same language.",
         originalRef: "Optional Issues From Google Feedback",
       },
+      {
+        id: "And-LVL-1.1",
+        gl: "AGL-008",
+        ref: "1.1",
+        title: "Play Games Sidekick Overlay Compatibility",
+        steps:
+          "1. Launch the game on a compatible Android device or Google Play Games emulator.\n2. Access the Google Play Games Sidekick or Overlay (swipe/tap on the GPG icon trigger).\n3. Verify that opening the overlay does not cause screen flickers, texture corruption, or app crashes.\n4. Ensure that the game auto-pauses gracefully (if a single-player game) and resumes without state loss upon closing the Sidekick.\n5. Check that active gameplay controls, HUD, or status bars are not fully obstructed by the default Sidekick entrance trigger.",
+        expected:
+          "Opening and using the Play Games Sidekick overlay is completely smooth and does not degrade performance or disrupt active gameplay state.",
+        policyText:
+          "User experience guidelines: Provide a consistent gamer experience. The game must support the Play Games Sidekick overlay seamlessly, ensuring that the system trigger is accessible and that active gameplay elements remain playable or pause gracefully when active.",
+        originalRef: "Play Games Sidekick",
+      },
+      {
+        id: "And-LVL-1.2",
+        gl: "AGL-008",
+        ref: "1.2",
+        title: "Cross-Device Progression & Cloud Save Auto-Synchronization",
+        steps:
+          "1. Open the game on Device A, log in with Google Play Games, and play through a level or accumulate coins/stats.\n2. Force a cloud save by completing an action or exiting to the main menu.\n3. Open the game on Device B, log in with the exact same Google Play Games account.\n4. Verify that the game automatically retrieves the cloud save state at startup.\n5. Ensure progression, currency, and items are synchronized instantly without requiring manual 'Load Cloud Save' button clicks.\n6. If a save conflict occurs, verify that the game presents a clear, high-contrast visual picker showing details (level, date, time) for both saves.",
+        expected:
+          "Player progression is synchronized automatically, silently, and instantly across all active devices using Play Games Cloud Save APIs.",
+        policyText:
+          "Rewards + Cloud save: Games must support seamless cloud synchronization of player progression. Automatic, silent state loading is preferred at boot time. If state conflicts arise, they must be resolved using a clear comparison UI rather than overwriting silently.",
+        originalRef: "Cloud save",
+      },
+      {
+        id: "And-LVL-1.3",
+        gl: "AGL-008",
+        ref: "1.3",
+        title: "Tablet, Foldable & Large Screen Adaptive Layouts",
+        steps:
+          "1. Deploy the game on a tablet, a foldable device, or a larger screen emulator (ChromeOS or Google Play Games on PC).\n2. Verify that the UI scales dynamically without causing blurred, stretched, low-resolution assets, or unaligned text fields.\n3. Change the screen aspect ratio (e.g., unfold a foldable device or resize the app window).\n4. Verify that the app layout updates responsively without requiring a process restart.\n5. Ensure that important interaction menus do not force black letterboxes/pillarboxes unnecessarily unless maintaining strict gameplay aspect ratios.",
+        expected:
+          "UI scales cleanly, utilizing high-quality vectors or high-resolution bitmaps that fit large screen form factors dynamically.",
+        policyText:
+          "Expand your reach across all screens: Large screen optimization. Games must scale seamlessly and support responsive layouts on tablets, foldables, and larger screen formats. Apps must not display pixelated UI assets or distorted HUD elements.",
+        originalRef: "Large screen optimization",
+      },
+      {
+        id: "And-LVL-1.4",
+        gl: "AGL-008",
+        ref: "1.4",
+        title: "Precision Input Controls (Keyboard, Mouse & Gamepad)",
+        steps:
+          "1. Run the game in Google Play Games on PC or attach an external physical keyboard and mouse to an Android tablet.\n2. Verify that standard keyboard shortcuts are fully functional (e.g., WASD or Arrow Keys for movement, Space for jumping/firing).\n3. Confirm that the Mouse Scroll Wheel scroll behaves naturally in scrollable scroll-containers.\n4. Ensure that the Escape key (ESC) acts as a Back button, opening the pause menu or dismissing modal dialogues.\n5. Verify that physical controllers/gamepads are auto-configured upon connection and mapping hints are visible to the user.",
+        expected:
+          "High-precision mouse, keyboard, and gamepad controls are supported with intuitive mappings and matching on-screen UI prompts.",
+        policyText:
+          "Google Play Games on PC: Precision input controls. Games targeting larger screens must support comprehensive keyboard, mouse, and gamepad controls. Direct touch emulation as the sole mouse behavior is insufficient; native hovering and clicking must be implemented.",
+        originalRef: "Precision input controls",
+      },
+      {
+        id: "And-LVL-1.5",
+        gl: "AGL-008",
+        ref: "1.5",
+        title: "Vulkan Graphics API Support & Rendering Stability",
+        steps:
+          "1. Open the game on a Vulkan-compatible device running Android 10 (API level 29) or higher.\n2. Check the logs or render state to confirm that the Vulkan graphics driver is actively selected for the rendering pipeline.\n3. Verify that graphics performance is stable under intensive loads, with consistent frame rates and no visual stutters.\n4. Verify that the game falls back gracefully and runs without crashing on older OpenGL ES-only devices.",
+        expected:
+          "The Vulkan graphics engine is used preferentially on compatible devices to minimize CPU overhead and maximize GPU rendering efficiency.",
+        policyText:
+          "Deliver stable and smoother gameplay sessions: Vulkan support. Games must leverage Vulkan to optimize power usage, reduce frame stutters, and maintain sustained thermal performance, especially on modern 64-bit reference devices.",
+        originalRef: "Vulkan",
+      },
+      {
+        id: "And-LVL-1.6",
+        gl: "AGL-008",
+        ref: "1.6",
+        title: "Google Play Games Achievements Integration",
+        steps:
+          "1. Launch the game, sign in, and open the active achievements list.\n2. Unlock an achievement by reaching a specific game milestone or completing a targeted in-game challenge.\n3. Verify that the native Google Play Games 'Achievement Unlocked' toast notification pops up instantly.\n4. Check the Google Play Games profile screen to ensure the achievement status and XP are credited accurately.\n5. Verify that achievements can be viewed offline and that cached achievements unlock and synchronize once a network connection is re-established.",
+        expected:
+          "Achievements unlock instantly with native notifications, persist offline, and synchronize cleanly with the player's global GPG profile.",
+        policyText:
+          "Provide a consistent gamer experience: Achievements. Games must integrate achievements that provide structured, rewarding, and localized goals, ensuring progress syncs immediately with the player's public GPG profile.",
+        originalRef: "Achievements",
+      },
+      {
+        id: "And-LVL-1.7",
+        gl: "AGL-008",
+        ref: "1.7",
+        title: "Google Play Game Stats Tracking & Player Profile Integration",
+        steps:
+          "1. Launch the game and perform activities that modify gameplay statistics (e.g., score accumulation, match duration, levels completed).\n2. Access the in-game stats summary or player profile page.\n3. Verify that active stats are queried and updated reliably using Play Games Services Stats APIs.\n4. Check that stats are synchronized accurately with the cloud and reflect on the player's public Play Games profile across multiple devices.\n5. Confirm that stats are displayed in a localized format matching the device locale.",
+        expected:
+          "Player game stats are tracked, synchronized, and queried accurately using Play Games Services, enabling detailed player metrics.",
+        policyText:
+          "Provide a consistent gamer experience: Game Stats. To optimize engagement, games must integrate Play Games Stats to monitor player behavior (such as session count or average play duration) and display localized player metrics accurately.",
+        originalRef: "Game Stats",
+      },
+      {
+        id: "And-LVL-1.8",
+        gl: "AGL-008",
+        ref: "1.8",
+        title: "Play Games Loyalty Rewards & Incentives Implementation",
+        steps:
+          "1. Navigate to the in-game reward center or campaign screen.\n2. Complete a progression milestone or claim a daily login check-in challenge eligible for GPG Level Up loyalty rewards.\n3. Verify that the player receives the correct loyalty benefits, items, or virtual currency immediately.\n4. Verify that rewards are persisted and synced with the user profile so they cannot be claimed repeatedly or lost due to an app reset.\n5. Ensure that promotional reward UIs render beautifully with correct localized descriptions.",
+        expected:
+          "In-game loyalty rewards and progression incentives are processed accurately, display clear visual cues, and synchronize immediately across active devices.",
+        policyText:
+          "Rewards + Cloud save: Rewards. Games should utilize Level Up loyalty rewards to drive growth and retention, ensuring that virtual items, progress milestones, and cosmetic rewards are credited reliably to the user.",
+        originalRef: "Rewards",
+      },
+      {
+        id: "And-LVL-1.9",
+        gl: "AGL-008",
+        ref: "1.9",
+        title: "Google Play Games on PC - Graphics and Performance Validation",
+        steps:
+          "1. Deploy and run the application using the Google Play Games on PC emulator platform.\n2. Verify that the game boots successfully and runs at a target frame rate of at least 60 FPS under normal rendering loads.\n3. Test resizing the emulator window or toggle fullscreen using Alt + Enter (or in-game settings) to verify that the UI aspect ratio adjusts responsively.\n4. Ensure that physical PC hardware integrations (such as external GPUs or multi-monitor setups) do not trigger driver errors or graphic freezes.\n5. Verify that the game detects and responds properly to window focus loss (e.g., clicking outside the emulator) by pausing audio and gameplay gracefully.",
+        expected:
+          "The game performs exceptionally on PC, maintaining high framerates, supporting standard full-screen/windowed transitions, and pausing gracefully on window focus loss.",
+        policyText:
+          "Expand your reach across all screens: Google Play Games on PC. Games must support desktop configurations including high-resolution rendering, high frame rates, window state modifications, and proper background focus handling to provide a premier PC gaming experience.",
+        originalRef: "Google Play Games on PC",
+      },
     ],
   },
 };
@@ -7704,4 +7828,5 @@ export const AND_ICONS: Record<string, string> = {
   Enforcement: "⚖️",
   "Top 7 Google Featuring issues": "🏆",
   "Optional Issues From Google Feedback": "💡",
+  "Google Play Level up": "⚡",
 };
